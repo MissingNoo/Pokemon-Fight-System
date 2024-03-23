@@ -24,7 +24,9 @@ switch (selectedMenu) {
 		var moves = global.__PFS.playerPokemons[pokemonOut].moves;
         for (var i = 0; i < array_length(moves); ++i) {
 			var move = moves[i];
-		    createbutton(_x, _y + _yoff, move.internalName, 1, true, undefined);
+		    if (createbutton(_x, _y + _yoff, move.internalName, 1, true, undefined)) {
+			    enemyPokemon[0].hp -= __PFS_damage_calculation(global.__PFS.playerPokemons[pokemonOut], enemyPokemon[0], move);
+			}
 			draw_sprite_ext(sPFSTypeIcons, move.type, _x + 8, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
 			_yoff += 60;
 		}
@@ -59,7 +61,11 @@ draw_rectangle(_x, _y, _boxEndX, _boxEndY, true);
 _x += 10;
 _y += 10;
 draw_text(_x, _y, _pokemon.name);
-draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_pokemon.hp / _pokemon.basehp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
+draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_pokemon.hp / _pokemon.base.hp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
+draw_set_halign(fa_right);
+draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");
+draw_text(_boxEndX - 10, _y + 45, $"LV:{_pokemon.level}");
+draw_set_halign(fa_left);
 _y += 40;
 _xoff = 0;
 for (var i = 0; i < array_length(global.__PFS.playerPokemons); ++i) {
@@ -80,7 +86,11 @@ draw_rectangle(_x, _y, _boxEndX, _boxEndY, true);
 _x += 10;
 _y += 10;
 draw_text(_x, _y, _pokemon.name);
-draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_pokemon.hp / _pokemon.basehp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
+draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_pokemon.hp / _pokemon.base.hp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
+draw_set_halign(fa_right);
+draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");
+draw_text(_boxEndX - 10, _y + 45, $"LV:{_pokemon.level}");
+draw_set_halign(fa_left);
 _y += 40;
 _xoff = 0;
 if (!wildPokemon) {

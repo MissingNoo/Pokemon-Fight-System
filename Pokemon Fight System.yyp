@@ -28,6 +28,7 @@
   },
   "name":"Pokemon Fight System",
   "resources":[
+    {"id":{"name":"Note1","path":"notes/Note1/Note1.yy",},},
     {"id":{"name":"DebugManager","path":"objects/DebugManager/DebugManager.yy",},},
     {"id":{"name":"PFSDebug","path":"objects/PFSDebug/PFSDebug.yy",},},
     {"id":{"name":"PFSFightSystem","path":"objects/PFSFightSystem/PFSFightSystem.yy",},},
@@ -40,8 +41,8 @@
     {"id":{"name":"DebugManagerBackground","path":"sprites/DebugManagerBackground/DebugManagerBackground.yy",},},
     {"id":{"name":"sPFSBulbasaurBack","path":"sprites/sPFSBulbasaurBack/sPFSBulbasaurBack.yy",},},
     {"id":{"name":"sPFSBulbasaurFront","path":"sprites/sPFSBulbasaurFront/sPFSBulbasaurFront.yy",},},
-    {"id":{"name":"sPFSIvysaurFront","path":"sprites/sPFSIvysaurFront/sPFSIvysaurFront.yy",},},
     {"id":{"name":"sPFSIvysaurBack","path":"sprites/sPFSIvysaurBack/sPFSIvysaurBack.yy",},},
+    {"id":{"name":"sPFSIvysaurFront","path":"sprites/sPFSIvysaurFront/sPFSIvysaurFront.yy",},},
     {"id":{"name":"sPFSPhysicalIcon","path":"sprites/sPFSPhysicalIcon/sPFSPhysicalIcon.yy",},},
     {"id":{"name":"sPFSSpecialIcon","path":"sprites/sPFSSpecialIcon/sPFSSpecialIcon.yy",},},
     {"id":{"name":"sPFSStatusIcon","path":"sprites/sPFSStatusIcon/sPFSStatusIcon.yy",},},

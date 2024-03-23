@@ -51,7 +51,7 @@ for (var i = 0; i < array_length(global.__PFS.moves); ++i) {
 _x += 310;
 draw_rectangle(_x, _y, _x + 300, _y + 300, true);
 _yoff = 0;
-var _length = array_length(global.__PFS.moveTypes);
+var _length = array_length(global.__PFS.__PFSTypes);
 _x += 16;
 _y += 16;
 for (var i = 0; i < _length; ++i) {
@@ -59,7 +59,7 @@ for (var i = 0; i < _length; ++i) {
 		type = i;
 	}
 	_yoff += 40;
-	if (i == MoveTypes.Poison or i == MoveTypes.Ghost) {
+	if (i == __PFSTypes.Poison or i == __PFSTypes.Ghost) {
 	    _x += 80;
 		_yoff = 0;
 	}

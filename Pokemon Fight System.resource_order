@@ -11,6 +11,7 @@
     {"name":"Sprites","order":1,"path":"folders/Sprites.yy",},
   ],
   "ResourceOrderSettings":[
+    {"name":"Note1","order":6,"path":"notes/Note1/Note1.yy",},
     {"name":"DebugManager","order":3,"path":"objects/DebugManager/DebugManager.yy",},
     {"name":"PFSDebug","order":4,"path":"objects/PFSDebug/PFSDebug.yy",},
     {"name":"PFSMoveEditor","order":2,"path":"objects/PFSMoveEditor/PFSMoveEditor.yy",},
@@ -19,8 +20,8 @@
     {"name":"DebugArrowButtonUpDown","order":1,"path":"sprites/DebugArrowButtonUpDown/DebugArrowButtonUpDown.yy",},
     {"name":"DebugManagerBackground","order":4,"path":"sprites/DebugManagerBackground/DebugManagerBackground.yy",},
     {"name":"sPFSBulbasaurBack","order":1,"path":"sprites/sPFSBulbasaurBack/sPFSBulbasaurBack.yy",},
-    {"name":"sPFSIvysaurFront","order":3,"path":"sprites/sPFSIvysaurFront/sPFSIvysaurFront.yy",},
     {"name":"sPFSIvysaurBack","order":2,"path":"sprites/sPFSIvysaurBack/sPFSIvysaurBack.yy",},
+    {"name":"sPFSIvysaurFront","order":3,"path":"sprites/sPFSIvysaurFront/sPFSIvysaurFront.yy",},
     {"name":"sPFSSpecialIcon","order":1,"path":"sprites/sPFSSpecialIcon/sPFSSpecialIcon.yy",},
     {"name":"sPFSStatusIcon","order":2,"path":"sprites/sPFSStatusIcon/sPFSStatusIcon.yy",},
     {"name":"sPFSTypeIcons","order":3,"path":"sprites/sPFSTypeIcons/sPFSTypeIcons.yy",},

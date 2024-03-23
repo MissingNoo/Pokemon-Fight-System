@@ -29,7 +29,10 @@
   "physicsShape":1,
   "physicsShapePoints":[],
   "physicsStartAwake":true,
-  "properties":[],
+  "properties":[
+    {"$GMObjectProperty":"","%Name":"enemyPokemon","filters":[],"listItems":[],"multiselect":false,"name":"enemyPokemon","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":4,},
+    {"$GMObjectProperty":"","%Name":"wildPokemon","filters":[],"listItems":[],"multiselect":false,"name":"wildPokemon","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
+  ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,

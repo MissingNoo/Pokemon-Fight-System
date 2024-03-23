@@ -1,0 +1,114 @@
+Generation V onward
+Unless otherwise specified, all divisions and multiplications past the initial base damage calculation are rounded to the nearest integer if the result is not an integer (rounding down at 0.5).
+
+Damage
+=
+(
+(
+2
+×
+Level
+5
++
+2
+)
+×
+Power
+×
+�
+�
+50
++
+2
+)
+×
+Targets
+×
+PB
+×
+Weather
+×
+GlaiveRush
+×
+Critical
+×
+random
+×
+STAB
+×
+Type
+×
+Burn
+×
+other
+×
+ZMove
+×
+TeraShield
+{\displaystyle {\text{Damage}}=\left({\frac {\left({\frac {2\times {\text{Level}}}{5}}+2\right)\times {\text{Power}}\times {\frac {A}{D}}}{50}}+2\right)\times {\text{Targets}}\times {\text{PB}}\times {\text{Weather}}\times {\text{GlaiveRush}}\times {\text{Critical}}\times {\text{random}}\times {\text{STAB}}\times {\text{Type}}\times {\text{Burn}}\times {\text{other}}\times {\text{ZMove}}\times {\text{TeraShield}}}
+where
+
+Level is the level of the attacking Pokémon.
+A is the effective Attack stat of the attacking Pokémon if the used move is a physical move, or the effective Special Attack stat of the attacking Pokémon if the used move is a special move (ignoring negative stat stages for a critical hit).
+D is the effective Defense stat of the target if the used move is a physical move or a special move that uses the target's Defense stat, or the effective Special Defense of the target if the used move is an other special move (ignoring positive stat stages for a critical hit).
+Power is the effective power of the used move.
+Targets is 0.75 (0.5 in Battle Royals) if the move has more than one target when the move is executed, and 1 otherwise.
+PB is 0.25 (0.5 in Generation VI) if the move is the second strike of Parental Bond, and 1 otherwise.
+Weather is 1.5 if a Water-type move is being used during rain or a Fire-type move or Hydro Steam during harsh sunlight, and 0.5 if a Water-type move (besides Hydro Steam) is used during harsh sunlight or a Fire-type move during rain, and 1 otherwise or if any Pokémon on the field have the Ability Cloud Nine or Air Lock.
+GlaiveRush is 2 if the target used the move Glaive Rush in the previous turn, or 1 otherwise.
+Critical is 1.5 (2 in Generation V) for a critical hit, and 1 otherwise. Decimals are rounded down to the nearest integer. It is always 1 if the target's Ability is Battle Armor or Shell Armor or if the target is under the effect of Lucky Chant.
+Conversely, unless critical hits are prevented entirely by one of the above effects, Critical will always be 1.5 (or 2 in Generation V) if the used move is Storm Throw, Frost Breath, Zippy Zap, Surging Strikes, Wicked Blow, or Flower Trick, the target is poisoned and the attacker's Ability is Merciless, or if the user is under the effect of Laser Focus.
+random is a random factor. Namely, it is recognized as a multiplication from a random integer between 85 and 100, inclusive, then divided by 100. Decimals are rounded down to the nearest integer.
+If the battle is taking place as a Pokéstar Studios film, random is always 1.
+STAB is the same-type attack bonus. This is equal to 1.5 if the move's type matches any of the user's types, 2 if the user of the move additionally has Adaptability, and 1 otherwise or if the attacker and/or used move is typeless. If the used move is a combination Pledge move, STAB is always 1.5 (or 2 if the user's Ability is Adaptability). When Terastalized, STAB is (if not 1):
+1.5 if the move's type matches either the Pokemon's original type(s) or a different Tera Type from its original types, and the attacker's Ability is not Adaptability.
+2 if the move's type matches the same Tera Type as one of the Pokemon's original types and the attacker's Ability is not Adaptability, or the situation above, if the attacker's Ability is Adaptability.
+However, if STAB only applies from the attacker's original type(s), not its Tera Type, STAB will always be 1.5, even if the attacker's Ability is Adaptability.
+2.25 if the move's type matches the same Tera Type as one of the Pokemon's original types and the attacker's Ability is Adaptability.
+Type is the type effectiveness. This can be 0.125, 0.25, 0.5 (not very effective); 1 (normally effective); 2, 4, or 8 (super effective), depending on both the move's and target's types. The 0.125 and 8 can potentially be obtained on a Pokémon under the effect of Forest's Curse or Trick-or-Treat. If the used move is Struggle or typeless Revelation Dance, or the target is typeless, Type is always 1. Decimals are rounded down to the nearest integer. Certain effects can modify this, namely:
+If the target is an ungrounded Flying-type that is not being grounded by any other effect and is holding an Iron Ball or under the effect of Thousand Arrows, Type is equal to 1.
+If the target is a grounded Flying-type (unless grounded by an Iron Ball or Thousand Arrows, as above), treat Ground's matchup against Flying as 1.
+If the target is holding a Ring Target and the used move is of a type it would otherwise be immune to, treat that particular type matchup as 1.
+If the attacker's Ability is Scrappy, treat Normal and Fighting's type matchups against Ghost as 1.
+If the target is under the effect of Foresight, Odor Sleuth or Miracle Eye, and the target is of a type that would otherwise grant immunity to the used move, treat that particular type matchup as 1.
+If the used move is Freeze-Dry, treat the move's type's matchup against Water as 2.
+If the used move is Flying Press, consider both the move's type effectiveness and the Flying type's against the target, and multiply them together.
+If strong winds are in effect and the used move would be super effective against Flying, treat the type matchup against Flying as 1 instead.
+If the target is under the effect of Tar Shot and the used move is Fire-type, multiply Type by 2.
+Burn is 0.5 if the attacker is burned, its Ability is not Guts, and the used move is a physical move (other than Facade from Generation VI onward), and 1 otherwise.
+other is 1 in most cases, and a different multiplier when specific interactions of moves, Abilities, or items take effect, in this order (and if multiple moves, Abilities, or items take effect, they do so in the order of the out-of-battle Speed stats of the Pokémon with them):
+Effect	Value	[hide]Detail
+Behemoth Blade, Behemoth Bash, and Dynamax Cannon	2	If the target is Dynamaxed and the used move is one of these three
+Moves interacting with Minimize	2	If the target has used Minimize and the used move is one listed here
+Earthquake and Magnitude	2	If the target is in the semi-invulnerable turn of Dig and the used move is one of these two
+Surf and Whirlpool	2	If the target is in the semi-invulnerable turn of Dive and the used move is one of these two
+Reflect, Light Screen, and Aurora Veil	0.5 *	If in effect on the target's side, the used move is physical (Reflect), special (Light Screen), or either (Aurora Veil), the move is not a critical hit, and the user's Ability is not Infiltrator. Does not stack, even if e.g. Light Screen and Aurora Veil are active at the same time.
+Collision Course and Electro Drift	5461/4096 (~1.3333)	If either of these are the used move and it is super effective
+Multiscale and Shadow Shield	0.5	If the target has this Ability and is at full health
+Fluffy	0.5	If the target has this Ability and the used move makes contact
+Punk Rock	0.5	If the target has this Ability and the used move is sound-based
+Ice Scales	0.5	If the target has this Ability and the used move is a special move
+Friend Guard	0.75	If an ally of the target has this Ability
+Filter, Prism Armor and Solid Rock	0.75	If the target has this Ability and the used move is super effective (Type > 1)
+Neuroforce	1.25	If the user has this Ability and the used move is super effective (Type > 1)
+Sniper	1.5	If the attacker has this Ability and the move lands a critical hit
+Tinted Lens	2	If the attacker has this Ability and the used move is not very effective (Type < 1)
+Fluffy	2	If the target has this Ability and the used move is Fire-type
+Type-resist Berries	0.5 *	If held by the target, the move is of the corresponding type, and is super effective (Type > 1); for the Chilan Berry, the used move must simply only be Normal-type
+Expert Belt	4915/4096 (~1.2)	If held by the attacker and the move is super effective (Type > 1)
+Life Orb	5324/4096 (~1.3)	If held by the attacker
+Metronome	Varies	1 + (819/4096 (~0.2) per successful consecutive use of the same move) if held by the attacker, but no more than 2
+If multiple effects influence the other value, their values stack multiplicatively, in the order listed above. This is done by starting at 4096, multiplying it by each number above in the order listed above, and rounding to the nearest integer whenever the result is not an integer (rounding up at 0.5). When the final value is obtained, it is divided by 4096, and this becomes other. For example, if both Multiscale and a Chilan Berry take effect, other is 
+4096
+×
+0.5
+×
+0.5
+4096
+{\displaystyle {\frac {4096\times 0.5\times 0.5}{4096}}} = 0.25.
+ZMove is 0.25 if the move is a Z-Move or Max Move and the target would be protected from that move (e.g. by Protect), and 1 otherwise. (If this multiplier is applied, a message is displayed that the target "couldn't fully protect" itself.)
+TeraShield is applied in Tera Raid Battles when the Raid boss's shield is active. It is 0.2 if the player's Pokémon is not Terastallized, 0.35 if it is but the used move is not of its Tera Type, and 0.75 if it is and the used move is of its Tera Type. The result is subject to standard rounding (rounding up at 0.5).
+In the first four generations, during the calculation, all operations are carried out on integers internally—this means that all division operations are truncated integer division (i.e. rounding down if the result is not an integer), and the results of multiplication operations are rounded down afterwards (truncating any fractional part). From Generation V onward, there are three different types of rounding; a flooring (the same as previous generations), rounding to the nearest integer while rounding down at 0.5, and rounding to the nearest integer while rounding up at 0.5.
+
+If the calculation yields 0, the move will deal 1 HP damage instead (unless Type is equal to 0, in which case damage calculation is skipped entirely); however, in Generation V, a move may deal 0 damage when other is less than 1, because the routine to prevent 0 damage is erroneously performed before applying the other factor.
+
