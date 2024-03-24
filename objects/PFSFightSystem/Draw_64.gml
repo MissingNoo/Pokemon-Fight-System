@@ -1,8 +1,18 @@
 //Feather disable GM2017
+#region Start Variables
 var _startx = startPosition[0];
 var _starty = startPosition[1];
 var _yoff = 0;
 var _xoff = 0;
+#endregion
+
+#region Debug
+DebugManager.debug_add_config($"a:{a}", DebugTypes.UpDown, self, "a", undefined, "Battle");
+DebugManager.debug_add_config($"b:{b}", DebugTypes.UpDown, self, "b", undefined, "Battle");
+DebugManager.debug_add_config($"c:{c}", DebugTypes.UpDown, self, "c", undefined, "Battle");
+DebugManager.debug_add_config($"d:{d}", DebugTypes.UpDown, self, "d", undefined, "Battle");
+#endregion
+
 #region Main Window
 windowSize = [windowXScale * 100, windowYScale * 100];
 DebugManager.debug_add_config($"Window X Size:{windowXScale}", DebugTypes.UpDown, self, "windowXScale", undefined, "Battle");
@@ -19,7 +29,7 @@ draw_rectangle(_x, _y, _startx + windowSize[0], _starty + (windowSize[1] * 0.65)
 _x += 10;
 _y += 10;
 switch (selectedMenu) {
-    case PFSBattleMenus.Battle:
+    case __PFSBattleMenus.Battle:
 		_yoff = 0;
 		var moves = global.__PFS.playerPokemons[pokemonOut].moves;
         for (var i = 0; i < array_length(moves); ++i) {
@@ -28,10 +38,23 @@ switch (selectedMenu) {
 			    enemyPokemon[0].hp -= __PFS_damage_calculation(global.__PFS.playerPokemons[pokemonOut], enemyPokemon[0], move);
 			}
 			draw_sprite_ext(sPFSTypeIcons, move.type, _x + 8, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
+			var _cat = sPFSPhysicalIcon;
+			switch (move.category) {
+			    case __PFSMoveCategory.Physical:
+			        _cat = sPFSPhysicalIcon;
+			        break;
+			    case __PFSMoveCategory.Special:
+			        _cat = sPFSSpecialIcon;
+			        break;
+			    case __PFSMoveCategory.Status:
+			        _cat = sPFSStatusIcon;
+			        break;
+			}
+			draw_sprite_ext(_cat, 0, _x + 25, _y + 27 + _yoff, 0.15, 0.15, 0, c_white, 1);
 			_yoff += 60;
 		}
         break;
-	case PFSBattleMenus.Pokemon:
+	case __PFSBattleMenus.Pokemon:
 		_yoff = 0;
 		for (var i = 0; i < array_length(global.__PFS.playerPokemons); ++i) {
 		    if (createbutton(_x, _y + _yoff, global.__PFS.playerPokemons[i].internalName, 1)) {
@@ -39,47 +62,23 @@ switch (selectedMenu) {
 				load_sprite(global.__PFS.playerPokemons[pokemonOut], 1);
 			}
 			draw_sprite_ext(sPFSTypeIcons, global.__PFS.playerPokemons[i].type[0], _x + 8, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
-			draw_sprite_ext(sPFSTypeIcons, global.__PFS.playerPokemons[i].type[1], _x + 40, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
+			if (global.__PFS.playerPokemons[i].type[1] != __PFSTypes.NoType) {
+			    draw_sprite_ext(sPFSTypeIcons, global.__PFS.playerPokemons[i].type[1], _x + 40, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
+			}
 			_yoff += 60;
 		}
 		break;
-    default:
-        // code here
-        break;
 }
 #endregion
 
 #region Battle Area
-DebugManager.debug_add_config($"a:{a}", DebugTypes.UpDown, self, "a", undefined, "Battle");
-DebugManager.debug_add_config($"b:{b}", DebugTypes.UpDown, self, "b", undefined, "Battle");
-DebugManager.debug_add_config($"c:{c}", DebugTypes.UpDown, self, "c", undefined, "Battle");
-DebugManager.debug_add_config($"d:{d}", DebugTypes.UpDown, self, "d", undefined, "Battle");
 var _pokemon = global.__PFS.playerPokemons[pokemonOut];
 #region Player Pokemon Info
 _x = _startx + (windowSize[0] * 0.40);
 _y = _starty + (windowSize[1] * 0.75);
 var _boxEndX = _startx + (windowSize[0] * 0.70);
 var _boxEndY = _starty + (windowSize[1] * 0.95);
-draw_rectangle(_x, _y, _boxEndX, _boxEndY, true);
-_x += 10;
-_y += 10;
-draw_text(_x, _y, _pokemon.internalName);
-draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_pokemon.hp / _pokemon.base.hp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
-draw_set_halign(fa_right);
-draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");
-draw_text(_boxEndX - 10, _y + 45, $"LV:{_pokemon.level}");
-draw_set_halign(fa_left);
-_y += 40;
-_xoff = 0;
-for (var i = 0; i < array_length(global.__PFS.playerPokemons); ++i) {
-    draw_circle(_boxEndX - 15 - _xoff, _y, 7, global.__PFS.playerPokemons[i].hp <= 0);
-	_xoff += 20;
-}
-_x = _startx + (windowSize[0] * 0.07);
-_y = _starty + (windowSize[1] * 0.45);
-if (sprite_exists(pokemonSprite)) {
-	draw_sprite_ext(pokemonSprite, -1, _x - sprite_get_width(pokemonSprite) / 2, _y - sprite_get_height(pokemonSprite) / 2, 3, 3, 0, c_white, 1);
-}
+poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, __PFSBattleSides.Player);
 #endregion
 #region Enemy Pokemon Info
 _pokemon = enemyPokemon[0];
@@ -87,28 +86,7 @@ _x = _startx + (windowSize[0] * 0.02);
 _y = _starty + (windowSize[1] * 0.03);
 _boxEndX = _startx + (windowSize[0] * 0.30);
 _boxEndY = _starty + (windowSize[1] * 0.23);
-draw_rectangle(_x, _y, _boxEndX, _boxEndY, true);
-_x += 10;
-_y += 10;
-draw_text(_x, _y, _pokemon.internalName);
-draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_pokemon.hp / _pokemon.base.hp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
-draw_set_halign(fa_right);
-draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");
-draw_text(_boxEndX - 10, _y + 45, $"LV:{_pokemon.level}");
-draw_set_halign(fa_left);
-_y += 40;
-_xoff = 0;
-if (!wildPokemon) {
-    for (var i = 0; i < array_length(enemyPokemon); ++i) {
-	    draw_circle(_boxEndX - 15 - _xoff, _y, 7, enemyPokemon[i].hp <= 0);
-		_xoff += 20;
-	}
-}
-_x = _startx + (windowSize[0] * 0.45);
-_y = _starty + (windowSize[1] * 0.20);
-if (sprite_exists(enemySprite)) {
-    draw_sprite_ext(enemySprite, -1, _x - sprite_get_width(enemySprite) / 2, _y - sprite_get_height(enemySprite) / 2, 2, 2, 0, c_white, 1);
-}
+poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, __PFSBattleSides.Enemy);
 #endregion
 #endregion
 

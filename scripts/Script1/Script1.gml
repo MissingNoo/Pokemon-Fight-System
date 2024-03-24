@@ -1,5 +1,6 @@
 //Feather disable GM2017
 global.__PFS = {};
+global.__PFS.playerPokemons = [];
 global.__PFS.moves = [];
 global.__PFS.Pokes = [];
 global.__PFS.__PFSTypes = ["Normal", "Fire", "Water", "Grass", "Flying", "Fighting", "Poison", "Electric", "Ground", "Rock", "Psychic", "Ice", "Bug", "Ghost", "Steel", "Dragon", "Dark", "Fairy", "NoType"];
@@ -33,6 +34,16 @@ enum __PFSMoveCategory {
 enum __PFSMoveMethods {
 	Null,
 	Levelup
+}
+enum __PFSBattleMenus {
+	Battle, 
+	Pokemon,
+	Item,
+	Run
+}
+enum __PFSBattleSides {
+	Player,
+	Enemy
 }
 #region Move effectiveness
 global.__PFS.typesEffect = [];
@@ -157,7 +168,7 @@ function __PFS_add_move(internalName){
 	//for (var i = 0; i < array_length(global.__PFS.moves); ++i) {
 	    //if (global.__PFS.moves[i].internalName == internalName) {
 		var _move = variable_clone(global.__PFS.moves[internalName]);
-		//show_debug_message(_move);
+		show_debug_message(_move);
 		    return _move;
 		//}
 	//}
@@ -210,10 +221,10 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 function __PFS_generate_pokemon(pokemon){
 	pokemon.level = irandom_range(real(pokemon.wildlevelrange[0]), real(pokemon.wildlevelrange[1]));
 	pokemon.moves = [];
-	for (var i = 0; i < array_length(pokemon.canLearn.Level); ++i) {
+	for (var i = 0; i < array_length(pokemon.canLearn.level); ++i) {
 	    if (array_length(pokemon.moves) < 4) {
-		    if (pokemon.canLearn.Level[i].level < pokemon.level) {
-			    array_push(pokemon.moves, __PFS_add_move(pokemon.canLearn.Level[i].id));
+		    if (pokemon.canLearn.level[i].level < pokemon.level) {
+			    array_push(pokemon.moves, __PFS_add_move(pokemon.canLearn.level[i].id));
 			}
 		}
 	}
