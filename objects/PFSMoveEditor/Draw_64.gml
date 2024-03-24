@@ -37,13 +37,20 @@ for (var i = 0; i <= optionsLenght; ++i) {
 #region Move List
 _yoff = 0;
 for (var i = 0; i < array_length(global.__PFS.moves); ++i) {
-	if (createbutton(10, 10 + moveListOffset + _yoff, $"{i}:{global.__PFS.moves[i].internalName}", 1, true, 0, move == i ? c_yellow : c_white)) {
-		set = false;
-		selected = 1;
-		move = i;
-		loadMove(i);
+	try {
+		if (createbutton(10, 10 + moveListOffset + _yoff, $"{i}:{global.__PFS.moves[i].internalName}", 1, true, 0, move == i ? c_yellow : c_white)) {
+			set = false;
+			selected = 1;
+			move = i;
+			loadMove(i);
+		}
+		_yoff += 30;
 	}
-    _yoff += 30;
+	catch (err) {
+	}
+	if (_y + _yoff + moveListOffset > GH + 200) {
+	    break;
+	}
 }
 #endregion	
 
@@ -64,9 +71,9 @@ for (var i = 0; i < _length; ++i) {
 		_yoff = 0;
 	}
 }
-_length = array_length(global.__PFS.moveCategory);
+_length = array_length(global.__PFS.__PFSMoveCategory);
 for (var i = 0; i < _length; ++i) {
-    var _spr = global.__PFS.moveCategory[i][1];
+    var _spr = global.__PFS.__PFSMoveCategory[i][1];
 	if (createbuttonspr(_x, _y + _yoff, _spr, 0, 0.20, false, category == i ? c_yellow : c_white)) {
 		category = i;
 	}

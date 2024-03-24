@@ -22,6 +22,8 @@ catch (err){
 #endregion
 
 #region Move List
-var _vkupdown = -keyboard_check_pressed(vk_pageup) + keyboard_check_pressed(vk_pagedown);
+var _vkupdown = -keyboard_check(vk_pageup) + keyboard_check(vk_pagedown);
 moveListOffset += _vkupdown * 30;
+var _heupdown = -keyboard_check(vk_insert) + keyboard_check(vk_delete);
+canLearnOffset += _heupdown * 30;
 #endregion

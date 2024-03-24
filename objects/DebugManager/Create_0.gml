@@ -35,6 +35,10 @@ function debug_add_config(text, type, instance, variable, func = function(){}, p
 		}
 	}
 	var _page = array_get_index(DebugManager.pagenames, page)
+	if (_page == -1) {
+	    array_push(DebugManager.pagenames, page);
+		_page = array_get_index(DebugManager.pagenames, page);
+	}
 	array_push(DebugManager.variables, {text, type, instance, variable, func, page : _page});
 }
 

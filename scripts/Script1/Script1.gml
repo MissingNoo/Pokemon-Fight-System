@@ -3,7 +3,7 @@ global.__PFS = {};
 global.__PFS.moves = [];
 global.__PFS.Pokes = [];
 global.__PFS.__PFSTypes = ["Normal", "Fire", "Water", "Grass", "Flying", "Fighting", "Poison", "Electric", "Ground", "Rock", "Psychic", "Ice", "Bug", "Ghost", "Steel", "Dragon", "Dark", "Fairy", "NoType"];
-global.__PFS.moveCategory = [["Physical", sPFSPhysicalIcon], ["Special", sPFSSpecialIcon], ["Status", sPFSStatusIcon]];
+global.__PFS.__PFSMoveCategory = [["Physical", sPFSPhysicalIcon], ["Special", sPFSSpecialIcon], ["Status", sPFSStatusIcon]];
 enum __PFSTypes {
 	Normal, 
 	Fire, 
@@ -25,10 +25,14 @@ enum __PFSTypes {
 	Fairy,
 	NoType
 };
-enum MoveCategory {
+enum __PFSMoveCategory {
 	Physical,
 	Special,
 	Status
+}
+enum __PFSMoveMethods {
+	Null,
+	Levelup
 }
 #region Move effectiveness
 global.__PFS.typesEffect = [];
@@ -149,14 +153,16 @@ function __PFS_is_effective(pokemon, move, pos){
 }
 
 function __PFS_add_move(internalName){
-	var _struct = {};
-	for (var i = 0; i < array_length(global.__PFS.moves); ++i) {
-	    if (global.__PFS.moves[i].internalName == internalName) {
-		    return variable_clone(global.__PFS.moves[i]);
-		}
-	}
-	show_debug_message("Move not found!");
-	return global.__PFS.moves[0];
+	//var _struct = {};
+	//for (var i = 0; i < array_length(global.__PFS.moves); ++i) {
+	    //if (global.__PFS.moves[i].internalName == internalName) {
+		var _move = variable_clone(global.__PFS.moves[internalName]);
+		//show_debug_message(_move);
+		    return _move;
+		//}
+	//}
+	//show_debug_message("Move not found!");
+	//return global.__PFS.moves[0];
 }
 
 function __PFS_damage_calculation(pokemon, enemy, move){
@@ -181,11 +187,11 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	var _a = 1;
 	var _d = 1;
 	switch (move.type) { //TODO: unmodified on criticals, light screen, reflect, 
-	    case MoveCategory.Physical:
+	    case __PFSMoveCategory.Physical:
 	        _a = pokemon.attack;
 			_d = enemy.defense;
 	        break;
-	    case MoveCategory.Special:
+	    case __PFSMoveCategory.Special:
 	        _a = pokemon.spatk;
 			_d = enemy.spdef;
 	        break;
@@ -203,6 +209,14 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 
 function __PFS_generate_pokemon(pokemon){
 	pokemon.level = irandom_range(real(pokemon.wildlevelrange[0]), real(pokemon.wildlevelrange[1]));
+	pokemon.moves = [];
+	for (var i = 0; i < array_length(pokemon.canLearn.Level); ++i) {
+	    if (array_length(pokemon.moves) < 4) {
+		    if (pokemon.canLearn.Level[i].level < pokemon.level) {
+			    array_push(pokemon.moves, __PFS_add_move(pokemon.canLearn.Level[i].id));
+			}
+		}
+	}
 	pokemon.ivs = {
 		hp : irandom_range(0, 31),
 		attack : irandom_range(0, 31),

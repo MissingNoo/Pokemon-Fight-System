@@ -47,6 +47,19 @@ for (var i = 1; i < array_length(global.__PFS.Pokes); ++i) {
 	}
     _yoff += 30;
 }
+#endregion
+_yoff = 0;
+#region can learn
+DebugManager.debug_add_config($"canLearnOffset:{canLearnOffset}", DebugTypes.UpDown, self, "canLearnOffset", undefined, "PokesLearn");
+DebugManager.debug_add_config($"canLearnMaxY:{canLearnMaxY}", DebugTypes.UpDown, self, "canLearnMaxY", undefined, "PokesLearn");
+for (var i = 0; i < array_length(global.__PFS.Pokes[poke].canLearn.Level); ++i) {
+	var _move = $"{global.__PFS.moves[global.__PFS.Pokes[poke].canLearn.Level[i].id].internalName}: {global.__PFS.Pokes[poke].canLearn.Level[i].level}";
+	draw_text(140, 10 + _yoff + canLearnOffset, _move);
+    _yoff += 30;
+	if (_y + _yoff + canLearnOffset > canLearnMaxY) {
+	    break;
+	}
+}
 #endregion	
 
 #region Move Types and Category
@@ -73,39 +86,39 @@ for (var i = 0; i < _length; ++i) {
 #endregion
 
 #region Function Buttons
-_text = "Export";
-_x = GW - 2;
-_y = GH - string_height(_text) * 2 - 5;
-_x -= string_width(_text) * 2 + 9;
-if (createbutton(_x, _y, _text, 2)) {
-	var f = file_text_open_write(file);
-	file_text_write_string(f, string(json_stringify(global.__PFS.Pokes, true)));
-	file_text_close(f);
-	var _fs = file_text_open_write(savedFile);
-	file_text_write_string(_fs, json_stringify(global.__PFS.Pokes));
-	file_text_close(_fs);
-	show_message_async($"Exported to {file}");
-}
-_text = "Load";
-_x -= string_width(_text) * 2 + 9;
-if (createbutton(_x, _y, _text, 2)) {
-	if (file_exists(savedFile)) {
-		var fs = file_text_open_read(savedFile);
-		var _json = file_text_read_string(fs);
-		file_text_close(fs);
-		global.__PFS.moves = json_parse(_json);
-	}
-}
-_text = "New";
-_x -= string_width(_text) * 2 + 9;
-if (createbutton(_x, _y, _text, 2)) {
-	var _newmove = array_length(global.__PFS.Pokes);
-	global.__PFS.Pokes[_newmove] = variable_clone(defaultpokedata);
-	selected = 1;
-	poke = _newmove;
-	set = false;
-	loadMove(_newmove);
-}
+//_text = "Export";
+//_x = GW - 2;
+//_y = GH - string_height(_text) * 2 - 5;
+//_x -= string_width(_text) * 2 + 9;
+//if (createbutton(_x, _y, _text, 2)) {
+//	var f = file_text_open_write(file);
+//	file_text_write_string(f, string(json_stringify(global.__PFS.Pokes, true)));
+//	file_text_close(f);
+//	var _fs = file_text_open_write(savedFile);
+//	file_text_write_string(_fs, json_stringify(global.__PFS.Pokes));
+//	file_text_close(_fs);
+//	show_message_async($"Exported to {file}");
+//}
+//_text = "Load";
+//_x -= string_width(_text) * 2 + 9;
+//if (createbutton(_x, _y, _text, 2)) {
+//	if (file_exists(savedFile)) {
+//		var fs = file_text_open_read(savedFile);
+//		var _json = file_text_read_string(fs);
+//		file_text_close(fs);
+//		global.__PFS.moves = json_parse(_json);
+//	}
+//}
+//_text = "New";
+//_x -= string_width(_text) * 2 + 9;
+//if (createbutton(_x, _y, _text, 2)) {
+//	var _newmove = array_length(global.__PFS.Pokes);
+//	global.__PFS.Pokes[_newmove] = variable_clone(defaultpokedata);
+//	selected = 1;
+//	poke = _newmove;
+//	set = false;
+//	loadMove(_newmove);
+//}
 _text = "Print";
 _x -= string_width(_text) * 2 + 9;
 if (createbutton(_x, _y, _text, 2)) {

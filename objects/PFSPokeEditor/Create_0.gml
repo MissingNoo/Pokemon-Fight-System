@@ -3,11 +3,6 @@
 show = false;
 #endregion
 
-#region Files
-file = game_save_id + "Pokes.json";
-savedFile = game_save_id + "Pokes.bin";
-#endregion
-
 #region Move
 poke = 1;
 internalName = "Bulbasaur";
@@ -34,7 +29,7 @@ defaultpokedata = {
 		speed : 45
 	},
 	sprite : ["sPFSBulbasaurFront", "sPFSBulbasaurBack"],
-	moves : [__PFS_add_move("Growl"), __PFS_add_move("Tackle"), __PFS_add_move("Vine Whip"), __PFS_add_move("Growth")]
+	//moves : [__PFS_add_move("Growl"), __PFS_add_move("Tackle"), __PFS_add_move("Vine Whip"), __PFS_add_move("Growth")]
 }
 pokedata = variable_clone(defaultpokedata);
 #endregion
@@ -57,6 +52,8 @@ set = false;
 
 #region Move List
 moveListOffset = 0;
+canLearnOffset = 0;
+canLearnMaxY = 1028;
 #endregion
 
 #region Functions
@@ -78,19 +75,15 @@ function loadMove(move){
 	    showsprite = sprite_add(working_directory + "/PFS/Sprites/Pokemons/" + pokedata.internalName + "/" + pokedata.sprite[1] + ".png", 0, false, false, 0, 0);
 	}
 }
-if (file_exists(savedFile)) {
-	var fs = file_text_open_read(savedFile);
-	var _json = file_text_read_string(fs);
-	file_text_close(fs);
-	global.__PFS.Pokes = json_parse(_json);
-}
+//if (file_exists(savedFile)) {
+//	var fs = file_text_open_read(savedFile);
+//	var _json = file_text_read_string(fs);
+//	file_text_close(fs);
+//	global.__PFS.Pokes = json_parse(_json);
+//}
 loadMove(0);
 #endregion
-for (var i = 0; i < array_length(global.__PFS.Pokes); ++i) {
-    global.__PFS.Pokes[i].base = {};
-}
-
-
+#region Generate pokedex
 if (file_exists("pokedex.json")) {
 	//show_message("pokedex");
 	var fs = file_text_open_read("pokedex.json");
@@ -101,7 +94,8 @@ if (file_exists("pokedex.json")) {
 	}
 	file_text_close(fs);
 	var _pokedex = json_parse(jsonStr);
-	for (var i = 0; i < array_length(_pokedex); ++i) {
+	//for (var i = 0; i < array_length(_pokedex); ++i) {
+	for (var i = 0; i < 650; ++i) {
 		var _type = [];
 		if (array_length(_pokedex[i][$ "type"]) == 2) {
 		    _type = [array_get_index(global.__PFS.__PFSTypes, _pokedex[i].type[0]), array_get_index(global.__PFS.__PFSTypes, _pokedex[i].type[1])];
@@ -128,10 +122,62 @@ if (file_exists("pokedex.json")) {
 				spdef : _pokedex[i].base[$ "Sp. Defense"],
 				speed : _pokedex[i].base.Speed
 			},
-			moves : [__PFS_add_move("Growl"), __PFS_add_move("Tackle"), __PFS_add_move("Vine Whip"), __PFS_add_move("Growth")]
+			//moves : [__PFS_add_move("Growl"), __PFS_add_move("Tackle"), __PFS_add_move("Vine Whip"), __PFS_add_move("Growth")]
 		}
 		_poke.sprite = [string(_poke.internalName + "Front"), string(_poke.internalName + "Back")];
 	    global.__PFS.Pokes[_pokedex[i].id] = _poke;
 	}
-	//show_message(global.__PFS.Pokes);
 }
+for (var i = 0; i < array_length(global.__PFS.Pokes); ++i) {
+	if (global.__PFS.Pokes[i][$ "base"] == undefined) {
+	    global.__PFS.Pokes[i].base = {};
+	}
+	if (global.__PFS.Pokes[i][$ "wildlevelrange"] == undefined) {
+	    global.__PFS.Pokes[i].wildlevelrange = [0,0];
+	}
+	if (global.__PFS.Pokes[i][$ "canLearn"] == undefined) {
+	    global.__PFS.Pokes[i].canLearn = {};
+	}
+	if (global.__PFS.Pokes[i][$ "canLearn"][$ "level"] == undefined) {
+	    global.__PFS.Pokes[i].canLearn.Level = [];
+	}
+}
+#endregion
+
+#region Moves Pokemons can Learn
+if (file_exists("pokemon_moves.csv")) {
+	var fs = file_text_open_read("pokemon_moves.csv");
+    var jsonStr = "";
+	var _pos = [ "pokemon_id", "version_group_id", "move_id", "pokemon_move_method_id", "level", "order" ];
+	while (!file_text_eof(fs)) {
+		var _add = true;
+		var _move = string_split(file_text_read_string(fs), ",");
+		try {
+			var _gen = _move[array_get_index(_pos, "version_group_id")];
+			if (_gen != 5) {
+			    _add = false;
+			}
+		}
+		catch (err) {}
+		if (_add) {
+		    var _pokemon = _move[array_get_index(_pos, "pokemon_id")];		
+			var _moveId = _move[array_get_index(_pos, "move_id")];
+			var _learnMethod = _move[array_get_index(_pos, "pokemon_move_method_id")];
+			var _level = _move[array_get_index(_pos, "level")];
+			try {
+				if (real(_pokemon) > 650) {
+				    break;
+				}
+				if (real(_learnMethod) == __PFSMoveMethods.Levelup) {
+				    array_push(global.__PFS.Pokes[_pokemon].canLearn.Level, { id: _moveId, level : _level });
+				}
+			}
+			catch (err) {
+				//show_message($"error on {_move}");
+			}
+		}
+		file_text_readln(fs);
+	}
+	file_text_close(fs);
+}
+#endregion

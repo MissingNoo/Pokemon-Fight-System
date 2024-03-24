@@ -20,6 +20,6 @@ catch (err){
 #endregion
 
 #region Move List
-var _vkupdown = -keyboard_check_pressed(vk_pageup) + keyboard_check_pressed(vk_pagedown);
+var _vkupdown = -keyboard_check(vk_pageup) + keyboard_check(vk_pagedown);
 moveListOffset += _vkupdown * 30;
 #endregion
