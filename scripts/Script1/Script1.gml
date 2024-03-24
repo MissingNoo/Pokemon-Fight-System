@@ -1,7 +1,8 @@
 //Feather disable GM2017
 global.__PFS = {};
 global.__PFS.moves = [];
-global.__PFS.__PFSTypes = ["Normal", "Fire", "Water", "Grass", "Flying", "Fighting", "Poison", "Electric", "Ground", "Rock", "Psychic", "Ice", "Bug", "Ghost", "Steel", "Dragon", "Dark", "Fairy"];
+global.__PFS.Pokes = [];
+global.__PFS.__PFSTypes = ["Normal", "Fire", "Water", "Grass", "Flying", "Fighting", "Poison", "Electric", "Ground", "Rock", "Psychic", "Ice", "Bug", "Ghost", "Steel", "Dragon", "Dark", "Fairy", "NoType"];
 global.__PFS.moveCategory = [["Physical", sPFSPhysicalIcon], ["Special", sPFSSpecialIcon], ["Status", sPFSStatusIcon]];
 enum __PFSTypes {
 	Normal, 
@@ -21,7 +22,8 @@ enum __PFSTypes {
 	Steel, 
 	Dragon, 
 	Dark, 
-	Fairy
+	Fairy,
+	NoType
 };
 enum MoveCategory {
 	Physical,
@@ -120,6 +122,11 @@ global.__PFS.typesEffect[__PFSTypes.Fairy] = {
 	weak : [__PFSTypes.Poison, __PFSTypes.Steel],
 	immune : [__PFSTypes.Dragon]
 };
+global.__PFS.typesEffect[__PFSTypes.NoType] = {
+	strong : [],
+	weak : [],
+	immune : []
+};
 #endregion
 
 function __PFS_is_effective(pokemon, move, pos){
@@ -134,6 +141,9 @@ function __PFS_is_effective(pokemon, move, pos){
 	}
 	if (_effective == -1) {
 	    _effective = array_get_index(global.__PFS.typesEffect[_poketype].immune, _movetype) >= 0 ? 0 : -1;
+	}
+	if (_effective == -1) {
+	    _effective = 1;
 	}
 	return _effective;
 }
@@ -191,15 +201,39 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	return _damage;
 }
 
+function __PFS_generate_pokemon(pokemon){
+	pokemon.level = irandom_range(real(pokemon.wildlevelrange[0]), real(pokemon.wildlevelrange[1]));
+	pokemon.ivs = {
+		hp : irandom_range(0, 31),
+		attack : irandom_range(0, 31),
+		defense : irandom_range(0, 31),
+		spatk : irandom_range(0, 31),
+		spdef : irandom_range(0, 31),
+		speed : irandom_range(0, 31),
+	}
+	pokemon.evs = {
+		hp : 0,
+		attack : 0,
+		defense : 0,
+		spatk : 0,
+		spdef : 0,
+		speed : 0
+	}
+	return __PFS_recalculate_stats(pokemon, true);
+}
+
 function __PFS_recalculate_stats(pokemon, pokecenter = false){
-	var _names = variable_struct_get_names(pokemon.base);
+	if (pokemon[$ "base"] == undefined) {
+	    pokemon[$ "base"] = {};
+	}
+	var _names = variable_struct_get_names(pokemon.basecalc);
 	var _result = "";
 	for (var i = 0; i < array_length(_names); ++i) {
 		switch (_names[i]) {
 		    case "hp":
-		        variable_struct_set(pokemon.base, "hp", floor(0.01 * (2 * pokemon.basecalc.hp + pokemon.ivs.hp + floor(0.25 * pokemon.evs.hp)) * pokemon.level) + pokemon.level + 10);
+		        variable_struct_set(pokemon.base, "hp", floor(0.01 * (2 * real(pokemon.basecalc.hp) + real(pokemon.ivs.hp) + floor(0.25 * real(pokemon.evs.hp))) * real(pokemon.level)) + real(pokemon.level) + 10);
 				if (pokecenter) {
-				    variable_struct_set(pokemon, "hp", floor(0.01 * (2 * pokemon.basecalc.hp + pokemon.ivs.hp + floor(0.25 * pokemon.evs.hp)) * pokemon.level) + pokemon.level + 10);
+				    variable_struct_set(pokemon, "hp", floor(0.01 * (2 * real(pokemon.basecalc.hp) + real(pokemon.ivs.hp) + floor(0.25 * real(pokemon.evs.hp))) * real(pokemon.level)) + real(pokemon.level) + 10);
 				}
 		        break;
 		    default:
@@ -207,13 +241,13 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 				var _iv = variable_struct_get(pokemon.ivs, _names[i]);
 				var _ev = variable_struct_get(pokemon.evs, _names[i]);
 				var _nature = 1; //TODO: nature
-		        variable_struct_set(pokemon.base, _names[i], ((floor(0.01 * (2 * _basestat + _iv + floor(0.25 * _ev)) * pokemon.level)) + 5) * 1);
+		        variable_struct_set(pokemon.base, _names[i], ((floor(0.01 * (2 * real(_basestat) + real(_iv) + floor(0.25 * real(_ev))) * real(pokemon.level))) + 5) * 1);
 				if (pokecenter) {
-				    variable_struct_set(pokemon, _names[i], ((floor(0.01 * (2 * _basestat + _iv + floor(0.25 * _ev)) * pokemon.level)) + 5) * 1);
+				    variable_struct_set(pokemon, _names[i], ((floor(0.01 * (2 * real(_basestat) + real(_iv) + floor(0.25 * real(_ev))) * real(pokemon.level))) + 5) * 1);
 				}
 		        break;
 		}
-	}	
+	}
 	return pokemon;
 }
 
@@ -239,7 +273,7 @@ function createbutton(_x, _y, text, textscale, show_border = true, bgalpha = 0.2
 	}
 	return _clicked;
 }
-function createbuttonspr(_x, _y, spr, subimg, sprscale, show_border = true, _color = c_white, align = "topleft") {
+function createbuttonspr(_x, _y, spr, subimg, sprscale, show_border = true, _color = c_white, align = "topleft", button = mb_left) {
 	var _clicked = false;
 	var pw = 0;
 	var ph = 0;
@@ -260,7 +294,7 @@ function createbuttonspr(_x, _y, spr, subimg, sprscale, show_border = true, _col
 	    draw_rectangle(_x - pw - 3, _y - ph - 4, _x + w + 2, _y + h + 4, true);
 	}
 	draw_sprite_ext(spr, subimg, _x, _y, sprscale, sprscale, 0, _color, 1);
-	if (mouse_check_button_pressed(mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x - pw, _y - ph, _x + w, _y + h)) {
+	if (mouse_check_button_pressed(button) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x - pw, _y - ph, _x + w, _y + h)) {
 		_clicked = true;
 	}
 	return _clicked;
@@ -275,10 +309,12 @@ function textbox(x, y, name, value, editing) {
 		    keyboard_string = _value;
 			variable_instance_set(self, "set", true);
 		}
-		variable_instance_set(self, value, keyboard_string);
+		if (keyboard_string != "") {
+		    variable_instance_set(self, value, keyboard_string);
+		}
 	}
-	draw_text(_x, _y, name);
-	_x += string_width(name);
+	draw_text(_x, _y, $"{name}: ");
+	_x += string_width($"{name}: ");
 	draw_text(_x, _y, _value);
 	var _color = editing ? c_yellow : c_white;
 	draw_rectangle_color(_x, _y, _x + string_width(_value), _y + string_height(_value), _color, _color, _color, _color, true);

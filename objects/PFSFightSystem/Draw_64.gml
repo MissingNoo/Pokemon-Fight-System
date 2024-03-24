@@ -34,10 +34,13 @@ switch (selectedMenu) {
 	case PFSBattleMenus.Pokemon:
 		_yoff = 0;
 		for (var i = 0; i < array_length(global.__PFS.playerPokemons); ++i) {
-		    if (createbutton(_x, _y + _yoff, global.__PFS.playerPokemons[i].name, 1)) {
+		    if (createbutton(_x, _y + _yoff, global.__PFS.playerPokemons[i].internalName, 1)) {
 			    pokemonOut = i;
+				load_sprite(global.__PFS.playerPokemons[pokemonOut], 1);
 			}
-			_yoff += 30;
+			draw_sprite_ext(sPFSTypeIcons, global.__PFS.playerPokemons[i].type[0], _x + 8, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
+			draw_sprite_ext(sPFSTypeIcons, global.__PFS.playerPokemons[i].type[1], _x + 40, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
+			_yoff += 60;
 		}
 		break;
     default:
@@ -60,7 +63,7 @@ var _boxEndY = _starty + (windowSize[1] * 0.95);
 draw_rectangle(_x, _y, _boxEndX, _boxEndY, true);
 _x += 10;
 _y += 10;
-draw_text(_x, _y, _pokemon.name);
+draw_text(_x, _y, _pokemon.internalName);
 draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_pokemon.hp / _pokemon.base.hp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
 draw_set_halign(fa_right);
 draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");
@@ -72,9 +75,11 @@ for (var i = 0; i < array_length(global.__PFS.playerPokemons); ++i) {
     draw_circle(_boxEndX - 15 - _xoff, _y, 7, global.__PFS.playerPokemons[i].hp <= 0);
 	_xoff += 20;
 }
-_x = _startx + (windowSize[0] * 0.20);
-_y = _starty + (windowSize[1] * 0.85);
-draw_sprite_ext(_pokemon.sprite[1], -1, _x, _y, 3, 3, 0, c_white, 1);
+_x = _startx + (windowSize[0] * 0.07);
+_y = _starty + (windowSize[1] * 0.45);
+if (sprite_exists(pokemonSprite)) {
+	draw_sprite_ext(pokemonSprite, -1, _x - sprite_get_width(pokemonSprite) / 2, _y - sprite_get_height(pokemonSprite) / 2, 3, 3, 0, c_white, 1);
+}
 #endregion
 #region Enemy Pokemon Info
 _pokemon = enemyPokemon[0];
@@ -85,7 +90,7 @@ _boxEndY = _starty + (windowSize[1] * 0.23);
 draw_rectangle(_x, _y, _boxEndX, _boxEndY, true);
 _x += 10;
 _y += 10;
-draw_text(_x, _y, _pokemon.name);
+draw_text(_x, _y, _pokemon.internalName);
 draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_pokemon.hp / _pokemon.base.hp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
 draw_set_halign(fa_right);
 draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");
@@ -99,9 +104,11 @@ if (!wildPokemon) {
 		_xoff += 20;
 	}
 }
-_x = _startx + (windowSize[0] * 0.50);
-_y = _starty + (windowSize[1] * 0.45);
-draw_sprite_ext(_pokemon.sprite[0], -1, _x, _y, 2, 2, 0, c_white, 1);
+_x = _startx + (windowSize[0] * 0.45);
+_y = _starty + (windowSize[1] * 0.20);
+if (sprite_exists(enemySprite)) {
+    draw_sprite_ext(enemySprite, -1, _x - sprite_get_width(enemySprite) / 2, _y - sprite_get_height(enemySprite) / 2, 2, 2, 0, c_white, 1);
+}
 #endregion
 #endregion
 

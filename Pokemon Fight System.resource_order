@@ -14,6 +14,7 @@
     {"name":"Note1","order":6,"path":"notes/Note1/Note1.yy",},
     {"name":"DebugManager","order":3,"path":"objects/DebugManager/DebugManager.yy",},
     {"name":"PFSDebug","order":4,"path":"objects/PFSDebug/PFSDebug.yy",},
+    {"name":"PFSPokeEditor","order":7,"path":"objects/PFSPokeEditor/PFSPokeEditor.yy",},
     {"name":"PFSMoveEditor","order":2,"path":"objects/PFSMoveEditor/PFSMoveEditor.yy",},
     {"name":"DebugLib","order":2,"path":"scripts/DebugLib/DebugLib.yy",},
     {"name":"Script1","order":1,"path":"scripts/Script1/Script1.yy",},

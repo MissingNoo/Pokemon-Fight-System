@@ -21,12 +21,12 @@ probability = 0;
 
 #region Information Window
 options = [
-	["Move:", "move"],
-	["internalName:", "internalName"],
-	["Power:", "mpower"],
-	["Accuracy:", "accuracy"],
-	["PP:", "pp"],
-	["Probability:", "probability"]
+	["Move", "move"],
+	["internalName", "internalName"],
+	["Power", "mpower"],
+	["Accuracy", "accuracy"],
+	["PP", "pp"],
+	["Probability", "probability"]
 ];
 optionsLenght = array_length(options);
 selected = 0;
