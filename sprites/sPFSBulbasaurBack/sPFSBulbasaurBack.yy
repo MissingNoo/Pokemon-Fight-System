@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":7,
   "parent":{
-    "name":"Bulbasaur",
-    "path":"folders/PokeFightSystem/Pokemons/Kanto/Bulbasaur.yy",
+    "name":"PFSIcons",
+    "path":"folders/PokeFightSystem/PFSIcons.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

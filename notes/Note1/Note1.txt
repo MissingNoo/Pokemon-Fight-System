@@ -1,53 +1,6 @@
 Generation V onward
 Unless otherwise specified, all divisions and multiplications past the initial base damage calculation are rounded to the nearest integer if the result is not an integer (rounding down at 0.5).
 
-Damage
-=
-(
-(
-2
-×
-Level
-5
-+
-2
-)
-×
-Power
-×
-�
-�
-50
-+
-2
-)
-×
-Targets
-×
-PB
-×
-Weather
-×
-GlaiveRush
-×
-Critical
-×
-random
-×
-STAB
-×
-Type
-×
-Burn
-×
-other
-×
-ZMove
-×
-TeraShield
-{\displaystyle {\text{Damage}}=\left({\frac {\left({\frac {2\times {\text{Level}}}{5}}+2\right)\times {\text{Power}}\times {\frac {A}{D}}}{50}}+2\right)\times {\text{Targets}}\times {\text{PB}}\times {\text{Weather}}\times {\text{GlaiveRush}}\times {\text{Critical}}\times {\text{random}}\times {\text{STAB}}\times {\text{Type}}\times {\text{Burn}}\times {\text{other}}\times {\text{ZMove}}\times {\text{TeraShield}}}
-where
-
 Level is the level of the attacking Pokémon.
 A is the effective Attack stat of the attacking Pokémon if the used move is a physical move, or the effective Special Attack stat of the attacking Pokémon if the used move is a special move (ignoring negative stat stages for a critical hit).
 D is the effective Defense stat of the target if the used move is a physical move or a special move that uses the target's Defense stat, or the effective Special Defense of the target if the used move is an other special move (ignoring positive stat stages for a critical hit).
