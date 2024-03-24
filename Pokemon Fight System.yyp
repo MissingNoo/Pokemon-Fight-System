@@ -1345,7 +1345,7 @@
     {"id":{"name":"PFSPokeEditor","path":"objects/PFSPokeEditor/PFSPokeEditor.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"DebugLib","path":"scripts/DebugLib/DebugLib.yy",},},
-    {"id":{"name":"Script1","path":"scripts/Script1/Script1.yy",},},
+    {"id":{"name":"PFSScripts","path":"scripts/PFSScripts/PFSScripts.yy",},},
     {"id":{"name":"DebugArrowButtonLeftRight","path":"sprites/DebugArrowButtonLeftRight/DebugArrowButtonLeftRight.yy",},},
     {"id":{"name":"DebugArrowButtonUpDown","path":"sprites/DebugArrowButtonUpDown/DebugArrowButtonUpDown.yy",},},
     {"id":{"name":"DebugManagerBackground","path":"sprites/DebugManagerBackground/DebugManagerBackground.yy",},},

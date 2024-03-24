@@ -164,16 +164,7 @@ function __PFS_is_effective(pokemon, move, pos){
 }
 
 function __PFS_add_move(internalName){
-	//var _struct = {};
-	//for (var i = 0; i < array_length(global.__PFS.moves); ++i) {
-	    //if (global.__PFS.moves[i].internalName == internalName) {
-		var _move = variable_clone(global.__PFS.moves[internalName]);
-		show_debug_message(_move);
-		    return _move;
-		//}
-	//}
-	//show_debug_message("Move not found!");
-	//return global.__PFS.moves[0];
+	return variable_clone(global.__PFS.moves[internalName]);
 }
 
 function __PFS_damage_calculation(pokemon, enemy, move){

@@ -18,7 +18,7 @@
     {"name":"PFSMoveEditor","order":2,"path":"objects/PFSMoveEditor/PFSMoveEditor.yy",},
     {"name":"PFSPokeEditor","order":7,"path":"objects/PFSPokeEditor/PFSPokeEditor.yy",},
     {"name":"DebugLib","order":2,"path":"scripts/DebugLib/DebugLib.yy",},
-    {"name":"Script1","order":1,"path":"scripts/Script1/Script1.yy",},
+    {"name":"PFSScripts","order":1,"path":"scripts/PFSScripts/PFSScripts.yy",},
     {"name":"DebugArrowButtonUpDown","order":1,"path":"sprites/DebugArrowButtonUpDown/DebugArrowButtonUpDown.yy",},
     {"name":"DebugManagerBackground","order":4,"path":"sprites/DebugManagerBackground/DebugManagerBackground.yy",},
     {"name":"sPFSBulbasaurBack","order":1,"path":"sprites/sPFSBulbasaurBack/sPFSBulbasaurBack.yy",},
