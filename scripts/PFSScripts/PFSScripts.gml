@@ -167,6 +167,17 @@ function __PFS_add_move(internalName){
 	return variable_clone(global.__PFS.moves[internalName]);
 }
 
+function __PFS_use_move(pokemon, enemy, move) {
+	switch (move.category) {
+	    case __PFSMoveCategory.Physical:
+			enemyPokemon[0].hp -= __PFS_damage_calculation(pokemon, enemy, move);
+	        break;
+	    default:
+	        // code here
+	        break;
+	}
+}
+
 function __PFS_damage_calculation(pokemon, enemy, move){
 	var _critChance = irandom_range(0, 255);
 	var _critTreshold = pokemon.speed / 2; //TODO: High crit chance atk and items
@@ -263,6 +274,9 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 				}
 		        break;
 		}
+	}
+	for (var i = 0; i < array_length(pokemon.moves); ++i) {
+	    pokemon.moves[i].pp = pokemon.moves[i].maxpp;
 	}
 	return pokemon;
 }

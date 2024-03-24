@@ -7,6 +7,7 @@ d = 0;
 #endregion
 
 #region Battle
+enemyOut = 0;
 pokemonOut = 0;
 enemySprite = sPFSBulbasaurBack;
 pokemonSprite = sPFSBulbasaurBack;
@@ -69,4 +70,4 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 #endregion
 
 load_sprite(global.__PFS.playerPokemons[0], 1);
-load_sprite(enemyPokemon[0], 0);
+load_sprite(enemyPokemon[enemyOut], 0);

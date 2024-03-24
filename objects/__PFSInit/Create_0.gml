@@ -173,6 +173,7 @@ if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
 				"category": _category,
 				"accuracy": _accuracy,
 				"internalName": _name,
+				"maxpp": _pp,
 				"pp": _pp,
 				"probability":"0",
 				"mpower":_power

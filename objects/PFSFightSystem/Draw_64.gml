@@ -34,8 +34,9 @@ switch (selectedMenu) {
 		var moves = global.__PFS.playerPokemons[pokemonOut].moves;
         for (var i = 0; i < array_length(moves); ++i) {
 			var move = moves[i];
-		    if (createbutton(_x, _y + _yoff, move.internalName, 1, true, undefined)) {
-			    enemyPokemon[0].hp -= __PFS_damage_calculation(global.__PFS.playerPokemons[pokemonOut], enemyPokemon[0], move);
+		    if (createbutton(_x, _y + _yoff, $"{move.internalName} {move.pp}/{move.maxpp}", 1, true, undefined) and move.pp > 0) {
+				global.__PFS.playerPokemons[pokemonOut].moves[i].pp--;
+				__PFS_use_move(global.__PFS.playerPokemons[pokemonOut], enemyPokemon[0], move);			    
 			}
 			draw_sprite_ext(sPFSTypeIcons, move.type, _x + 8, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
 			var _cat = sPFSPhysicalIcon;
