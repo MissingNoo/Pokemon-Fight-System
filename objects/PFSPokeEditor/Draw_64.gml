@@ -40,7 +40,7 @@ for (var i = 0; i <= optionsLenght; ++i) {
 #region Move List
 _yoff = 0;
 for (var i = 1; i < array_length(global.__PFS.Pokes); ++i) {
-	if (createbutton(10, 10 + moveListOffset + _yoff, $"{i}:{global.__PFS.Pokes[i].internalName}", 1, true, 0, poke == i ? c_yellow : c_white)) {
+	if (createbutton(10, 10 + pokeListOffset + _yoff, $"{i}:{global.__PFS.Pokes[i].internalName}", 1, true, 0, poke == i ? c_yellow : c_white)) {
 		set = false;
 		selected = 0;
 		poke = i;

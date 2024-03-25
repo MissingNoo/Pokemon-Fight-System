@@ -35,8 +35,8 @@ switch (selectedMenu) {
         for (var i = 0; i < array_length(moves); ++i) {
 			var move = moves[i];
 		    if (createbutton(_x, _y + _yoff, $"{move.internalName} {move.pp}/{move.maxpp}", 1, true, undefined) and move.pp > 0) {
-				global.__PFS.playerPokemons[pokemonOut].moves[i].pp--;
-				__PFS_use_move(global.__PFS.playerPokemons[pokemonOut], enemyPokemon[0], move);			    
+				array_push(turnSteps, [__PFSTurnType.Move, global.__PFS.playerPokemons[pokemonOut], enemyPokemon[0], move, __PFSBattleSides.Player]);
+				doTurn = true;
 			}
 			draw_sprite_ext(sPFSTypeIcons, move.type, _x + 8, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
 			var _cat = sPFSPhysicalIcon;
@@ -58,9 +58,11 @@ switch (selectedMenu) {
 	case __PFSBattleMenus.Pokemon:
 		_yoff = 0;
 		for (var i = 0; i < array_length(global.__PFS.playerPokemons); ++i) {
-		    if (createbutton(_x, _y + _yoff, global.__PFS.playerPokemons[i].internalName, 1)) {
-			    pokemonOut = i;
-				load_sprite(global.__PFS.playerPokemons[pokemonOut], 1);
+		    if (createbutton(_x, _y + _yoff, global.__PFS.playerPokemons[i].internalName, 1) and global.__PFS.playerPokemons[i].hp > 0) {
+				array_push(turnSteps, [__PFSTurnType.ChangePokemon, i]);
+				pokePlayerDead = false;
+				selectedMenu = 0;
+				doTurn = true;
 			}
 			draw_sprite_ext(sPFSTypeIcons, global.__PFS.playerPokemons[i].type[0], _x + 8, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
 			if (global.__PFS.playerPokemons[i].type[1] != __PFSTypes.NoType) {
