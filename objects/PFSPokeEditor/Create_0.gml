@@ -59,15 +59,15 @@ canLearnMaxY = 1028;
 
 #region Functions
 function loadPoke(move){
-	if (move >= array_length(global.__PFS.Pokes)) { exit; }
-	var _move = global.__PFS.Pokes[move];
+	if (move >= array_length(PFS.Pokes)) { exit; }
+	var _move = PFS.Pokes[move];
 	pokedata = variable_clone(_move);
 	lowerlevel = pokedata.wildlevelrange[0];
 	higherlevel = pokedata.wildlevelrange[1];
 	internalName = pokedata.internalName;	
 	var _names = variable_struct_get_names(defaultpokedata.basecalc);
 	for (var i = 0; i < array_length(_names); ++i) {
-		variable_instance_set(self, _names[i], variable_struct_get(global.__PFS.Pokes[move].basecalc, _names[i]));
+		variable_instance_set(self, _names[i], variable_struct_get(PFS.Pokes[move].basecalc, _names[i]));
 	}
 	if (file_exists(working_directory + "/PFS/Sprites/Pokemons/" + pokedata.internalName + "/" + pokedata.sprite[1] + ".png")) {
 	    if (sprite_exists(showsprite)) {

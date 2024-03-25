@@ -1,10 +1,14 @@
 //Feather disable GM2017
 global.__PFS = {};
-global.__PFS.playerPokemons = [];
-global.__PFS.moves = [];
-global.__PFS.Pokes = [];
-global.__PFS.__PFSTypes = ["Normal", "Fire", "Water", "Grass", "Flying", "Fighting", "Poison", "Electric", "Ground", "Rock", "Psychic", "Ice", "Bug", "Ghost", "Steel", "Dragon", "Dark", "Fairy", "NoType"];
-global.__PFS.__PFSMoveCategory = [["Physical", sPFSPhysicalIcon], ["Special", sPFSSpecialIcon], ["Status", sPFSStatusIcon]];
+#macro PFS global.__PFS
+PFS.playerPokemons = [];
+PFS.moves = [];
+PFS.Pokes = [];
+PFS.__PFSTypes = ["Normal", "Fire", "Water", "Grass", "Flying", "Fighting", "Poison", "Electric", "Ground", "Rock", "Psychic", "Ice", "Bug", "Ghost", "Steel", "Dragon", "Dark", "Fairy", "NoType"];
+PFS.PFSMoveCategory = [["Physical", sPFSPhysicalIcon], ["Special", sPFSSpecialIcon], ["Status", sPFSStatusIcon]];
+
+
+
 enum __PFSTypes {
 	Normal, 
 	Fire, 
@@ -26,118 +30,123 @@ enum __PFSTypes {
 	Fairy,
 	NoType
 };
-enum __PFSMoveCategory {
+	
+enum PFSMoveCategory {
 	Physical,
 	Special,
 	Status
 }
-enum __PFSMoveMethods {
+	
+enum PFSMoveMethods {
 	Null,
 	Levelup
 }
-enum __PFSBattleMenus {
+	
+enum PFSBattleMenus {
 	Battle, 
 	Pokemon,
 	Item,
 	Run
 }
-enum __PFSBattleSides {
+	
+enum PFSBattleSides {
 	Player,
 	Enemy
 }
+	
 #region Move effectiveness
-global.__PFS.typesEffect = [];
-global.__PFS.typesEffect[__PFSTypes.Normal] = {
+PFS.typesEffect = [];
+PFS.typesEffect[__PFSTypes.Normal] = {
 	strong : [],
 	weak : [__PFSTypes.Fighting],
 	immune : [__PFSTypes.Ghost]
 };
-global.__PFS.typesEffect[__PFSTypes.Fire] = {
+PFS.typesEffect[__PFSTypes.Fire] = {
 	strong : [__PFSTypes.Fire, __PFSTypes.Grass, __PFSTypes.Ice, __PFSTypes.Bug, __PFSTypes.Steel, __PFSTypes.Fairy],
 	weak : [__PFSTypes.Water, __PFSTypes.Ground, __PFSTypes.Rock],
 	immune : []
 };
-global.__PFS.typesEffect[__PFSTypes.Water] = {
+PFS.typesEffect[__PFSTypes.Water] = {
 	strong : [__PFSTypes.Fire, __PFSTypes.Water, __PFSTypes.Ice, __PFSTypes.Steel],
 	weak : [__PFSTypes.Electric, __PFSTypes.Grass],
 	immune : []
 };
-global.__PFS.typesEffect[__PFSTypes.Grass] = {
+PFS.typesEffect[__PFSTypes.Grass] = {
 	strong : [__PFSTypes.Water, __PFSTypes.Electric, __PFSTypes.Grass, __PFSTypes.Ground],
 	weak : [__PFSTypes.Fire, __PFSTypes.Ice, __PFSTypes.Poison, __PFSTypes.Flying, __PFSTypes.Bug],
 	immune : []
 };
-global.__PFS.typesEffect[__PFSTypes.Flying] = {
+PFS.typesEffect[__PFSTypes.Flying] = {
 	strong : [__PFSTypes.Grass, __PFSTypes.Fighting, __PFSTypes.Bug],
 	weak : [__PFSTypes.Electric, __PFSTypes.Ice, __PFSTypes.Rock],
 	immune : [__PFSTypes.Ground]
 };
-global.__PFS.typesEffect[__PFSTypes.Fighting] = {
+PFS.typesEffect[__PFSTypes.Fighting] = {
 	strong : [__PFSTypes.Bug, __PFSTypes.Rock, __PFSTypes.Dark],
 	weak : [__PFSTypes.Flying, __PFSTypes.Psychic, __PFSTypes.Fairy],
 	immune : []
 };
-global.__PFS.typesEffect[__PFSTypes.Poison] = {
+PFS.typesEffect[__PFSTypes.Poison] = {
 	strong : [__PFSTypes.Grass, __PFSTypes.Fighting, __PFSTypes.Poison, __PFSTypes.Bug, __PFSTypes.Fairy],
 	weak : [__PFSTypes.Ground, __PFSTypes.Psychic],
 	immune : []
 };
-global.__PFS.typesEffect[__PFSTypes.Electric] = {
+PFS.typesEffect[__PFSTypes.Electric] = {
 	strong : [__PFSTypes.Electric, __PFSTypes.Flying, __PFSTypes.Steel],
 	weak : [__PFSTypes.Ground],
 	immune : []
 };
-global.__PFS.typesEffect[__PFSTypes.Ground] = {
+PFS.typesEffect[__PFSTypes.Ground] = {
 	strong : [__PFSTypes.Poison, __PFSTypes.Rock],
 	weak : [__PFSTypes.Water, __PFSTypes.Grass, __PFSTypes.Ice],
 	immune : [__PFSTypes.Electric]
 };
-global.__PFS.typesEffect[__PFSTypes.Rock] = {
+PFS.typesEffect[__PFSTypes.Rock] = {
 	strong : [__PFSTypes.Normal, __PFSTypes.Fire, __PFSTypes.Poison, __PFSTypes.Flying],
 	weak : [__PFSTypes.Water, __PFSTypes.Grass, __PFSTypes.Fighting, __PFSTypes.Ground, __PFSTypes.Steel],
 	immune : []
 };
-global.__PFS.typesEffect[__PFSTypes.Psychic] = {
+PFS.typesEffect[__PFSTypes.Psychic] = {
 	strong : [__PFSTypes.Fighting, __PFSTypes.Psychic],
 	weak : [__PFSTypes.Bug, __PFSTypes.Ghost, __PFSTypes.Dark],
 	immune : []
 };
-global.__PFS.typesEffect[__PFSTypes.Ice] = {
+PFS.typesEffect[__PFSTypes.Ice] = {
 	strong : [__PFSTypes.Ice],
 	weak : [__PFSTypes.Fire, __PFSTypes.Fighting, __PFSTypes.Rock, __PFSTypes.Steel],
 	immune : []
 };
-global.__PFS.typesEffect[__PFSTypes.Bug] = {
+PFS.typesEffect[__PFSTypes.Bug] = {
 	strong : [__PFSTypes.Grass, __PFSTypes.Fighting, __PFSTypes.Ground],
 	weak : [__PFSTypes.Fire, __PFSTypes.Flying, __PFSTypes.Rock],
 	immune : []
 };
-global.__PFS.typesEffect[__PFSTypes.Ghost] = {
+PFS.typesEffect[__PFSTypes.Ghost] = {
 	strong : [__PFSTypes.Poison, __PFSTypes.Bug],
 	weak : [__PFSTypes.Ghost, __PFSTypes.Dark],
 	immune : [__PFSTypes.Normal, __PFSTypes.Fighting]
 };
-global.__PFS.typesEffect[__PFSTypes.Steel] = {
+PFS.typesEffect[__PFSTypes.Steel] = {
 	strong : [__PFSTypes.Normal, __PFSTypes.Grass, __PFSTypes.Ice, __PFSTypes.Flying, __PFSTypes.Psychic, __PFSTypes.Bug, __PFSTypes.Rock, __PFSTypes.Dragon, __PFSTypes.Steel, __PFSTypes.Fairy],
 	weak : [__PFSTypes.Fire, __PFSTypes.Fighting, __PFSTypes.Ground],
 	immune : [__PFSTypes.Poison]
 };
-global.__PFS.typesEffect[__PFSTypes.Dragon] = {
+PFS.typesEffect[__PFSTypes.Dragon] = {
 	strong : [__PFSTypes.Fire, __PFSTypes.Water, __PFSTypes.Electric, __PFSTypes.Grass],
 	weak : [__PFSTypes.Ice, __PFSTypes.Dragon, __PFSTypes.Fairy],
 	immune : []
 };
-global.__PFS.typesEffect[__PFSTypes.Dark] = {
+PFS.typesEffect[__PFSTypes.Dark] = {
 	strong : [__PFSTypes.Ghost, __PFSTypes.Dark],
 	weak : [__PFSTypes.Fighting, __PFSTypes.Bug, __PFSTypes.Fairy],
 	immune : [__PFSTypes.Psychic]
 };
-global.__PFS.typesEffect[__PFSTypes.Fairy] = {
+PFS.typesEffect[__PFSTypes.Fairy] = {
 	strong : [__PFSTypes.Fighting, __PFSTypes.Bug, __PFSTypes.Dark],
 	weak : [__PFSTypes.Poison, __PFSTypes.Steel],
 	immune : [__PFSTypes.Dragon]
 };
-global.__PFS.typesEffect[__PFSTypes.NoType] = {
+PFS.typesEffect[__PFSTypes.NoType] = {
 	strong : [],
 	weak : [],
 	immune : []
@@ -149,13 +158,13 @@ function __PFS_is_effective(pokemon, move, pos){
 	var _poketype = pokemon.type[pos];
 	var _effective = -1;
 	if (_effective == -1) {
-	    _effective = array_get_index(global.__PFS.typesEffect[_poketype].strong, _movetype) >= 0 ? 0.5 : -1;
+	    _effective = array_get_index(PFS.typesEffect[_poketype].strong, _movetype) >= 0 ? 0.5 : -1;
 	}
 	if (_effective == -1) {
-		_effective = array_get_index(global.__PFS.typesEffect[_poketype].weak, _movetype) >= 0 ? 2 : -1;
+		_effective = array_get_index(PFS.typesEffect[_poketype].weak, _movetype) >= 0 ? 2 : -1;
 	}
 	if (_effective == -1) {
-	    _effective = array_get_index(global.__PFS.typesEffect[_poketype].immune, _movetype) >= 0 ? 0 : -1;
+	    _effective = array_get_index(PFS.typesEffect[_poketype].immune, _movetype) >= 0 ? 0 : -1;
 	}
 	if (_effective == -1) {
 	    _effective = 1;
@@ -164,27 +173,27 @@ function __PFS_is_effective(pokemon, move, pos){
 }
 
 function __PFS_add_move(internalName){
-	return variable_clone(global.__PFS.moves[internalName]);
+	return variable_clone(PFS.moves[internalName]);
 }
 
 function __PFS_use_move(pokemon, enemy, move, side) {
 	if (pokemon.hp <= 0) { return; }
 	show_debug_message($"{pokemon.internalName} attacked with {move.internalName}");
 	switch (move.category) {
-	    case __PFSMoveCategory.Physical:
+	    case PFSMoveCategory.Physical:
 			switch (side) {
-			    case __PFSBattleSides.Player:
+			    case PFSBattleSides.Player:
 			        enemyPokemon[0].hp -= __PFS_damage_calculation(pokemon, enemy, move);
 					if (enemyPokemon[0].hp < 0) {
 						enemyPokemon[0].hp = 0;
 						show_debug_message($"{enemyPokemon[0].internalName} died");
 					}
 			        break;
-			    case __PFSBattleSides.Enemy:
-			        global.__PFS.playerPokemons[pokemonOut].hp -= __PFS_damage_calculation(pokemon, enemy, move);
-					if (global.__PFS.playerPokemons[pokemonOut].hp < 0) { 
-						show_debug_message($"{global.__PFS.playerPokemons[pokemonOut].internalName} died");
-						global.__PFS.playerPokemons[pokemonOut].hp = 0; 
+			    case PFSBattleSides.Enemy:
+			        PFS.playerPokemons[pokemonOut].hp -= __PFS_damage_calculation(pokemon, enemy, move);
+					if (PFS.playerPokemons[pokemonOut].hp < 0) { 
+						show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died");
+						PFS.playerPokemons[pokemonOut].hp = 0; 
 					}
 			        break;
 			}
@@ -221,11 +230,11 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	var _a = 1;
 	var _d = 1;
 	switch (move.type) { //TODO: unmodified on criticals, light screen, reflect, 
-	    case __PFSMoveCategory.Physical:
+	    case PFSMoveCategory.Physical:
 	        _a = pokemon.attack;
 			_d = enemy.defense;
 	        break;
-	    case __PFSMoveCategory.Special:
+	    case PFSMoveCategory.Special:
 	        _a = pokemon.spatk;
 			_d = enemy.spdef;
 	        break;
@@ -255,17 +264,21 @@ function __PFS_generate_pokemon(pokemon){
 		hp : irandom_range(0, 31),
 		attack : irandom_range(0, 31),
 		defense : irandom_range(0, 31),
-		spatk : irandom_range(0, 31),
-		spdef : irandom_range(0, 31),
+		spattack : irandom_range(0, 31),
+		spdefense : irandom_range(0, 31),
 		speed : irandom_range(0, 31),
+		accuracy : irandom_range(0, 31),
+		evasion : irandom_range(0, 31)
 	}
 	pokemon.evs = {
 		hp : 0,
 		attack : 0,
 		defense : 0,
-		spatk : 0,
-		spdef : 0,
-		speed : 0
+		spattack : 0,
+		spdefense : 0,
+		speed : 0,
+		accuracy : 0,
+		evasion : 0
 	}
 	return __PFS_recalculate_stats(pokemon, true);
 }
@@ -299,6 +312,8 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 	for (var i = 0; i < array_length(pokemon.moves); ++i) {
 	    pokemon.moves[i].pp = pokemon.moves[i].maxpp;
 	}
+	show_debug_message(json_stringify(pokemon));
+	show_debug_message("");
 	return pokemon;
 }
 

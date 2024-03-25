@@ -17,7 +17,7 @@ _yoff = 0;
 for (var i = 0; i <= array_length(options); ++i) {
 	if (i == array_length(options)) {
 	    if (createbutton(_x, _y + _yoff + 10, "Save", 1)) {
-			global.__PFS.moves[move] = {
+			PFS.moves[move] = {
 				internalName,
 				type,
 				category,
@@ -36,9 +36,9 @@ for (var i = 0; i <= array_length(options); ++i) {
 
 #region Move List
 _yoff = 0;
-for (var i = 0; i < array_length(global.__PFS.moves); ++i) {
+for (var i = 0; i < array_length(PFS.moves); ++i) {
 	try {
-		if (createbutton(10, 10 + moveListOffset + _yoff, $"{i}:{global.__PFS.moves[i].internalName}", 1, true, 0, move == i ? c_yellow : c_white)) {
+		if (createbutton(10, 10 + moveListOffset + _yoff, $"{i}:{PFS.moves[i].internalName}", 1, true, 0, move == i ? c_yellow : c_white)) {
 			selected = 1;
 			move = i;
 			loadMove(i);
@@ -57,7 +57,7 @@ for (var i = 0; i < array_length(global.__PFS.moves); ++i) {
 _x += 310;
 draw_rectangle(_x, _y, _x + 300, _y + 300, true);
 _yoff = 0;
-var _length = array_length(global.__PFS.__PFSTypes);
+var _length = array_length(PFS.__PFSTypes);
 _x += 16;
 _y += 16;
 for (var i = 0; i < _length; ++i) {
@@ -70,9 +70,9 @@ for (var i = 0; i < _length; ++i) {
 		_yoff = 0;
 	}
 }
-_length = array_length(global.__PFS.__PFSMoveCategory);
+_length = array_length(PFS.PFSMoveCategory);
 for (var i = 0; i < _length; ++i) {
-    var _spr = global.__PFS.__PFSMoveCategory[i][1];
+    var _spr = PFS.PFSMoveCategory[i][1];
 	if (createbuttonspr(_x, _y + _yoff, _spr, 0, 0.20, false, category == i ? c_yellow : c_white)) {
 		category = i;
 	}
@@ -87,10 +87,10 @@ for (var i = 0; i < _length; ++i) {
 //_x -= string_width(_text) * 2 + 9;
 //if (createbutton(_x, _y, _text, 2)) {
 //	var f = file_text_open_write(file);
-//	file_text_write_string(f, string(json_stringify(global.__PFS.moves, true)));
+//	file_text_write_string(f, string(json_stringify(PFS.moves, true)));
 //	file_text_close(f);
 //	var _fs = file_text_open_write(savedFile);
-//	file_text_write_string(_fs, json_stringify(global.__PFS.moves));
+//	file_text_write_string(_fs, json_stringify(PFS.moves));
 //	file_text_close(_fs);
 //	show_message_async($"Exported to {file}");
 //}
@@ -101,14 +101,14 @@ for (var i = 0; i < _length; ++i) {
 //		var fs = file_text_open_read(savedFile);
 //		var _json = file_text_read_string(fs);
 //		file_text_close(fs);
-//		global.__PFS.moves = json_parse(_json);
+//		PFS.moves = json_parse(_json);
 //	}
 //}
 //_text = "New";
 //_x -= string_width(_text) * 2 + 9;
 //if (createbutton(_x, _y, _text, 2)) {
-//	var _newmove = array_length(global.__PFS.moves);
-//	global.__PFS.moves[_newmove] = {
+//	var _newmove = array_length(PFS.moves);
+//	PFS.moves[_newmove] = {
 //		internalName : "New",
 //		type : 0,
 //		category : 0,

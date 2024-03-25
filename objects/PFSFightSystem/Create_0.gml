@@ -96,20 +96,20 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	draw_set_halign(fa_left);
 	_y += 40;
 	var _xoff = 0;
-	var _array = _side == __PFSBattleSides.Player ? global.__PFS.playerPokemons : enemyPokemon;
+	var _array = _side == PFSBattleSides.Player ? PFS.playerPokemons : enemyPokemon;
 	for (var i = 0; i < array_length(_array); ++i) {
-	    draw_circle(_boxEndX - 15 - _xoff, _y, 7, global.__PFS.playerPokemons[i].hp <= 0);
+	    draw_circle(_boxEndX - 15 - _xoff, _y, 7, PFS.playerPokemons[i].hp <= 0);
 		_xoff += 20;
 	}
 	_x = _startx + (windowSize[0] * 0.07);
 	_y = _starty + (windowSize[1] * 0.45);
-	var _sprite = _side == __PFSBattleSides.Player ? pokemonSprite : enemySprite;
+	var _sprite = _side == PFSBattleSides.Player ? pokemonSprite : enemySprite;
 	if (sprite_exists(_sprite)) {
-		var _pos = _side == __PFSBattleSides.Player ? [_x - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_x + 120 + sprite_get_width(_sprite) / 2, _y - 200 - sprite_get_height(_sprite) / 2];
+		var _pos = _side == PFSBattleSides.Player ? [_x - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_x + 120 + sprite_get_width(_sprite) / 2, _y - 200 - sprite_get_height(_sprite) / 2];
 		draw_sprite_ext(_sprite, -1, _pos[0], _pos[1], 3, 3, 0, c_white, 1);
 	}
 }
 #endregion
 
-load_sprite(global.__PFS.playerPokemons[0], 1);
+load_sprite(PFS.playerPokemons[0], 1);
 load_sprite(enemyPokemon[enemyOut], 0);

@@ -28,7 +28,7 @@ for (var i = 0; i <= optionsLenght; ++i) {
 				variable_struct_set(pokedata.basecalc, _names[j], variable_instance_get(self, _names[j]));
 			}
 			pokedata.sprite = [string(internalName + "Front"), string(internalName + "Back")];
-			global.__PFS.Pokes[poke] = variable_clone(pokedata);
+			PFS.Pokes[poke] = variable_clone(pokedata);
 		}
 		break;
 	}
@@ -39,8 +39,8 @@ for (var i = 0; i <= optionsLenght; ++i) {
 
 #region Move List
 _yoff = 0;
-for (var i = 1; i < array_length(global.__PFS.Pokes); ++i) {
-	if (createbutton(10, 10 + pokeListOffset + _yoff, $"{i}:{global.__PFS.Pokes[i].internalName}", 1, true, 0, poke == i ? c_yellow : c_white)) {
+for (var i = 1; i < array_length(PFS.Pokes); ++i) {
+	if (createbutton(10, 10 + pokeListOffset + _yoff, $"{i}:{PFS.Pokes[i].internalName}", 1, true, 0, poke == i ? c_yellow : c_white)) {
 		set = false;
 		selected = 0;
 		poke = i;
@@ -51,8 +51,8 @@ for (var i = 1; i < array_length(global.__PFS.Pokes); ++i) {
 #endregion
 _yoff = 0;
 #region can learn
-for (var i = 0; i < array_length(global.__PFS.Pokes[poke].canLearn.level); ++i) {
-	var _move = $"{global.__PFS.moves[global.__PFS.Pokes[poke].canLearn.level[i].id].internalName}: {global.__PFS.Pokes[poke].canLearn.level[i].level}";
+for (var i = 0; i < array_length(PFS.Pokes[poke].canLearn.level); ++i) {
+	var _move = $"{PFS.moves[PFS.Pokes[poke].canLearn.level[i].id].internalName}: {PFS.Pokes[poke].canLearn.level[i].level}";
 	draw_text(140, 10 + _yoff + canLearnOffset, _move);
     _yoff += 30;
 	if (_y + _yoff + canLearnOffset > canLearnMaxY) {
@@ -60,8 +60,8 @@ for (var i = 0; i < array_length(global.__PFS.Pokes[poke].canLearn.level); ++i) 
 	}
 }
 _yoff = 0;
-//for (var i = 0; i < array_length(global.__PFS.Pokes[poke].evolution); ++i) {
-	var _evolutions = global.__PFS.Pokes[poke].evolution
+//for (var i = 0; i < array_length(PFS.Pokes[poke].evolution); ++i) {
+	var _evolutions = PFS.Pokes[poke].evolution
 	draw_text(415, 10, _evolutions);
 //    _yoff += 30;
 //}
@@ -71,7 +71,7 @@ _yoff = 0;
 _x += 310;
 draw_rectangle(_x, _y, _x + 300, _y + 300, true);
 _yoff = 0;
-var _length = array_length(global.__PFS.__PFSTypes);
+var _length = array_length(PFS.__PFSTypes);
 _x += 16;
 _y += 16;
 //draw_text(device_mouse_x_to_gui(0), device_mouse_y(0), pokedata);
@@ -95,6 +95,6 @@ _text = "Print";
 _x = GW - 2;
 _y = GH - string_height(_text) * 2 - 5;
 if (createbutton(_x, _y, _text, 2)) {
-	show_debug_message(json_stringify(global.__PFS.Pokes[poke], true));
+	show_debug_message(json_stringify(PFS.Pokes[poke], true));
 }
 #endregion

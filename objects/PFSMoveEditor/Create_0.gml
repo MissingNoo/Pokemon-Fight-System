@@ -32,9 +32,9 @@ moveListOffset = 0;
 
 #region Functions
 function loadMove(move){
-	if (move >= array_length(global.__PFS.moves)) { exit; }
+	if (move >= array_length(PFS.moves)) { exit; }
 	selected = move;
-	var _move = global.__PFS.moves[move];
+	var _move = PFS.moves[move];
 	internalName = _move.internalName;
 	type = _move.type;
 	category = _move.category;
