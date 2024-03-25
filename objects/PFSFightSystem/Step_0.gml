@@ -13,18 +13,18 @@ if (keyboard_check_pressed(vk_f1)) {
 }
 
 if (doTurn) {
-	if (!enemy_alive()) {
-	    doTurn = false;
-		exit;
-	}
 	var _rnd = irandom_range(0, array_length(enemyPokemon[0].moves) - 1);
-	array_push(turnSteps, [__PFSTurnType.Move, enemyPokemon[0], PFS.playerPokemons[pokemonOut], enemyPokemon[0].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
+	array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[0], PFS.playerPokemons[pokemonOut], enemyPokemon[0].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
 	show_debug_message($"");
 	order_turn();
 	show_debug_message($"Turn step: {currentTurn}");
 	for (var i = 0; i < array_length(turnSteps); ++i) {
+		if (!enemy_alive() and turnSteps[i][0] != PFSTurnType.Run) {
+		    doTurn = false;
+			exit;
+		}
 	    switch (turnSteps[i][0]) {
-		    case __PFSTurnType.Move:
+		    case PFSTurnType.Move:
 				switch (turnSteps[i][4]) {
 				    case PFSBattleSides.Player:
 				        turnSteps[i][1].hp = PFS.playerPokemons[pokemonOut].hp;
@@ -47,12 +47,12 @@ if (doTurn) {
 				}
 		        __PFS_use_move(turnSteps[i][1], turnSteps[i][2], turnSteps[i][3], turnSteps[i][4]);
 		        break;
-			case __PFSTurnType.ChangePokemon:
+			case PFSTurnType.ChangePokemon:
 				show_debug_message("Changed Pokemon");
 				pokemonOut = turnSteps[i][1];
 				load_sprite(PFS.playerPokemons[pokemonOut], 1);
 				break;
-			case __PFSTurnType.Run:
+			case PFSTurnType.Run:
 				show_debug_message("Ran from battle");
 				instance_destroy();
 				break;

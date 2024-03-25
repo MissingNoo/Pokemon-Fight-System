@@ -5,7 +5,7 @@ currentTurn = 0;
 pokePlayerDead = false;
 turnSteps = [];
 doTurn = false;
-enum __PFSTurnType {
+enum PFSTurnType {
 	Move,
 	ChangePokemon,
 	UseItem,
@@ -14,7 +14,7 @@ enum __PFSTurnType {
 function order_turn() {
 	array_sort(turnSteps, function(elm1, elm2) {
 		var _goAfter = false;
-		if (elm1[0] == __PFSTurnType.Move and elm2[0] == __PFSTurnType.Move) {
+		if (elm1[0] == PFSTurnType.Move and elm2[0] == PFSTurnType.Move) {
 			show_debug_message($"{elm1[1].internalName} speed: {elm1[1].speed} / {elm2[1].internalName} speed: {elm2[1].speed}");
 			if (elm1[1].speed < elm2[1].speed) {
 			    _goAfter = true;

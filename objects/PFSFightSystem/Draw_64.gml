@@ -35,7 +35,7 @@ switch (selectedMenu) {
         for (var i = 0; i < array_length(moves); ++i) {
 			var move = moves[i];
 		    if (createbutton(_x, _y + _yoff, $"{move.internalName} {move.pp}/{move.maxpp}", 1, true, undefined) and move.pp > 0) {
-				array_push(turnSteps, [__PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[0], move, PFSBattleSides.Player]);
+				array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[0], move, PFSBattleSides.Player]);
 				doTurn = true;
 			}
 			draw_sprite_ext(sPFSTypeIcons, move.type, _x + 8, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
@@ -59,7 +59,7 @@ switch (selectedMenu) {
 		_yoff = 0;
 		for (var i = 0; i < array_length(PFS.playerPokemons); ++i) {
 		    if (createbutton(_x, _y + _yoff, PFS.playerPokemons[i].internalName, 1) and PFS.playerPokemons[i].hp > 0) {
-				array_push(turnSteps, [__PFSTurnType.ChangePokemon, i]);
+				array_push(turnSteps, [PFSTurnType.ChangePokemon, i]);
 				pokePlayerDead = false;
 				selectedMenu = 0;
 				doTurn = true;
@@ -103,7 +103,7 @@ for (var i = 0; i < array_length(menus); ++i) {
 	    selectedMenu = i;
 		switch (selectedMenu) {
 		    case PFSBattleMenus.Run:
-		        array_push(turnSteps, [__PFSTurnType.Run]);
+		        array_push(turnSteps, [PFSTurnType.Run]);
 				doTurn = true;
 		        break;
 		    default:
