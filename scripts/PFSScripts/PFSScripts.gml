@@ -168,16 +168,24 @@ function __PFS_add_move(internalName){
 }
 
 function __PFS_use_move(pokemon, enemy, move, side) {
+	if (pokemon.hp <= 0) { return; }
+	show_debug_message($"{pokemon.internalName} attacked with {move.internalName}");
 	switch (move.category) {
 	    case __PFSMoveCategory.Physical:
 			switch (side) {
 			    case __PFSBattleSides.Player:
 			        enemyPokemon[0].hp -= __PFS_damage_calculation(pokemon, enemy, move);
-					if (enemyPokemon[0].hp < 0) { enemyPokemon[0].hp = 0; }
+					if (enemyPokemon[0].hp < 0) {
+						enemyPokemon[0].hp = 0;
+						show_debug_message($"{enemyPokemon[0].internalName} died");
+					}
 			        break;
 			    case __PFSBattleSides.Enemy:
 			        global.__PFS.playerPokemons[pokemonOut].hp -= __PFS_damage_calculation(pokemon, enemy, move);
-					if (global.__PFS.playerPokemons[pokemonOut].hp < 0) { global.__PFS.playerPokemons[pokemonOut].hp = 0; }
+					if (global.__PFS.playerPokemons[pokemonOut].hp < 0) { 
+						show_debug_message($"{global.__PFS.playerPokemons[pokemonOut].internalName} died");
+						global.__PFS.playerPokemons[pokemonOut].hp = 0; 
+					}
 			        break;
 			}
 	        break;

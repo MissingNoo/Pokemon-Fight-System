@@ -1,6 +1,7 @@
 //Feather disable GM2017
 
 #region Turn data
+currentTurn = 0;
 pokePlayerDead = false;
 turnSteps = [];
 doTurn = false;
@@ -12,16 +13,20 @@ enum __PFSTurnType {
 }
 function order_turn() {
 	array_sort(turnSteps, function(elm1, elm2) {
-		var _goFirst = false;
+		var _goAfter = false;
 		if (elm1[0] == __PFSTurnType.Move and elm2[0] == __PFSTurnType.Move) {
-		    if (elm1[3].priority > elm2[3].priority) {
-			    _goFirst = true;
+			show_debug_message($"{elm1[1].internalName} : {elm1[1].speed} / {elm2[1].internalName} : {elm2[1].speed}");
+			if (elm1[1].speed < elm2[1].speed) {
+			    _goAfter = true;
+			}
+		    if (elm1[3].priority < elm2[3].priority) {
+			    _goAfter = true;
 			}
 		}
 		else {
-			_goFirst =  elm1[0] < elm2[0];
+			_goAfter =  elm1[0] < elm2[0];
 		}
-	    return _goFirst;
+	    return _goAfter;
 	});
 }
 

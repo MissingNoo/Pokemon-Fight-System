@@ -101,6 +101,14 @@ _yoff = 0;
 for (var i = 0; i < array_length(menus); ++i) {
 	if (createbutton(_x + 10, _y + 10 + _yoff, menus[i], 1, true, undefined, selectedMenu == i ? c_yellow : c_white)) {
 	    selectedMenu = i;
+		switch (selectedMenu) {
+		    case __PFSBattleMenus.Run:
+		        array_push(turnSteps, [__PFSTurnType.Run]);
+		        break;
+		    default:
+		        // code here
+		        break;
+		}
 	}
     _yoff += 30;
 }
