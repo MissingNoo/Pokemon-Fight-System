@@ -167,10 +167,19 @@ function __PFS_add_move(internalName){
 	return variable_clone(global.__PFS.moves[internalName]);
 }
 
-function __PFS_use_move(pokemon, enemy, move) {
+function __PFS_use_move(pokemon, enemy, move, side) {
 	switch (move.category) {
 	    case __PFSMoveCategory.Physical:
-			enemyPokemon[0].hp -= __PFS_damage_calculation(pokemon, enemy, move);
+			switch (side) {
+			    case __PFSBattleSides.Player:
+			        enemyPokemon[0].hp -= __PFS_damage_calculation(pokemon, enemy, move);
+					if (enemyPokemon[0].hp < 0) { enemyPokemon[0].hp = 0; }
+			        break;
+			    case __PFSBattleSides.Enemy:
+			        global.__PFS.playerPokemons[pokemonOut].hp -= __PFS_damage_calculation(pokemon, enemy, move);
+					if (global.__PFS.playerPokemons[pokemonOut].hp < 0) { global.__PFS.playerPokemons[pokemonOut].hp = 0; }
+			        break;
+			}
 	        break;
 	    default:
 	        // code here
@@ -183,7 +192,11 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	var _critTreshold = pokemon.speed / 2; //TODO: High crit chance atk and items
 	var _isCritical = _critChance <= _critTreshold ? 2 : 1; //TODO _isCritical = 1 if target ability is Battle Armor or Shell Armor or with Luck Chant
 	var _level = real(pokemon.level);
-	var _power = real(move.mpower);
+	var _power  = 0;
+	try {
+	    _power = real(move.mpower);
+	}
+	catch (err) { }
 	var _stab = array_get_index(pokemon.type, move.type) != -1 ? 1.5 : 1;
 	var _type1 = __PFS_is_effective(enemy, move, 0);
 	var _type2 = array_length(enemy.type) > 1 ? __PFS_is_effective(enemy, move, 1) : 1;

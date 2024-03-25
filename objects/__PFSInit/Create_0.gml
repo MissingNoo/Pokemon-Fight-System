@@ -176,20 +176,22 @@ if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
 				"maxpp": _pp,
 				"pp": _pp,
 				"probability":"0",
-				"mpower":_power
+				"mpower" : _power,
+				"priority" : 0
 				}
 		}
 		catch (err) {
 			show_debug_message($"{_lastid+1} is empty");
 			global.__PFS.moves[_lastid+1] = {
-			"id" : _id,
-			"type": __PFSTypes.NoType,
-			"category": 0,
-			"accuracy": 0,
-			"internalName": "Null",
-			"pp": 0,
-			"probability":"0",
-			"mpower": 0
+				"id" : _id,
+				"type": __PFSTypes.NoType,
+				"category": 0,
+				"accuracy": 0,
+				"internalName": "Null",
+				"pp": 0,
+				"probability":"0",
+				"mpower": 0,
+				"priority" : 0
 			}
 		}
 		file_text_readln(fs);

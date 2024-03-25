@@ -1,4 +1,40 @@
 //Feather disable GM2017
+
+#region Turn data
+pokePlayerDead = false;
+turnSteps = [];
+doTurn = false;
+enum __PFSTurnType {
+	Move,
+	ChangePokemon,
+	UseItem,
+	Run
+}
+function order_turn() {
+	array_sort(turnSteps, function(elm1, elm2) {
+		var _goFirst = false;
+		if (elm1[0] == __PFSTurnType.Move and elm2[0] == __PFSTurnType.Move) {
+		    if (elm1[3].priority > elm2[3].priority) {
+			    _goFirst = true;
+			}
+		}
+		else {
+			_goFirst =  elm1[0] < elm2[0];
+		}
+	    return _goFirst;
+	});
+}
+
+function enemy_alive() {
+	for (var i = 0; i < array_length(enemyPokemon); ++i) {
+	    if (enemyPokemon[i].hp > 0) {
+		    return true;
+		}
+	}
+	return false;
+}
+#endregion
+
 #region Debug
 a = 0;
 b = 0;
@@ -62,8 +98,8 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	_x = _startx + (windowSize[0] * 0.07);
 	_y = _starty + (windowSize[1] * 0.45);
 	var _sprite = _side == __PFSBattleSides.Player ? pokemonSprite : enemySprite;
-	var _pos = _side == __PFSBattleSides.Player ? [_x - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_x + 120 + sprite_get_width(_sprite) / 2, _y - 200 - sprite_get_height(_sprite) / 2];
 	if (sprite_exists(_sprite)) {
+		var _pos = _side == __PFSBattleSides.Player ? [_x - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_x + 120 + sprite_get_width(_sprite) / 2, _y - 200 - sprite_get_height(_sprite) / 2];
 		draw_sprite_ext(_sprite, -1, _pos[0], _pos[1], 3, 3, 0, c_white, 1);
 	}
 }
