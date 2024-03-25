@@ -237,3 +237,41 @@ if (file_exists(working_directory + "/PFS/Data/pokemon_moves.csv")) {
 	file_text_close(fs);
 }
 #endregion
+
+#region Moves Pokemons can Learn
+if (file_exists(working_directory + "/PFS/Data/pokemon_moves.csv")) {
+	var fs = file_text_open_read(working_directory + "/PFS/Data/pokemon_moves.csv");
+    var jsonStr = "";
+	var _pos = [ "pokemon_id", "version_group_id", "move_id", "pokemon_move_method_id", "level", "order" ];
+	while (!file_text_eof(fs)) {
+		var _add = true;
+		var _move = string_split(file_text_read_string(fs), ",");
+		try {
+			var _gen = _move[array_get_index(_pos, "version_group_id")];
+			if (_gen != 5) {
+			    _add = false;
+			}
+		}
+		catch (err) {}
+		if (_add) {
+		    var _pokemon = _move[array_get_index(_pos, "pokemon_id")];		
+			var _moveId = _move[array_get_index(_pos, "move_id")];
+			var _learnMethod = _move[array_get_index(_pos, "pokemon_move_method_id")];
+			var _level = _move[array_get_index(_pos, "level")];
+			try {
+				if (real(_pokemon) > 650) {
+				    break;
+				}
+				if (real(_learnMethod) == __PFSMoveMethods.Levelup) {
+				    array_push(global.__PFS.Pokes[_pokemon].canLearn.level, { id: _moveId, level : _level });
+				}
+			}
+			catch (err) {
+				//show_message($"error on {_move}");
+			}
+		}
+		file_text_readln(fs);
+	}
+	file_text_close(fs);
+}
+#endregion

@@ -15,7 +15,7 @@ function order_turn() {
 	array_sort(turnSteps, function(elm1, elm2) {
 		var _goAfter = false;
 		if (elm1[0] == __PFSTurnType.Move and elm2[0] == __PFSTurnType.Move) {
-			show_debug_message($"{elm1[1].internalName} : {elm1[1].speed} / {elm2[1].internalName} : {elm2[1].speed}");
+			show_debug_message($"{elm1[1].internalName} speed: {elm1[1].speed} / {elm2[1].internalName} speed: {elm2[1].speed}");
 			if (elm1[1].speed < elm2[1].speed) {
 			    _goAfter = true;
 			}
@@ -31,6 +31,7 @@ function order_turn() {
 }
 
 function enemy_alive() {
+	//Feather disable once GM1041
 	for (var i = 0; i < array_length(enemyPokemon); ++i) {
 	    if (enemyPokemon[i].hp > 0) {
 		    return true;

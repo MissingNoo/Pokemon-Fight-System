@@ -104,6 +104,7 @@ for (var i = 0; i < array_length(menus); ++i) {
 		switch (selectedMenu) {
 		    case __PFSBattleMenus.Run:
 		        array_push(turnSteps, [__PFSTurnType.Run]);
+				doTurn = true;
 		        break;
 		    default:
 		        // code here
