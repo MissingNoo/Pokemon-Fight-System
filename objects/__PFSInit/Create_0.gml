@@ -152,61 +152,6 @@ else { show_message($"missing file {file} on installation"); }
 
 #endregion
 
-#region Generate pokedex
-//if (file_exists(working_directory + "/PFS/Data/pokedex.json")) {
-//	//show_message("pokedex");
-//	var fs = file_text_open_read(working_directory + "/PFS/Data/pokedex.json");
-//    var jsonStr = "";
-//	while (!file_text_eof(fs)) {
-//	  jsonStr += file_text_read_string(fs);
-//	  file_text_readln(fs);
-//	}
-//	file_text_close(fs);
-//	var _pokedex = json_parse(jsonStr);
-//	//for (var i = 0; i < array_length(_pokedex); ++i) {
-//	for (var i = 0; i < 650; ++i) {
-//		var _type = [];
-//		if (array_length(_pokedex[i][$ "type"]) == 2) {
-//		    _type = [array_get_index(PFS.__PFSTypes, _pokedex[i].type[0]), array_get_index(PFS.__PFSTypes, _pokedex[i].type[1])];
-//		}
-//		if (array_length(_pokedex[i][$ "type"]) == 1) {
-//			_type = [array_get_index(PFS.__PFSTypes, _pokedex[i].type[0]), __PFSTypes.NoType];
-//		}
-//		if (_pokedex[i][$ "base"] == undefined) {
-//			show_debug_message($"base missing for {_pokedex[i].name.english}")
-//		    continue;
-//		}
-//		var _poke = {
-//			internalName : _pokedex[i].name.english,
-//			type : _type,
-//			evolution : _pokedex[i][$ "evolution"],
-//			wildlevelrange : [5, 100],
-//			gender : _pokedex[i][$ "profile"][$ "gender"],
-//			ability : _pokedex[i][$ "profile"][$ "ability"],
-//			canLearn : {
-//				level : [],
-//			},
-//			basecalc : {
-//				hp : _pokedex[i].base.HP,
-//				attack : _pokedex[i].base.Attack,
-//				defense : _pokedex[i].base.Defense,
-//				spatk : _pokedex[i].base[$ "Sp. Attack"],
-//				spdef : _pokedex[i].base[$ "Sp. Defense"],
-//				speed : _pokedex[i].base.Speed
-//			},
-//			//moves : [__PFS_add_move("Growl"), __PFS_add_move("Tackle"), __PFS_add_move("Vine Whip"), __PFS_add_move("Growth")]
-//		}
-//		_poke.sprite = [string(_poke.internalName + "Front"), string(_poke.internalName + "Back")];
-//	    PFS.Pokes[_pokedex[i].id] = _poke;
-//	}
-//}
-//for (var i = 0; i < array_length(PFS.Pokes); ++i) {
-//	//if (PFS.Pokes[i][$ "base"] == undefined) {
-//	//    PFS.Pokes[i].base = {};
-//	//}
-//}
-#endregion
-
 #region Generate Move List
 if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
 	var fs = file_text_open_read(working_directory + "/PFS/Data/moves.csv");
@@ -345,44 +290,6 @@ if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
 				"probability":"0",
 				"mpower": 0,
 				"priority" : 0
-			}
-		}
-		file_text_readln(fs);
-	}
-	file_text_close(fs);
-}
-#endregion
-
-#region Moves Pokemons can Learn
-if (file_exists(working_directory + "/PFS/Data/pokemon_moves.csv")) {
-	var fs = file_text_open_read(working_directory + "/PFS/Data/pokemon_moves.csv");
-    var jsonStr = "";
-	var _pos = [ "pokemon_id", "version_group_id", "move_id", "pokemon_move_method_id", "level", "order" ];
-	while (!file_text_eof(fs)) {
-		var _add = true;
-		var _move = string_split(file_text_read_string(fs), ",");
-		try {
-			var _gen = _move[array_get_index(_pos, "version_group_id")];
-			if (_gen != 5) {
-			    _add = false;
-			}
-		}
-		catch (err) {}
-		if (_add) {
-		    var _pokemon = _move[array_get_index(_pos, "pokemon_id")];		
-			var _moveId = _move[array_get_index(_pos, "move_id")];
-			var _learnMethod = _move[array_get_index(_pos, "pokemon_move_method_id")];
-			var _level = _move[array_get_index(_pos, "level")];
-			try {
-				if (real(_pokemon) > 650) {
-				    break;
-				}
-				if (real(_learnMethod) == PFSMoveMethods.Levelup) {
-				    array_push(PFS.Pokes[_pokemon].canLearn.level, { id: _moveId, level : _level });
-				}
-			}
-			catch (err) {
-				//show_message($"error on {_move}");
 			}
 		}
 		file_text_readln(fs);
