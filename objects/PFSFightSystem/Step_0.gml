@@ -25,6 +25,9 @@ if (doTurn) {
 		}
 	    switch (turnSteps[i][0]) {
 		    case PFSTurnType.Move:
+				var _ability_result = __PFS_ability_before_move(turnSteps[i][1], turnSteps[i][3]);
+				turnSteps[i][1] = _ability_result[0];
+				turnSteps[i][3] = _ability_result[1];
 				switch (turnSteps[i][4]) {
 				    case PFSBattleSides.Player:
 						lastUsedMove = turnSteps[i][3].id;
@@ -50,8 +53,8 @@ if (doTurn) {
 		        __PFS_use_move(turnSteps[i][1], turnSteps[i][2], turnSteps[i][3], turnSteps[i][4]);
 		        break;
 			case PFSTurnType.ChangePokemon:
-				show_debug_message("Changed Pokemon");
 				pokemonOut = turnSteps[i][1];
+				show_debug_message($"Sent {PFS.playerPokemons[pokemonOut].internalName} out!");
 				load_sprite(PFS.playerPokemons[pokemonOut], 1);
 				break;
 			case PFSTurnType.Run:
@@ -72,5 +75,6 @@ if (doTurn) {
 	    pokePlayerDead = true;
 	}
 	lastUsedMove = 0;
+	lastEnemyUsedMove = 0;
     doTurn = false;
 }

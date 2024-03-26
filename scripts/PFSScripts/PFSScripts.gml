@@ -3,7 +3,9 @@ global.__PFS = {};
 #macro PFS global.__PFS
 PFS.playerPokemons = [];
 PFS.moves = [];
+PFS.PokeSpecies = [];
 PFS.Pokes = [];
+PFS.Abilities = [];
 PFS.__PFSTypes = ["Normal", "Fire", "Water", "Grass", "Flying", "Fighting", "Poison", "Electric", "Ground", "Rock", "Psychic", "Ice", "Bug", "Ghost", "Steel", "Dragon", "Dark", "Fairy", "NoType"];
 PFS.PFSMoveCategory = [["Physical", sPFSPhysicalIcon], ["Special", sPFSSpecialIcon], ["Status", sPFSStatusIcon]];
 PFS.StatusAilments = [];
@@ -230,7 +232,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 		_appliedStatus = $" and applied {PFS.StatusAilments[_calc[1][0]]} status!";
 		array_push(side == PFSBattleSides.Player ? enemyPokemon[0].statusAilments : PFS.playerPokemons[pokemonOut].statusAilments, _calc[1]);
 	}
-	show_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}", _calc[0] > 0 ? $" and dealt {_calc[0]} damage!" : "", $" {_appliedStatus}"));
+	show_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}!", _calc[0] > 0 ? $" dealing {_calc[0]} damage!" : "", $" {_appliedStatus}"));
 	switch (side) {
 		case PFSBattleSides.Player:
 			enemyPokemon[0].hp -= _calc[0];
@@ -386,9 +388,41 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 	for (var i = 0; i < array_length(pokemon.moves); ++i) {
 	    pokemon.moves[i].pp = pokemon.moves[i].maxpp;
 	}
-	show_debug_message($"{pokemon.internalName}: {json_stringify(pokemon)}");
-	show_debug_message("");
+	//show_debug_message($"{pokemon.internalName}: {json_stringify(pokemon)}");
+	//show_debug_message("");
 	return pokemon;
+}
+
+function __PFS_get_ability_id(name) {
+	for (var i = 0; i < array_length(PFS.Abilities); ++i) {
+	    if (PFS.Abilities[i][$ "internalName"] == name or PFS.Abilities[i][$ "identifier"] == name) {
+		    return i;
+		}
+	}
+	show_debug_message("Move id not found");
+	return 0;
+}
+
+function __PFS_ability_before_move(pokemon, move){
+	for (var i = 0; i < array_length(pokemon.ability); ++i) {
+	    if (pokemon.ability[i][0] == __PFS_get_ability_id("pixilate")) {
+		    if (move.type == __PFSTypes.Normal) {
+			    show_debug_message($"{move.internalName} has changed type from Normal to Fairy by {pokemon.internalName} Pixilate!");
+				if (move.mpower != "") {
+				    move.mpower = round(real(move.mpower) * 1.3);
+				}
+				move.type = __PFSTypes.Fairy;
+			}
+		}
+	}
+	return [pokemon, move];
+}
+
+function __PFS_ability_on_contact(pokemon, enemy){
+	//for (var i = 0; i < array_length(pokemon); ++i) {
+	    
+	//}
+	return [pokemon, enemy];
 }
 
 function __PFS_get_move_id(name) {

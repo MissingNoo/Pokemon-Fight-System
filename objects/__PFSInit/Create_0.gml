@@ -18,18 +18,38 @@ if (file_exists(file)) {
 //else { show_message($"missing file {file} on installation"); }
 #endregion
 
-#region Pokemons
-file = working_directory + "/PFS/Data/pokemon_species.csv";
+#region CSV Base
+file = working_directory + "/PFS/Data/abilities.csv";
 if (file_exists(file)) {
+	PFS.Abilities[0] = {identifier : "null", internalName : "null"}
 	var _fs = file_text_open_read(file);
-	var _pos = [ "id","identifier","generation_id","evolves_from_species_id","evolution_chain_id","color_id","shape_id","habitat_id","gender_rate","capture_rate","base_happiness","is_baby","hatch_counter","has_gender_differences","growth_rate_id","forms_switchable","is_legendary","is_mythical","order","conquest_order" ];
+	var _pos = [ "id","identifier" ];
 	while (!file_text_eof(_fs)) {
 		file_text_readln(_fs);
 		var _line = string_split(file_text_read_string(_fs), ",");
 		var _id = _line[array_get_index(_pos, "id")];
-		if (_id == "") {
-		    continue;
-		}
+		if (_id == "") { continue; }
+		var _identifier = _line[array_get_index(_pos, "identifier")];
+		var _name = string_concat(string_upper(string_copy(_identifier, 1, 1)), string_copy(_identifier, 2, string_length(_identifier)));
+		PFS.Abilities[_id] = { identifier : _identifier, internalName : _name }
+	}
+	file_text_close(_fs);
+}
+else { show_message($"missing file {file} on installation"); }
+show_debug_message(PFS.Abilities[182]);
+#endregion
+
+#region Pokemons
+file = working_directory + "/PFS/Data/pokemon.csv";
+if (file_exists(file)) {
+	var _fs = file_text_open_read(file);
+	var _pos = [ "id","identifier","species_id","height","weight","base_experience","order","is_default" ];
+	while (!file_text_eof(_fs)) {
+		file_text_readln(_fs);
+		var _line = string_split(file_text_read_string(_fs), ",");
+		if (array_length(_line) == 1) { continue; }
+		var _id = _line[array_get_index(_pos, "species_id")];
+		if (_id == "") { continue; }
 		var _name = _line[array_get_index(_pos, "identifier")];
 		//Set first letter to higher
 		_name = string_concat(string_upper(string_copy(_name, 1, 1)), string_copy(_name, 2, string_length(_name)));
@@ -42,7 +62,7 @@ if (file_exists(file)) {
 			},
 			basecalc : {},
 			effort : {},
-			ability : []
+			ability : [[0, 1], [0, 1], [0, 1]]
 		}
 		for (var i = 0; i < array_length(_pos); ++i) {
 		    _poke[$ _pos[i]] = _line[i];
@@ -53,6 +73,28 @@ if (file_exists(file)) {
 	file_text_close(_fs);
 }
 else { show_message($"missing file {file} on installation"); }
+
+//Species
+gen = 0;
+file = working_directory + "/PFS/Data/pokemon_species.csv";
+if (file_exists(file)) {
+	var _fs = file_text_open_read(file);
+	var _pos = [ "id","identifier","generation_id","evolves_from_species_id","evolution_chain_id","color_id","shape_id","habitat_id","gender_rate","capture_rate","base_happiness","is_baby","hatch_counter","has_gender_differences","growth_rate_id","forms_switchable","is_legendary","is_mythical","order","conquest_order" ];
+	while (!file_text_eof(_fs)) {
+		file_text_readln(_fs);
+		var _line = string_split(file_text_read_string(_fs), ",");
+		var _id = _line[array_get_index(_pos, "id")];
+		if (_id == "") { continue; }
+		var _poke = { }
+		for (var i = 0; i < array_length(_pos); ++i) {
+		    _poke[$ _pos[i]] = _line[i];
+		}
+		PFS.PokeSpecies[_id] = variable_clone(_poke);
+	}
+	file_text_close(_fs);
+}
+else { show_message($"missing file {file} on installation"); }
+
 //Base Stats
 file = working_directory + "/PFS/Data/pokemon_stats.csv";
 if (file_exists(file)) {
@@ -168,26 +210,6 @@ if (file_exists(file)) {
 	file_text_close(_fs);
 }
 else { show_message($"missing file {file} on installation"); }
-
-//XP
-file = working_directory + "/PFS/Data/pokemon.csv";
-if (file_exists(file)) {
-	var _fs = file_text_open_read(file);
-	var _pos = [ "id","identifier","species_id","height","weight","base_experience","order","is_default" ];
-	while (!file_text_eof(_fs)) {
-		file_text_readln(_fs);
-		var _line = string_split(file_text_read_string(_fs), ",");
-		if (array_length(_line) == 1) { continue; }
-		var _id = _line[array_get_index(_pos, "species_id")];
-		if (_id == "" or _id > array_length(PFS.Pokes) - 1 or _id > 5000) { continue; }
-		for (var i = 0; i < array_length(_pos); ++i) {
-		    PFS.Pokes[_id][$ _pos[i]] = _line[array_get_index(_pos, _pos[i])];
-		}
-	}
-	file_text_close(_fs);
-}
-else { show_message($"missing file {file} on installation"); }
-
 #endregion
 
 #region Generate Move List
