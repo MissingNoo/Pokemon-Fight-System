@@ -1,6 +1,6 @@
 //Feather disable GM2017
 show_debug_log(true);
-
+show_debug_message("Starting battle!");
 #region Turn data
 lastUsedMove = 0;
 lastEnemyUsedMove = 0;
@@ -65,6 +65,7 @@ windowYScale = 5.70;
 windowSize = [700, 400];
 selectedMenu = 0;
 menus = ["Battle", "Pokemon", "Item", "Run"];
+animatedSprites = false;
 #endregion
 
 #region Function
@@ -125,7 +126,7 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	var _sprite = _side == PFSBattleSides.Player ? pokemonSprite : enemySprite;
 	if (sprite_exists(_sprite)) {
 		var _pos = _side == PFSBattleSides.Player ? [_x - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_x + 120 + sprite_get_width(_sprite) / 2, _y - 200 - sprite_get_height(_sprite) / 2];
-		draw_sprite_ext(_sprite, -1, _pos[0], _pos[1], 3, 3, 0, c_white, 1);
+		draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], 3, 3, 0, c_white, 1);
 	}
 }
 #endregion
