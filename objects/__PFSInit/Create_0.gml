@@ -288,6 +288,7 @@ if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
 		#endregion
 		#region Get move name
 		var _name = _move[array_get_index(_pos, "identifier")];
+		var _identifier = _move[array_get_index(_pos, "identifier")];
 		var _splitName = string_split(_name, "-");
 		_name = "";
 		for (var i = 0; i < array_length(_splitName); ++i) {
@@ -305,7 +306,8 @@ if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
 		var _accuracy = _move[array_get_index(_pos, "accuracy")];
 		try {
 			PFS.moves[_id] = {
-				"id" : _id,
+				"id" : real(_id),
+				"identifier" : _identifier,
 				"type": _type,
 				"category": _category,
 				"accuracy": _accuracy,
@@ -341,6 +343,7 @@ if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
 #endregion
 
 #region Moves Pokemons can Learn
+gen = 0;
 if (file_exists(working_directory + "/PFS/Data/pokemon_moves.csv")) {
 	var fs = file_text_open_read(working_directory + "/PFS/Data/pokemon_moves.csv");
     var jsonStr = "";
@@ -350,7 +353,7 @@ if (file_exists(working_directory + "/PFS/Data/pokemon_moves.csv")) {
 		var _move = string_split(file_text_read_string(fs), ",");
 		try {
 			var _gen = _move[array_get_index(_pos, "version_group_id")];
-			if (_gen != 5) {
+			if (_gen != 9) {
 			    _add = false;
 			}
 		}

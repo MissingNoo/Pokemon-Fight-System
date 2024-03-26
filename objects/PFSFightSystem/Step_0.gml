@@ -27,6 +27,7 @@ if (doTurn) {
 		    case PFSTurnType.Move:
 				switch (turnSteps[i][4]) {
 				    case PFSBattleSides.Player:
+						lastUsedMove = turnSteps[i][3].id;
 				        turnSteps[i][1].hp = PFS.playerPokemons[pokemonOut].hp;
 						for (var j = 0; j < array_length(PFS.playerPokemons[pokemonOut].moves); ++j) {
 					    if (PFS.playerPokemons[pokemonOut].moves[j].id == turnSteps[i][3].id) {
@@ -36,6 +37,7 @@ if (doTurn) {
 						}
 				        break;
 				    case PFSBattleSides.Enemy:
+						lastEnemyUsedMove = turnSteps[i][3].id;
 				        turnSteps[i][1].hp = enemyPokemon[0].hp;
 						for (var j = 0; j < array_length(enemyPokemon[0].moves); ++j) {
 					    if (enemyPokemon[0].moves[j].id == turnSteps[i][3].id) {
@@ -69,5 +71,6 @@ if (doTurn) {
 	if (PFS.playerPokemons[pokemonOut].hp <= 0) {
 	    pokePlayerDead = true;
 	}
+	lastUsedMove = 0;
     doTurn = false;
 }

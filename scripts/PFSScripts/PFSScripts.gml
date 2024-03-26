@@ -199,8 +199,17 @@ function __PFS_is_effective(pokemon, move, pos){
 	return _effective;
 }
 
-function __PFS_add_move(internalName){
-	return variable_clone(PFS.moves[internalName]);
+function __PFS_add_move(id_or_name){
+	var _move = variable_clone(PFS.moves[1]);
+	for (var i = 1; i < array_length(PFS.moves); ++i) {
+	    if (PFS.moves[i][$ "internalName"] == id_or_name) {
+		    _move = variable_clone(PFS.moves[i]);
+		}
+		if (PFS.moves[i][$ "id"] == id_or_name) {
+		    _move = variable_clone(PFS.moves[id_or_name]);
+		}
+	}
+	return _move;
 }
 
 function __PFS_pokemon_affected_by_status(pokemon, status_id) {
@@ -221,24 +230,31 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 		_appliedStatus = $" and applied {PFS.StatusAilments[_calc[1][0]]} status!";
 		array_push(side == PFSBattleSides.Player ? enemyPokemon[0].statusAilments : PFS.playerPokemons[pokemonOut].statusAilments, _calc[1]);
 	}
+	show_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}", _calc[0] > 0 ? $" and dealt {_calc[0]} damage!" : "", $" {_appliedStatus}"));
 	switch (side) {
 		case PFSBattleSides.Player:
 			enemyPokemon[0].hp -= _calc[0];
-			if (enemyPokemon[0].hp < 0) {
+			if (enemyPokemon[0].hp <= 0) {
 				enemyPokemon[0].hp = 0;
 				show_debug_message($"{enemyPokemon[0].internalName} died");
+				if (lastEnemyUsedMove == __PFS_get_move_id("Destiny Bond")) {
+					PFS.playerPokemons[pokemonOut].hp = 0;
+					show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died together due to {enemyPokemon[0].internalName}'s Destiny Bond!");
+				}
 			}
 			break;
 		case PFSBattleSides.Enemy:
 			PFS.playerPokemons[pokemonOut].hp -= _calc[0];
-			if (PFS.playerPokemons[pokemonOut].hp < 0) { 
+			if (PFS.playerPokemons[pokemonOut].hp <= 0) { 
 				show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died");
+				if (lastUsedMove == __PFS_get_move_id("Destiny Bond")) {
+					enemyPokemon[0].hp = 0;
+					show_debug_message($"{enemyPokemon[0].internalName} died together due to {PFS.playerPokemons[pokemonOut].internalName}'s Destiny Bond!");
+				}
 				PFS.playerPokemons[pokemonOut].hp = 0; 
 			}
 			break;
 	}
-	show_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}", _calc[0] > 0 ? $" and dealt {_calc[0]} damage!" : "", $" {_appliedStatus}"));
-	
 }
 
 function __PFS_damage_calculation(pokemon, enemy, move){
@@ -373,6 +389,16 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 	show_debug_message($"{pokemon.internalName}: {json_stringify(pokemon)}");
 	show_debug_message("");
 	return pokemon;
+}
+
+function __PFS_get_move_id(name) {
+	for (var i = 0; i < array_length(PFS.moves); ++i) {
+	    if (PFS.moves[i][$ "internalName"] == name or PFS.moves[i][$ "identifier"] == name) {
+		    return PFS.moves[i].id;
+		}
+	}
+	show_debug_message("Move id not found");
+	return 0;
 }
 
 #region Status Effects

@@ -1,6 +1,9 @@
 //Feather disable GM2017
+show_debug_log(true);
 
 #region Turn data
+lastUsedMove = 0;
+lastEnemyUsedMove = 0;
 currentTurn = 0;
 pokePlayerDead = false;
 turnSteps = [];
