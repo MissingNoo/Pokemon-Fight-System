@@ -66,19 +66,30 @@ menus = ["Battle", "Pokemon", "Item", "Run"];
 
 #region Function
 function load_sprite(pokemon, side){
+	var _extension = ".png";
+	var _imgnumb = 0;
 	if (file_exists(working_directory + "/PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.sprite[1] + ".png")) {
+	    _extension = ".png";
+	}
+	if (file_exists(working_directory + "/PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.internalName + ".ini")) {
+		ini_open(working_directory + "/PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.internalName + ".ini");
+		_imgnumb = ini_read_real("image", "frames", 1);
+		_extension = string_concat("_strip", _imgnumb, ".png");
+		ini_close()
+	}
+	if (file_exists(working_directory + "/PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.sprite[1] + _extension)) {
 		switch (side) {
 			case 0:
 		        if (sprite_exists(enemySprite)) {
 				    sprite_delete(enemySprite);
 				}
-			    enemySprite = sprite_add(working_directory + "/PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.sprite[0] + ".png", 0, false, false, 0, 0);
+			    enemySprite = sprite_add(working_directory + "/PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.sprite[0] + _extension, _imgnumb, false, false, 0, 0);
 		        break;
 		    case 1:
 		        if (sprite_exists(pokemonSprite)) {
 				    sprite_delete(pokemonSprite);
 				}
-			    pokemonSprite = sprite_add(working_directory + "/PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.sprite[1] + ".png", 0, false, false, 0, 0);
+			    pokemonSprite = sprite_add(working_directory + "/PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.sprite[1] + _extension, _imgnumb, false, false, 0, 0);
 		        break;
 		}
 	}

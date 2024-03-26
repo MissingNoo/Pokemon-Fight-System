@@ -216,13 +216,13 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	if (pokemon.hp <= 0) { return; }
 	var _calc = [0, [0, 0]];
 	var _appliedStatus = "";
+	_calc = __PFS_damage_calculation(pokemon, enemy, move);
+	if (_calc[1] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[1][0])) {
+		_appliedStatus = $" and applied {PFS.StatusAilments[_calc[1][0]]} status!";
+		array_push(side == PFSBattleSides.Player ? enemyPokemon[0].statusAilments : PFS.playerPokemons[pokemonOut].statusAilments, _calc[1]);
+	}
 	switch (side) {
 		case PFSBattleSides.Player:
-			_calc = __PFS_damage_calculation(pokemon, enemy, move);
-			if (_calc[1] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[1][0])) {
-				_appliedStatus = $"and applied {PFS.StatusAilments[_calc[1][0]]} status!";
-				array_push(enemyPokemon[0].statusAilments, _calc[1]);
-			}
 			enemyPokemon[0].hp -= _calc[0];
 			if (enemyPokemon[0].hp < 0) {
 				enemyPokemon[0].hp = 0;
@@ -230,11 +230,6 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 			}
 			break;
 		case PFSBattleSides.Enemy:
-			_calc = __PFS_damage_calculation(pokemon, enemy, move);
-			if (_calc[1] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[1][0])) {
-				_appliedStatus = $"and applied {PFS.StatusAilments[_calc[1][0]]} status!";
-				array_push(PFS.playerPokemons[pokemonOut].statusAilments, _calc[1]);
-			}
 			PFS.playerPokemons[pokemonOut].hp -= _calc[0];
 			if (PFS.playerPokemons[pokemonOut].hp < 0) { 
 				show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died");
@@ -242,7 +237,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 			}
 			break;
 	}
-	show_debug_message($"{pokemon.internalName} attacked with {move.internalName} and dealt {_calc[0]} damage! {_appliedStatus}");
+	show_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}", _calc[0] > 0 ? $" and dealt {_calc[0]} damage!" : "", $" {_appliedStatus}"));
 	
 }
 
@@ -299,6 +294,14 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	var _damage = ( ( ( 2 * _level / 5 + 2) * _power * (_a / _d) ) / 50 + 2 );
 	_damage = _damage * _targets * _pb * _weather * _glaiverush * _isCritical * _rnd * _stab * _type * _burn * _other;
 	_damage = round(_damage);
+	if (_power == 0) { _damage = 0; }
+	#region Status Effects
+	if (_damage > 0 and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn)) {
+		var _oDamage = _damage;
+		_damage = round(_damage / 2);
+		show_debug_message($"{pokemon.internalName} damage is halved from {_oDamage} to {_damage} because it's burning");
+	}
+	#endregion
 	//show_debug_message($"Dealt ( ( ( 2 * {_level} / 5 + 2) * {_power} * ({_a} / {_d}) ) / 50 + 2 )  * {_targets} * {_pb} * {_weather} * {_glaiverush} * {_isCritical} * {_rnd} * {_stab} * {_type} * {_burn} * {_other} = {_damage} damage");
 	return [_damage, _status];
 }
@@ -465,4 +468,4 @@ function textbox(x, y, name, value, editing) {
 	var _color = editing ? c_yellow : c_white;
 	draw_rectangle_color(_x, _y, _x + string_width(_value), _y + string_height(_value), _color, _color, _color, _color, true);
 }	
-#endregion	
+#endregion
