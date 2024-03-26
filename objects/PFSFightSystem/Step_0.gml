@@ -63,6 +63,8 @@ if (doTurn) {
 		array_shift(turnSteps);
 		i--;
 	}
+	PFS.playerPokemons[pokemonOut] = __PFS_tick_status_effect(PFS.playerPokemons[pokemonOut]);
+	enemyPokemon[0] = __PFS_tick_status_effect(enemyPokemon[0]);
 	currentTurn++;
 	if (PFS.playerPokemons[pokemonOut].hp <= 0) {
 	    pokePlayerDead = true;

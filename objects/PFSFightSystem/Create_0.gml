@@ -15,7 +15,7 @@ function order_turn() {
 	array_sort(turnSteps, function(elm1, elm2) {
 		var _goAfter = false;
 		if (elm1[0] == PFSTurnType.Move and elm2[0] == PFSTurnType.Move) {
-			show_debug_message($"{elm1[1].internalName} speed: {elm1[1].speed} / {elm2[1].internalName} speed: {elm2[1].speed}");
+			//show_debug_message($"{elm1[1].internalName} speed: {elm1[1].speed} / {elm2[1].internalName} speed: {elm2[1].speed}");
 			if (elm1[1].speed < elm2[1].speed) {
 			    _goAfter = true;
 			}
@@ -88,7 +88,12 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	draw_rectangle(_x, _y, _boxEndX, _boxEndY, true);
 	_x += 10;
 	_y += 10;
-	draw_text(_x, _y, _pokemon.internalName);
+	draw_text(_x, _y, $"{_pokemon.internalName}");
+	var _status = "";
+	for (var i = 0; i < array_length(_pokemon.statusAilments); ++i) {
+	    _status = $"{_status} {PFS.StatusAilments[_pokemon.statusAilments[i][0]]} turns: {_pokemon.statusAilments[i][1]} ;";
+	}
+	draw_text(_x, _y - 50, _status);
 	draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_pokemon.hp / _pokemon.base.hp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
 	draw_set_halign(fa_right);
 	draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");

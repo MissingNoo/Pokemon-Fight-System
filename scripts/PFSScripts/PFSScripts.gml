@@ -6,6 +6,8 @@ PFS.moves = [];
 PFS.Pokes = [];
 PFS.__PFSTypes = ["Normal", "Fire", "Water", "Grass", "Flying", "Fighting", "Poison", "Electric", "Ground", "Rock", "Psychic", "Ice", "Bug", "Ghost", "Steel", "Dragon", "Dark", "Fairy", "NoType"];
 PFS.PFSMoveCategory = [["Physical", sPFSPhysicalIcon], ["Special", sPFSSpecialIcon], ["Status", sPFSStatusIcon]];
+PFS.StatusAilments = [];
+PFS.StatusAilmentsData = [];
 
 
 
@@ -52,6 +54,31 @@ enum PFSBattleMenus {
 enum PFSBattleSides {
 	Player,
 	Enemy
+}
+	
+enum PFSStatusAilments {
+	Unknown,
+	None,
+	Paralysis,
+	Sleep,
+	Freeze,
+	Burn,
+	Poison,
+	Confusion,
+	Infatuation,
+	Trap,
+	Nightmare,
+	Torment,
+	Disable,
+	Yawn,
+	Heal_block,
+	No_type_immunity = 15,
+	Leech_seed = 17,
+	Embargo = 18,
+	Perish_song = 19,
+	Ingrain = 20,
+	Silence = 23,
+	Tar_shot = 41,
 }
 	
 #region Move effectiveness
@@ -176,35 +203,51 @@ function __PFS_add_move(internalName){
 	return variable_clone(PFS.moves[internalName]);
 }
 
+function __PFS_pokemon_affected_by_status(pokemon, status_id) {
+	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
+	    if (pokemon.statusAilments[i][0] == status_id) {
+		    return true;
+		}
+	}
+	return false;
+}
+
 function __PFS_use_move(pokemon, enemy, move, side) {
 	if (pokemon.hp <= 0) { return; }
-	show_debug_message($"{pokemon.internalName} attacked with {move.internalName}");
-	switch (move.category) {
-	    case PFSMoveCategory.Physical:
-			switch (side) {
-			    case PFSBattleSides.Player:
-			        enemyPokemon[0].hp -= __PFS_damage_calculation(pokemon, enemy, move);
-					if (enemyPokemon[0].hp < 0) {
-						enemyPokemon[0].hp = 0;
-						show_debug_message($"{enemyPokemon[0].internalName} died");
-					}
-			        break;
-			    case PFSBattleSides.Enemy:
-			        PFS.playerPokemons[pokemonOut].hp -= __PFS_damage_calculation(pokemon, enemy, move);
-					if (PFS.playerPokemons[pokemonOut].hp < 0) { 
-						show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died");
-						PFS.playerPokemons[pokemonOut].hp = 0; 
-					}
-			        break;
+	var _calc = [0, [0, 0]];
+	var _appliedStatus = "";
+	switch (side) {
+		case PFSBattleSides.Player:
+			_calc = __PFS_damage_calculation(pokemon, enemy, move);
+			if (_calc[1] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[1][0])) {
+				_appliedStatus = $"and applied {PFS.StatusAilments[_calc[1][0]]} status!";
+				array_push(enemyPokemon[0].statusAilments, _calc[1]);
 			}
-	        break;
-	    default:
-	        // code here
-	        break;
+			enemyPokemon[0].hp -= _calc[0];
+			if (enemyPokemon[0].hp < 0) {
+				enemyPokemon[0].hp = 0;
+				show_debug_message($"{enemyPokemon[0].internalName} died");
+			}
+			break;
+		case PFSBattleSides.Enemy:
+			_calc = __PFS_damage_calculation(pokemon, enemy, move);
+			if (_calc[1] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[1][0])) {
+				_appliedStatus = $"and applied {PFS.StatusAilments[_calc[1][0]]} status!";
+				array_push(PFS.playerPokemons[pokemonOut].statusAilments, _calc[1]);
+			}
+			PFS.playerPokemons[pokemonOut].hp -= _calc[0];
+			if (PFS.playerPokemons[pokemonOut].hp < 0) { 
+				show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died");
+				PFS.playerPokemons[pokemonOut].hp = 0; 
+			}
+			break;
 	}
+	show_debug_message($"{pokemon.internalName} attacked with {move.internalName} and dealt {_calc[0]} damage! {_appliedStatus}");
+	
 }
 
 function __PFS_damage_calculation(pokemon, enemy, move){
+	var _status = 0;
 	var _critChance = irandom_range(0, 255);
 	var _critTreshold = pokemon.speed / 2; //TODO: High crit chance atk and items
 	var _isCritical = _critChance <= _critTreshold ? 2 : 1; //TODO _isCritical = 1 if target ability is Battle Armor or Shell Armor or with Luck Chant
@@ -235,8 +278,18 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 			_d = enemy.defense;
 	        break;
 	    case PFSMoveCategory.Special:
-	        _a = pokemon.spatk;
-			_d = enemy.spdef;
+	        _a = pokemon.spattack;
+			_d = enemy.spdefense;
+			if (move.effect_chance != "") {
+			    var _chance = irandom_range(0, 100);
+				_chance = 3;
+				if (_chance <= move.effect_chance) {
+					var _turns = -1;
+					var _effectData = PFS.StatusAilmentsData[move.id];
+					_turns = irandom_range(_effectData.min_turns, _effectData.max_turns);
+					_status = [real(move.effect_id), _turns];
+				}
+			}
 	        break;
 	}
 	if (_a > 255 or _d > 255) {
@@ -246,8 +299,8 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	var _damage = ( ( ( 2 * _level / 5 + 2) * _power * (_a / _d) ) / 50 + 2 );
 	_damage = _damage * _targets * _pb * _weather * _glaiverush * _isCritical * _rnd * _stab * _type * _burn * _other;
 	_damage = round(_damage);
-	show_debug_message($"Dealt ( ( ( 2 * {_level} / 5 + 2) * {_power} * ({_a} / {_d}) ) / 50 + 2 )  * {_targets} * {_pb} * {_weather} * {_glaiverush} * {_isCritical} * {_rnd} * {_stab} * {_type} * {_burn} * {_other} = {_damage} damage");
-	return _damage;
+	//show_debug_message($"Dealt ( ( ( 2 * {_level} / 5 + 2) * {_power} * ({_a} / {_d}) ) / 50 + 2 )  * {_targets} * {_pb} * {_weather} * {_glaiverush} * {_isCritical} * {_rnd} * {_stab} * {_type} * {_burn} * {_other} = {_damage} damage");
+	return [_damage, _status];
 }
 
 function __PFS_generate_pokemon(pokemon){
@@ -280,6 +333,7 @@ function __PFS_generate_pokemon(pokemon){
 		accuracy : 0,
 		evasion : 0
 	}
+	pokemon.statusAilments = [];
 	return __PFS_recalculate_stats(pokemon, true);
 }
 
@@ -295,6 +349,7 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 		        variable_struct_set(pokemon.base, "hp", floor(0.01 * (2 * real(pokemon.basecalc.hp) + real(pokemon.ivs.hp) + floor(0.25 * real(pokemon.evs.hp))) * real(pokemon.level)) + real(pokemon.level) + 10);
 				if (pokecenter) {
 				    variable_struct_set(pokemon, "hp", floor(0.01 * (2 * real(pokemon.basecalc.hp) + real(pokemon.ivs.hp) + floor(0.25 * real(pokemon.evs.hp))) * real(pokemon.level)) + real(pokemon.level) + 10);
+					pokemon.statusAilments = [];
 				}
 		        break;
 		    default:
@@ -312,13 +367,38 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 	for (var i = 0; i < array_length(pokemon.moves); ++i) {
 	    pokemon.moves[i].pp = pokemon.moves[i].maxpp;
 	}
-	show_debug_message(json_stringify(pokemon));
+	show_debug_message($"{pokemon.internalName}: {json_stringify(pokemon)}");
 	show_debug_message("");
 	return pokemon;
 }
 
-#region Functions
+#region Status Effects
+function __PFS_tick_status_effect(pokemon) {
+	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
+	    var _status = pokemon.statusAilments[i][0];
+		if (pokemon.statusAilments[i][1] != -1) {
+			pokemon.statusAilments[i][1]--;
+		}
+		switch (_status) {
+		    case PFSStatusAilments.Burn:
+				var _hploss = round(pokemon.hp / 16);
+				pokemon.hp -= _hploss;
+				show_debug_message($"{pokemon.internalName} lost {_hploss}hp to Burn");
+		        break;
+		}
+	}
+	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
+		if (pokemon.statusAilments[i][1] == 0) {
+			show_debug_message($"{pokemon.internalName} {PFS.StatusAilments[pokemon.statusAilments[i][0]]} status ran out!");
+			array_delete(pokemon.statusAilments, i, 1);
+			continue;
+		}
+	}
+	return pokemon;
+}
 #endregion
+
+#region Functions
 function createbutton(_x, _y, text, textscale, show_border = true, bgalpha = 0.25, _color = c_white) {
 	var _clicked = false;
 	var w = string_width(text) * textscale;
@@ -385,4 +465,4 @@ function textbox(x, y, name, value, editing) {
 	var _color = editing ? c_yellow : c_white;
 	draw_rectangle_color(_x, _y, _x + string_width(_value), _y + string_height(_value), _color, _color, _color, _color, true);
 }	
-	
+#endregion	

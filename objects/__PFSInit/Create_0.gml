@@ -41,7 +41,8 @@ if (file_exists(file)) {
 				level : [],
 			},
 			basecalc : {},
-			effort : {}
+			effort : {},
+			ability : []
 		}
 		for (var i = 0; i < array_length(_pos); ++i) {
 		    _poke[$ _pos[i]] = _line[i];
@@ -62,7 +63,7 @@ if (file_exists(file)) {
 		file_text_readln(_fs);
 		var _line = string_split(file_text_read_string(_fs), ",");
 		var _id = _line[array_get_index(_pos, "pokemon_id")];
-		if (_id == "" or _id > array_length(PFS.Pokes) - 1) { continue; }
+		if (_id == "" or _id > array_length(PFS.Pokes) - 1 or _id > 5000) { continue; }
 		var _statid = _line[array_get_index(_pos, "stat_id")];
 		var _basestat = _line[array_get_index(_pos, "base_stat")];
 		var _effort = _line[array_get_index(_pos, "effort")];
@@ -82,7 +83,7 @@ if (file_exists(file)) {
 		file_text_readln(_fs);
 		var _line = string_split(file_text_read_string(_fs), ",");
 		var _id = _line[array_get_index(_pos, "pokemon_id")];
-		if (_id == "" or _id > array_length(PFS.Pokes) - 1) { continue; }
+		if (_id == "" or _id > array_length(PFS.Pokes) - 1 or _id > 5000) { continue; }
 		var _slot = _line[array_get_index(_pos, "slot")] - 1;
 		var _type = real(_line[array_get_index(_pos, "type_id")]);
 		switch (_type) {
@@ -150,6 +151,43 @@ if (file_exists(file)) {
 }
 else { show_message($"missing file {file} on installation"); }
 
+file = working_directory + "/PFS/Data/pokemon_abilities.csv";
+if (file_exists(file)) {
+	var _fs = file_text_open_read(file);
+	var _pos = [ "pokemon_id","ability_id", "is_hidden", "slot" ];
+	while (!file_text_eof(_fs)) {
+		file_text_readln(_fs);
+		var _line = string_split(file_text_read_string(_fs), ",");
+		var _id = _line[array_get_index(_pos, "pokemon_id")];
+		if (_id == "" or _id > array_length(PFS.Pokes) - 1 or _id > 5000) { continue; }
+		var _slot = _line[array_get_index(_pos, "slot")] - 1;
+		var _ability = real(_line[array_get_index(_pos, "ability_id")]);
+		var _hidden = real(_line[array_get_index(_pos, "is_hidden")]);
+		PFS.Pokes[_id].ability[_slot] = [_ability, _hidden];
+	}
+	file_text_close(_fs);
+}
+else { show_message($"missing file {file} on installation"); }
+
+//XP
+file = working_directory + "/PFS/Data/pokemon.csv";
+if (file_exists(file)) {
+	var _fs = file_text_open_read(file);
+	var _pos = [ "id","identifier","species_id","height","weight","base_experience","order","is_default" ];
+	while (!file_text_eof(_fs)) {
+		file_text_readln(_fs);
+		var _line = string_split(file_text_read_string(_fs), ",");
+		if (array_length(_line) == 1) { continue; }
+		var _id = _line[array_get_index(_pos, "species_id")];
+		if (_id == "" or _id > array_length(PFS.Pokes) - 1 or _id > 5000) { continue; }
+		for (var i = 0; i < array_length(_pos); ++i) {
+		    PFS.Pokes[_id][$ _pos[i]] = _line[array_get_index(_pos, _pos[i])];
+		}
+	}
+	file_text_close(_fs);
+}
+else { show_message($"missing file {file} on installation"); }
+
 #endregion
 
 #region Generate Move List
@@ -157,6 +195,7 @@ if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
 	var fs = file_text_open_read(working_directory + "/PFS/Data/moves.csv");
     var jsonStr = "";
 	var _pos = [ "id","identifier","generation_id","type_id","power","pp","accuracy","priority","target_id","damage_class_id","effect_id","effect_chance","contest_type_id","contest_effect_id","super_contest_effect_id" ];
+	var _others = [ "priority","damage_class_id","effect_id","effect_chance" ];
 	var _lastid = 0;
 	while (!file_text_eof(fs)) {
 		var _move = string_split(file_text_read_string(fs), ",");
@@ -277,6 +316,9 @@ if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
 				"mpower" : _power,
 				"priority" : 0
 				}
+				for (var i = 0; i < array_length(_others); ++i) {
+				    PFS.moves[_id][$ _others[i]] = _move[array_get_index(_pos, _others[i])];
+				}
 		}
 		catch (err) {
 			show_debug_message($"{_lastid+1} is empty");
@@ -334,4 +376,49 @@ if (file_exists(working_directory + "/PFS/Data/pokemon_moves.csv")) {
 	}
 	file_text_close(fs);
 }
+#endregion
+
+#region Status
+file = working_directory + "/PFS/Data/move_meta_ailments.csv";
+if (file_exists(file)) {
+	var _fs = file_text_open_read(file);
+	var _pos = [ "id","identifier"];
+	while (!file_text_eof(_fs)) {
+		file_text_readln(_fs);
+		var _line = string_split(file_text_read_string(_fs), ",");
+		if (array_length(_line) == 1) { continue; }
+		var _id = _line[array_get_index(_pos, "id")];
+		var _identifier = _line[array_get_index(_pos, "identifier")];
+		_identifier = string_concat(string_upper(string_copy(_identifier, 1, 1)), string_copy(_identifier, 2, string_length(_identifier)));
+		if (_id == -1) { continue; }
+		PFS.StatusAilments[_id] = _identifier;
+	}
+	array_insert(PFS.StatusAilments, 0, "Unknown");
+	file_text_close(_fs);
+}
+else { show_message($"missing file {file} on installation"); }
+
+//data for moves
+file = working_directory + "/PFS/Data/move_meta.csv";
+if (file_exists(file)) {
+	var _fs = file_text_open_read(file);
+	var _pos = [ "move_id","meta_category_id","meta_ailment_id","min_hits","max_hits","min_turns","max_turns","drain","healing","crit_rate","ailment_chance","flinch_chance","stat_chance" ];
+	while (!file_text_eof(_fs)) {
+		file_text_readln(_fs);
+		var _line = string_split(file_text_read_string(_fs), ",");
+		if (array_length(_line) == 1 or array_length(_line) == 0) { continue; }
+		var _id = real(_line[array_get_index(_pos, "move_id")]);
+		PFS.StatusAilmentsData[_id] = {};
+		for (var i = 0; i < array_length(_pos); ++i) {
+			try {
+				PFS.StatusAilmentsData[_id][$ _pos[i]] = real(_line[array_get_index(_pos, _pos[i])]);
+			}
+		    catch (err) {
+				PFS.StatusAilmentsData[_id][$ _pos[i]] = 0;
+			}
+		}
+	}
+	file_text_close(_fs);
+}
+else { show_message($"missing file {file} on installation"); }
 #endregion

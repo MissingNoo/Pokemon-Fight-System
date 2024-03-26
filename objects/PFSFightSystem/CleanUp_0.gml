@@ -1,0 +1,1 @@
+enemyPokemon = undefined;
