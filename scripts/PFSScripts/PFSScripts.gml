@@ -226,7 +226,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	var _calc = [0, [0, 0]];
 	var _appliedStatus = "";
 	_calc = __PFS_damage_calculation(pokemon, enemy, move);
-	if (_calc[1] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[1][0])) {
+	if (_calc[1] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[1][0]) and _calc[1][0] != 0) {
 		_appliedStatus = $" and applied {PFS.StatusAilments[_calc[1][0]]} status!";
 		array_push(side == PFSBattleSides.Player ? enemyPokemon[0].statusAilments : PFS.playerPokemons[pokemonOut].statusAilments, _calc[1]);
 	}
@@ -283,27 +283,49 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	#endregion
 	var _a = 1;
 	var _d = 1;
-	switch (move.type) { //TODO: unmodified on criticals, light screen, reflect, 
+	switch (move.category) { //TODO: unmodified on criticals, light screen, reflect, 
 	    case PFSMoveCategory.Physical:
 	        _a = pokemon.attack;
 			_d = enemy.defense;
 	        break;
 	    case PFSMoveCategory.Special:
+	    case PFSMoveCategory.Status:
 	        _a = pokemon.spattack;
 			_d = enemy.spdefense;
-			if (move.effect_chance != "") {
+			if (move.category == PFSMoveCategory.Status or move.effect_chance != "") {
 			    var _chance = irandom_range(0, 100);
 				//_chance = 3;
-				if (_chance <= move.effect_chance) {
+				
+				if (move.category == PFSMoveCategory.Status or _chance <= move.effect_chance) {
 					var _turns = -1;
 					var _effectData = PFS.StatusAilmentsData[move.id];
 					_turns = irandom_range(_effectData.min_turns, _effectData.max_turns);
-					_status = [real(move.effect_id), _turns];
-					#region Invulnerabilities
-					if (array_contains(enemy.type, __PFSTypes.Fire) and PFS.StatusAilments[move.effect_id] == "Burn") {
-					    show_debug_message($"{enemy.internalName} is immune to Burn!");
-						_status = 0;
+					if (_effectData.max_turns == 0) {
+					    _turns = -1;
 					}
+					_status = [real(PFS.StatusAilmentsData[move.id].meta_ailment_id), _turns];
+					#region Invulnerabilities
+					
+						#region Types
+							#region Burn
+								if (array_contains(enemy.type, __PFSTypes.Fire) and PFS.StatusAilmentsData[move.id].meta_ailment_id == "Burn") {
+								    show_debug_message($"{enemy.internalName} is immune to Burn!");
+									_status = 0;
+								}
+							#endregion
+						#endregion
+						
+						#region Abilities
+							#region Shield Dust
+								for (var i = 0; i < array_length(enemy.ability); ++i) {
+								    if (move.effect_chance < 100 and enemy.ability[i][0] == __PFS_get_ability_id("shield-dust")) {
+										show_debug_message($"{enemy.internalName}'s Shield Dust cancelled the status effect!");
+									    _status = 0;
+									}
+								}
+							#endregion
+						#endregion
+						
 					#endregion
 				}
 			}

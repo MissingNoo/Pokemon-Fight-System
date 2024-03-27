@@ -341,7 +341,17 @@ if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
 				"priority" : 0
 				}
 				for (var i = 0; i < array_length(_others); ++i) {
-				    PFS.moves[_id][$ _others[i]] = _move[array_get_index(_pos, _others[i])];
+					var value = 0;
+					try {
+						_value = real(_move[array_get_index(_pos, _others[i])]);
+					}
+					catch (err) {
+						_value = 0;
+					}
+				    PFS.moves[_id][$ _others[i]] = _value;	
+				}
+				if (PFS.moves[_id].category == PFSMoveCategory.Status and PFS.moves[_id].effect_chance == 0) {
+					PFS.moves[_id].effect_chance = 100;
 				}
 		}
 		catch (err) {
@@ -418,7 +428,7 @@ if (file_exists(file)) {
 		if (_id == -1) { continue; }
 		PFS.StatusAilments[_id] = _identifier;
 	}
-	array_insert(PFS.StatusAilments, 0, "Unknown");
+	//array_insert(PFS.StatusAilments, 0, "Unknown");
 	file_text_close(_fs);
 }
 else { show_message($"missing file {file} on installation"); }
