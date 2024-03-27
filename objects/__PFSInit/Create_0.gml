@@ -48,7 +48,7 @@ if (file_exists(file)) {
 		file_text_readln(_fs);
 		var _line = string_split(file_text_read_string(_fs), ",");
 		if (array_length(_line) == 1) { continue; }
-		var _id = _line[array_get_index(_pos, "species_id")];
+		var _id = _line[array_get_index(_pos, "id")];
 		if (_id == "") { continue; }
 		var _name = _line[array_get_index(_pos, "identifier")];
 		//Set first letter to higher

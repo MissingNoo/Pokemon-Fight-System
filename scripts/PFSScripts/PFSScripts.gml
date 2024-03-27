@@ -295,12 +295,18 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 			_d = enemy.spdefense;
 			if (move.effect_chance != "") {
 			    var _chance = irandom_range(0, 100);
-				_chance = 3;
+				//_chance = 3;
 				if (_chance <= move.effect_chance) {
 					var _turns = -1;
 					var _effectData = PFS.StatusAilmentsData[move.id];
 					_turns = irandom_range(_effectData.min_turns, _effectData.max_turns);
 					_status = [real(move.effect_id), _turns];
+					#region Invulnerabilities
+					if (array_contains(enemy.type, __PFSTypes.Fire) and PFS.StatusAilments[move.effect_id] == "Burn") {
+					    show_debug_message($"{enemy.internalName} is immune to Burn!");
+						_status = 0;
+					}
+					#endregion
 				}
 			}
 	        break;
