@@ -5,7 +5,9 @@
     {"$GMAudioGroup":"","%Name":"audiogroup_default","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
   ],
   "configs":{
-    "children":[],
+    "children":[
+      {"children":[],"name":"Debug",},
+    ],
     "name":"Default",
   },
   "defaultScriptType":1,
@@ -1346,13 +1348,13 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.400.0.516",
+    "IDEVersion":"2024.400.0.526",
   },
   "name":"Pokemon Fight System",
   "resources":[
     {"id":{"name":"Note1","path":"notes/Note1/Note1.yy",},},
-    {"id":{"name":"DebugManager","path":"objects/DebugManager/DebugManager.yy",},},
     {"id":{"name":"__PFSInit","path":"objects/__PFSInit/__PFSInit.yy",},},
+    {"id":{"name":"DebugManager","path":"objects/DebugManager/DebugManager.yy",},},
     {"id":{"name":"PFSDebug","path":"objects/PFSDebug/PFSDebug.yy",},},
     {"id":{"name":"PFSFightSystem","path":"objects/PFSFightSystem/PFSFightSystem.yy",},},
     {"id":{"name":"PFSMoveEditor","path":"objects/PFSMoveEditor/PFSMoveEditor.yy",},},

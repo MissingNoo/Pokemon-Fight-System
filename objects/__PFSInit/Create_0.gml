@@ -36,7 +36,6 @@ if (file_exists(file)) {
 	file_text_close(_fs);
 }
 else { show_message($"missing file {file} on installation"); }
-show_debug_message(PFS.Abilities[182]);
 #endregion
 
 #region Pokemons
@@ -348,7 +347,7 @@ if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
 					catch (err) {
 						_value = 0;
 					}
-				    PFS.moves[_id][$ _others[i]] = _value;	
+				    PFS.moves[_id][$ _others[i]] = _value;
 				}
 				if (PFS.moves[_id].category == PFSMoveCategory.Status and PFS.moves[_id].effect_chance == 0) {
 					PFS.moves[_id].effect_chance = 100;

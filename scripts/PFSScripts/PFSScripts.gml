@@ -1,4 +1,6 @@
 //Feather disable GM2017
+#macro DEBUG if (os_get_config() == "Debug") {
+#macro ENDDEBUG }
 global.__PFS = {};
 #macro PFS global.__PFS
 PFS.playerPokemons = [];
@@ -57,7 +59,6 @@ enum PFSBattleSides {
 }
 	
 enum PFSStatusAilments {
-	Unknown,
 	None,
 	Paralysis,
 	Sleep,
@@ -227,8 +228,12 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	var _appliedStatus = "";
 	_calc = __PFS_damage_calculation(pokemon, enemy, move);
 	if (_calc[1] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[1][0]) and _calc[1][0] != 0) {
-		_appliedStatus = $" and applied {PFS.StatusAilments[_calc[1][0]]} status!";
+		_appliedStatus = $"{_appliedStatus} and applied {PFS.StatusAilments[_calc[1][0]]} status!";
 		array_push(side == PFSBattleSides.Player ? enemyPokemon[0].statusAilments : PFS.playerPokemons[pokemonOut].statusAilments, _calc[1]);
+	}
+	if (_calc[2] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[2][0]) and _calc[2][0] != 0) {
+		_appliedStatus = $"{_appliedStatus} and applied {PFS.StatusAilments[_calc[2][0]]} status due to {_calc[2][2]}!";
+		array_push(side == PFSBattleSides.Player ? enemyPokemon[0].statusAilments : PFS.playerPokemons[pokemonOut].statusAilments, _calc[2]);
 	}
 	show_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}!", _calc[0] > 0 ? $" dealing {_calc[0]} damage!" : "", $" {_appliedStatus}"));
 	switch (side) {
@@ -247,6 +252,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 			PFS.playerPokemons[pokemonOut].hp -= _calc[0];
 			if (PFS.playerPokemons[pokemonOut].hp <= 0) { 
 				show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died");
+				enemyDead = true;
 				if (lastUsedMove == __PFS_get_move_id("Destiny Bond")) {
 					enemyPokemon[0].hp = 0;
 					show_debug_message($"{enemyPokemon[0].internalName} died together due to {PFS.playerPokemons[pokemonOut].internalName}'s Destiny Bond!");
@@ -259,6 +265,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 
 function __PFS_damage_calculation(pokemon, enemy, move){
 	var _status = 0;
+	var _ability_status = 0;
 	var _critChance = irandom_range(0, 255);
 	var _critTreshold = pokemon.speed / 2; //TODO: High crit chance atk and items
 	var _isCritical = _critChance <= _critTreshold ? 2 : 1; //TODO _isCritical = 1 if target ability is Battle Armor or Shell Armor or with Luck Chant
@@ -273,12 +280,20 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	var _type2 = array_length(enemy.type) > 1 ? __PFS_is_effective(enemy, move, 1) : 1;
 	var _type = 1 * _type1 * _type2;
 	var _rnd = random_range(0.85, 1);
+	var _burn = move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and !__PFS_pokemon_have_ability(pokemon, "guts") ? 0.5 : 1; //TODO: don't affect fixed damage moves like Foul Play and ignore if its ability is guts
+	DEBUG
+	if (PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and __PFS_pokemon_have_ability(pokemon, "guts")) {
+	    show_debug_message("Burn damage halving ignored by Guts ability")
+	}
+	if (_burn != 1) {
+	    show_debug_message($"{pokemon.internalName} damage is halved because it's burning");
+	}
+	ENDDEBUG
 	#region //TODO
 	var _targets = 1; //TODO: 0.75 if more than one target (0.5 in battle royale)
 	var _pb = 1; //TODO: Parental Bond second hit = 0.25
 	var _weather = 1 //TODO: Weather
 	var _glaiverush = 1; //TODO: Glaive Rush = 2 if the move was used in the previous turn
-	var _burn = 1;
 	var _other = 1;
 	#endregion
 	var _a = 1;
@@ -287,49 +302,49 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	    case PFSMoveCategory.Physical:
 	        _a = pokemon.attack;
 			_d = enemy.defense;
+			var _result = __PFS_ability_on_contact(pokemon, enemy);
+			pokemon = _result[0];
+			enemy = _result[1];
+			_ability_status = _result[2];
 	        break;
 	    case PFSMoveCategory.Special:
-	    case PFSMoveCategory.Status:
-	        _a = pokemon.spattack;
+			_a = pokemon.spattack;
 			_d = enemy.spdefense;
-			if (move.category == PFSMoveCategory.Status or move.effect_chance != "") {
-			    var _chance = irandom_range(0, 100);
-				//_chance = 3;
-				
-				if (move.category == PFSMoveCategory.Status or _chance <= move.effect_chance) {
-					var _turns = -1;
-					var _effectData = PFS.StatusAilmentsData[move.id];
-					_turns = irandom_range(_effectData.min_turns, _effectData.max_turns);
-					if (_effectData.max_turns == 0) {
-					    _turns = -1;
-					}
-					_status = [real(PFS.StatusAilmentsData[move.id].meta_ailment_id), _turns];
-					#region Invulnerabilities
-					
-						#region Types
-							#region Burn
-								if (array_contains(enemy.type, __PFSTypes.Fire) and PFS.StatusAilmentsData[move.id].meta_ailment_id == "Burn") {
-								    show_debug_message($"{enemy.internalName} is immune to Burn!");
-									_status = 0;
-								}
-							#endregion
-						#endregion
-						
-						#region Abilities
-							#region Shield Dust
-								for (var i = 0; i < array_length(enemy.ability); ++i) {
-								    if (move.effect_chance < 100 and enemy.ability[i][0] == __PFS_get_ability_id("shield-dust")) {
-										show_debug_message($"{enemy.internalName}'s Shield Dust cancelled the status effect!");
-									    _status = 0;
-									}
-								}
-							#endregion
-						#endregion
-						
-					#endregion
-				}
+			break;
+	}
+	if (move.category == PFSMoveCategory.Status or move.effect_chance != "") {
+		var _chance = irandom_range(0, 100);
+		_chance = 3;
+		
+		if (move.category == PFSMoveCategory.Status or _chance <= move.effect_chance) {
+			var _turns = -1;
+			var _effectData = PFS.StatusAilmentsData[move.id];
+			_turns = irandom_range(_effectData.min_turns, _effectData.max_turns);
+			if (_effectData.max_turns == 0) {
+				_turns = -1;
 			}
-	        break;
+			_status = [real(PFS.StatusAilmentsData[move.id].meta_ailment_id), _turns];
+			#region Invulnerabilities
+				#region Types
+					#region Burn
+						if (array_contains(enemy.type, __PFSTypes.Fire) and PFS.StatusAilmentsData[move.id].meta_ailment_id == "Burn") {
+							show_debug_message($"{enemy.internalName} is immune to Burn!");
+							_status = 0;
+						}
+					#endregion
+				#endregion
+				
+				#region Abilities
+					#region Shield Dust
+						if (move.effect_chance < 100 and __PFS_pokemon_have_ability(enemy, "shield-dust")) {
+							show_debug_message($"{enemy.internalName}'s Shield Dust cancelled the status effect!");
+							_status = 0;
+						}
+					#endregion
+				#endregion
+				
+			#endregion
+		}
 	}
 	if (_a > 255 or _d > 255) {
 	    _a = floor(_a / 4);
@@ -339,15 +354,8 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	_damage = _damage * _targets * _pb * _weather * _glaiverush * _isCritical * _rnd * _stab * _type * _burn * _other;
 	_damage = round(_damage);
 	if (_power == 0) { _damage = 0; }
-	#region Status Effects
-	if (_damage > 0 and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn)) { //TODO: don't affect fixed damage moves like Foul Play
-		var _oDamage = _damage;
-		_damage = round(_damage / 2);
-		show_debug_message($"{pokemon.internalName} damage is halved from {_oDamage} to {_damage} because it's burning");
-	}
-	#endregion
 	//show_debug_message($"Dealt ( ( ( 2 * {_level} / 5 + 2) * {_power} * ({_a} / {_d}) ) / 50 + 2 )  * {_targets} * {_pb} * {_weather} * {_glaiverush} * {_isCritical} * {_rnd} * {_stab} * {_type} * {_burn} * {_other} = {_damage} damage");
-	return [_damage, _status];
+	return [_damage, _status, _ability_status];
 }
 
 function __PFS_generate_pokemon(pokemon){
@@ -426,11 +434,22 @@ function __PFS_get_ability_id(name) {
 		    return i;
 		}
 	}
-	show_debug_message("Move id not found");
+	show_debug_message("Ability not found");
 	return 0;
+}
+	
+function __PFS_pokemon_have_ability(pokemon, abilityname){
+	var _ability_id = __PFS_get_ability_id(abilityname);
+	for (var i = 0; i < array_length(pokemon.ability); ++i) {
+	    if (pokemon.ability[i][0] == _ability_id) {
+		    return true;
+		}
+	}
+	return false;
 }
 
 function __PFS_ability_before_move(pokemon, move){
+	move = variable_clone(move);
 	for (var i = 0; i < array_length(pokemon.ability); ++i) {
 	    if (pokemon.ability[i][0] == __PFS_get_ability_id("pixilate")) {
 		    if (move.type == __PFSTypes.Normal) {
@@ -454,11 +473,29 @@ function __PFS_ability_before_contact(pokemon, enemy){
 }
 
 function __PFS_ability_on_contact(pokemon, enemy){
-	for (var i = 0; i < array_length(pokemon.ability); ++i) {
-	    if (pokemon.ability[i][0] == __PFS_get_ability_id("indentifier")) {
+	var _status = 0;
+	var _chance = irandom_range(0, 100);
+	if (__PFS_pokemon_have_ability(pokemon, "poison-touch")) {
+	    if (_chance <= 30) {
+			var _counters = ["shield-dust", "immunity"];
+			var _counter_ability = "";
+			var _countered = false;
+			for (var i = 0; i < array_length(_counters); ++i) {
+			    if (__PFS_pokemon_have_ability(enemy, _counters[i])) {
+					_counter_ability = _counters[i];
+					_countered = true;
+					break;
+				}
+			}
+			if (!_countered){
+				_status = [PFSStatusAilments.Poison, -1, "Poison Touch"];
+			}
+			else {
+				show_debug_message($"{pokemon.internalName}'s Poison Touch canceled by {enemy.internalName}'s {_counter_ability}");
+			}
 		}
 	}
-	return [pokemon, enemy];
+	return [pokemon, enemy, _status];
 }
 
 function __PFS_ability_after_contact(pokemon, enemy){
@@ -487,12 +524,19 @@ function __PFS_tick_status_effect(pokemon) {
 		if (pokemon.statusAilments[i][1] != -1) {
 			pokemon.statusAilments[i][1]--;
 		}
+		var _statusName = PFS.StatusAilments[_status];
+		var _hploss = 0;
 		switch (_status) {
 		    case PFSStatusAilments.Burn:
 				var _hploss = round(pokemon.hp / 16);
-				pokemon.hp -= _hploss;
-				show_debug_message($"{pokemon.internalName} lost {_hploss}hp to Burn");
 		        break;
+		    case PFSStatusAilments.Poison:
+				var _hploss = round(pokemon.hp / 8);
+		        break;
+		}
+		if (_hploss != 0) {
+		    pokemon.hp -= _hploss;
+			show_debug_message($"{pokemon.internalName} lost {_hploss}hp due to {_statusName}");
 		}
 	}
 	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {

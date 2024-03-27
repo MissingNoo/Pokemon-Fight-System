@@ -1,4 +1,3 @@
-enemyPokemon = undefined;
 if (sprite_exists(enemySprite)) {
     sprite_delete(enemySprite);
 }
