@@ -11,8 +11,6 @@ PFS.PFSMoveCategory = [["Physical", sPFSPhysicalIcon], ["Special", sPFSSpecialIc
 PFS.StatusAilments = [];
 PFS.StatusAilmentsData = [];
 
-
-
 enum __PFSTypes {
 	Normal, 
 	Fire, 
@@ -320,7 +318,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	_damage = round(_damage);
 	if (_power == 0) { _damage = 0; }
 	#region Status Effects
-	if (_damage > 0 and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn)) {
+	if (_damage > 0 and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn)) { //TODO: don't affect fixed damage moves like Foul Play
 		var _oDamage = _damage;
 		_damage = round(_damage / 2);
 		show_debug_message($"{pokemon.internalName} damage is halved from {_oDamage} to {_damage} because it's burning");
@@ -399,6 +397,7 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 	return pokemon;
 }
 
+#region Abilities
 function __PFS_get_ability_id(name) {
 	for (var i = 0; i < array_length(PFS.Abilities); ++i) {
 	    if (PFS.Abilities[i][$ "internalName"] == name or PFS.Abilities[i][$ "identifier"] == name) {
@@ -424,12 +423,30 @@ function __PFS_ability_before_move(pokemon, move){
 	return [pokemon, move];
 }
 
-function __PFS_ability_on_contact(pokemon, enemy){
-	//for (var i = 0; i < array_length(pokemon); ++i) {
-	    
-	//}
+function __PFS_ability_before_contact(pokemon, enemy){
+	for (var i = 0; i < array_length(pokemon.ability); ++i) {
+	    if (pokemon.ability[i][0] == __PFS_get_ability_id("indentifier")) {
+		}
+	}
 	return [pokemon, enemy];
 }
+
+function __PFS_ability_on_contact(pokemon, enemy){
+	for (var i = 0; i < array_length(pokemon.ability); ++i) {
+	    if (pokemon.ability[i][0] == __PFS_get_ability_id("indentifier")) {
+		}
+	}
+	return [pokemon, enemy];
+}
+
+function __PFS_ability_after_contact(pokemon, enemy){
+	for (var i = 0; i < array_length(pokemon.ability); ++i) {
+	    if (pokemon.ability[i][0] == __PFS_get_ability_id("indentifier")) {
+		}
+	}
+	return [pokemon, enemy];
+}
+#endregion
 
 function __PFS_get_move_id(name) {
 	for (var i = 0; i < array_length(PFS.moves); ++i) {
