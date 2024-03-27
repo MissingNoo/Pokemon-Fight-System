@@ -58,6 +58,7 @@ if (doTurn) {
 				load_sprite(PFS.playerPokemons[pokemonOut], 1);
 				break;
 			case PFSTurnType.Run:
+				PFS.playerPokemons[pokemonOut] = __PFS_tick_status_effect(PFS.playerPokemons[pokemonOut]);
 				show_debug_message("Ran from battle");
 				instance_destroy();
 				break;
