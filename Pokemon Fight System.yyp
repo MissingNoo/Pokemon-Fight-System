@@ -24,7 +24,11 @@
     {"$GMIncludedFile":"","%Name":"move_flag_map.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_flag_map.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"move_flags.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_flags.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"move_meta_ailments.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_meta_ailments.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"move_meta_categories.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_meta_categories.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"move_meta_categories.csv","ConfigValues":{
+        "Debug":{
+          "CopyToMask":"-1",
+        },
+      },"CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_meta_categories.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"move_meta_stat_changes.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_meta_stat_changes.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"move_meta.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_meta.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"moves.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"moves.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},

@@ -314,7 +314,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	}
 	if (move.category == PFSMoveCategory.Status or move.effect_chance != "") {
 		var _chance = irandom_range(0, 100);
-		_chance = 3;
+		//_chance = 3;
 		
 		if (move.category == PFSMoveCategory.Status or _chance <= move.effect_chance) {
 			var _turns = -1;
