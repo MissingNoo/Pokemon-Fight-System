@@ -529,13 +529,36 @@ function __PFS_get_move_id(name) {
 }
 
 #region Status Effects
+function __PFS_count_status_effect(pokemon) {
+	var _status = PFSStatusAilments.None;
+	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
+	    _status = pokemon.statusAilments[i][0];
+		if (pokemon.statusAilments[i][1] != -1) {
+			pokemon.statusAilments[i][1]--;
+		}
+	}
+	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
+		_status = pokemon.statusAilments[i][0];
+		if (pokemon.statusAilments[i][1] == 0) {
+			switch (_status) {
+			    case PFSStatusAilments.Sleep:
+			        show_debug_message($"{pokemon.internalName} woke up!");
+			        break;
+			    default:
+			        show_debug_message($"{pokemon.internalName} {PFS.StatusAilments[pokemon.statusAilments[i][0]]} status ran out!");
+			        break;
+			}			
+			array_delete(pokemon.statusAilments, i, 1);
+			continue;
+		}
+	}
+	return pokemon;
+}
+
 function __PFS_tick_status_effect(pokemon) {
 	pokemon.flinch = false;
 	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
 	    var _status = pokemon.statusAilments[i][0];
-		if (pokemon.statusAilments[i][1] != -1) {
-			pokemon.statusAilments[i][1]--;
-		}
 		var _statusName = PFS.StatusAilments[_status];
 		var _hploss = 0;
 		switch (_status) {
@@ -549,13 +572,6 @@ function __PFS_tick_status_effect(pokemon) {
 		if (_hploss != 0) {
 		    pokemon.hp -= _hploss;
 			show_debug_message($"{pokemon.internalName} lost {_hploss}hp due to {_statusName}");
-		}
-	}
-	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
-		if (pokemon.statusAilments[i][1] == 0) {
-			show_debug_message($"{pokemon.internalName} {PFS.StatusAilments[pokemon.statusAilments[i][0]]} status ran out!");
-			array_delete(pokemon.statusAilments, i, 1);
-			continue;
 		}
 	}
 	return pokemon;

@@ -19,6 +19,8 @@ if (doTurn) {
 	    show_debug_message($"");
 		order_turn();
 		show_debug_message($"Turn step: {currentTurn}");
+		PFS.playerPokemons[pokemonOut] = __PFS_count_status_effect(PFS.playerPokemons[pokemonOut]);
+		enemyPokemon[0] = __PFS_count_status_effect(enemyPokemon[0]);
 	}
 	for (var i = 0; i < array_length(turnSteps); ++i) {
 		if (!enemy_alive() and turnSteps[i][0] != PFSTurnType.Run) {
@@ -30,66 +32,51 @@ if (doTurn) {
 				var _ability_result = __PFS_ability_before_move(turnSteps[i][1], turnSteps[i][3]);
 				turnSteps[i][1] = _ability_result[0];
 				turnSteps[i][3] = _ability_result[1];
+				var _pokeside = turnSteps[i][4] == PFSBattleSides.Player ? PFS.playerPokemons[pokemonOut] : enemyPokemon[0];
+				
+				#region Status
+				if (__PFS_pokemon_affected_by_status(_pokeside, PFSStatusAilments.Sleep)) {
+						show_debug_message($"{_pokeside.internalName} is fast asleep!");
+						array_shift(turnSteps);
+						i--;
+						continue;
+				}
+				if (__PFS_pokemon_affected_by_status(_pokeside, PFSStatusAilments.Paralysis)) {
+					var _chance = irandom_range(0, 100);
+					if (_chance <= 25) {
+						show_debug_message($"{_pokeside.internalName} is paralyzed! It can't move!");
+						array_shift(turnSteps);
+						i--;
+						continue;
+					}
+				}
+				if (_pokeside.flinch) {
+					if (__PFS_pokemon_have_ability(_pokeside, "inner-focus")) {
+						show_debug_message($"{_pokeside} won't flinch because of its Inner Focus!");
+					}
+					else {
+						show_debug_message($"{turnSteps[i][1].internalName} flinched due to {turnSteps[i][2].internalName}'s Stench");
+						array_shift(turnSteps);
+						i--;
+						continue;
+					}
+				}
+				for (var j = 0; j < array_length(_pokeside.moves); ++j) {
+					if (_pokeside.moves[j].id == turnSteps[i][3].id) {
+						_pokeside.moves[j].pp--;
+						break;
+					}
+				}
+				#endregion
+				
 				switch (turnSteps[i][4]) {
 				    case PFSBattleSides.Player:
-						if (__PFS_pokemon_affected_by_status(PFS.playerPokemons[pokemonOut], PFSStatusAilments.Paralysis)) {
-							var _chance = irandom_range(0, 100);
-							if (_chance <= 25) {
-								show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} is paralyzed! It can't move!");
-								array_shift(turnSteps);
-								i--;
-								continue;
-							}
-						}
-						if (PFS.playerPokemons[pokemonOut].flinch) {
-							if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "inner-focus")) {
-							    show_debug_message($"{PFS.playerPokemons[pokemonOut]} won't flinch because of its Inner Focus!");
-							}
-							else {
-								show_debug_message($"{turnSteps[i][1].internalName} flinched due to {turnSteps[i][2].internalName}'s Stench");
-								array_shift(turnSteps);
-								i--;
-								continue;
-							}
-						}
 						lastUsedMove = turnSteps[i][3].id;
 				        turnSteps[i][1].hp = PFS.playerPokemons[pokemonOut].hp;
-						for (var j = 0; j < array_length(PFS.playerPokemons[pokemonOut].moves); ++j) {
-					    if (PFS.playerPokemons[pokemonOut].moves[j].id == turnSteps[i][3].id) {
-							    PFS.playerPokemons[pokemonOut].moves[j].pp--;
-								break;
-							}
-						}
 				        break;
 				    case PFSBattleSides.Enemy:
-						if (__PFS_pokemon_affected_by_status(enemyPokemon[0], PFSStatusAilments.Paralysis)) {
-							var _chance = irandom_range(0, 100);
-							if (_chance <= 25) {
-								show_debug_message($"{enemyPokemon[0].internalName} is paralyzed! It can't move!");
-								array_shift(turnSteps);
-								i--;
-								continue;
-							}
-						}
-						if (enemyPokemon[0].flinch) {
-							if (__PFS_pokemon_have_ability(enemyPokemon[0], "inner-focus")) {
-							    show_debug_message($"{enemyPokemon[0]} won't flinch because of its Inner Focus!");
-							}
-							else {
-								show_debug_message($"{turnSteps[i][1].internalName} flinched due to {turnSteps[i][2].internalName}'s Stench");
-								array_shift(turnSteps);
-								i--;
-								continue;
-							}
-						}
 						lastEnemyUsedMove = turnSteps[i][3].id;
 				        turnSteps[i][1].hp = enemyPokemon[0].hp;
-						for (var j = 0; j < array_length(enemyPokemon[0].moves); ++j) {
-					    if (enemyPokemon[0].moves[j].id == turnSteps[i][3].id) {
-							    enemyPokemon[0].moves[j].pp--;
-								break;
-							}
-						}
 				        break;
 				}
 		        __PFS_use_move(turnSteps[i][1], turnSteps[i][2], turnSteps[i][3], turnSteps[i][4]);
