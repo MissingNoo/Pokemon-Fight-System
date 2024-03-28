@@ -1,6 +1,15 @@
 {
   "$GMAndroidOptions":"",
   "%Name":"Android",
+  "ConfigValues":{
+    "Debug":{
+      "option_android_build_tools":"",
+      "option_android_support_lib":"33.0.0",
+      "option_android_target_sdk":"33",
+      "option_android_compile_sdk":"33",
+      "option_android_minimum_sdk":"16",
+    },
+  },
   "name":"Android",
   "option_android_application_tag_inject":"",
   "option_android_arch_arm64":true,
