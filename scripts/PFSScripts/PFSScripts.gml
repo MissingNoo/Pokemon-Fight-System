@@ -543,7 +543,7 @@ function __PFS_tick_status_effect(pokemon) {
 				_hploss = round(pokemon.hp / 16);
 		        break;
 		    case PFSStatusAilments.Poison:
-				_hploss = round(pokemon.hp / 81);
+				_hploss = round(pokemon.hp / 8);
 		        break;
 		}
 		if (_hploss != 0) {
