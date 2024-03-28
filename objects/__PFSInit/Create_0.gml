@@ -61,7 +61,8 @@ if (file_exists(file)) {
 			},
 			basecalc : {},
 			effort : {},
-			ability : [[0, 1], [0, 1], [0, 1]]
+			ability : [[0, 1], [0, 1], [0, 1]],
+			flinch : false
 		}
 		for (var i = 0; i < array_length(_pos); ++i) {
 		    _poke[$ _pos[i]] = _line[i];

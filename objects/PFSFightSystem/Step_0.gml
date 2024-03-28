@@ -30,6 +30,15 @@ if (doTurn) {
 				turnSteps[i][3] = _ability_result[1];
 				switch (turnSteps[i][4]) {
 				    case PFSBattleSides.Player:
+						if (PFS.playerPokemons[pokemonOut].flinch) {
+							if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "inner-focus")) {
+							    show_debug_message($"{PFS.playerPokemons[pokemonOut]} won't flinch because of its Inner Focus!");
+							}
+							else {
+								show_debug_message($"{turnSteps[i][1].internalName} flinched due to {turnSteps[i][2].internalName}'s Stench");
+								continue;
+							}
+						}
 						lastUsedMove = turnSteps[i][3].id;
 				        turnSteps[i][1].hp = PFS.playerPokemons[pokemonOut].hp;
 						for (var j = 0; j < array_length(PFS.playerPokemons[pokemonOut].moves); ++j) {
@@ -40,6 +49,15 @@ if (doTurn) {
 						}
 				        break;
 				    case PFSBattleSides.Enemy:
+						if (enemyPokemon[0].flinch) {
+							if (__PFS_pokemon_have_ability(enemyPokemon[0], "inner-focus")) {
+							    show_debug_message($"{enemyPokemon[0]} won't flinch because of its Inner Focus!");
+							}
+							else {
+								show_debug_message($"{turnSteps[i][1].internalName} flinched due to {turnSteps[i][2].internalName}'s Stench");
+								continue;
+							}
+						}
 						lastEnemyUsedMove = turnSteps[i][3].id;
 				        turnSteps[i][1].hp = enemyPokemon[0].hp;
 						for (var j = 0; j < array_length(enemyPokemon[0].moves); ++j) {

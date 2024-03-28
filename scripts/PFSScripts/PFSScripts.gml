@@ -302,7 +302,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	    case PFSMoveCategory.Physical:
 	        _a = pokemon.attack;
 			_d = enemy.defense;
-			var _result = __PFS_ability_on_contact(pokemon, enemy);
+			var _result = __PFS_ability_on_contact(pokemon, enemy, move);
 			pokemon = _result[0];
 			enemy = _result[1];
 			_ability_status = _result[2];
@@ -472,9 +472,14 @@ function __PFS_ability_before_contact(pokemon, enemy){
 	return [pokemon, enemy];
 }
 
-function __PFS_ability_on_contact(pokemon, enemy){
+function __PFS_ability_on_contact(pokemon, enemy, move){
 	var _status = 0;
 	var _chance = irandom_range(0, 100);
+	if (__PFS_pokemon_have_ability(pokemon, "stench")) {
+	    if (_chance <= 10 and move.mpower > 0) {
+			enemy.flinch = true;
+		}
+	}
 	if (__PFS_pokemon_have_ability(pokemon, "poison-touch")) {
 	    if (_chance <= 30) {
 			var _counters = ["shield-dust", "immunity"];
@@ -519,6 +524,7 @@ function __PFS_get_move_id(name) {
 
 #region Status Effects
 function __PFS_tick_status_effect(pokemon) {
+	pokemon.flinch = false;
 	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
 	    var _status = pokemon.statusAilments[i][0];
 		if (pokemon.statusAilments[i][1] != -1) {
