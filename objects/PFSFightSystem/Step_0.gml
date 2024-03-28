@@ -15,9 +15,11 @@ if (keyboard_check_pressed(vk_f1)) {
 if (doTurn) {
 	var _rnd = irandom_range(0, array_length(enemyPokemon[0].moves) - 1);
 	array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[0], PFS.playerPokemons[pokemonOut], enemyPokemon[0].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
-	show_debug_message($"");
-	order_turn();
-	show_debug_message($"Turn step: {currentTurn}");
+	if (enemy_alive()) {
+	    show_debug_message($"");
+		order_turn();
+		show_debug_message($"Turn step: {currentTurn}");
+	}
 	for (var i = 0; i < array_length(turnSteps); ++i) {
 		if (!enemy_alive() and turnSteps[i][0] != PFSTurnType.Run) {
 		    doTurn = false;
@@ -30,12 +32,23 @@ if (doTurn) {
 				turnSteps[i][3] = _ability_result[1];
 				switch (turnSteps[i][4]) {
 				    case PFSBattleSides.Player:
+						if (__PFS_pokemon_affected_by_status(PFS.playerPokemons[pokemonOut], PFSStatusAilments.Paralysis)) {
+							var _chance = irandom_range(0, 100);
+							if (_chance <= 25) {
+								show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} is paralyzed! It can't move!");
+								array_shift(turnSteps);
+								i--;
+								continue;
+							}
+						}
 						if (PFS.playerPokemons[pokemonOut].flinch) {
 							if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "inner-focus")) {
 							    show_debug_message($"{PFS.playerPokemons[pokemonOut]} won't flinch because of its Inner Focus!");
 							}
 							else {
 								show_debug_message($"{turnSteps[i][1].internalName} flinched due to {turnSteps[i][2].internalName}'s Stench");
+								array_shift(turnSteps);
+								i--;
 								continue;
 							}
 						}
@@ -49,12 +62,23 @@ if (doTurn) {
 						}
 				        break;
 				    case PFSBattleSides.Enemy:
+						if (__PFS_pokemon_affected_by_status(enemyPokemon[0], PFSStatusAilments.Paralysis)) {
+							var _chance = irandom_range(0, 100);
+							if (_chance <= 25) {
+								show_debug_message($"{enemyPokemon[0].internalName} is paralyzed! It can't move!");
+								array_shift(turnSteps);
+								i--;
+								continue;
+							}
+						}
 						if (enemyPokemon[0].flinch) {
 							if (__PFS_pokemon_have_ability(enemyPokemon[0], "inner-focus")) {
 							    show_debug_message($"{enemyPokemon[0]} won't flinch because of its Inner Focus!");
 							}
 							else {
 								show_debug_message($"{turnSteps[i][1].internalName} flinched due to {turnSteps[i][2].internalName}'s Stench");
+								array_shift(turnSteps);
+								i--;
 								continue;
 							}
 						}

@@ -19,6 +19,16 @@ function order_turn() {
 		var _goAfter = false;
 		if (elm1[0] == PFSTurnType.Move and elm2[0] == PFSTurnType.Move) {
 			//show_debug_message($"{elm1[1].internalName} speed: {elm1[1].speed} / {elm2[1].internalName} speed: {elm2[1].speed}");
+			elm1[1] = variable_clone(elm1[1]);
+			elm2[1] = variable_clone(elm2[1]);
+			#region Paralysis
+			if (__PFS_pokemon_affected_by_status(elm1[1], PFSStatusAilments.Paralysis)) {
+			    elm1[1].speed = elm1[1].speed * 0.5;
+			}
+			if (__PFS_pokemon_affected_by_status(elm2[1], PFSStatusAilments.Paralysis)) {
+			    elm2[1].speed = elm2[1].speed * 0.5;
+			}
+			#endregion
 			if (elm1[1].speed < elm2[1].speed) {
 			    _goAfter = true;
 			}

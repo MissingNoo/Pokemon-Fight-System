@@ -327,8 +327,14 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 			#region Invulnerabilities
 				#region Types
 					#region Burn
-						if (array_contains(enemy.type, __PFSTypes.Fire) and PFS.StatusAilmentsData[move.id].meta_ailment_id == "Burn") {
+						if (array_contains(enemy.type, __PFSTypes.Fire) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Burn) {
 							show_debug_message($"{enemy.internalName} is immune to Burn!");
+							_status = 0;
+						}
+					#endregion
+					#region Paralysis
+						if (array_contains(enemy.type, __PFSTypes.Electric) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Paralysis) {
+							show_debug_message($"{enemy.internalName} is immune to Paralysis!");
 							_status = 0;
 						}
 					#endregion
@@ -534,10 +540,10 @@ function __PFS_tick_status_effect(pokemon) {
 		var _hploss = 0;
 		switch (_status) {
 		    case PFSStatusAilments.Burn:
-				var _hploss = round(pokemon.hp / 16);
+				_hploss = round(pokemon.hp / 16);
 		        break;
 		    case PFSStatusAilments.Poison:
-				var _hploss = round(pokemon.hp / 8);
+				_hploss = round(pokemon.hp / 81);
 		        break;
 		}
 		if (_hploss != 0) {
