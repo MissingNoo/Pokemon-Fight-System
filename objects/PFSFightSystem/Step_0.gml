@@ -85,10 +85,19 @@ if (doTurn) {
 				}
 		        __PFS_use_move(turnSteps[i][1], turnSteps[i][2], turnSteps[i][3], turnSteps[i][4]);
 		        break;
-			case PFSTurnType.ChangePokemon:
+			case PFSTurnType.ChangePokemon: //TODO: redo
+				for (var j = 0; j < array_length(PFS.playerPokemons[pokemonOut].statusAilments); ++j) {
+				    if (PFS.playerPokemons[pokemonOut].statusAilments[j][0] == PFSStatusAilments.Perish_song) {
+					    array_delete(PFS.playerPokemons[pokemonOut].statusAilments, j, 1);
+						j = 0;
+					}
+				}
 				pokemonOut = turnSteps[i][1];
 				pokemonhplerp = PFS.playerPokemons[pokemonOut].hp; //TODO: enemy pokemon
 				show_debug_message($"Sent {PFS.playerPokemons[pokemonOut].internalName} out!");
+				if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
+				    show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
+				}
 				load_sprite(PFS.playerPokemons[pokemonOut], 1);
 				break;
 			case PFSTurnType.Run:

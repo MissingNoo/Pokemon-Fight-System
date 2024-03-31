@@ -1,6 +1,4 @@
 //Feather disable GM2017
-show_debug_log(true);
-show_debug_message("Starting battle!");
 #region Turn data
 playerLastOneWasDead = false;
 lastUsedMove = 0;
@@ -161,3 +159,17 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 
 load_sprite(PFS.playerPokemons[0], 1);
 load_sprite(enemyPokemon[enemyOut], 0);
+
+#region Battle Start
+show_debug_log(true);
+for (var i = 0; i < 100; ++i) {
+    show_debug_message("");
+}
+show_debug_message("Starting battle!");
+if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
+	show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
+}
+if (__PFS_pokemon_have_ability(enemyPokemon[0], "mold-breaker")) {
+	show_debug_message($"{enemyPokemon[0].internalName} breaks the mold!");
+}
+#endregion

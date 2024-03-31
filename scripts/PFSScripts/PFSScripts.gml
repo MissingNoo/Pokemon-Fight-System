@@ -73,13 +73,13 @@ enum PFSStatusAilments {
 	Disable,
 	Yawn,
 	Heal_block,
-	No_type_immunity = 15,
-	Leech_seed = 17,
-	Embargo = 18,
-	Perish_song = 19,
-	Ingrain = 20,
-	Silence = 23,
-	Tar_shot = 41,
+	No_type_immunity = 16,
+	Leech_seed = 18,
+	Embargo = 19,
+	Perish_song = 20,
+	Ingrain = 21,
+	Silence = 22,
+	Tar_shot = 43,
 }
 	
 #region Move effectiveness
@@ -224,16 +224,24 @@ function __PFS_pokemon_affected_by_status(pokemon, status_id) {
 
 function __PFS_use_move(pokemon, enemy, move, side) {
 	if (pokemon.hp <= 0) { return; }
-	var _calc = [0, [0, 0]];
+	var _calc = [0, [0, 0], [0, 0]];
 	var _appliedStatus = "";
 	_calc = __PFS_damage_calculation(pokemon, enemy, move);
-	if (_calc[1] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[1][0]) and _calc[1][0] != 0) {
-		_appliedStatus = $"{_appliedStatus} and applied {PFS.StatusAilments[_calc[1][0]]} status!";
-		array_push(side == PFSBattleSides.Player ? enemyPokemon[0].statusAilments : PFS.playerPokemons[pokemonOut].statusAilments, _calc[1]);
+	for (var i = 1; i <= 2; ++i) {
+	    if (_calc[i] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[i][0]) and _calc[i][0] != 0) {
+			_appliedStatus = $"{_appliedStatus} and applied {PFS.StatusAilments[_calc[i][0]]} status!";
+			array_push(side == PFSBattleSides.Player ? enemyPokemon[0].statusAilments : PFS.playerPokemons[pokemonOut].statusAilments, _calc[i]);
+		}
 	}
-	if (_calc[2] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[2][0]) and _calc[2][0] != 0) {
-		_appliedStatus = $"{_appliedStatus} and applied {PFS.StatusAilments[_calc[2][0]]} status due to {_calc[2][2]}!";
-		array_push(side == PFSBattleSides.Player ? enemyPokemon[0].statusAilments : PFS.playerPokemons[pokemonOut].statusAilments, _calc[2]);
+	if (_calc[3] != 0) { // Move that affects the user (Perish Song)
+		switch (side) {
+			case PFSBattleSides.Player:
+				PFS.playerPokemons[pokemonOut] = _calc[3];
+				break;
+			case PFSBattleSides.Enemy:
+				enemyPokemon[0] = _calc[3];
+				break;
+		}
 	}
 	show_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}!", _calc[0] > 0 ? $" dealing {_calc[0]} damage!" : "", $" {_appliedStatus}"));
 	switch (side) {
@@ -264,6 +272,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 }
 
 function __PFS_damage_calculation(pokemon, enemy, move){
+	var _affectUser = 0;
 	var _status = 0;
 	var _ability_status = 0;
 	var _critChance = irandom_range(0, 255);
@@ -317,13 +326,28 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 		//_chance = 3;
 		
 		if (move.category == PFSMoveCategory.Status or _chance <= move.effect_chance) {
-			var _turns = -1;
+			var _turns = -99;
 			var _effectData = PFS.StatusAilmentsData[move.id];
 			_turns = irandom_range(_effectData.min_turns, _effectData.max_turns);
 			if (_effectData.max_turns == 0) {
-				_turns = -1;
+				_turns = -99;
 			}
 			_status = [real(PFS.StatusAilmentsData[move.id].meta_ailment_id), _turns];
+			#region Status that affect the user
+				#region Perish Song
+					if (_status[0] == PFSStatusAilments.Perish_song) {
+					    if (!__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Perish_song)) {
+							if (__PFS_pokemon_have_ability(pokemon, "soundproof")) {
+							    show_debug_message($"{pokemon.internalName}'s Soundproof ignored Perish Song!");
+							}
+							else {
+								array_push(pokemon.statusAilments, _status);
+								_affectUser = pokemon;
+							}
+						}
+					}
+				#endregion
+			#endregion
 			#region Invulnerabilities to status effects
 				#region Types
 					#region Burn
@@ -344,6 +368,12 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 					#region Shield Dust
 						if (move.effect_chance < 100 and __PFS_pokemon_have_ability(enemy, "shield-dust")) {
 							show_debug_message($"{enemy.internalName}'s Shield Dust cancelled the status effect!");
+							_status = 0;
+						}
+					#endregion
+					#region SoundProof
+						if (_status[0] == PFSStatusAilments.Perish_song and __PFS_pokemon_have_ability(enemy, "soundproof")) {
+							show_debug_message($"{enemy.internalName}'s Soundproof ignored Perish Song!");
 							_status = 0;
 						}
 					#endregion
@@ -372,16 +402,20 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	#region Right after damage calculation
 		#region Abilities
 			#region Sturdy
-				if (enemy.base.hp == enemy.hp and _damage > enemy.hp and __PFS_pokemon_have_ability(enemy, "sturdy")) {
+				if (enemy.base.hp == enemy.hp and _damage > enemy.hp and __PFS_pokemon_have_ability(enemy, "sturdy") and !__PFS_pokemon_have_ability(pokemon, "mold-breaker")) {
 					_damage = enemy.hp - 1;
 					show_debug_message($"{enemy.internalName} held out thanks to Sturdy!");
 				}
 			#endregion
 		#endregion
+		#region Items
+			#region Focus Sash
+			#endregion
+		#endregion
 	#endregion
 	
 	//show_debug_message($"Dealt ( ( ( 2 * {_level} / 5 + 2) * {_power} * ({_a} / {_d}) ) / 50 + 2 )  * {_targets} * {_pb} * {_weather} * {_glaiverush} * {_isCritical} * {_rnd} * {_stab} * {_type} * {_burn} * {_other} = {_damage} damage");
-	return [_damage, _status, _ability_status];
+	return [_damage, _status, _ability_status, _affectUser];
 }
 
 function __PFS_generate_pokemon(pokemon){
@@ -559,14 +593,18 @@ function __PFS_count_status_effect(pokemon) {
 	var _status = PFSStatusAilments.None;
 	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
 	    _status = pokemon.statusAilments[i][0];
-		if (pokemon.statusAilments[i][1] != -1) {
+		if (pokemon.statusAilments[i][1] != -99) {
 			pokemon.statusAilments[i][1]--;
 		}
 	}
 	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
 		_status = pokemon.statusAilments[i][0];
-		if (pokemon.statusAilments[i][1] == 0) {
+		if (pokemon.statusAilments[i][1] <= 0 and pokemon.statusAilments[i][1] != -99) {
 			switch (_status) {
+			    case PFSStatusAilments.Perish_song:
+					show_debug_message($"{pokemon.internalName} fainted due to Perish Song!");
+					pokemon.hp = 0;
+					break;
 			    case PFSStatusAilments.Sleep:
 			        show_debug_message($"{pokemon.internalName} woke up!");
 			        break;
