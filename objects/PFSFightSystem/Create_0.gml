@@ -2,12 +2,15 @@
 show_debug_log(true);
 show_debug_message("Starting battle!");
 #region Turn data
+playerLastOneWasDead = false;
 lastUsedMove = 0;
 lastEnemyUsedMove = 0;
 currentTurn = 0;
 pokePlayerDead = false;
 turnSteps = [];
 doTurn = false;
+enemyhplerp = 0;
+pokemonhplerp = 0;
 enum PFSTurnType {
 	Move,
 	ChangePokemon,
@@ -63,6 +66,13 @@ DebugManager.debug_add_config(self, {
 	text : "a",
 	type : DebugTypes.UpDown,
 	variable : "a",
+	//func: function(){},
+	page : "Battle"
+});
+DebugManager.debug_add_config(self, {
+	text : "b",
+	type : DebugTypes.UpDown,
+	variable : "b",
 	//func: function(){},
 	page : "Battle"
 });
@@ -126,7 +136,8 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	    _status = $"{_status} {PFS.StatusAilments[_pokemon.statusAilments[i][0]]} turns: {_pokemon.statusAilments[i][1]} ;";
 	}
 	draw_text(_x, _y - 50, _status);
-	draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_pokemon.hp / _pokemon.base.hp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
+	var _hp = _side == PFSBattleSides.Player ? pokemonhplerp : enemyhplerp;
+	draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_hp / _pokemon.base.hp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
 	draw_set_halign(fa_right);
 	draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");
 	draw_text(_boxEndX - 10, _y + 45, $"LV:{_pokemon.level}");

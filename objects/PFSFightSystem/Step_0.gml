@@ -1,4 +1,6 @@
 //Feather disable GM2017
+pokemonhplerp = lerp(pokemonhplerp, PFS.playerPokemons[pokemonOut].hp, 0.1);
+enemyhplerp = lerp(enemyhplerp, enemyPokemon[0].hp, 0.1);
 if (pokePlayerDead) {
     selectedMenu = PFSBattleMenus.Pokemon;
 }
@@ -14,7 +16,9 @@ if (keyboard_check_pressed(vk_f1)) {
 
 if (doTurn) {
 	var _rnd = irandom_range(0, array_length(enemyPokemon[0].moves) - 1);
-	array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[0], PFS.playerPokemons[pokemonOut], enemyPokemon[0].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
+	if (!playerLastOneWasDead) {
+	    array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[0], PFS.playerPokemons[pokemonOut], enemyPokemon[0].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
+	}
 	if (enemy_alive()) {
 	    show_debug_message($"");
 		order_turn();
@@ -83,6 +87,7 @@ if (doTurn) {
 		        break;
 			case PFSTurnType.ChangePokemon:
 				pokemonOut = turnSteps[i][1];
+				pokemonhplerp = PFS.playerPokemons[pokemonOut].hp; //TODO: enemy pokemon
 				show_debug_message($"Sent {PFS.playerPokemons[pokemonOut].internalName} out!");
 				load_sprite(PFS.playerPokemons[pokemonOut], 1);
 				break;
@@ -101,6 +106,7 @@ if (doTurn) {
 	PFS.playerPokemons[pokemonOut] = __PFS_tick_status_effect(PFS.playerPokemons[pokemonOut]);
 	enemyPokemon[0] = __PFS_tick_status_effect(enemyPokemon[0]);
 	currentTurn++;
+	playerLastOneWasDead = false;
 	if (PFS.playerPokemons[pokemonOut].hp <= 0) {
 	    pokePlayerDead = true;
 	}

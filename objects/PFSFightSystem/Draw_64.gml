@@ -60,6 +60,9 @@ switch (selectedMenu) {
 		for (var i = 0; i < array_length(PFS.playerPokemons); ++i) {
 		    if (createbutton(_x, _y + _yoff, PFS.playerPokemons[i].internalName, 1) and PFS.playerPokemons[i].hp > 0) {
 				array_push(turnSteps, [PFSTurnType.ChangePokemon, i]);
+				if (pokePlayerDead) {
+				    playerLastOneWasDead = true;
+				}
 				pokePlayerDead = false;
 				selectedMenu = 0;
 				doTurn = true;

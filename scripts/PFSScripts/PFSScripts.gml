@@ -324,7 +324,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 				_turns = -1;
 			}
 			_status = [real(PFS.StatusAilmentsData[move.id].meta_ailment_id), _turns];
-			#region Invulnerabilities
+			#region Invulnerabilities to status effects
 				#region Types
 					#region Burn
 						if (array_contains(enemy.type, __PFSTypes.Fire) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Burn) {
@@ -348,7 +348,6 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 						}
 					#endregion
 				#endregion
-				
 			#endregion
 		}
 	}
@@ -356,10 +355,31 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	    _a = floor(_a / 4);
 	    _d = floor(_d / 4);
 	}
+	#region Right before damage calculation
+		#region Abilities
+			#region Battle armor
+				if (_isCritical == 2 and __PFS_pokemon_have_ability(enemy, "battle-armor")) {
+					_isCritical = 1; // 1 for normal, 2 for critical
+					show_debug_message($"{enemy.internalName}'s Battle Armor cancels the critical damage!");
+				}
+			#endregion
+		#endregion
+	#endregion
 	var _damage = ( ( ( 2 * _level / 5 + 2) * _power * (_a / _d) ) / 50 + 2 );
 	_damage = _damage * _targets * _pb * _weather * _glaiverush * _isCritical * _rnd * _stab * _type * _burn * _other;
 	_damage = round(_damage);
 	if (_power == 0) { _damage = 0; }
+	#region Right after damage calculation
+		#region Abilities
+			#region Sturdy
+				if (enemy.base.hp == enemy.hp and _damage > enemy.hp and __PFS_pokemon_have_ability(enemy, "sturdy")) {
+					_damage = enemy.hp - 1;
+					show_debug_message($"{enemy.internalName} held out thanks to Sturdy!");
+				}
+			#endregion
+		#endregion
+	#endregion
+	
 	//show_debug_message($"Dealt ( ( ( 2 * {_level} / 5 + 2) * {_power} * ({_a} / {_d}) ) / 50 + 2 )  * {_targets} * {_pb} * {_weather} * {_glaiverush} * {_isCritical} * {_rnd} * {_stab} * {_type} * {_burn} * {_other} = {_damage} damage");
 	return [_damage, _status, _ability_status];
 }
@@ -515,6 +535,12 @@ function __PFS_ability_after_contact(pokemon, enemy){
 		}
 	}
 	return [pokemon, enemy];
+}
+
+function __PFS_ability_before_damage_calculation(pokemon){
+	//if (__PFS_pokemon_have_ability(pokemon, "battle-armor")) {
+	    
+	//}
 }
 #endregion
 
