@@ -59,6 +59,13 @@ a = 0;
 b = 0;
 c = 0;
 d = 0;
+DebugManager.debug_add_config(self, {
+	text : "a",
+	type : DebugTypes.UpDown,
+	variable : "a",
+	//func: function(){},
+	page : "Battle"
+});
 #endregion
 
 #region Battle

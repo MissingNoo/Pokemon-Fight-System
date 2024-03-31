@@ -22,15 +22,27 @@ debug_text_button(x + maxwidth - 45, y + 11, " - ", function(){ minimized = !min
 
 yy = y + 50;
 if (minimized) { yy = 9999; }
-button_updown(x + 10, yy, $"step: {step}", "step", .01);
+button_updown(x + 10, yy, "step", "step", .01);
 xx = x + 10;
 for (var i = 0; i < array_length(variables); ++i) {
 	if (variables[i].page != page) {
 	    continue;
 	}
-	if (variable_struct_exists(variables[i], "sameLine") and variables[i].type == DebugTypes.Button) {
+	if (variable_struct_exists(variables[i], "sameLine")) {
 	    yy -= yyStep[variables[i].type];
-		xx += string_width(variables[i-1].text) + 8;
+		var _xoff = 0;
+		switch (variables[i-1].type) {
+		    case DebugTypes.Button:
+		        _xoff = 1;
+		        break;
+		    case DebugTypes.Checkbox:
+		        _xoff = 1.45;
+		        break;
+		    case DebugTypes.UpDown:
+		        _xoff = 1.50;
+		        break;
+		}
+		xx += (string_width(variables[i-1].text) * _xoff ) + 8;
 		if (maxwidth - 10 < xx - x ) {
 		    maxwidth = xx - x + string_width(variables[i].text) + 16;
 		}

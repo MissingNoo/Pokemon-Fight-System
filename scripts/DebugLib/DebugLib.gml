@@ -59,7 +59,7 @@ function button_updown(x, y, text, variable, step, instance = self){
 	var w = sprite_get_width(DebugArrowButtonUpDown);
 	var up = button_arrow(3, x, y);
 	var down = button_arrow(1, x, y + h + 1);
-	draw_text_transformed(x + w + 2, y + 5, text, 1.5, 1.5, 0);
+	draw_text_transformed(x + w + 2, y + 5, $"{text}: {variable_instance_get(instance, variable)}", 1.5, 1.5, 0);
 	var result = up - down;
 	variable_instance_set(instance, variable, (variable_instance_get(instance, variable) + (step * result)));
 	yy += yyStep[DebugTypes.UpDown];

@@ -7,24 +7,16 @@ var _xoff = 0;
 #endregion
 
 #region Debug
-//DebugManager.debug_add_config({
-//	name : $"a: {a}",
-//	type : DebugTypes.UpDown,
-//	object : self,
-//	variable : "a",
-//	//func: function(){},
-//	tab : "Battle"
-//});
-DebugManager.debug_add_config($"a:{a}", DebugTypes.UpDown, self, "a", undefined, "Battle");
-DebugManager.debug_add_config($"b:{b}", DebugTypes.UpDown, self, "b", undefined, "Battle");
-DebugManager.debug_add_config($"c:{c}", DebugTypes.UpDown, self, "c", undefined, "Battle");
-DebugManager.debug_add_config($"d:{d}", DebugTypes.UpDown, self, "d", undefined, "Battle");
+//DebugManager.debug_add_config($"a:{a}", DebugTypes.UpDown, self, "a", undefined, "Battle");
+//DebugManager.debug_add_config($"b:{b}", DebugTypes.UpDown, self, "b", undefined, "Battle");
+//DebugManager.debug_add_config($"c:{c}", DebugTypes.UpDown, self, "c", undefined, "Battle");
+//DebugManager.debug_add_config($"d:{d}", DebugTypes.UpDown, self, "d", undefined, "Battle");
 #endregion
 
 #region Main Window
 windowSize = [windowXScale * 100, windowYScale * 100];
-DebugManager.debug_add_config($"Window X Size:{windowXScale}", DebugTypes.UpDown, self, "windowXScale", undefined, "Battle");
-DebugManager.debug_add_config($"Window Y Size:{windowYScale}", DebugTypes.UpDown, self, "windowYScale", undefined, "Battle");
+//DebugManager.debug_add_config($"Window X Size:{windowXScale}", DebugTypes.UpDown, self, "windowXScale", undefined, "Battle");
+//DebugManager.debug_add_config($"Window Y Size:{windowYScale}", DebugTypes.UpDown, self, "windowYScale", undefined, "Battle");
 var _x = _startx;
 var _y = _starty;
 draw_rectangle(_x, _y, _x + windowSize[0], _y + windowSize[1], true);
