@@ -15,16 +15,16 @@ if (keyboard_check_pressed(vk_f1)) {
 }
 
 if (doTurn) {
+	PFS.playerPokemons[pokemonOut] = __PFS_count_status_effect(PFS.playerPokemons[pokemonOut]);
+	enemyPokemon[0] = __PFS_count_status_effect(enemyPokemon[0]);
 	var _rnd = irandom_range(0, array_length(enemyPokemon[0].moves) - 1);
 	if (!playerLastOneWasDead) {
 	    array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[0], PFS.playerPokemons[pokemonOut], enemyPokemon[0].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
-	}
-	if (enemy_alive()) {
-	    show_debug_message($"");
-		order_turn();
-		show_debug_message($"Turn step: {currentTurn}");
-		PFS.playerPokemons[pokemonOut] = __PFS_count_status_effect(PFS.playerPokemons[pokemonOut]);
-		enemyPokemon[0] = __PFS_count_status_effect(enemyPokemon[0]);
+		if (enemy_alive()) {
+		    show_debug_message($"");
+			order_turn();
+			show_debug_message($"Turn step: {currentTurn}");
+		}
 	}
 	for (var i = 0; i < array_length(turnSteps); ++i) {
 		if (!enemy_alive() and turnSteps[i][0] != PFSTurnType.Run) {

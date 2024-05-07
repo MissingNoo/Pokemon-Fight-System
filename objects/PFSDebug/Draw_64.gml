@@ -1,5 +1,4 @@
-//feather disable GM2016
-//feather disable GM2017
+//feather disable GM2016//feather disable GM2017
 var _yoff = 0;
 var _text = "";
 var GW = display_get_gui_width();
@@ -16,14 +15,14 @@ if (createbutton(_x, _y, _text, 2) and !instance_exists(PFSFightSystem)) {
 	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
-	//PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[88]);
-	//PFS.playerPokemons[0].moves[0] = __PFS_add_move("Ember");
+	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[493]);
+	PFS.playerPokemons[0].moves[0] = __PFS_add_move("Perish Song");
 	//PFS.playerPokemons[0].moves[0].mpower = 0;
 	//PFS.playerPokemons[0].moves[1] = __PFS_add_move("Pound");
 	//PFS.playerPokemons[0].moves[1].mpower = 1;
 	//PFS.playerPokemons[0].moves[2] = __PFS_add_move("Sing");
-	//PFS.playerPokemons[0].level = 100;
-	//PFS.playerPokemons[0] = __PFS_recalculate_stats(PFS.playerPokemons[0], true);
+	PFS.playerPokemons[0].level = 100;
+	PFS.playerPokemons[0] = __PFS_recalculate_stats(PFS.playerPokemons[0], true);
 	
 	//PFS.playerPokemons[0].moves[3] = __PFS_add_move("Thunder Wave");
 	//PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[338]);
@@ -37,17 +36,17 @@ if (createbutton(_x, _y, _text, 2) and !instance_exists(PFSFightSystem)) {
 	PFS.playerPokemons[4] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	PFS.playerPokemons[5] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//Random enemy
-	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)])];
-	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[6])];
+	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 151)])];
+	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[295])];
 	//_enemyPokemon[0].moves = [];
 	//_enemyPokemon[0].moves[0] = __PFS_add_move("Pound");
 	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[10])];
-	//_enemyPokemon[0].level = 100;
-	//_enemyPokemon[0] = __PFS_recalculate_stats(_enemyPokemon[0], true);
+	_enemyPokemon[0].level = 100;
+	_enemyPokemon[0] = __PFS_recalculate_stats(_enemyPokemon[0], true);
 	//_enemyPokemon[0].moves[0] = __PFS_add_move("Destiny Bond");
 	//_enemyPokemon[0].moves[0].pp = 9999;
 	//Start Battle
-    instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
+	instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
 }
 _text = "Exit Battle";
 _x -= string_width(_text) * 2 + 9;

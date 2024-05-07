@@ -594,7 +594,8 @@ function __PFS_count_status_effect(pokemon) {
 	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
 	    _status = pokemon.statusAilments[i][0];
 		if (pokemon.statusAilments[i][1] != -99) {
-			pokemon.statusAilments[i][1]--;
+			pokemon.statusAilments[i][1]-=0.5;
+			//show_debug_message($"{pokemon.internalName}'s {pokemon.statusAilments[i][0]} diminished by one");
 		}
 	}
 	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
