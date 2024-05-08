@@ -1,6 +1,4 @@
-if (instance_number(PFSPokemonManager) > 1) {
-    instance_destroy();
-}
+if (instance_number(PFSPokemonManager) > 1) { instance_destroy(); }
 startPosition = [322, 143];
 windowXScale = 7.21;
 windowYScale = 4.81;

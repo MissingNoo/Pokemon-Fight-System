@@ -1,5 +1,5 @@
 //Feather disable GM2017
-
+if (PFS.Initialized) { instance_destroy(); }
 #region CSV Base
 file = working_directory + "/PFS/Data/file.csv";
 if (file_exists(file)) {
@@ -457,3 +457,5 @@ if (file_exists(file)) {
 }
 else { show_message($"missing file {file} on installation"); }
 #endregion
+PFS.Initialized = true;
+instance_destroy();

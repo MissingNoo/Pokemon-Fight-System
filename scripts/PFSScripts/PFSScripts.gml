@@ -14,6 +14,7 @@ PFS.__PFSTypes = ["Normal", "Fire", "Water", "Grass", "Flying", "Fighting", "Poi
 PFS.PFSMoveCategory = [["Physical", sPFSPhysicalIcon], ["Special", sPFSSpecialIcon], ["Status", sPFSStatusIcon]];
 PFS.StatusAilments = [];
 PFS.StatusAilmentsData = [];
+PFS.Initialized = false;
 
 enum PFSBattleBackground {
 	Normal,
