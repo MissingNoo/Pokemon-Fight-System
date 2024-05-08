@@ -1,8 +1,10 @@
 //Feather disable GM2017
 pokemonhplerp = lerp(pokemonhplerp, PFS.playerPokemons[pokemonOut].hp, 0.1);
 enemyhplerp = lerp(enemyhplerp, enemyPokemon[0].hp, 0.1);
-if (pokePlayerDead) {
+if (pokePlayerDead and !instance_exists(PFSPokemonManager)) {
     selectedMenu = PFSBattleMenus.Pokemon;
+	selectingMenu = false;
+	instance_create_depth(0, 0, -1, PFSPokemonManager, {onBattle : true});
 }
 if (keyboard_check_pressed(vk_numpad8)) {
     display_set_gui_size(window_get_width(), window_get_height());

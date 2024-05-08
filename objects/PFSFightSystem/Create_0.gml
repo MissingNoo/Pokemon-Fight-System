@@ -81,11 +81,24 @@ DebugManager.debug_add_config(self, {
 	//func: function(){},
 	page : "Battle"
 });
+DebugManager.debug_add_config(self, {
+	text : "d",
+	type : DebugTypes.UpDown,
+	variable : "d",
+	//func: function(){},
+	page : "Battle"
+});
 #endregion
 
 #region Battle
 enemyOut = 0;
 pokemonOut = 0;
+for (var i = 0; i < array_length(PFS.playerPokemons); ++i) {
+    if (PFS.playerPokemons[i].hp > 0) {
+	    pokemonOut = i;
+		break;
+	}
+}
 enemySprite = sPFSBulbasaurBack;
 pokemonSprite = sPFSBulbasaurBack;
 selectedMove = 0;
@@ -143,52 +156,59 @@ playerHpY = -138;
 playerHpScale = 2.98;
 #endregion
 function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side){
-	var _hp = _side == PFSBattleSides.Player ? pokemonhplerp : enemyhplerp;
-	if (_side == PFSBattleSides.Enemy) {
-		_x += enemyHpX;
-		_y += enemyHpY;
-		draw_healthbar(_x + 115, _y + 50, _x + 259, _y + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
-	    draw_sprite_ext(PFSEnemyHpBar, 0, _x, _y, enemyHpScale, enemyHpScale, 0, c_white, 1);
-	}
-	if (_side == PFSBattleSides.Player) {
-		_x += playerHpX;
-		_y += playerHpY;
-		draw_healthbar(_x + 143, _y + 50, _x + 285, _y + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
-		draw_sprite_ext(PFSPlayerHpBar, 0, _x, _y, playerHpScale, playerHpScale, 0, c_white, 1);
-	    
-		_x += 28;
-	}
-	draw_set_color(c_black);
-	draw_text_transformed(_x + 10, _y + 2, $"{_pokemon.internalName}", 2, 2, 0);
-	draw_text_transformed(_x + 242, _y + 22, _pokemon.level, 1, 1, 0);
-	draw_set_color(c_white);
-	var _status = "";
-	for (var i = 0; i < array_length(_pokemon.statusAilments); ++i) {
-	    _status = $"{_status} {PFS.StatusAilments[_pokemon.statusAilments[i][0]]} turns: {_pokemon.statusAilments[i][1]} ;";
-	}
-	draw_text(_x, _y - 50, _status);
-	draw_set_halign(fa_right);
-	draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");
-	
-	draw_set_halign(fa_left);
-	_y += 40;
-	var _xoff = 0;
-	var _array = _side == PFSBattleSides.Player ? PFS.playerPokemons : enemyPokemon;
-	for (var i = 0; i < array_length(_array); ++i) {
-	    draw_circle(_boxEndX - 15 - _xoff, _y, 7, PFS.playerPokemons[i].hp <= 0);
-		_xoff += 20;
-	}
-	_x = _startx + (windowSize[0] * 0.07);
-	_y = _starty + (windowSize[1] * 0.45);
+	#region Poke Sprites
+	var _px = _startx + (windowSize[0] * 0.07);
+	var _py = _starty + (windowSize[1] * 0.45);
 	var _sprite = _side == PFSBattleSides.Player ? pokemonSprite : enemySprite;
 	if (sprite_exists(_sprite)) {
-		var _pos = _side == PFSBattleSides.Player ? [_x - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_x + 120 + sprite_get_width(_sprite) / 2, _y - 200 - sprite_get_height(_sprite) / 2];
+		//var _pos = _side == PFSBattleSides.Player ? [_px - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_px + 120 + sprite_get_width(_sprite) / 2, _py - 200 - sprite_get_height(_sprite) / 2];
+		var _pos = _side == PFSBattleSides.Player ? [_px, _py - 60] : [_px + 360, _py - 230];
 		draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], 3, 3, 0, c_white, 1);
 	}
+	#endregion
+	#region HP
+	var _hpx = _x;
+	var _hpy = _y;
+	var _hp = _side == PFSBattleSides.Player ? pokemonhplerp : enemyhplerp;
+	if (_side == PFSBattleSides.Enemy) {
+		_hpx += enemyHpX;
+		_hpy += enemyHpY;
+		draw_healthbar(_hpx + 115, _hpy + 50, _hpx + 259, _hpy + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
+	    draw_sprite_ext(PFSEnemyHpBar, 0, _hpx, _hpy, enemyHpScale, enemyHpScale, 0, c_white, 1);
+	}
+	if (_side == PFSBattleSides.Player) {
+		_hpx += playerHpX;
+		_hpy += playerHpY;
+		draw_healthbar(_hpx + 143, _hpy + 50, _hpx + 285, _hpy + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
+		draw_sprite_ext(PFSPlayerHpBar, 0, _hpx, _hpy, playerHpScale, playerHpScale, 0, c_white, 1);
+	    
+		_hpx += 28;
+	}
+	draw_set_color(c_black);
+	draw_text_transformed(_hpx + 10, _hpy + 2, $"{_pokemon.internalName}", 2, 2, 0);
+	draw_text_transformed(_hpx + 242, _hpy + 22, _pokemon.level, 1, 1, 0);
+	draw_set_color(c_white);
+	#endregion
+	//var _status = "";
+	//for (var i = 0; i < array_length(_pokemon.statusAilments); ++i) {
+	//    _status = $"{_status} {PFS.StatusAilments[_pokemon.statusAilments[i][0]]} turns: {_pokemon.statusAilments[i][1]} ;";
+	//}
+	//draw_text(_x, _y - 50, _status);
+	//draw_set_halign(fa_right);
+	//draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");
+	
+	//draw_set_halign(fa_left);
+	//_y += 40;
+	//var _xoff = 0;
+	//var _array = _side == PFSBattleSides.Player ? PFS.playerPokemons : enemyPokemon;
+	//for (var i = 0; i < array_length(_array); ++i) {
+	//    draw_circle(_boxEndX - 15 - _xoff, _y, 7, PFS.playerPokemons[i].hp <= 0);
+	//	_xoff += 20;
+	//}
 }
 #endregion
 
-load_sprite(PFS.playerPokemons[0], 1);
+load_sprite(PFS.playerPokemons[pokemonOut], 1);
 load_sprite(enemyPokemon[enemyOut], 0);
 
 #region Battle Start

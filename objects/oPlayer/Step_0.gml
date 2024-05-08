@@ -1,4 +1,4 @@
-if (!moving) {
+if (!moving and !instance_exists(PFSFightSystem)) {
 	if (keyboard_check(vk_left)) {
 		sprite_index = sRedWL;
 	    image_speed = 5;

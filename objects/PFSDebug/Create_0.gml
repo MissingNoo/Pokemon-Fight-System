@@ -1,4 +1,4 @@
 //Feather disable GM2017
 randomize();
-PFS.playerPokemons = [
-];
+PFS.playerPokemons = [];
+

@@ -15,6 +15,19 @@ PFS.PFSMoveCategory = [["Physical", sPFSPhysicalIcon], ["Special", sPFSSpecialIc
 PFS.StatusAilments = [];
 PFS.StatusAilmentsData = [];
 
+enum PFSBattleBackground {
+	Normal,
+	Grass,
+	Water,
+	Cave,
+	Wet,
+	Ice,
+	Ground,
+	Idk1,
+	Idk2,
+	Idk3
+}
+
 enum __PFSTypes {
 	Normal, 
 	Fire, 
@@ -49,9 +62,9 @@ enum PFSMoveMethods {
 }
 	
 enum PFSBattleMenus {
-	Battle, 
-	Pokemon,
+	Battle,
 	Item,
+	Pokemon,
 	Run
 }
 	
