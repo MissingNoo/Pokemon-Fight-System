@@ -143,15 +143,19 @@ playerHpY = -138;
 playerHpScale = 2.98;
 #endregion
 function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side){
+	var _hp = _side == PFSBattleSides.Player ? pokemonhplerp : enemyhplerp;
 	if (_side == PFSBattleSides.Enemy) {
 		_x += enemyHpX;
 		_y += enemyHpY;
+		draw_healthbar(_x + 115, _y + 50, _x + 259, _y + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
 	    draw_sprite_ext(PFSEnemyHpBar, 0, _x, _y, enemyHpScale, enemyHpScale, 0, c_white, 1);
 	}
 	if (_side == PFSBattleSides.Player) {
 		_x += playerHpX;
 		_y += playerHpY;
-	    draw_sprite_ext(PFSPlayerHpBar, 0, _x, _y, playerHpScale, playerHpScale, 0, c_white, 1);
+		draw_healthbar(_x + 143, _y + 50, _x + 285, _y + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
+		draw_sprite_ext(PFSPlayerHpBar, 0, _x, _y, playerHpScale, playerHpScale, 0, c_white, 1);
+	    
 		_x += 28;
 	}
 	draw_set_color(c_black);
@@ -163,8 +167,6 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	    _status = $"{_status} {PFS.StatusAilments[_pokemon.statusAilments[i][0]]} turns: {_pokemon.statusAilments[i][1]} ;";
 	}
 	draw_text(_x, _y - 50, _status);
-	var _hp = _side == PFSBattleSides.Player ? pokemonhplerp : enemyhplerp;
-	draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_hp / _pokemon.base.hp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
 	draw_set_halign(fa_right);
 	draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");
 	
