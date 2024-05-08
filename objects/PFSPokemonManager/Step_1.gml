@@ -23,10 +23,10 @@ if (keyboard_check_pressed(ord("Z"))) {
 				PFSFightSystem.playerLastOneWasDead = true;
 			}
 			PFSFightSystem.pokePlayerDead = false;
-			PFSFightSystem.selectedMenu = 0;
-			PFSFightSystem.selectingMenu = true;
 			PFSFightSystem.doTurn = true;
-		}		
+		}
+		PFSFightSystem.selectedMenu = 0;
+		PFSFightSystem.selectingMenu = true;
 		instance_destroy();
 	}
 }
