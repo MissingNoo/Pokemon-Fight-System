@@ -1,4 +1,6 @@
 //Feather disable GM2017
+#macro GW display_get_gui_width()
+#macro GH display_get_gui_height()
 #macro DEBUG if (os_get_config() == "Debug") {
 #macro ENDDEBUG }
 global.__PFS = {};

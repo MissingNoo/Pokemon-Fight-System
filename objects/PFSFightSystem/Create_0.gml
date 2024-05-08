@@ -74,6 +74,13 @@ DebugManager.debug_add_config(self, {
 	//func: function(){},
 	page : "Battle"
 });
+DebugManager.debug_add_config(self, {
+	text : "c",
+	type : DebugTypes.UpDown,
+	variable : "c",
+	//func: function(){},
+	page : "Battle"
+});
 #endregion
 
 #region Battle
@@ -81,14 +88,18 @@ enemyOut = 0;
 pokemonOut = 0;
 enemySprite = sPFSBulbasaurBack;
 pokemonSprite = sPFSBulbasaurBack;
+selectedMove = 0;
 #endregion
 
 #region Window
-startPosition = [display_get_gui_width() / 2 - 350, display_get_gui_height() / 2 - 300];
-windowXScale = 7;
-windowYScale = 5.70;
+startPosition = [322, 143];
+stx = startPosition[0];
+sty = startPosition[1];
+windowXScale = 7.21;
+windowYScale = 4.81;
 windowSize = [700, 400];
 selectedMenu = 0;
+selectingMenu = true;
 menus = ["Battle", "Pokemon", "Item", "Run"];
 animatedSprites = false;
 #endregion
@@ -123,12 +134,30 @@ function load_sprite(pokemon, side){
 		}
 	}
 }
-
+#region PokeInfoVariables
+enemyHpX = 26;
+enemyHpY = 35;
+enemyHpScale = 2.98;
+playerHpX = 92;
+playerHpY = -138;
+playerHpScale = 2.98;
+#endregion
 function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side){
-	draw_rectangle(_x, _y, _boxEndX, _boxEndY, true);
-	_x += 10;
-	_y += 10;
-	draw_text(_x, _y, $"{_pokemon.internalName}");
+	if (_side == PFSBattleSides.Enemy) {
+		_x += enemyHpX;
+		_y += enemyHpY;
+	    draw_sprite_ext(PFSEnemyHpBar, 0, _x, _y, enemyHpScale, enemyHpScale, 0, c_white, 1);
+	}
+	if (_side == PFSBattleSides.Player) {
+		_x += playerHpX;
+		_y += playerHpY;
+	    draw_sprite_ext(PFSPlayerHpBar, 0, _x, _y, playerHpScale, playerHpScale, 0, c_white, 1);
+		_x += 28;
+	}
+	draw_set_color(c_black);
+	draw_text_transformed(_x + 10, _y + 2, $"{_pokemon.internalName}", 2, 2, 0);
+	draw_text_transformed(_x + 242, _y + 22, _pokemon.level, 1, 1, 0);
+	draw_set_color(c_white);
 	var _status = "";
 	for (var i = 0; i < array_length(_pokemon.statusAilments); ++i) {
 	    _status = $"{_status} {PFS.StatusAilments[_pokemon.statusAilments[i][0]]} turns: {_pokemon.statusAilments[i][1]} ;";
@@ -138,7 +167,7 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	draw_healthbar(_x, _y + 20, _boxEndX - 10, _y + 25, ((_hp / _pokemon.base.hp) * 100), c_red, c_lime, c_lime, 0, 1, 0);
 	draw_set_halign(fa_right);
 	draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");
-	draw_text(_boxEndX - 10, _y + 45, $"LV:{_pokemon.level}");
+	
 	draw_set_halign(fa_left);
 	_y += 40;
 	var _xoff = 0;

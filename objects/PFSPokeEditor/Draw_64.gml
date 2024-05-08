@@ -4,8 +4,6 @@ if (!show) { exit; }
 #region Local Vars
 var _yoff = 0;
 var _text = "";
-var GW = display_get_gui_width();
-var GH = display_get_gui_height();
 var _x = GW/2 - 100;
 var _y = GH/2 - 100;
 #endregion
