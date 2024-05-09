@@ -1,6 +1,13 @@
 {
   "$GMOperaGXOptions":"",
   "%Name":"Opera GX",
+  "ConfigValues":{
+    "Debug":{
+      "option_operagx_game_name":"Created with GameMaker",
+      "option_operagx_mod_game_name":"Created with GameMaker",
+      "option_operagx_interpolate_pixels":"false",
+    },
+  },
   "name":"Opera GX",
   "option_operagx_display_cursor":true,
   "option_operagx_editUrl":"",
