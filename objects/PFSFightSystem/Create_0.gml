@@ -106,12 +106,12 @@ selectedMove = 0;
 #endregion
 
 #region Window
-startPosition = [322, 143];
+windowSize = [700, 400];
+startPosition = [GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2)];
 stx = startPosition[0];
 sty = startPosition[1];
 windowXScale = 7.21;
 windowYScale = 4.81;
-windowSize = [700, 400];
 selectedMenu = 0;
 selectingMenu = true;
 menus = ["Battle", "Pokemon", "Item", "Run"];
