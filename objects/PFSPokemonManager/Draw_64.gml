@@ -20,9 +20,11 @@ draw_sprite_ext(PFSPokemonScreenHPTop, 0, _x + 52, _y + 169 + _offset, 3, 3, 0, 
 draw_sprite_part_ext(PFSPokemonScreenHPValue, _hpColor, 0, 0, ((_hp / _pokemon.base.hp) * 48), 10, _x + 97, _y + 175 + _offset, 3, 3, c_white, 1);
 var _yoff = 0;
 for (var i = 1; i < 6; ++i) {
-	if (selectedPokemon != 7) {
-	    if (selectedPokemon > array_length(PFS.playerPokemons) - 1) { break; }
-	}
+	//if (selectedPokemon < 7) {
+	//if (selectedPokemon > array_length(PFS.playerPokemons) - 1) { break; }
+	if (i > array_length(PFS.playerPokemons) - 1) { break; }
+	if (array_length(PFS.playerPokemons) == 1) { break; }
+	//}
 	_pokemon = PFS.playerPokemons[i];
 	_hp = _pokemon.hp;
 	_offset = selectedPokemon == i ? 3 : 0;

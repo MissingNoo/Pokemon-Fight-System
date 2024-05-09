@@ -458,4 +458,4 @@ if (file_exists(file)) {
 else { show_message($"missing file {file} on installation"); }
 #endregion
 PFS.Initialized = true;
-instance_destroy();
+room_goto(Room1);

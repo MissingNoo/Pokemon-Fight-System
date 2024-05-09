@@ -1,9 +1,9 @@
 {
   "$GMObject":"",
-  "%Name":"oHousePlant",
+  "%Name":"oHouseTV",
   "eventList":[],
   "managed":true,
-  "name":"oHousePlant",
+  "name":"oHouseTV",
   "overriddenProperties":[],
   "parent":{
     "name":"Props",
@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sHomeFlower",
-    "path":"sprites/sHomeFlower/sHomeFlower.yy",
+    "name":"sTV",
+    "path":"sprites/sTV/sTV.yy",
   },
   "spriteMaskId":null,
   "visible":true,

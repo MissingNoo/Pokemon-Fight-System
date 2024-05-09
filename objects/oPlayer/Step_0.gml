@@ -1,13 +1,14 @@
-if (keyboard_check_pressed(vk_end)) {
-	x = 168;
-	y = 96;
-    room_goto(rPlayerHouse);
+if (!canmove and alarm[0] == -1) {
+    alarm[0] = 4;
 }
-
-if (!moving and !instance_exists(PFSFightSystem)) {
+if (!moving and !instance_exists(PFSFightSystem) and canmove) {
 	if (keyboard_check(vk_left)) {
-		sprite_index = sRedWL;
-		if (!place_meeting(x - 16, y, oColision)) {
+		if (sprite_index != sRedWL) {
+		    sprite_index = sRedWL;
+			canmove = false;
+			exit;
+		}
+		if (!place_meeting(x - 16, y, oColision) and sprite_index == sRedWL) {
 		    image_speed = 5;
 			placeToGo = [x - 16, y];
 			moving = true;
@@ -15,24 +16,36 @@ if (!moving and !instance_exists(PFSFightSystem)) {
 		
 	}
 	if (keyboard_check(vk_right)) {
-		sprite_index = sRedWR;
-		if (!place_meeting(x + 16, y, oColision)) {
+		if (sprite_index != sRedWR) {
+		    sprite_index = sRedWR;
+			canmove = false;
+			exit;
+		}
+		if (!place_meeting(x + 16, y, oColision) and sprite_index == sRedWR) {
 		    image_speed = 5;
 			placeToGo = [x + 16, y];
 			moving = true;
 		}
 	}
 	if (keyboard_check(vk_up)) {
-		sprite_index = sRedWU;
-		if (!place_meeting(x, y - 16, oColision)) {
+		if (sprite_index != sRedWU) {
+		    sprite_index = sRedWU;
+			canmove = false;
+			exit;
+		}
+		if (!place_meeting(x, y - 16, oColision) and sprite_index == sRedWU) {
 		    image_speed = 5;
 			placeToGo = [x, y - 16];
 			moving = true;
 		}
 	}
 	if (keyboard_check(vk_down)) {
-		sprite_index = sRedWD;
-		if (!place_meeting(x, y + 16, oColision)) {
+		if (sprite_index != sRedWD) {
+		    sprite_index = sRedWD;
+			canmove = false;
+			exit;
+		}		
+		if (!place_meeting(x, y + 16, oColision) and sprite_index == sRedWD) {
 		    image_speed = 5;
 			placeToGo = [x, y + 16];
 			moving = true;
@@ -46,7 +59,9 @@ if (placeToGo[1] != y and moving) {
     y += sign(placeToGo[1] - y);
 }
 if (placeToGo[0] == x and placeToGo[1] == y) {
-    //image_speed = 0;
-	//image_index = 1;
+	if (!keyboard_check(vk_down) and !keyboard_check(vk_up) and !keyboard_check(vk_left) and !keyboard_check(vk_right)) {
+	    image_speed = 0;
+		image_index = 1;
+	}
 	moving = false;
 }

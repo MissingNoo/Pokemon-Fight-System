@@ -30,8 +30,8 @@
   "nineSlice":null,
   "origin":7,
   "parent":{
-    "name":"Insides",
-    "path":"folders/Sprites/Insides.yy",
+    "name":"PalletHome",
+    "path":"folders/Sprites/Insides/PalletHome.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

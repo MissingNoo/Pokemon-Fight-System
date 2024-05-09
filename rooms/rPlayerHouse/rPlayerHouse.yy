@@ -21,6 +21,7 @@
     {"name":"inst_48C801DC","path":"rooms/rPlayerHouse/rPlayerHouse.yy",},
     {"name":"inst_43CCCA41","path":"rooms/rPlayerHouse/rPlayerHouse.yy",},
     {"name":"inst_3F52CFCB","path":"rooms/rPlayerHouse/rPlayerHouse.yy",},
+    {"name":"inst_726BF0FE","path":"rooms/rPlayerHouse/rPlayerHouse.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -44,6 +45,14 @@
             {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oTeleport","path":"objects/oTeleport/oTeleport.yy",},"propertyId":{"name":"yTo","path":"objects/oTeleport/oTeleport.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"48",},
             {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oTeleport","path":"objects/oTeleport/oTeleport.yy",},"propertyId":{"name":"destination","path":"objects/oTeleport/oTeleport.yy",},"resource":{"name":"rPlayerHouse2f","path":"rooms/rPlayerHouse2f/rPlayerHouse2f.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"rPlayerHouse2f",},
           ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":184.0,"y":48.0,},
+        {"$GMRInstance":"","%Name":"inst_726BF0FE","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_726BF0FE","objectId":{"name":"oTeleport","path":"objects/oTeleport/oTeleport.yy",},"properties":[
+            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oTeleport","path":"objects/oTeleport/oTeleport.yy",},"propertyId":{"name":"destination","path":"objects/oTeleport/oTeleport.yy",},"resource":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"Room1",},
+            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oTeleport","path":"objects/oTeleport/oTeleport.yy",},"propertyId":{"name":"xTo","path":"objects/oTeleport/oTeleport.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"608",},
+            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oTeleport","path":"objects/oTeleport/oTeleport.yy",},"propertyId":{"name":"yTo","path":"objects/oTeleport/oTeleport.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"352",},
+            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oTeleport","path":"objects/oTeleport/oTeleport.yy",},"propertyId":{"name":"confirmation","path":"objects/oTeleport/oTeleport.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"True",},
+            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oTeleport","path":"objects/oTeleport/oTeleport.yy",},"propertyId":{"name":"dir","path":"objects/oTeleport/oTeleport.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"\"Down\"",},
+            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oTeleport","path":"objects/oTeleport/oTeleport.yy",},"propertyId":{"name":"go","path":"objects/oTeleport/oTeleport.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"False",},
+          ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":72.0,"y":144.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRBackgroundLayer":"","%Name":"Background","animationFPS":30.0,"animationSpeedType":0,"colour":4294967295,"depth":100,"effectEnabled":true,"effectType":null,"gridX":16,"gridY":16,"hierarchyFrozen":false,"hspeed":0.0,"htiled":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"name":"Background","properties":[],"resourceType":"GMRBackgroundLayer","resourceVersion":"2.0","spriteId":{"name":"sPalletHome","path":"sprites/sPalletHome/sPalletHome.yy",},"stretch":false,"userdefinedAnimFPS":false,"userdefinedDepth":false,"visible":true,"vspeed":0.0,"vtiled":false,"x":0,"y":0,},
   ],

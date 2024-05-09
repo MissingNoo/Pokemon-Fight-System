@@ -1,7 +1,11 @@
 {
   "$GMObject":"",
   "%Name":"oTeleport",
-  "eventList":[],
+  "eventList":[
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed":true,
   "name":"oTeleport",
   "overriddenProperties":[],
@@ -27,6 +31,15 @@
     {"$GMObjectProperty":"v1","%Name":"destination","filters":[],"listItems":[],"multiselect":false,"name":"destination","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resource":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"Room1","varType":5,},
     {"$GMObjectProperty":"v1","%Name":"xTo","filters":[],"listItems":[],"multiselect":false,"name":"xTo","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":0,},
     {"$GMObjectProperty":"v1","%Name":"yTo","filters":[],"listItems":[],"multiselect":false,"name":"yTo","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":0,},
+    {"$GMObjectProperty":"v1","%Name":"confirmation","filters":[],"listItems":[],"multiselect":false,"name":"confirmation","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"dir","filters":[],"listItems":[
+        "\"Up\"",
+        "\"Down\"",
+        "\"Left\"",
+        "\"Right\"",
+      ],"multiselect":false,"name":"dir","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"\"Up\"","varType":6,},
+    {"$GMObjectProperty":"v1","%Name":"collided","filters":[],"listItems":[],"multiselect":false,"name":"collided","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"False","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"go","filters":[],"listItems":[],"multiselect":false,"name":"go","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
@@ -35,6 +48,9 @@
     "name":"Sprite38",
     "path":"sprites/Sprite38/Sprite38.yy",
   },
-  "spriteMaskId":null,
-  "visible":false,
+  "spriteMaskId":{
+    "name":"Sprite38",
+    "path":"sprites/Sprite38/Sprite38.yy",
+  },
+  "visible":true,
 }

@@ -3,7 +3,7 @@ var _upDown = (- keyboard_check_pressed(vk_up) + keyboard_check_pressed(vk_down)
 if (keyboard_check_pressed(vk_left)) {
     selectedPokemon = 0;
 }
-if (keyboard_check_pressed(vk_right) and selectedPokemon == 0) {
+if (keyboard_check_pressed(vk_right) and selectedPokemon == 0 and array_length(PFS.playerPokemons) > 1) {
     selectedPokemon = 1;
 }
 selectedPokemon += _upDown;
@@ -17,7 +17,7 @@ if (keyboard_check_pressed(ord("Z"))) {
 	    instance_destroy();
 	}
 	else {
-		if (selectedPokemon != PFSFightSystem.pokemonOut) {
+		if (selectedPokemon != 7 and selectedPokemon != PFSFightSystem.pokemonOut) {
 		    array_push(PFSFightSystem.turnSteps, [PFSTurnType.ChangePokemon, selectedPokemon]);
 			if (PFSFightSystem.pokePlayerDead) {
 				PFSFightSystem.playerLastOneWasDead = true;
