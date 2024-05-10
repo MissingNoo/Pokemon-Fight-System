@@ -1,0 +1,1 @@
+sendData({type : Contype.Disconnect});

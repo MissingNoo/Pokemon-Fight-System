@@ -1,6 +1,8 @@
 if (x == other.x and y == other.y) {
 	if (other.go) {
 	    room_goto(other.destination);
+		alarm[1] = 10;
+		sendPos();
 		x = other.xTo;
 		y = other.yTo;
 		canmove = false;

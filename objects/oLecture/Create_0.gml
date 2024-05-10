@@ -7,3 +7,4 @@ blackalpha = 0;
 blacklerp = 0;
 blacklerping = false;
 scale = 3;
+room_goto(rPlayerHouse2f);
