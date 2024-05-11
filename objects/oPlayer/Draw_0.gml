@@ -1,4 +1,6 @@
 draw_self();
+fsm.draw();
+draw_text_transformed(x, y - 20 - sprite_height, fsm.get_current_state(), 0.25, 0.25, 0);
 if (ONLINE) {
 	draw_set_halign(fa_center);
 	draw_set_color(c_red);

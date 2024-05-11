@@ -1,7 +1,6 @@
 {
   "FolderOrderSettings":[
     {"name":"Libs","order":11,"path":"folders/Libs.yy",},
-    {"name":"DebugLib","order":1,"path":"folders/Libs/DebugLib.yy",},
     {"name":"Objects","order":12,"path":"folders/Objects.yy",},
     {"name":"Props","order":8,"path":"folders/Objects/Props.yy",},
     {"name":"PokeFightSystem","order":9,"path":"folders/PokeFightSystem.yy",},
@@ -10,6 +9,7 @@
     {"name":"Rooms","order":10,"path":"folders/Rooms.yy",},
     {"name":"Scripts","order":16,"path":"folders/Scripts.yy",},
     {"name":"Sequences","order":15,"path":"folders/Sequences.yy",},
+    {"name":"SnowState","order":1,"path":"folders/Libs/SnowState.yy",},
     {"name":"Sprites","order":1,"path":"folders/Sprites.yy",},
     {"name":"Insides","order":8,"path":"folders/Sprites/Insides.yy",},
     {"name":"PalletHome","order":6,"path":"folders/Sprites/Insides/PalletHome.yy",},
@@ -42,7 +42,9 @@
     {"name":"rPlayerHouse2f","order":2,"path":"rooms/rPlayerHouse2f/rPlayerHouse2f.yy",},
     {"name":"DebugLib","order":2,"path":"scripts/DebugLib/DebugLib.yy",},
     {"name":"PFSScripts","order":1,"path":"scripts/PFSScripts/PFSScripts.yy",},
+    {"name":"PlayerScripts","order":2,"path":"scripts/PlayerScripts/PlayerScripts.yy",},
     {"name":"Script4","order":1,"path":"scripts/Script4/Script4.yy",},
+    {"name":"SnowState","order":1,"path":"scripts/SnowState/SnowState.yy",},
     {"name":"battlesprites","order":7,"path":"sprites/battlesprites/battlesprites.yy",},
     {"name":"DebugArrowButtonUpDown","order":1,"path":"sprites/DebugArrowButtonUpDown/DebugArrowButtonUpDown.yy",},
     {"name":"DebugManagerBackground","order":4,"path":"sprites/DebugManagerBackground/DebugManagerBackground.yy",},

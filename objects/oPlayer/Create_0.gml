@@ -1,33 +1,70 @@
 //event_inherited();
 //show_message_async(connected);
-cansend = true;
+#region State Machine
+fsm = new SnowState("idle");
+fsm.add("idle", {
+    step: function() {
+		if (keyboard_check(vk_down) or keyboard_check(vk_up) or keyboard_check(vk_left) or keyboard_check(vk_right)) {
+			fsm.change("walk");
+		}
+    }
+  })
+  .add("walk", {
+    step: function() {
+		player_movement();
+    },
+	endstep: function() {
+		if (instance_exists(PFSFightSystem)) {
+		    fsm.change("battle");
+			exit;
+		}
+		if (keyboard_check(vk_down) or keyboard_check(vk_up) or keyboard_check(vk_left) or keyboard_check(vk_right)) {
+			sendPos();
+			cansend = false;
+		}
+		else if (x == placeToGo[0] and y == placeToGo[1]){
+			fsm.change("idle");
+		}
+	}
+  })
+  .add("battle", {
+	  enter: function() {
+		  image_speed = 0;
+		  image_index = 1;
+	  },
+	  endstep: function() {
+		  if (!instance_exists(PFSFightSystem)) {
+		      fsm.change("idle");
+		  }
+	  },
+	  draw: function() {
+		  draw_sprite_ext(sLectureBall, 0, x, y - sprite_height - 10, .5, .5, 0, c_white, .5);
+	  }
+  });
+
+#endregion
+#region Multiplayer
 if (!instance_exists(oDepthManager)) {
 	instance_create_depth(x, y, depth, oDepthManager);
 }
 if (ONLINE and !instance_exists(oClient)) {
     instance_create_depth(x, y, depth, oClient);
 }
+#endregion
 if (instance_number(oPlayer) > 1) { instance_destroy(); }
 visible = false;
-canmove = true;
 display_set_gui_size(720*1.5, 480*1.5);
-//window_center();
 moving = false;
-placeToGo = [x, y];
 image_speed = 0;
 image_index = 1;
 PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[1]);
 PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[4]);
 PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[7]);
 function sendPos(){
-	var data = json_stringify({
+	oClient.sendData({
 		type : Contype.Update,
 		room : room_get_name(room),
 		x : placeToGo[0],
 		y : placeToGo[1]
-		});
-	buffer_seek(oClient.buffer, buffer_seek_start, 0);
-	buffer_write(oClient.buffer, buffer_text, data);
-	network_send_raw(oClient.socket, oClient.buffer, buffer_get_size(oClient.buffer));
+	});
 }
-room_goto(room);
