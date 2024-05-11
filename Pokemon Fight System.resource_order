@@ -1,6 +1,7 @@
 {
   "FolderOrderSettings":[
     {"name":"Libs","order":11,"path":"folders/Libs.yy",},
+    {"name":"SnowState","order":1,"path":"folders/Libs/SnowState.yy",},
     {"name":"Objects","order":12,"path":"folders/Objects.yy",},
     {"name":"Props","order":8,"path":"folders/Objects/Props.yy",},
     {"name":"PokeFightSystem","order":9,"path":"folders/PokeFightSystem.yy",},
@@ -9,7 +10,6 @@
     {"name":"Rooms","order":10,"path":"folders/Rooms.yy",},
     {"name":"Scripts","order":16,"path":"folders/Scripts.yy",},
     {"name":"Sequences","order":15,"path":"folders/Sequences.yy",},
-    {"name":"SnowState","order":1,"path":"folders/Libs/SnowState.yy",},
     {"name":"Sprites","order":1,"path":"folders/Sprites.yy",},
     {"name":"Insides","order":8,"path":"folders/Sprites/Insides.yy",},
     {"name":"PalletHome","order":6,"path":"folders/Sprites/Insides/PalletHome.yy",},
