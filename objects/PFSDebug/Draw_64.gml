@@ -1,4 +1,5 @@
-//feather disable GM2016//feather disable GM2017
+//feather disable GM2016
+//feather disable GM2017
 var _yoff = 0;
 var _text = "";
 var _x = GW/2 - 100;

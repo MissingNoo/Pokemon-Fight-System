@@ -1,19 +1,23 @@
 //show_debug_message(ds_map_values_to_array(async_load));
 var buffer = buffer_read(ds_map_values_to_array(async_load)[0], buffer_string);
 if (buffer == "") { exit; }
-var arr = string_split(buffer, ";", true);
+var arr = string_split(buffer, ";", false);
+show_debug_message(arr);
+//var _json = json_parse(arr[0]);
+//show_debug_message($"Json: {json_stringify(_json, true)}");
 array_pop(arr);
+show_debug_message(arr);
 array_foreach(arr, function(_element, _index){
 	try {
 		var _json = json_parse(_element);
-		if (_json.uid == oPlayer.uid) {
+		if (instance_exists(oPlayer) and _json.uid == oPlayer.uid) {
 		    exit;
 		}
 		//if (_json.type != 0) {
 		//    show_debug_message($"Buffer: {_element}");
 		//}
 		//show_debug_message($"Json: {json_stringify(_json, true)}");
-		switch (_json.type) {
+		switch (int64(_json.type)) {
 		    case Contype.Join:
 		        oPlayer.uid = _json.uid;
 		        break;
@@ -41,6 +45,10 @@ array_foreach(arr, function(_element, _index){
 					}
 				}
 		        break;
+			case Contype.GetCharacters:
+				oClient.loggedin = true;
+				oClient.characters = string_split(_json.characters, ";");
+				break;
 		}
 	}
 	catch (err) { show_debug_message(err)}

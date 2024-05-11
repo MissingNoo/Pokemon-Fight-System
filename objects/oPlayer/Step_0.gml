@@ -1,6 +1,5 @@
 fsm.step();
 if (keyboard_check_pressed(vk_backspace) and ONLINE and !instance_exists(oClient)) {
-	show_debug_message("spawn Client");
     instance_create_depth(x, y, depth, oClient);
 }
 if (keyboard_check_pressed(vk_delete)) {

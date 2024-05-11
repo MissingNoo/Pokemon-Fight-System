@@ -47,7 +47,7 @@ else {
 	blacklerping = false;
 	if (blackalpha == 1) {
 		if (screen == 5) {
-		    room_goto(Room1);
+		    room_goto(rPlayerHouse2f);
 		}
 		screen++;
 		blacklerping = true;

@@ -9,8 +9,8 @@ if (ONLINE) {
 	draw_set_color(c_white);
 	draw_set_halign(fa_left);
 }
-if (instance_exists(oSlave)) {
-    with (oSlave) {
-	    draw_line(x, y, oPlayer.x, oPlayer.y);
-	}
-}
+//if (instance_exists(oSlave)) {
+//    with (oSlave) {
+//	    draw_line(x, y, oPlayer.x, oPlayer.y);
+//	}
+//}

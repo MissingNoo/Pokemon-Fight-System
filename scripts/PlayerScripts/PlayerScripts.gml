@@ -1,3 +1,4 @@
+//Feather disable GM2017
 function player_movement(){
 	if (!moving and !instance_exists(PFSFightSystem) and canmove) {
 		if (keyboard_check(vk_left)) {

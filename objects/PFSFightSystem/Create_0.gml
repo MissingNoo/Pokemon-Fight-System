@@ -213,7 +213,7 @@ load_sprite(PFS.playerPokemons[pokemonOut], 1);
 load_sprite(enemyPokemon[enemyOut], 0);
 
 #region Battle Start
-show_debug_log(true);
+//show_debug_log(true);
 for (var i = 0; i < 100; ++i) {
     show_debug_message("");
 }

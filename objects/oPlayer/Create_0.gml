@@ -1,5 +1,4 @@
-//event_inherited();
-//show_message_async(connected);
+//Feather disable GM2017
 #region State Machine
 fsm = new SnowState("idle");
 fsm.add("idle", {
@@ -47,9 +46,6 @@ fsm.add("idle", {
 if (!instance_exists(oDepthManager)) {
 	instance_create_depth(x, y, depth, oDepthManager);
 }
-if (ONLINE and !instance_exists(oClient)) {
-    instance_create_depth(x, y, depth, oClient);
-}
 #endregion
 if (instance_number(oPlayer) > 1) { instance_destroy(); }
 visible = false;
@@ -61,10 +57,16 @@ PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[1]);
 PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[4]);
 PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[7]);
 function sendPos(){
-	oClient.sendData({
+	send_data({
 		type : Contype.Update,
 		room : room_get_name(room),
 		x : placeToGo[0],
 		y : placeToGo[1]
 	});
 }
+send_data({
+	type : Contype.Join,
+	room : room_get_name(room),
+	x : x,
+	y : y
+});

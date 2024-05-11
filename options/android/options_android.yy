@@ -17,6 +17,8 @@
       "option_android_icon_adaptive_generate":"true",
       "option_android_permission_read_phone_state":"true",
       "option_android_permission_write_external_storage":"true",
+      "option_android_arch_x86_64":"true",
+      "option_android_arch_arm64":"false",
     },
   },
   "name":"Android",

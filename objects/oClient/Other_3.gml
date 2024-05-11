@@ -1,1 +1,1 @@
-sendData({type : Contype.Disconnect});
+send_data({type : Contype.Disconnect});

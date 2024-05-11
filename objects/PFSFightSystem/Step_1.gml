@@ -1,3 +1,4 @@
+//Feather disable GM2017
 if (instance_exists(PFSPokemonManager)) {
     exit;
 }

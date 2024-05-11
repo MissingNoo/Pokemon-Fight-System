@@ -1,4 +1,5 @@
-//Feather disable GM2017//Feather disable GM2016
+//Feather disable GM2017
+//Feather disable GM2016
 if (keyboard_check_pressed(vk_numpad2)) {
 	instance_destroy(PFSFightSystem);
 }
