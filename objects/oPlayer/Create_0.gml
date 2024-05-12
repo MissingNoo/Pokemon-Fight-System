@@ -1,4 +1,7 @@
 //Feather disable GM2017
+alarms = [
+	[0, function(){  }]
+];
 #region State Machine
 fsm = new SnowState("idle");
 fsm.add("idle", {
@@ -17,6 +20,10 @@ fsm.add("idle", {
 		    fsm.change("battle");
 			exit;
 		}
+		if (instance_exists(oDialog)) {
+		    fsm.change("dialog");
+			exit;
+		}
 		if (keyboard_check(vk_down) or keyboard_check(vk_up) or keyboard_check(vk_left) or keyboard_check(vk_right)) {
 			sendPos();
 			cansend = false;
@@ -33,6 +40,20 @@ fsm.add("idle", {
 	  },
 	  endstep: function() {
 		  if (!instance_exists(PFSFightSystem)) {
+		      fsm.change("idle");
+		  }
+	  },
+	  draw: function() {
+		  draw_sprite_ext(sLectureBall, 0, x, y - sprite_height - 10, .5, .5, 0, c_white, .5);
+	  }
+  })
+  .add("dialog", {
+	  enter: function() {
+		  image_speed = 0;
+		  image_index = 1;
+	  },
+	  endstep: function() {
+		  if (!instance_exists(oDialog)) {
 		      fsm.change("idle");
 		  }
 	  },

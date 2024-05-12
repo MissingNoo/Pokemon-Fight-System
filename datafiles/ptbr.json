@@ -1,0 +1,29 @@
+{
+    "language": "PtBr",
+    "locale": "PT-BR",
+    "text" : {
+		"NPC" : {
+			"Gabriel" : {
+				"nome" : "Gabriel",
+				"Falas" : {
+					"Introducao" : "Ola, como vai?",
+					"Lorem" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor orci eget nibh convallis porttitor. Pellentesque ut rhoncus ex, sit amet dignissim felis. Praesent iaculis at sapien sed fringilla. Sed tempor, turpis quis rutrum iaculis, felis turpis egestas justo, non hendrerit nunc justo sed ante. In eu tincidunt nisi, in iaculis lectus. Nam aliquet scelerisque dui, sed blandit quam vestibulum sit amet. Donec risus arcu, feugiat non ornare quis, porta sed tellus. Cras vitae augue erat. Etiam rhoncus eget nisl in mollis.
+
+Duis tincidunt odio nulla, in pellentesque libero faucibus mattis. Donec at enim tortor. Nullam lectus lacus, euismod at elit eu, suscipit varius tellus. Ut nec augue et arcu semper vehicula a eget leo. Fusce felis tellus, feugiat cursus nulla quis, fermentum pharetra sapien. Donec egestas massa sit amet massa convallis, at lacinia lacus lobortis. Curabitur felis nibh, ullamcorper quis enim et, viverra ullamcorper ex. Donec metus velit, volutpat vitae justo vel, congue consequat ipsum. Praesent tempus sem in odio faucibus viverra. Maecenas dignissim metus lectus, id consectetur ex rutrum nec. Nullam feugiat nulla iaculis lectus luctus, eget maximus diam viverra. Duis quis convallis nulla. Proin facilisis mi mi, eu tempus urna sollicitudin quis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
+
+Maecenas iaculis accumsan erat, ac interdum nibh commodo vel. Vestibulum accumsan nunc diam, et pellentesque enim placerat ut. Aenean malesuada justo lacinia luctus eleifend. Cras elit libero, egestas sit amet orci quis, interdum bibendum dui. In hac habitasse platea dictumst. Aliquam vehicula nulla et mi tempus consequat. Curabitur vel fermentum risus. Ut ex leo, viverra vitae quam nec, convallis dignissim sapien.",
+					"Despedida" : "Ate mais"
+				}
+			},
+			"Daniel" : {
+				"nome" : "Daniel",
+				"Falas" : {
+					"Introducao" : "Se liga meu brother",
+					"eserio" : "E serio mesmo irmao",
+					"ronaldo" : "O jogador? vi nao",
+					"Despedida" : "Flw ae brother"
+				}
+			}
+		}
+	}
+}

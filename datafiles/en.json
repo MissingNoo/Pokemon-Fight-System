@@ -1,0 +1,23 @@
+{
+    "language": "en",
+    "locale": "EN-US",
+    "text" : {
+		"NPC" : {
+			"OakLecture" : {
+				"nome" : "Oak",
+				"Falas" : {
+					"Intro" : "Hello, there! \nGlad to meet you! [/page]Welcome to the world of POKEMON! [/page]My name is OAK. [/page]People affectionately refer to me as the POKéMON PROFESSOR. [/page]This world... [/page]...is inhabited far and wide by creatures called POKéMON. [/page]For some people, POKéMON are pets. \nOthers use them for battling. [/page]As for myself... [/page]I study POKéMON as a profession. [/page]But first, tell me a little about yourself."
+				}
+			},
+			"Daniel" : {
+				"nome" : "Daniel",
+				"Falas" : {
+					"Introducao" : "Se liga meu brother",
+					"eserio" : "E serio mesmo irmao",
+					"ronaldo" : "O jogador? vi nao",
+					"Despedida" : "Flw ae brother"
+				}
+			}
+		}
+	}
+}

@@ -5,3 +5,33 @@ if (!instance_exists(oCam)) {
 if (!canmove and alarm[0] == -1) {	
     alarm[0] = 4;
 }
+#region Alarms
+for (var i = 0; i < array_length(alarms); ++i) {
+	if (alarms[i][0] == -1) { continue;	}
+	if (alarms[i][0] > 0) {
+	    alarms[i][0] -= 1;
+	}
+	else { 
+		alarms[i][1]();
+		alarms[i][0] = -1;
+	}
+}
+#endregion
+//instance_create_layer(x, y, "Instances", Dialog, {npc : _npc.npc, text : _npc.text, options : _npc.options, optionsFalas : _npc.optionsFalas});
+/*
+
+npc = "Gabriel";
+text = "Introducao";
+optionsFalas = ["Introducao", "Lorem", "Despedida"]
+options = [
+	[
+		["Tchau", "Despedida"],
+		["Lorem", "Lorem"]
+	],
+	[
+		["Tchau", "Despedida"],
+	],	
+	[
+		["Sair", "Sair"]
+	]
+]

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"__lexicon_add_file",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__lexicon_add_file",
+  "parent":{
+    "name":"Internal",
+    "path":"folders/Libs/Lexicon/Internal.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

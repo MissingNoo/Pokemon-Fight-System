@@ -1,3 +1,8 @@
+#region Lexicon
+lexicon_index_declare_from_json("ptbr.json");
+lexicon_index_declare_from_json("en.json");
+lexicon_language_set("en");
+#endregion
 if (!ONLINE) {
 	room_goto(rConfig);
     instance_destroy();
