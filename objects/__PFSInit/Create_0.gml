@@ -1,30 +1,7 @@
 //Feather disable GM2017
-if (os_type == os_android) {
-	file = working_directory + "/PFS/Data/move_meta_ailments.csv";
-	if (file_exists(file)) {
-	    show_message_async("1 exists");
-	}
-	file = working_directory + string_lower("/PFS/Data/move_meta_ailments.csv");
-	if (file_exists(file)) {
-	    show_message_async("2 exists");
-	}
-	file = string_lower(working_directory + "/PFS/Data/move_meta_ailments.csv");
-	if (file_exists(file)) {
-	    show_message_async("3 exists");
-	}
-	file = string_lower("PFS/Data/move_meta_ailments.csv");
-	if (file_exists(file)) {
-	    show_message_async("4 exists");
-	}
-	file = string_lower(working_directory + "PFS/Data/move_meta_ailments.csv");
-	if (file_exists(file)) {
-	    show_message_async("5 exists");
-	}
-    exit;
-}
 if (PFS.Initialized) { instance_destroy(); }
 #region CSV Base
-file = working_directory + "/PFS/Data/file.csv";
+file = working_directory + "PFS/Data/file.csv";
 if (file_exists(file)) {
 	var _fs = file_text_open_read(file);
 	var _pos = [ "id","identifier","generation_id","evolves_from_species_id","evolution_chain_id","color_id","shape_id","habitat_id","gender_rate","capture_rate","base_happiness","is_baby","hatch_counter","has_gender_differences","growth_rate_id","forms_switchable","is_legendary","is_mythical","order","conquest_order" ];
@@ -42,7 +19,7 @@ if (file_exists(file)) {
 #endregion
 
 #region CSV Base
-file = working_directory + "/PFS/Data/abilities.csv";
+file = working_directory + "PFS/Data/abilities.csv";
 if (file_exists(file)) {
 	PFS.Abilities[0] = {identifier : "null", internalName : "null"}
 	var _fs = file_text_open_read(file);
@@ -62,7 +39,7 @@ else { show_message($"missing file {file} on installation"); }
 #endregion
 
 #region Pokemons
-file = working_directory + "/PFS/Data/pokemon.csv";
+file = working_directory + "PFS/Data/pokemon.csv";
 if (file_exists(file)) {
 	var _fs = file_text_open_read(file);
 	var _pos = [ "id","identifier","species_id","height","weight","base_experience","order","is_default" ];
@@ -99,7 +76,7 @@ else { show_message($"missing file {file} on installation"); }
 
 //Species
 gen = 0;
-file = working_directory + "/PFS/Data/pokemon_species.csv";
+file = working_directory + "PFS/Data/pokemon_species.csv";
 if (file_exists(file)) {
 	var _fs = file_text_open_read(file);
 	var _pos = [ "id","identifier","generation_id","evolves_from_species_id","evolution_chain_id","color_id","shape_id","habitat_id","gender_rate","capture_rate","base_happiness","is_baby","hatch_counter","has_gender_differences","growth_rate_id","forms_switchable","is_legendary","is_mythical","order","conquest_order" ];
@@ -119,7 +96,7 @@ if (file_exists(file)) {
 else { show_message($"missing file {file} on installation"); }
 
 //Base Stats
-file = working_directory + "/PFS/Data/pokemon_stats.csv";
+file = working_directory + "PFS/Data/pokemon_stats.csv";
 if (file_exists(file)) {
 	var _fs = file_text_open_read(file);
 	var _pos = [ "pokemon_id","stat_id","base_stat","effort" ];
@@ -140,7 +117,7 @@ if (file_exists(file)) {
 else { show_message($"missing file {file} on installation"); }
 
 //Types
-file = working_directory + "/PFS/Data/pokemon_types.csv";
+file = working_directory + "PFS/Data/pokemon_types.csv";
 if (file_exists(file)) {
 	var _fs = file_text_open_read(file);
 	var _pos = [ "pokemon_id","type_id","slot" ];
@@ -216,7 +193,7 @@ if (file_exists(file)) {
 }
 else { show_message($"missing file {file} on installation"); }
 
-file = working_directory + "/PFS/Data/pokemon_abilities.csv";
+file = working_directory + "PFS/Data/pokemon_abilities.csv";
 if (file_exists(file)) {
 	var _fs = file_text_open_read(file);
 	var _pos = [ "pokemon_id","ability_id", "is_hidden", "slot" ];
@@ -236,8 +213,8 @@ else { show_message($"missing file {file} on installation"); }
 #endregion
 
 #region Generate Move List
-if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
-	var fs = file_text_open_read(working_directory + "/PFS/Data/moves.csv");
+if (file_exists(working_directory + "PFS/Data/moves.csv")) {
+	var fs = file_text_open_read(working_directory + "PFS/Data/moves.csv");
     var jsonStr = "";
 	var _pos = [ "id","identifier","generation_id","type_id","power","pp","accuracy","priority","target_id","damage_class_id","effect_id","effect_chance","contest_type_id","contest_effect_id","super_contest_effect_id" ];
 	var _others = [ "priority","damage_class_id","effect_id","effect_chance" ];
@@ -399,8 +376,8 @@ if (file_exists(working_directory + "/PFS/Data/moves.csv")) {
 
 #region Moves Pokemons can Learn
 gen = 0;
-if (file_exists(working_directory + "/PFS/Data/pokemon_moves.csv")) {
-	var fs = file_text_open_read(working_directory + "/PFS/Data/pokemon_moves.csv");
+if (file_exists(working_directory + "PFS/Data/pokemon_moves.csv")) {
+	var fs = file_text_open_read(working_directory + "PFS/Data/pokemon_moves.csv");
     var jsonStr = "";
 	var _pos = [ "pokemon_id", "version_group_id", "move_id", "pokemon_move_method_id", "level", "order" ];
 	while (!file_text_eof(fs)) {
@@ -437,7 +414,7 @@ if (file_exists(working_directory + "/PFS/Data/pokemon_moves.csv")) {
 #endregion
 
 #region Status
-file = working_directory + "/PFS/Data/move_meta_ailments.csv";
+file = working_directory + "PFS/Data/move_meta_ailments.csv";
 if (file_exists(file)) {
 	var _fs = file_text_open_read(file);
 	var _pos = [ "id","identifier"];
@@ -457,7 +434,7 @@ if (file_exists(file)) {
 else { show_message($"missing file {file} on installation"); }
 
 //data for moves
-file = working_directory + "/PFS/Data/move_meta.csv";
+file = working_directory + "PFS/Data/move_meta.csv";
 if (file_exists(file)) {
 	var _fs = file_text_open_read(file);
 	var _pos = [ "move_id","meta_category_id","meta_ailment_id","min_hits","max_hits","min_turns","max_turns","drain","healing","crit_rate","ailment_chance","flinch_chance","stat_chance" ];
