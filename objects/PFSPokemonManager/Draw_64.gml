@@ -3,10 +3,6 @@ var _startx = startPosition[0];
 var _starty = startPosition[1];
 var _x = _startx;
 var _y = _starty;
-var a = PFSFightSystem.a;
-var b = PFSFightSystem.b;
-var c = PFSFightSystem.c;
-var d = PFSFightSystem.d;
 draw_sprite_ext(PFSPokemonScreenBG, 0, _startx + 1, _starty + 1, 3, 3, 0, c_white, 1);
 var _offset = selectedPokemon == 0 ? 94 : 100;
 draw_sprite_ext(PFSPokemonScreenFirst, selectedPokemon == 0 ? 1 : 0, _x + 133, _y + 132 + _offset, 3, 3, 0, c_white, 1);
@@ -20,11 +16,8 @@ draw_sprite_ext(PFSPokemonScreenHPTop, 0, _x + 52, _y + 169 + _offset, 3, 3, 0, 
 draw_sprite_part_ext(PFSPokemonScreenHPValue, _hpColor, 0, 0, ((_hp / _pokemon.base.hp) * 48), 10, _x + 97, _y + 175 + _offset, 3, 3, c_white, 1);
 var _yoff = 0;
 for (var i = 1; i < 6; ++i) {
-	//if (selectedPokemon < 7) {
-	//if (selectedPokemon > array_length(PFS.playerPokemons) - 1) { break; }
 	if (i > array_length(PFS.playerPokemons) - 1) { break; }
 	if (array_length(PFS.playerPokemons) == 1) { break; }
-	//}
 	_pokemon = PFS.playerPokemons[i];
 	_hp = _pokemon.hp;
 	_offset = selectedPokemon == i ? 3 : 0;

@@ -1,4 +1,4 @@
-global.online = true;
+global.online = os_get_config() == "Online" or os_get_config() == "Online-Debug";
 #macro ONLINE global.online
 
 enum Contype {
@@ -9,12 +9,12 @@ enum Contype {
 	Disconnect,
 	Login,
 	GetCharacters,
-	SelectCharacter,
-	
+	SelectCharacter,	
 	Null
 }
 
 function send_data(json){
+	if (!ONLINE) { exit; }
 	var data = json_stringify(json);
 	buffer_seek(oClient.buffer, buffer_seek_start, 0);
 	buffer_write(oClient.buffer, buffer_text, data);

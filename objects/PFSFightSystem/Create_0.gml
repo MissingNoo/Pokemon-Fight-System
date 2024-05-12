@@ -56,41 +56,6 @@ function enemy_alive() {
 }
 #endregion
 
-#region Debug
-a = 0;
-b = 0;
-c = 0;
-d = 0;
-DebugManager.debug_add_config(self, {
-	text : "a",
-	type : DebugTypes.UpDown,
-	variable : "a",
-	//func: function(){},
-	page : "Battle"
-});
-DebugManager.debug_add_config(self, {
-	text : "b",
-	type : DebugTypes.UpDown,
-	variable : "b",
-	//func: function(){},
-	page : "Battle"
-});
-DebugManager.debug_add_config(self, {
-	text : "c",
-	type : DebugTypes.UpDown,
-	variable : "c",
-	//func: function(){},
-	page : "Battle"
-});
-DebugManager.debug_add_config(self, {
-	text : "d",
-	type : DebugTypes.UpDown,
-	variable : "d",
-	//func: function(){},
-	page : "Battle"
-});
-#endregion
-
 #region Battle
 enemyOut = 0;
 pokemonOut = 0;

@@ -1,3 +1,7 @@
+if (!ONLINE) {
+	room_goto(rConfig);
+    instance_destroy();
+}
 characters = [];
 socket = network_create_socket(network_socket_tcp);
 //connected = network_connect_raw(socket, "140.238.187.191", 21337);

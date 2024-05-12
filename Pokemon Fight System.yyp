@@ -7,6 +7,9 @@
   "configs":{
     "children":[
       {"children":[],"name":"Debug",},
+      {"children":[],"name":"Online",},
+      {"children":[],"name":"Offline",},
+      {"children":[],"name":"Online-Debug",},
     ],
     "name":"Default",
   },
@@ -1398,8 +1401,8 @@
     {"id":{"name":"Networking","path":"scripts/Networking/Networking.yy",},},
     {"id":{"name":"PFSScripts","path":"scripts/PFSScripts/PFSScripts.yy",},},
     {"id":{"name":"PlayerScripts","path":"scripts/PlayerScripts/PlayerScripts.yy",},},
-    {"id":{"name":"Script4","path":"scripts/Script4/Script4.yy",},},
     {"id":{"name":"SnowState","path":"scripts/SnowState/SnowState.yy",},},
+    {"id":{"name":"StartScripts","path":"scripts/StartScripts/StartScripts.yy",},},
     {"id":{"name":"Sequence1","path":"sequences/Sequence1/Sequence1.yy",},},
     {"id":{"name":"battlesprites","path":"sprites/battlesprites/battlesprites.yy",},},
     {"id":{"name":"DebugArrowButtonLeftRight","path":"sprites/DebugArrowButtonLeftRight/DebugArrowButtonLeftRight.yy",},},

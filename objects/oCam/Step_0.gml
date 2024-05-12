@@ -1,0 +1,1 @@
+global.blackfade = lerp(global.blackfade, 0, 0.1);

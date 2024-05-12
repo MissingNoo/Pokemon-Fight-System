@@ -1,4 +1,27 @@
 //Feather disable GM2017
+if (os_type == os_android) {
+	file = working_directory + "/PFS/Data/move_meta_ailments.csv";
+	if (file_exists(file)) {
+	    show_message_async("1 exists");
+	}
+	file = working_directory + string_lower("/PFS/Data/move_meta_ailments.csv");
+	if (file_exists(file)) {
+	    show_message_async("2 exists");
+	}
+	file = string_lower(working_directory + "/PFS/Data/move_meta_ailments.csv");
+	if (file_exists(file)) {
+	    show_message_async("3 exists");
+	}
+	file = string_lower("PFS/Data/move_meta_ailments.csv");
+	if (file_exists(file)) {
+	    show_message_async("4 exists");
+	}
+	file = string_lower(working_directory + "PFS/Data/move_meta_ailments.csv");
+	if (file_exists(file)) {
+	    show_message_async("5 exists");
+	}
+    exit;
+}
 if (PFS.Initialized) { instance_destroy(); }
 #region CSV Base
 file = working_directory + "/PFS/Data/file.csv";

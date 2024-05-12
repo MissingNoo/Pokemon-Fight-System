@@ -7,4 +7,8 @@ blackalpha = 0;
 blacklerp = 0;
 blacklerping = false;
 scale = 3;
-room_goto(rPlayerHouse2f);
+ini_open("Game.ini");
+if (ini_read_real("Game", "SeenLecture", false)) {
+    room_goto(rPlayerHouse2f);
+}
+ini_close();

@@ -1,7 +1,5 @@
-
 if (x == other.x and y == other.y) {
 	if (!other.collided) {
-		show_debug_message("on center of grass");
 		if (irandom_range(0,100) <= 30) {
 			//Feather disable GM2017
 		    var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];

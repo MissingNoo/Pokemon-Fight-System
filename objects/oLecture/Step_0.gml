@@ -1,24 +1,22 @@
-if (keyboard_check_pressed(vk_pageup)) {
-	scale++;
-}
-if (keyboard_check_pressed(vk_pagedown)) {
-	scale--;
-}
-if (keyboard_check_pressed(ord("Z")) and !lerping) {
+if (keyboard_check_pressed(ord("Z")) and !lerping and !blacklerping) {
 	if (screen < 2) {
 	    lerping = true;
 		lerpto = 0;
+		exit;
 	}
 	if (screen == 2) {
 	    blacklerping = true;
 		blacklerp = 1;
+		exit;
 	}
-	if (screen > 2) {
+	if (screen > 2 and screen < 5) {
 		screen++;
+		exit;
 	}
 	if (screen == 5) {
 		blacklerping = true;
 		blacklerp = 1;
+		exit;
 	}
 }
 #region controls
@@ -47,6 +45,10 @@ else {
 	blacklerping = false;
 	if (blackalpha == 1) {
 		if (screen == 5) {
+			global.blackfade = 1;
+			ini_open("Game.ini");
+			ini_write_real("Game", "SeenLecture", true);
+			ini_close();
 		    room_goto(rPlayerHouse2f);
 		}
 		screen++;
