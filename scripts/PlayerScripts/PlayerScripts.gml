@@ -1,4 +1,13 @@
 //Feather disable GM2017
+enum Gender { Male, Female }
+
+global.playerdata = {
+	gender : Gender.Male,
+	name : "",
+	rivalname : ""
+}
+#macro PlayerData global.playerdata
+
 function player_movement(){
 	if (!moving and !instance_exists(PFSFightSystem) and canmove) {
 		if (keyboard_check(vk_left)) {

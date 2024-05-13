@@ -1,6 +1,7 @@
 typist = scribble_typist();
 typist.in(1, 0);
-typist.function_on_complete(function(){showOptions = true;})
+//typist.function_on_complete()
+scribble_typists_add_event("showoptions", function(){showOptions = true;});
 canDestroy = false;
 alarm[0] = 10;
 scr = scribble("");
@@ -83,29 +84,77 @@ DebugManager.debug_add_config(self, {
 	page : "Start2"
 });
 #region Respostas
-dialogAnswerX = 10;
+dialogAnswerX = 500;
 DebugManager.debug_add_config(self, {
 	text : "dialogAnswerX",
 	type : DebugTypes.UpDown,
 	variable : "dialogAnswerX",
 	//func: function(){},
-	page : "Start2"
+	page : "Start3"
 });
-dialogAnswerY = 10;
+dialogAnswerY = 210;
 DebugManager.debug_add_config(self, {
 	text : "dialogAnswerY",
 	type : DebugTypes.UpDown,
 	variable : "dialogAnswerY",
 	//func: function(){},
-	page : "Start2"
+	page : "Start3"
 });
-dialogAnswerOffset = 30;
+dialogAnswerEndX = 180;
+DebugManager.debug_add_config(self, {
+	text : "dialogAnswerEndX",
+	type : DebugTypes.UpDown,
+	variable : "dialogAnswerEndX",
+	//func: function(){},
+	page : "Start3"
+});
+dialogAnswerEndY = 120;
+DebugManager.debug_add_config(self, {
+	text : "dialogAnswerEndY",
+	type : DebugTypes.UpDown,
+	variable : "dialogAnswerEndY",
+	//func: function(){},
+	page : "Start3"
+});
+dialogAnswerScale = 2;
+DebugManager.debug_add_config(self, {
+	text : "dialogAnswerScale",
+	type : DebugTypes.UpDown,
+	variable : "dialogAnswerScale",
+	//func: function(){},
+	page : "Start3"
+});
+dialogAnswerTextX = 35;
+DebugManager.debug_add_config(self, {
+	text : "dialogAnswerTextX",
+	type : DebugTypes.UpDown,
+	variable : "dialogAnswerTextX",
+	//func: function(){},
+	page : "Start3"
+});
+dialogAnswerTextY = 35;
+DebugManager.debug_add_config(self, {
+	text : "dialogAnswerTextY",
+	type : DebugTypes.UpDown,
+	variable : "dialogAnswerTextY",
+	//func: function(){},
+	page : "Start3"
+});
+dialogAnswerOffset = 45;
 DebugManager.debug_add_config(self, {
 	text : "dialogAnswerOffset",
 	type : DebugTypes.UpDown,
 	variable : "dialogAnswerOffset",
 	//func: function(){},
-	page : "Start2"
+	page : "Start3"
 });
 #endregion
 #endregion
+
+function nextPage(){
+	if (scr.get_page() < scr.get_page_count()) {
+		scr.page(scr.get_page() + 1);
+		show_debug_message("Next page");
+		interaction = Interactions.Skip;
+	}
+}

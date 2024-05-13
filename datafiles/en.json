@@ -6,7 +6,11 @@
 			"OakLecture" : {
 				"nome" : "Oak",
 				"Falas" : {
-					"Intro" : "Hello, there! \nGlad to meet you! [/page]Welcome to the world of POKEMON! [/page]My name is OAK. [/page]People affectionately refer to me as the POKéMON PROFESSOR. [/page]This world... [/page]...is inhabited far and wide by creatures called POKéMON. [/page]For some people, POKéMON are pets. \nOthers use them for battling. [/page]As for myself... [/page]I study POKéMON as a profession. [/page]But first, tell me a little about yourself."
+					"Intro" : "Hello, there! \nGlad to meet you! [/page]Welcome to the world of POKEMON! [/page]My name is OAK. [/page]People affectionately refer to me as the POKéMON PROFESSOR. [/page]This world... [/page]...is inhabited far and wide by creatures called POKéMON. [/page]For some people, POKéMON are pets. \nOthers use them for battling. [/page]As for myself... [/page]I study POKéMON as a profession. [/page]But first, tell me a little about yourself. [/page][oakalpha,0]Now tell me. Are you a boy? \nOr are you a girl?[showoptions]",
+					"Selected" : "[playeralpha,1]Let's begin with your name. \nWhat is it? [/page][lecturestate,typing]",
+					"AfterName" : "Right... \nSo your name is %playername%.[showoptions]",
+					"RivalIntro" : "[playeralpha,0][rivalalpha,1]This is my grandson. [/page]He's been your rival since you both were babies.[rivalx, 100] [/page]...Erm, what was his name now?[showoptions]",
+					"AfterRivalName" : "...Er, was it %rivalname%? [/page]That's right! I remember now! \nHis name is %rivalname%! [/page][rivalalpha,0][playeralpha,1]%playername%! [/page]Your very own POKéMON legend is about to unfold! [/page]A world of dreams and adventures with POKéMON awaits! Let's Go![gohome]"
 				}
 			},
 			"Daniel" : {

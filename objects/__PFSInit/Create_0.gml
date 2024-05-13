@@ -1,4 +1,6 @@
 //Feather disable GM2017
+show_debug_message("------------------[PFS]------------------");
+var _start = get_timer();
 if (PFS.Initialized) { instance_destroy(); }
 #region CSV Base
 file = working_directory + "PFS/Data/file.csv";
@@ -21,6 +23,7 @@ if (file_exists(file)) {
 #region CSV Base
 file = working_directory + "PFS/Data/abilities.csv";
 if (file_exists(file)) {
+	timer = get_timer();
 	PFS.Abilities[0] = {identifier : "null", internalName : "null"}
 	var _fs = file_text_open_read(file);
 	var _pos = [ "id","identifier" ];
@@ -33,6 +36,7 @@ if (file_exists(file)) {
 		var _name = string_concat(string_upper(string_copy(_identifier, 1, 1)), string_copy(_identifier, 2, string_length(_identifier)));
 		PFS.Abilities[_id] = { identifier : _identifier, internalName : _name }
 	}
+	show_debug_message($"[PFS] Loading abilities: {(get_timer() - timer) / 1000000}s");
 	file_text_close(_fs);
 }
 else { show_message($"missing file {file} on installation"); }
@@ -41,6 +45,7 @@ else { show_message($"missing file {file} on installation"); }
 #region Pokemons
 file = working_directory + "PFS/Data/pokemon.csv";
 if (file_exists(file)) {
+	timer = get_timer();
 	var _fs = file_text_open_read(file);
 	var _pos = [ "id","identifier","species_id","height","weight","base_experience","order","is_default" ];
 	while (!file_text_eof(_fs)) {
@@ -70,6 +75,7 @@ if (file_exists(file)) {
 		_poke.sprite = [string(_poke.internalName + "Front"), string(_poke.internalName + "Back")];
 		PFS.Pokes[_id] = variable_clone(_poke);
 	}
+	show_debug_message($"[PFS] Loading Pokemon Data 1: {(get_timer() - timer) / 1000000}s");
 	file_text_close(_fs);
 }
 else { show_message($"missing file {file} on installation"); }
@@ -78,6 +84,7 @@ else { show_message($"missing file {file} on installation"); }
 gen = 0;
 file = working_directory + "PFS/Data/pokemon_species.csv";
 if (file_exists(file)) {
+	timer = get_timer();
 	var _fs = file_text_open_read(file);
 	var _pos = [ "id","identifier","generation_id","evolves_from_species_id","evolution_chain_id","color_id","shape_id","habitat_id","gender_rate","capture_rate","base_happiness","is_baby","hatch_counter","has_gender_differences","growth_rate_id","forms_switchable","is_legendary","is_mythical","order","conquest_order" ];
 	while (!file_text_eof(_fs)) {
@@ -91,6 +98,7 @@ if (file_exists(file)) {
 		}
 		PFS.PokeSpecies[_id] = variable_clone(_poke);
 	}
+	show_debug_message($"[PFS] Loading Pokemon Data 2: {(get_timer() - timer) / 1000000}s");
 	file_text_close(_fs);
 }
 else { show_message($"missing file {file} on installation"); }
@@ -98,6 +106,7 @@ else { show_message($"missing file {file} on installation"); }
 //Base Stats
 file = working_directory + "PFS/Data/pokemon_stats.csv";
 if (file_exists(file)) {
+	timer = get_timer();
 	var _fs = file_text_open_read(file);
 	var _pos = [ "pokemon_id","stat_id","base_stat","effort" ];
 	var _statNames = ["null", "hp", "attack", "defense", "spattack", "spdefense", "speed", "accuracy", "evasion"];
@@ -112,6 +121,7 @@ if (file_exists(file)) {
 		PFS.Pokes[_id].basecalc[$ _statNames[_statid]] = real(_basestat);
 		PFS.Pokes[_id].effort[$ _statNames[_statid]] = real(_effort);
 	}
+	show_debug_message($"[PFS] Loading Pokemon Data 3: {(get_timer() - timer) / 1000000}s");
 	file_text_close(_fs);
 }
 else { show_message($"missing file {file} on installation"); }
@@ -119,6 +129,7 @@ else { show_message($"missing file {file} on installation"); }
 //Types
 file = working_directory + "PFS/Data/pokemon_types.csv";
 if (file_exists(file)) {
+	timer = get_timer();
 	var _fs = file_text_open_read(file);
 	var _pos = [ "pokemon_id","type_id","slot" ];
 	while (!file_text_eof(_fs)) {
@@ -189,12 +200,14 @@ if (file_exists(file)) {
 		}
 		PFS.Pokes[_id].type[_slot] = _type;
 	}
+	show_debug_message($"[PFS] Loading Pokemon Data 4: {(get_timer() - timer) / 1000000}s");
 	file_text_close(_fs);
 }
 else { show_message($"missing file {file} on installation"); }
 
 file = working_directory + "PFS/Data/pokemon_abilities.csv";
 if (file_exists(file)) {
+	timer = get_timer();
 	var _fs = file_text_open_read(file);
 	var _pos = [ "pokemon_id","ability_id", "is_hidden", "slot" ];
 	while (!file_text_eof(_fs)) {
@@ -207,6 +220,7 @@ if (file_exists(file)) {
 		var _hidden = real(_line[array_get_index(_pos, "is_hidden")]);
 		PFS.Pokes[_id].ability[_slot] = [_ability, _hidden];
 	}
+	show_debug_message($"[PFS] Loading Pokemon data 5: {(get_timer() - timer) / 1000000}s");
 	file_text_close(_fs);
 }
 else { show_message($"missing file {file} on installation"); }
@@ -214,6 +228,7 @@ else { show_message($"missing file {file} on installation"); }
 
 #region Generate Move List
 if (file_exists(working_directory + "PFS/Data/moves.csv")) {
+	timer = get_timer();
 	var fs = file_text_open_read(working_directory + "PFS/Data/moves.csv");
     var jsonStr = "";
 	var _pos = [ "id","identifier","generation_id","type_id","power","pp","accuracy","priority","target_id","damage_class_id","effect_id","effect_chance","contest_type_id","contest_effect_id","super_contest_effect_id" ];
@@ -355,7 +370,6 @@ if (file_exists(working_directory + "PFS/Data/moves.csv")) {
 				}
 		}
 		catch (err) {
-			show_debug_message($"{_lastid+1} is empty");
 			PFS.moves[_lastid+1] = {
 				"id" : _id,
 				"type": __PFSTypes.NoType,
@@ -370,6 +384,7 @@ if (file_exists(working_directory + "PFS/Data/moves.csv")) {
 		}
 		file_text_readln(fs);
 	}
+	show_debug_message($"[PFS] Loading Move Data 1: {(get_timer() - timer) / 1000000}s");
 	file_text_close(fs);
 }
 #endregion
@@ -377,6 +392,7 @@ if (file_exists(working_directory + "PFS/Data/moves.csv")) {
 #region Moves Pokemons can Learn
 gen = 0;
 if (file_exists(working_directory + "PFS/Data/pokemon_moves.csv")) {
+	timer = get_timer();
 	var fs = file_text_open_read(working_directory + "PFS/Data/pokemon_moves.csv");
     var jsonStr = "";
 	var _pos = [ "pokemon_id", "version_group_id", "move_id", "pokemon_move_method_id", "level", "order" ];
@@ -409,6 +425,7 @@ if (file_exists(working_directory + "PFS/Data/pokemon_moves.csv")) {
 		}
 		file_text_readln(fs);
 	}
+	show_debug_message($"[PFS] Loading Pokemon Data 6: {(get_timer() - timer) / 1000000}s");
 	file_text_close(fs);
 }
 #endregion
@@ -416,6 +433,7 @@ if (file_exists(working_directory + "PFS/Data/pokemon_moves.csv")) {
 #region Status
 file = working_directory + "PFS/Data/move_meta_ailments.csv";
 if (file_exists(file)) {
+	timer = get_timer();
 	var _fs = file_text_open_read(file);
 	var _pos = [ "id","identifier"];
 	while (!file_text_eof(_fs)) {
@@ -429,6 +447,7 @@ if (file_exists(file)) {
 		PFS.StatusAilments[_id] = _identifier;
 	}
 	//array_insert(PFS.StatusAilments, 0, "Unknown");
+	show_debug_message($"[PFS] Loading Move Data 2: {(get_timer() - timer) / 1000000}s");
 	file_text_close(_fs);
 }
 else { show_message($"missing file {file} on installation"); }
@@ -436,6 +455,7 @@ else { show_message($"missing file {file} on installation"); }
 //data for moves
 file = working_directory + "PFS/Data/move_meta.csv";
 if (file_exists(file)) {
+	timer = get_timer();
 	var _fs = file_text_open_read(file);
 	var _pos = [ "move_id","meta_category_id","meta_ailment_id","min_hits","max_hits","min_turns","max_turns","drain","healing","crit_rate","ailment_chance","flinch_chance","stat_chance" ];
 	while (!file_text_eof(_fs)) {
@@ -453,9 +473,12 @@ if (file_exists(file)) {
 			}
 		}
 	}
+	show_debug_message($"[PFS] Loading Move Data 3: {(get_timer() - timer) / 1000000}s");
 	file_text_close(_fs);
 }
 else { show_message($"missing file {file} on installation"); }
 #endregion
+show_debug_message($"[PFS] Finished loading in {(get_timer() - _start) / 1000000}s");
+show_debug_message("------------------[PFS]------------------");
 PFS.Initialized = true;
 //room_goto(rConfig);
