@@ -15,7 +15,7 @@ playeralpha = [0, 0];
 rivalalpha = [0, 0];
 ini_open("Game.ini");
 if (ini_read_real("Game", "SeenLecture", false)) {
-    //room_goto(rPlayerHouse2f);
+    room_goto(rPlayerHouse2f);
 }
 ini_close();
 #region State Machine
