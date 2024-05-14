@@ -6,7 +6,9 @@
   ],
   "configs":{
     "children":[
-      {"children":[],"name":"Debug",},
+      {"children":[
+          {"children":[],"name":"Debug-No-Lecture",},
+        ],"name":"Debug",},
       {"children":[],"name":"Online",},
       {"children":[],"name":"Offline",},
       {"children":[],"name":"Online-Debug",},

@@ -20,6 +20,9 @@
       "option_android_arch_x86_64":"true",
       "option_android_arch_arm64":"false",
     },
+    "Debug-No-Lecture":{
+      "option_android_scale":"0",
+    },
   },
   "name":"Android",
   "option_android_application_tag_inject":"",

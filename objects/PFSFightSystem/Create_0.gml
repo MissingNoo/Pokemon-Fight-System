@@ -182,7 +182,7 @@ load_sprite(enemyPokemon[enemyOut], 0);
 for (var i = 0; i < 100; ++i) {
     show_debug_message("");
 }
-show_debug_message("Starting battle!");
+show_debug_message("[PFS] Starting battle!");
 if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
 	show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
 }

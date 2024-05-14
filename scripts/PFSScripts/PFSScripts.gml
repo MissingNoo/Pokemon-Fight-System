@@ -1,7 +1,7 @@
 //Feather disable GM2017
 #macro GW display_get_gui_width()
 #macro GH display_get_gui_height()
-#macro DEBUG if (os_get_config() == "Debug") {
+#macro DEBUG if (global.debug) {
 #macro ENDDEBUG }
 global.__PFS = {};
 #macro PFS global.__PFS
@@ -529,7 +529,7 @@ function __PFS_ability_before_move(pokemon, move){
 	for (var i = 0; i < array_length(pokemon.ability); ++i) {
 	    if (pokemon.ability[i][0] == __PFS_get_ability_id("pixilate")) {
 		    if (move.type == __PFSTypes.Normal) {
-			    show_debug_message($"{move.internalName} has changed type from Normal to Fairy by {pokemon.internalName} Pixilate!");
+			    show_debug_message($"{move.internalName} has changed type from Normal to Fairy by {pokemon.internalName}'s Pixilate!");
 				if (move.mpower != "") {
 				    move.mpower = round(real(move.mpower) * 1.3);
 				}

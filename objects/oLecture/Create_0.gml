@@ -14,8 +14,9 @@ oakalpha = [1, 1];
 playeralpha = [0, 0];
 rivalalpha = [0, 0];
 ini_open("Game.ini");
-if (ini_read_real("Game", "SeenLecture", false)) {
-    //room_goto(rPlayerHouse2f);
+show_message(os_get_config());
+if (ini_read_real("Game", "SeenLecture", false) and os_get_config() != "Debug-No-Lecture") {
+    room_goto(rPlayerHouse2f);
 }
 ini_close();
 #region State Machine
