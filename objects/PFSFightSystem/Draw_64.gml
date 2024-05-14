@@ -1,6 +1,5 @@
 //Feather disable GM2017
 //draw_sprite_ext(sEndResult, 0, GW/2, GH/2, 3, 3, 0, c_white, 1);
-
 #region Start Variables
 startPosition[0] = stx;
 startPosition[1] = sty;
@@ -109,9 +108,7 @@ if (!selectingMenu) {
 				if (selectedMove == i) {
 				    draw_sprite_ext(PFSOptionSelected, 0, _x - 7 + _xoff, _y + 20 + _yoff, 2, 2, 0, c_white, 1);
 				}
-				draw_set_color(c_black);
-				draw_text_transformed(_x + _xoff, _y + _yoff, move.internalName, 2, 2, 0);
-				draw_set_color(c_white);
+				draw_text_transformed(_x + _xoff, _y + _yoff + 6, move.internalName, 1, 1, 0);
 				#region unused
 				//if (createbutton(_x, _y + _yoff, $"{move.internalName} {move.pp}/{move.maxpp}", 1, true, undefined) and move.pp > 0) {
 				//	array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[0], move, PFSBattleSides.Player]);

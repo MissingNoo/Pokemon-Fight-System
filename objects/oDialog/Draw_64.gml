@@ -2,7 +2,7 @@ if (npc == "0" or text == "0") { exit; }
 draw_sprite_stretched(sDialogWindow, 0, dialogBoxX, dialogBoxY, dialogBoxEndX, dialogBoxEndY);
 
 //Feather disable once GM1041
-scr = scribble("[c_black]" + lexicon_text_struct($"NPC.{npc}.Falas.{text}", struc))
+scr = scribble(lexicon_text_struct($"NPC.{npc}.Falas.{text}", struc))
 		  .scale(dialogFontSize)
 		  .wrap(dialogWrap, dialogBoxEndY - 20);
 
@@ -19,10 +19,10 @@ if (is_array(options) and showOptions and canInteract and _currentText != -1) {
 		var _opt = options[_currentText][i][0];
 		var _w = string_width(_opt) + 5;
 		var _h = string_height(_opt) / 2 + 3;
-		var _color = c_black;
+		var _color = c_white;
 		if (selectedOption == i) {
 			//Feather disable once GM2017
-		    draw_sprite_ext(PFSOptionSelected, 0, _x + dialogAnswerTextX - 8, _y + dialogAnswerTextY + 2, 2, 2, 0, c_white, 1);
+		    draw_sprite_ext(PFSOptionSelected, 0, _x + dialogAnswerTextX - 8, _y + dialogAnswerTextY - 3, 2, 2, 0, c_white, 1);
 		}
 	    draw_text_transformed_color(_x + dialogAnswerTextX, _y + dialogAnswerTextY, _opt, dialogAnswerScale, dialogAnswerScale, 0, _color, _color, _color, _color, 1);
 		_yoffset += dialogAnswerOffset;

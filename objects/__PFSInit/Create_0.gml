@@ -1,3 +1,15 @@
+mapstring = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?,-."
+PFS.Fonts.PokeFont[1] = font_add_sprite_ext(sPokeFont1, mapstring, true, 0);
+PFS.Fonts.PokeFont[2] = font_add_sprite_ext(sPokeFont2, mapstring, true, 0);
+PFS.Fonts.PokeFont[100] = font_add_sprite_ext(sPokeFont3, mapstring, true, 0);
+PFS.Fonts = {};
+PFS.Fonts.BattleFont[1] = font_add_sprite_ext(sBattleFont1, mapstring, true, 0);
+PFS.Fonts.BattleFont[2] = font_add_sprite_ext(sBattleFont2, mapstring, true, 0);
+PFS.Fonts.BattleFont[3] = font_add_sprite_ext(sBattleFont3, mapstring, true, 0);
+//feather disable once GM1041
+draw_set_font(PFS.Fonts.PokeFont[100]);
+global.defaultFont = draw_get_font();
+scribble_font_set_default("sPokeFont2");
 //Feather disable GM2017
 show_debug_message("------------------[PFS]------------------");
 var _start = get_timer();

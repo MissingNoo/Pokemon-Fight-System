@@ -67,7 +67,7 @@ DebugManager.debug_add_config(self, {
 	//func: function(){},
 	page : "Start2"
 });
-dialogFontSize = 2;
+dialogFontSize = 1;
 DebugManager.debug_add_config(self, {
 	text : "dialogFontSize",
 	type : DebugTypes.UpDown,
@@ -116,7 +116,7 @@ DebugManager.debug_add_config(self, {
 	//func: function(){},
 	page : "Start3"
 });
-dialogAnswerScale = 2;
+dialogAnswerScale = 1;
 DebugManager.debug_add_config(self, {
 	text : "dialogAnswerScale",
 	type : DebugTypes.UpDown,
@@ -132,7 +132,7 @@ DebugManager.debug_add_config(self, {
 	//func: function(){},
 	page : "Start3"
 });
-dialogAnswerTextY = 35;
+dialogAnswerTextY = 42;
 DebugManager.debug_add_config(self, {
 	text : "dialogAnswerTextY",
 	type : DebugTypes.UpDown,

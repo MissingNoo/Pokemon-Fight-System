@@ -1,3 +1,4 @@
+draw_set_font(global.defaultFont);
 /*
 debug_add_config("Button", DebugTypes.Button, undefined, undefined, function(){show_message("Button")});
 debug_add_config("ButtonSameLine", DebugTypes.Button, undefined, undefined, function(){show_message("ButtonSameLine")});

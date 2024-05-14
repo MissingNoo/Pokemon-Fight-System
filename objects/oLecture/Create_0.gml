@@ -169,11 +169,10 @@ fsm.add("idle", {
 		  }
 	  },
 	  draw : function() {
+		  draw_set_font(PFS.Fonts.PokeFont[3]);
 		  draw_sprite_ext(sTypingBG, -1, 0, 0, scale, scale, 0, c_white, 1);
 		  string_foreach(keyboard_string, function (character, position) {
-			  draw_set_color(c_black);
-			  draw_text_transformed(270 + (position * 24), 265, character, 2, 2, 0);
-			  draw_set_color(c_white);
+			  draw_text_transformed(270 + (position * 24), 271, character, 1, 1, 0);
 			});
 	  }
   });

@@ -147,13 +147,13 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 		_hpy += playerHpY;
 		draw_healthbar(_hpx + 143, _hpy + 50, _hpx + 285, _hpy + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
 		draw_sprite_ext(PFSPlayerHpBar, 0, _hpx, _hpy, playerHpScale, playerHpScale, 0, c_white, 1);
-	    
 		_hpx += 28;
 	}
-	draw_set_color(c_black);
-	draw_text_transformed(_hpx + 10, _hpy + 2, $"{_pokemon.internalName}", 2, 2, 0);
-	draw_text_transformed(_hpx + 242, _hpy + 22, _pokemon.level, 1, 1, 0);
-	draw_set_color(c_white);
+	draw_set_font(PFS.Fonts.BattleFont[3]);
+	draw_text_transformed(_hpx + 15, _hpy + 15, $"{_pokemon.internalName}", 1, 1, 0);
+	draw_set_font(PFS.Fonts.BattleFont[2]);
+	draw_text_transformed(_hpx + 242, _hpy + 16, _pokemon.level, 1, 1, 0);
+	draw_set_font(PFS.Fonts.PokeFont[3]);
 	#endregion
 	//var _status = "";
 	//for (var i = 0; i < array_length(_pokemon.statusAilments); ++i) {
