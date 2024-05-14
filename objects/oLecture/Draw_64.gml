@@ -7,5 +7,5 @@ if (DEBUGMODE) {
 	draw_text(10, 10, $"Screen: {screen}");
 	draw_text(10, 20, $"{oakalpha[0]}");
 	draw_text(10, 30, $"{playeralpha[0]}");
-	draw_set_font(PFS.Fonts.PokeFont[100]);
+	draw_set_font(PFS.Fonts.PokeFont[3]);
 }

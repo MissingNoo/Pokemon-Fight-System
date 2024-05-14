@@ -27,10 +27,11 @@ for (var i = 1; i < 6; ++i) {
     draw_sprite_ext(PFSPokemonScreenOther, selectedPokemon == i ? 1 : 0, _x + 292, _y + 31 + _yoff, 3, 3, 0, c_white, 1);
     draw_sprite_ext(PFSPokemonScreenHPTop, 0, _x + 508, _y + 49 + _yoff + _offset, 3, 3, 0, c_white, 1);
     draw_sprite_part_ext(PFSPokemonScreenHPValue, _hpColor, 0, 0, ((_hp / _pokemon.base.hp) * 48), 10, _x + 553, _y + 55 + _yoff + _offset, 3, 3, c_white, 1);
-	draw_set_font(PFS.Fonts.PokeFont[3]);
-	draw_text(_x + 330, _y + 40 + _yoff, _pokemon.internalName);
-	draw_set_font(PFS.Fonts.PokeFont[2]);
-	draw_text(_x + 410, _y + _yoff, _pokemon.level);
+	draw_set_font(PFS.Fonts.PokeSelectFont[3]);
+	draw_text(_x + 330, _y + 40 + _yoff, string_upper(_pokemon.internalName));
+	draw_set_font(PFS.Fonts.PokeSelectFont[2]);
+	draw_text(_x + 410, _y + 74 + _yoff, _pokemon.level);
 	_yoff += 72;
 }
-draw_rectangle(_x, _y, _x + windowSize[0], _y + windowSize[1], true);
+//draw_rectangle(_x, _y, _x + windowSize[0], _y + windowSize[1], true);
+draw_set_font(PFS.Fonts.PokeFont[3]);

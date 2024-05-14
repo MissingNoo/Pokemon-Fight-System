@@ -8,6 +8,7 @@ if (keyboard_check_pressed(vk_right) and selectedPokemon == 0 and array_length(P
 }
 selectedPokemon += _upDown;
 if (selectedPokemon > array_length(PFS.playerPokemons) - 1 and selectedPokemon < 7) { selectedPokemon = array_length(PFS.playerPokemons) - 1; }
+if (selectedPokemon == 6 and _upDown == 1) { selectedPokemon++;}
 if (selectedPokemon < 0) { selectedPokemon = 7; }
 if (selectedPokemon > array_length(PFS.playerPokemons) - 1) { selectedPokemon = 7; }
 if (selectedPokemon > 7) { selectedPokemon = 0; }

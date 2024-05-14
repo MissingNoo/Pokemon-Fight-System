@@ -15,7 +15,7 @@ playeralpha = [0, 0];
 rivalalpha = [0, 0];
 ini_open("Game.ini");
 if (ini_read_real("Game", "SeenLecture", false)) {
-    room_goto(rPlayerHouse2f);
+    //room_goto(rPlayerHouse2f);
 }
 ini_close();
 #region State Machine
@@ -104,8 +104,12 @@ fsm.add("idle", {
 			}
 		}
 		oakalpha[0] = lerp(oakalpha[0], oakalpha[1], 0.1);
-		playeralpha[0] = lerp(playeralpha[0], playeralpha[1], 0.1);
-		rivalalpha[0] = lerp(rivalalpha[0], rivalalpha[1], 0.1);
+		if (rivalalpha[0] == 0) {
+		    playeralpha[0] = lerp(playeralpha[0], playeralpha[1], 0.1);
+		}
+		if (playeralpha[0] == 0) {
+		    rivalalpha[0] = lerp(rivalalpha[0], rivalalpha[1], 0.1);
+		}		
 		#endregion
     },
 	draw : function() {
@@ -144,7 +148,7 @@ fsm.add("idle", {
   .add("typing", {
 	  enter : function() {
 		  instance_deactivate_object(oDialog);
-		  keyboard_string = "Airgead";
+		  keyboard_string = "";
 	  },
 	  step : function() {
 		  if (string_length(keyboard_string) > 7) {
