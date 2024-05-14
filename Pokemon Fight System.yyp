@@ -8,10 +8,14 @@
     "children":[
       {"children":[
           {"children":[],"name":"Debug-No-Lecture",},
+          {"children":[],"name":"Debug-Force-Lecture",},
         ],"name":"Debug",},
-      {"children":[],"name":"Online",},
-      {"children":[],"name":"Offline",},
-      {"children":[],"name":"Online-Debug",},
+      {"children":[
+          {"children":[
+              {"children":[],"name":"Online-Debug-No-Lecture",},
+              {"children":[],"name":"Online-Debug-Force-Lecture",},
+            ],"name":"Online-Debug",},
+        ],"name":"Online",},
     ],
     "name":"Default",
   },
@@ -1976,7 +1980,7 @@
     {"id":{"name":"__shd_scribble_bake_outline_8dir","path":"shaders/__shd_scribble_bake_outline_8dir/__shd_scribble_bake_outline_8dir.yy",},},
     {"id":{"name":"__shd_scribble_bake_shadow","path":"shaders/__shd_scribble_bake_shadow/__shd_scribble_bake_shadow.yy",},},
     {"id":{"name":"__shd_scribble","path":"shaders/__shd_scribble/__shd_scribble.yy",},},
-    {"id":{"name":"asdasd","path":"sprites/asdasd/asdasd.yy",},},
+    {"id":{"name":"asdasdas","path":"sprites/asdasdas/asdasdas.yy",},},
     {"id":{"name":"battlesprites","path":"sprites/battlesprites/battlesprites.yy",},},
     {"id":{"name":"DebugArrowButtonLeftRight","path":"sprites/DebugArrowButtonLeftRight/DebugArrowButtonLeftRight.yy",},},
     {"id":{"name":"DebugArrowButtonUpDown","path":"sprites/DebugArrowButtonUpDown/DebugArrowButtonUpDown.yy",},},
@@ -1989,6 +1993,7 @@
     {"id":{"name":"PFSOptionsMenu","path":"sprites/PFSOptionsMenu/PFSOptionsMenu.yy",},},
     {"id":{"name":"PFSPlayerHpBar","path":"sprites/PFSPlayerHpBar/PFSPlayerHpBar.yy",},},
     {"id":{"name":"PFSPokemonScreenBG","path":"sprites/PFSPokemonScreenBG/PFSPokemonScreenBG.yy",},},
+    {"id":{"name":"PFSPokemonScreenCancel","path":"sprites/PFSPokemonScreenCancel/PFSPokemonScreenCancel.yy",},},
     {"id":{"name":"PFSPokemonScreenFirst","path":"sprites/PFSPokemonScreenFirst/PFSPokemonScreenFirst.yy",},},
     {"id":{"name":"PFSPokemonScreenHPTop","path":"sprites/PFSPokemonScreenHPTop/PFSPokemonScreenHPTop.yy",},},
     {"id":{"name":"PFSPokemonScreenHPValue","path":"sprites/PFSPokemonScreenHPValue/PFSPokemonScreenHPValue.yy",},},

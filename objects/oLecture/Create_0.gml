@@ -14,11 +14,12 @@ oakalpha = [1, 1];
 playeralpha = [0, 0];
 rivalalpha = [0, 0];
 ini_open("Game.ini");
-show_message(os_get_config());
-if (ini_read_real("Game", "SeenLecture", false) and os_get_config() != "Debug-No-Lecture") {
+var _lectureDone = bool(ini_read_real("Game", "SeenLecture", false));
+ini_close();
+if ((_lectureDone or string_contains(os_get_config(), "No-Lecture")) and !string_contains(os_get_config(), "Force-Lecture")) {
     room_goto(rPlayerHouse2f);
 }
-ini_close();
+
 #region State Machine
 fsm = new SnowState("idle");
 fsm.add("idle", {

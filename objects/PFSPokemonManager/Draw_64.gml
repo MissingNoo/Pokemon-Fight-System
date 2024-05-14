@@ -15,23 +15,28 @@ if (((_hp / _pokemon.base.hp) * 100) < 25) { _hpColor = 2; }
 draw_sprite_ext(PFSPokemonScreenHPTop, 0, _x + 52, _y + 169 + _offset, 3, 3, 0, c_white, 1);
 draw_sprite_part_ext(PFSPokemonScreenHPValue, _hpColor, 0, 0, ((_hp / _pokemon.base.hp) * 48), 10, _x + 97, _y + 175 + _offset, 3, 3, c_white, 1);
 var _yoff = 0;
+draw_sprite_ext(PFSPokemonScreenCancel, selectedPokemon == 7 ? 1 : 0, _x + 552, _y + 396, 3, 3, 0, c_white, 1);
+draw_set_font(PFS.Fonts.PokeSelectFont[3]);
+draw_set_color(selectedPokemon == 7 ? c_white : c_gray);
+draw_text(_x + 614, _y + 420, "CANCEL");
+draw_set_color(c_white);
 for (var i = 1; i < 6; ++i) {
 	if (i > array_length(PFS.playerPokemons) - 1) { break; }
 	if (array_length(PFS.playerPokemons) == 1) { break; }
 	_pokemon = PFS.playerPokemons[i];
 	_hp = _pokemon.hp;
-	_offset = selectedPokemon == i ? 3 : 0;
 	_hpColor = 0;
 	if (((_hp / _pokemon.base.hp) * 100) < 60) { _hpColor = 1; }
 	if (((_hp / _pokemon.base.hp) * 100) < 25) { _hpColor = 2; }
-    draw_sprite_ext(PFSPokemonScreenOther, selectedPokemon == i ? 1 : 0, _x + 292, _y + 31 + _yoff, 3, 3, 0, c_white, 1);
-    draw_sprite_ext(PFSPokemonScreenHPTop, 0, _x + 508, _y + 49 + _yoff + _offset, 3, 3, 0, c_white, 1);
-    draw_sprite_part_ext(PFSPokemonScreenHPValue, _hpColor, 0, 0, ((_hp / _pokemon.base.hp) * 48), 10, _x + 553, _y + 55 + _yoff + _offset, 3, 3, c_white, 1);
+    draw_sprite_ext(PFSPokemonScreenOther, selectedPokemon == i ? 1 : 0, _x + 292, _y + 28 + _yoff, 3, 3, 0, c_white, 1);
+    draw_sprite_ext(PFSPokemonScreenHPTop, 0, _x + 508, _y + 49 + _yoff, 3, 3, 0, c_white, 1);
+    draw_sprite_part_ext(PFSPokemonScreenHPValue, _hpColor, 0, 0, ((_hp / _pokemon.base.hp) * 48), 10, _x + 553, _y + 55 + _yoff, 3, 3, c_white, 1);
 	draw_set_font(PFS.Fonts.PokeSelectFont[3]);
-	draw_text(_x + 330, _y + 40 + _yoff, string_upper(_pokemon.internalName));
+	draw_set_color(_hp > 0 ? c_white : c_gray);
+	draw_text(_x + 330, _y + 42 + _yoff, string_upper(_pokemon.internalName));
+	draw_set_color(c_white)
 	draw_set_font(PFS.Fonts.PokeSelectFont[2]);
 	draw_text(_x + 410, _y + 74 + _yoff, _pokemon.level);
 	_yoff += 72;
 }
-//draw_rectangle(_x, _y, _x + windowSize[0], _y + windowSize[1], true);
 draw_set_font(PFS.Fonts.PokeFont[3]);
