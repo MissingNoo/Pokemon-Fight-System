@@ -28,7 +28,7 @@
   ],
   "name":"sTree",
   "nineSlice":null,
-  "origin":9,
+  "origin":7,
   "parent":{
     "name":"Overworld",
     "path":"folders/Sprites/Overworld.yy",
@@ -81,7 +81,7 @@
     "visibleRange":null,
     "volume":1.0,
     "xorigin":15,
-    "yorigin":41,
+    "yorigin":46,
   },
   "swatchColours":null,
   "swfPrecision":0.5,

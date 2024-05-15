@@ -28,7 +28,7 @@
   "physicsShapePoints":[],
   "physicsStartAwake":true,
   "properties":[
-    {"$GMObjectProperty":"v1","%Name":"destination","filters":[],"listItems":[],"multiselect":false,"name":"destination","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resource":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"Room1","varType":5,},
+    {"$GMObjectProperty":"v1","%Name":"destination","filters":[],"listItems":[],"multiselect":false,"name":"destination","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resource":{"name":"rConfig","path":"rooms/rConfig/rConfig.yy",},"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"rConfig","varType":5,},
     {"$GMObjectProperty":"v1","%Name":"xTo","filters":[],"listItems":[],"multiselect":false,"name":"xTo","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":0,},
     {"$GMObjectProperty":"v1","%Name":"yTo","filters":[],"listItems":[],"multiselect":false,"name":"yTo","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":0,},
     {"$GMObjectProperty":"v1","%Name":"confirmation","filters":[],"listItems":[],"multiselect":false,"name":"confirmation","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":3,},
