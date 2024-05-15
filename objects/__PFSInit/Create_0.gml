@@ -1,8 +1,10 @@
+//Feather disable GM2017
 mapstring = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?,-."
 PFS.Fonts = {};
 PFS.Fonts.PokeFont[1] = font_add_sprite_ext(sPokeFont1, mapstring, true, 0);
 PFS.Fonts.PokeFont[2] = font_add_sprite_ext(sPokeFont2, mapstring, true, 0);
 PFS.Fonts.PokeFont[3] = font_add_sprite_ext(sPokeFont3, mapstring, true, 0);
+PFS.Fonts.PokeFont[4] = font_add_sprite_ext(sPokeFont4, mapstring, true, 0);
 PFS.Fonts.BattleFont[1] = font_add_sprite_ext(sBattleFont1, mapstring, true, 0);
 PFS.Fonts.BattleFont[2] = font_add_sprite_ext(sBattleFont2, mapstring, true, 0);
 PFS.Fonts.BattleFont[3] = font_add_sprite_ext(sBattleFont3, mapstring, true, 0);

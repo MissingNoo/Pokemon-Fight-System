@@ -20,6 +20,9 @@ if (canInteract and input_check("accept")) {
 			nextPage();
 			break;
 		case Interactions.AcceptOption:
+			if (array_length(options) == 0) {
+			    instance_destroy();
+			}
 			if (!showOptions) {
 			    break;
 			}
