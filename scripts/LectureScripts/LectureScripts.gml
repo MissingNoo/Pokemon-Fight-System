@@ -5,7 +5,7 @@ function lecture_startup(){
 	scribble_typists_add_event("rivalalpha", function(_element, _parameter_array, _character_index){ oLecture.rivalalpha[1] = real(_parameter_array[0]) });
 	scribble_typists_add_event("lecturestate", function(_element, _parameter_array, _character_index){ oLecture.fsm.change(_parameter_array[0]) });
 	scribble_typists_add_event("gohome", function() {
-		global.blackfade = 1;
+		global.blackfade[0] = 1;
 		ini_open("Game.ini");
 		ini_write_real("Game", "SeenLecture", true);
 		ini_close();

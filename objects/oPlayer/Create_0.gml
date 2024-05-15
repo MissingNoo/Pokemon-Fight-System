@@ -70,6 +70,8 @@ display_set_gui_size(720*1.5, 480*1.5);
 moving = false;
 image_speed = 0;
 image_index = 1;
+stairoffset = 0;
+movecam = true;
 PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[1]);
 PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[4]);
 PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[7]);

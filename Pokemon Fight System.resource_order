@@ -582,6 +582,7 @@
     {"name":"sDialogWindow2","order":3,"path":"sprites/sDialogWindow2/sDialogWindow2.yy",},
     {"name":"sGrass","order":3,"path":"sprites/sGrass/sGrass.yy",},
     {"name":"sHomeStairCase","order":1,"path":"sprites/sHomeStairCase/sHomeStairCase.yy",},
+    {"name":"sHouses","order":10,"path":"sprites/sHouses/sHouses.yy",},
     {"name":"sLecture","order":1,"path":"sprites/sLecture/sLecture.yy",},
     {"name":"sLecture2","order":2,"path":"sprites/sLecture2/sLecture2.yy",},
     {"name":"sLecture3","order":3,"path":"sprites/sLecture3/sLecture3.yy",},
@@ -628,6 +629,7 @@
     {"name":"sTilesetPallet","order":1,"path":"sprites/sTilesetPallet/sTilesetPallet.yy",},
     {"name":"sTree","order":2,"path":"sprites/sTree/sTree.yy",},
     {"name":"sTV","order":5,"path":"sprites/sTV/sTV.yy",},
+    {"name":"tBuildings","order":13,"path":"tilesets/tBuildings/tBuildings.yy",},
     {"name":"tOverworld","order":7,"path":"tilesets/tOverworld/tOverworld.yy",},
   ],
 }

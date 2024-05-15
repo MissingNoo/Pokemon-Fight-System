@@ -1,7 +1,7 @@
 var _rot = 0;
 var _xoff = 0;
 var _yoff = 0;
-if (collided) {
+if (collided and confirmation) {
 	switch (dir) {
 	    case "Up":
 	        _rot = 180;
