@@ -18,6 +18,7 @@ acceptedOption = "";
 interaction = Interactions.NextPage;
 
 #region Dialog
+dialogSprite = sDialogWindow;
 canOpenDialog = true;
 dialogBoxX = 10;
 DebugManager.debug_add_config(self, {
@@ -80,6 +81,14 @@ DebugManager.debug_add_config(self, {
 	text : "dialogWrap",
 	type : DebugTypes.UpDown,
 	variable : "dialogWrap",
+	//func: function(){},
+	page : "Start2"
+});
+dialogSpacing = 100;
+DebugManager.debug_add_config(self, {
+	text : "dialogSpacing",
+	type : DebugTypes.UpDown,
+	variable : "dialogSpacing",
 	//func: function(){},
 	page : "Start2"
 });
@@ -150,7 +159,18 @@ DebugManager.debug_add_config(self, {
 });
 #endregion
 #endregion
-
+function onMap(){
+	oDialog.dialogBoxX = 10;
+	oDialog.dialogBoxY = 512;
+	oDialog.dialogBoxEndX = 1060;
+	oDialog.dialogBoxEndY = 200;
+	oDialog.dialogTextX = 56;
+	oDialog.dialogTextY = 546;
+	oDialog.dialogFontSize = 1.5;
+	oDialog.dialogWrap = 1000;
+	oDialog.dialogSpacing = 160;
+	oDialog.dialogSprite = sDialogWindow2;	
+}
 function nextPage(){
 	if (scr.get_page() < scr.get_page_count()) {
 		scr.page(scr.get_page() + 1);

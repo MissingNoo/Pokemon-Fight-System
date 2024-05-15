@@ -11,6 +11,7 @@ global.playerdata = {
 function player_movement(){
 	if (!moving and !instance_exists(PFSFightSystem) and canmove) {
 		if (keyboard_check(vk_left)) {
+			dir = 180;
 			if (sprite_index != sRedWL) {
 			    sprite_index = sRedWL;
 				canmove = false;
@@ -24,6 +25,7 @@ function player_movement(){
 		
 		}
 		if (keyboard_check(vk_right)) {
+			dir = 0;
 			if (sprite_index != sRedWR) {
 			    sprite_index = sRedWR;
 				canmove = false;
@@ -36,6 +38,7 @@ function player_movement(){
 			}
 		}
 		if (keyboard_check(vk_up)) {
+			dir = 90;
 			if (sprite_index != sRedWU) {
 			    sprite_index = sRedWU;
 				canmove = false;
@@ -48,6 +51,7 @@ function player_movement(){
 			}
 		}
 		if (keyboard_check(vk_down)) {
+			dir = 270;
 			if (sprite_index != sRedWD) {
 			    sprite_index = sRedWD;
 				canmove = false;
@@ -73,5 +77,46 @@ function player_movement(){
 		}
 		moving = false;
 		cansend = true;
+	}
+}
+function player_interact(){
+	if (keyboard_check_pressed(ord("Z"))) {
+		var _xoffset = 0;
+		var _yoffset = 0;
+		switch (dir) {
+		    case 0:
+				_xoffset = 16;
+		        _yoffset = 0;
+		        break;
+		    case 90:
+				_xoffset = 0;
+		        _yoffset = -16;
+		        break;
+		    case 180:
+				_xoffset = -16;
+		        _yoffset = 0;
+		        break;
+		    case 270:
+				_xoffset = 0;
+		        _yoffset = 16;
+		        break;
+		}
+	    #region Sign
+		var _sign = noone;
+		if (collision_line(x, y - 8, x + _xoffset, y + _yoffset - 8, oSign, false, true)) {
+		    _sign = instance_place(x + _xoffset, y + _yoffset - 8, oSign);
+		}
+		if (_sign != noone) {
+		    var npc = "Sign";
+			var text = _sign.text;
+			var optionsFalas = [];
+			var options = [];
+			if (!instance_exists(oDialog)) {
+			    instance_create_depth(x, y, depth - 1, oDialog, {npc : npc, text : text, options : options, optionsFalas : optionsFalas});
+				oDialog.onMap();
+				oPlayer.fsm.change("dialog");
+			}
+		}
+		#endregion
 	}
 }

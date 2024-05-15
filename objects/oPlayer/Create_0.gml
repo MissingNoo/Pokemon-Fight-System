@@ -6,6 +6,7 @@ alarms = [
 fsm = new SnowState("idle");
 fsm.add("idle", {
     step: function() {
+		player_interact();
 		if (keyboard_check(vk_down) or keyboard_check(vk_up) or keyboard_check(vk_left) or keyboard_check(vk_right)) {
 			fsm.change("walk");
 		}
@@ -56,9 +57,6 @@ fsm.add("idle", {
 		  if (!instance_exists(oDialog)) {
 		      fsm.change("idle");
 		  }
-	  },
-	  draw: function() {
-		  draw_sprite_ext(sLectureBall, 0, x, y - sprite_height - 10, .5, .5, 0, c_white, .5);
 	  }
   });
 

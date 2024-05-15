@@ -13,6 +13,16 @@
 					"AfterRivalName" : "...Er, was it %rivalname%? [/page]That's right! I remember now! \nHis name is %rivalname%! [/page][rivalalpha,0][playeralpha,1]%playername%! [/page]Your very own POKéMON legend is about to unfold! [/page]A world of dreams and adventures with POKéMON awaits! Let's Go![gohome]"
 				}
 			},
+			"Sign": {
+				"Falas" : {
+					"Empty" : "Empty sign.",
+					"FlowerBed" : "TRAINER TIPS [/page]Press START to open the MENU!",
+					"PalletTown" : "PALLET TOWN \nShades of your journey await!",
+					"OakLab" : "OAK POKéMON RESEARCH LAB",
+					"GreenHouse" : "%rivalname%'s house",
+					"PlayerHouse" : "%playername%'s house"
+				}
+			},
 			"Daniel" : {
 				"nome" : "Daniel",
 				"Falas" : {
