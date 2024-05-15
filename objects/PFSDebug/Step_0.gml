@@ -2,6 +2,7 @@
 //Feather disable GM2016
 if (keyboard_check_pressed(vk_numpad2)) {
 	instance_destroy(PFSFightSystem);
+	instance_destroy(PFSPokemonManager);
 }
 
 if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
