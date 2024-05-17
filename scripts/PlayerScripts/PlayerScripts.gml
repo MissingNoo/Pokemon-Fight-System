@@ -71,12 +71,26 @@ function player_movement(){
 	    y += sign(placeToGo[1] - y);
 	}
 	if (placeToGo[0] == x and placeToGo[1] == y) {
+		cutmoving = false;
 		if (!keyboard_check(vk_down) and !keyboard_check(vk_up) and !keyboard_check(vk_left) and !keyboard_check(vk_right)) {
 		    image_speed = 0;
 			image_index = 1;
 		}
 		moving = false;
 		cansend = true;
+	}
+}
+function cutscene_movement(){
+	if (placeToGo[0] != x) {
+	    x += sign(placeToGo[0] - x);
+	}
+	if (placeToGo[1] != y) {
+	    y += sign(placeToGo[1] - y);
+	}
+	if (placeToGo[0] == x and placeToGo[1] == y) {
+		cutmoving = false;
+		image_speed = 0;
+		image_index = 1;
 	}
 }
 function player_interact(){

@@ -1,4 +1,4 @@
-draw_set_font(global.defaultFont);
+draw_set_font(Font2);
 /*
 debug_add_config("Button", DebugTypes.Button, undefined, undefined, function(){show_message("Button")});
 debug_add_config("ButtonSameLine", DebugTypes.Button, undefined, undefined, function(){show_message("ButtonSameLine")});
@@ -69,3 +69,4 @@ for (var i = 0; i < array_length(variables); ++i) {
 }
 maxsize = yy - y + 10;
 draw_set_alpha(1);
+draw_set_font(PFS.Fonts.PokeFont[1]);

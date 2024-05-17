@@ -1,4 +1,5 @@
 //Feather disable GM2017
+cutmoving = false;
 alarms = [
 	[0, function(){  }]
 ];
@@ -58,6 +59,24 @@ fsm.add("idle", {
 		      fsm.change("idle");
 		  }
 	  }
+  })
+  .add("cutscene", {
+	  enter: function() {
+		  image_speed = 0;
+		  image_index = 1;
+	  },
+	  step: function(){
+		  cutscene_movement();
+	  },
+	  draw: function() {
+		  draw_sprite_ext(sLectureBall, 0, x, y - sprite_height - 10, .5, .5, 0, c_white, .5);
+		  draw_text(x + 20, y, $"x:{x}\ny:{y}");
+	  },
+	  endstep: function() {
+		  if (!instance_exists(oCutscene)) {
+		      fsm.change("idle");
+		  }
+	  }
   });
 
 #endregion
@@ -94,3 +113,23 @@ if (ONLINE) {
 	});
 }
 #endregion
+DebugManager.debug_add_config(self, {
+	text : "x",
+	type : DebugTypes.UpDown,
+	variable : "x",
+	//func: function(){},
+	page : "Player"
+});
+DebugManager.debug_add_config(self, {
+	text : "y",
+	type : DebugTypes.UpDown,
+	variable : "y",
+	//func: function(){},
+	page : "Player"
+});
+DebugManager.debug_add_config(self, {
+	text : "Get pos",
+	type : DebugTypes.Button,
+	func: function(){ show_debug_message($"[{oPlayer.x}, {oPlayer.y}]"); },
+	page : "Player"
+});

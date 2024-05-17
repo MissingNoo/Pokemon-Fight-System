@@ -62,8 +62,8 @@
   ],
   "name":"rPlayerHouse",
   "parent":{
-    "name":"Rooms",
-    "path":"folders/Rooms.yy",
+    "name":"Pallet",
+    "path":"folders/Rooms/Pallet.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

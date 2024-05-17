@@ -1,0 +1,1 @@
+placeToGo = [x, y];
