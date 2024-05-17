@@ -29,7 +29,8 @@
 					"ExitingPallet2" : "OAK: It's unsafe! \nWild POKéMON live in tall grass! [/page]You need your own POKéMON for \nyour protection. [/page]I know! \nHere, come with me!",
 					"InsideLab1" : "%rivalname%: Gramps! \nI'm fed up with waiting!",
 					"InsideLab2" : "OAK: %rivalname%? \nLet me think... [/page]Oh, that's right, I told you to \ncome! Just wait! [/page]Here, %playername%. [/page]There are three POKéMON here. [/page]Haha! [/page]The POKéMON are held inside \nthese POKé BALLS. [/page]When I was young, I was a serious \nPOKéMON TRAINER. [/page]But now, in my old age, I have \nonly these three left. [/page]You can have one. \nGo on, choose!",
-					"InsideLab3" : "%rivalname%: Hey! Gramps! No fair! \nWhat about me? [/page]OAK: Be patient, %rivalname%. \nYou can have one, too!"
+					"InsideLab3" : "%rivalname%: Hey! Gramps! No fair! \nWhat about me? [/page]OAK: Be patient, %rivalname%. \nYou can have one, too!",
+					"LabInteraction" : "OAK: Now, %playername%. [/page]Inside those three POKé BALLS are \nPOKéMON. [/page]Wich one will you choose for \nyourself?"
 				}
 			},
 			"Daniel" : {

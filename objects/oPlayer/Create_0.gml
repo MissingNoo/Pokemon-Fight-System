@@ -1,4 +1,5 @@
 //Feather disable GM2017
+sprites = [sRedWR, sRedWU, sRedWL, sRedWD];
 cutmoving = false;
 alarms = [
 	[0, function(){  }]

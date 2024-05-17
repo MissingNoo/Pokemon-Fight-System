@@ -11,13 +11,12 @@ global.playerdata = {
 function player_movement(){
 	if (!moving and !instance_exists(PFSFightSystem) and canmove) {
 		if (keyboard_check(vk_left)) {
-			dir = 180;
-			if (sprite_index != sRedWL) {
-			    sprite_index = sRedWL;
+			if (dir != 180) {
+			    dir = 180;
 				canmove = false;
 				exit;
 			}
-			if (!place_meeting(x - 16, y, oColision) and sprite_index == sRedWL) {
+			if (!place_meeting(x - 16, y, oColision) and dir == 180) {
 			    image_speed = 5;
 				placeToGo = [x - 16, y];
 				moving = true;
@@ -25,39 +24,36 @@ function player_movement(){
 		
 		}
 		if (keyboard_check(vk_right)) {
-			dir = 0;
-			if (sprite_index != sRedWR) {
-			    sprite_index = sRedWR;
+			if (dir != 0) {
+			    dir = 0;
 				canmove = false;
 				exit;
 			}
-			if (!place_meeting(x + 16, y, oColision) and sprite_index == sRedWR) {
+			if (!place_meeting(x + 16, y, oColision) and dir == 0) {
 			    image_speed = 5;
 				placeToGo = [x + 16, y];
 				moving = true;
 			}
 		}
 		if (keyboard_check(vk_up)) {
-			dir = 90;
-			if (sprite_index != sRedWU) {
-			    sprite_index = sRedWU;
+			if (dir != 90) {
+			    dir = 90;
 				canmove = false;
 				exit;
 			}
-			if (!place_meeting(x, y - 16, oColision) and sprite_index == sRedWU) {
+			if (!place_meeting(x, y - 16, oColision) and dir == 90) {
 			    image_speed = 5;
 				placeToGo = [x, y - 16];
 				moving = true;
 			}
 		}
 		if (keyboard_check(vk_down)) {
-			dir = 270;
-			if (sprite_index != sRedWD) {
-			    sprite_index = sRedWD;
+			if (dir != 270) {
+				dir = 270;
 				canmove = false;
 				exit;
 			}		
-			if (!place_meeting(x, y + 16, oColision) and sprite_index == sRedWD) {
+			if (!place_meeting(x, y + 16, oColision) and dir == 270) {
 			    image_speed = 5;
 				placeToGo = [x, y + 16];
 				moving = true;
@@ -83,9 +79,23 @@ function player_movement(){
 function cutscene_movement(){
 	if (placeToGo[0] != x) {
 	    x += sign(placeToGo[0] - x);
+		image_speed = 5;
+		if (placeToGo[0] > x and placeToGo[0] != x) {
+		    dir = 0;
+		}
+		else if (placeToGo[0] < x and placeToGo[0] != x) {
+			dir = 180;
+		}
 	}
 	if (placeToGo[1] != y) {
 	    y += sign(placeToGo[1] - y);
+		image_speed = 5;
+		if (placeToGo[1] > y and placeToGo[1] != y) {
+		    dir = 270;
+		}
+		else if (placeToGo[1] < y and placeToGo[1] != y) {
+			dir = 90;
+		}
 	}
 	if (placeToGo[0] == x and placeToGo[1] == y) {
 		cutmoving = false;
@@ -123,6 +133,23 @@ function player_interact(){
 		if (_sign != noone) {
 		    var npc = "Sign";
 			var text = _sign.text;
+			var optionsFalas = [];
+			var options = [];
+			if (!instance_exists(oDialog)) {
+			    instance_create_depth(x, y, depth - 1, oDialog, {npc : npc, text : text, options : options, optionsFalas : optionsFalas});
+				oDialog.onMap();
+				oPlayer.fsm.change("dialog");
+			}
+		}
+		#endregion
+	    #region Sign
+		var _npc = noone;
+		if (collision_line(x, y - 8, x + _xoffset, y + _yoffset - 8, oNpc, false, true)) {
+		    _npc = instance_place(x + _xoffset, y + _yoffset - 8, oNpc);
+		}
+		if (_npc != noone) {
+		    var npc = _npc.npc.npcname;
+			var text = _npc.npc.text;
 			var optionsFalas = [];
 			var options = [];
 			if (!instance_exists(oDialog)) {

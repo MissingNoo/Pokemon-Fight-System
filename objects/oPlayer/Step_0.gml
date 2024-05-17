@@ -1,3 +1,6 @@
+if (keyboard_check_pressed(vk_f4)) {
+	instance_create_depth(x, y, oPlayer.depth, oNpc, {npc : Npcs[NpcNames.Oak]});
+}
 if (keyboard_check_pressed(vk_f3)) {
     instance_create_depth(0, 0, 0, oCutscene, {cutscene : Cutscenes[CutsceneNames.OakLab]});
 }

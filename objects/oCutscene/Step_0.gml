@@ -9,7 +9,7 @@ for (var i = 0; i < array_length(alarms); ++i) {
 	}
 }
 switch (cutscene.steps[currentstep].func) {
-    case CutsceneFunction.SetPlayerVar:
+    case CutsceneFunction.MovePlayer:
 		show_debug_message($"[Cutscene] Moving player to {cutscene.steps[currentstep].v}!");
         variable_instance_set(instance_find(oPlayer, 0), cutscene.steps[currentstep].varname, cutscene.steps[currentstep].v);
 		oPlayer.cutmoving = true;
@@ -28,7 +28,12 @@ switch (cutscene.steps[currentstep].func) {
 		currentstep++;
 		break;
 	case CutsceneFunction.DialogEnd:
+		if (currentmessage != currentstep) {
+			show_debug_message($"[Cutscene] Waiting for dialog to end!");
+		    currentmessage = currentstep;
+		}
 		if (!instance_exists(oDialog)) {
+			show_debug_message($"[Cutscene] Dialog ended!");
 		    currentstep++;
 		}
 		break;
@@ -38,9 +43,28 @@ switch (cutscene.steps[currentstep].func) {
 		currentstep++;
 		break;
 	case CutsceneFunction.WaitAlarm:
-		show_debug_message($"[Cutscene] Waiting Alarm!");
+		if (currentmessage != currentstep) {
+			show_debug_message($"[Cutscene] Waiting Alarm!");
+		    currentmessage = currentstep;
+		}
 		if (alarmdone) {
 			show_debug_message($"[Cutscene] Alarm done!");
+		    currentstep++;
+		}
+		break;
+	case CutsceneFunction.WaitForRoom:
+		if (room == cutscene.steps[currentstep].roomname) {
+		    currentstep++;
+		}
+		break;
+	case CutsceneFunction.SpawnNpc:
+		instance_create_depth()
+		if (room == cutscene.steps[currentstep].roomname) {
+		    currentstep++;
+		}
+		break;
+	case CutsceneFunction.WaitForRoom:
+		if (room == cutscene.steps[currentstep].roomname) {
 		    currentstep++;
 		}
 		break;
