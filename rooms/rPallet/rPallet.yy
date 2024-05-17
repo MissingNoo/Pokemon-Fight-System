@@ -49,6 +49,8 @@
     {"name":"inst_3D237D57","path":"rooms/rPallet/rPallet.yy",},
     {"name":"inst_1EEDAED6","path":"rooms/rPallet/rPallet.yy",},
     {"name":"inst_60A4E506","path":"rooms/rPallet/rPallet.yy",},
+    {"name":"inst_17D6CC5E","path":"rooms/rPallet/rPallet.yy",},
+    {"name":"inst_5348650C","path":"rooms/rPallet/rPallet.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -106,6 +108,12 @@
             {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oTeleport","path":"objects/oTeleport/oTeleport.yy",},"propertyId":{"name":"xTo","path":"objects/oTeleport/oTeleport.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"648",},
             {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oTeleport","path":"objects/oTeleport/oTeleport.yy",},"propertyId":{"name":"yTo","path":"objects/oTeleport/oTeleport.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"752",},
           ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":1448.0,"y":1104.0,},
+        {"$GMRInstance":"","%Name":"inst_17D6CC5E","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_17D6CC5E","objectId":{"name":"oCutsceneStarter","path":"objects/oCutsceneStarter/oCutsceneStarter.yy",},"properties":[
+            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oCutsceneStarter","path":"objects/oCutsceneStarter/oCutsceneStarter.yy",},"propertyId":{"name":"cutscene","path":"objects/oCutsceneStarter/oCutsceneStarter.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"CutsceneNames.OakLab",},
+          ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":1384.0,"y":912.0,},
+        {"$GMRInstance":"","%Name":"inst_5348650C","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_5348650C","objectId":{"name":"oCutsceneStarter","path":"objects/oCutsceneStarter/oCutsceneStarter.yy",},"properties":[
+            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oCutsceneStarter","path":"objects/oCutsceneStarter/oCutsceneStarter.yy",},"propertyId":{"name":"cutscene","path":"objects/oCutsceneStarter/oCutsceneStarter.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"CutsceneNames.OakLab",},
+          ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":1400.0,"y":912.0,},
       ],"layers":[],"name":"MapObjects","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Colisions","depth":300,"effectEnabled":true,"effectType":null,"gridX":8,"gridY":8,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"","%Name":"inst_684D01CC","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_684D01CC","objectId":{"name":"oColision","path":"objects/oColision/oColision.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":23.5,"x":1208.0,"y":1208.0,},

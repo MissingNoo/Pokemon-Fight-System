@@ -4,3 +4,5 @@ laststep = array_length(cutscene.steps) - 1;
 alarms = [];
 alarmdone = false;
 currentmessage = 0;
+cancontinue = true;
+lastnpcinteracted = -1;

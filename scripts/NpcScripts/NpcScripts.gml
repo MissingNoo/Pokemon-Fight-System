@@ -1,5 +1,6 @@
 enum NpcNames {
-	Oak
+	Oak,
+	Gary
 }
 enum NpcMovement {
 	Still,
@@ -37,4 +38,8 @@ global.npcs = [];
 #macro Npcs global.npcs
 Npcs[NpcNames.Oak] = new Npc("Oak");
 Npcs[NpcNames.Oak].setDialog("LabInteraction")
-.setSprites([sOakWR, sOakWU, sOakWR, sOakWD]);
+.setSprites([sOakWR, sOakWU, sOakWL, sOakWD]);
+
+Npcs[NpcNames.Gary] = new Npc("Gary");
+Npcs[NpcNames.Gary].setDialog("LabInteraction")
+.setSprites([sGaryWR, sGaryWU, sGaryWL, sGaryWD]);

@@ -9,6 +9,8 @@ enum CutsceneFunction {
 	WaitForRoom,
 	SpawnNpc,
 	MoveNpc,
+	WaitNpcMove,
+	RotateNpc,
 	DestroyNpc,
 	End
 }
@@ -48,12 +50,23 @@ function Cutscene(name) constructor
 		array_push(steps, {func : CutsceneFunction.SpawnNpc, npcid, npcx, npcy });
 		return self;
 	}
-	static moveNpc = function(npcid, npcx, npcy){
-		array_push(steps, {func : CutsceneFunction.MoveNpc, npcid, npcx, npcy});
+	static moveNpc = function(npcid, place){
+		array_push(steps, {func : CutsceneFunction.MoveNpc, npcid, place});
+		array_push(steps, {func : CutsceneFunction.WaitNpcMove});
 		return self;
 	}
 	static destroyNpc = function(npcid){
 		array_push(steps, {func : CutsceneFunction.DestroyNpc, npcid});
+		return self;
+	}
+	static rotateNpc = function(npcid, dir){
+		array_push(steps, {func : CutsceneFunction.RotateNpc, npcid, dir});
+		return self;
+	}
+	static moveNpcAndPlayer = function(npcid, place, playerplace){
+		array_push(steps, {func : CutsceneFunction.MoveNpc, npcid, place});
+		array_push(steps, {func : CutsceneFunction.MovePlayer, varname : "placeToGo", v : playerplace});		
+		array_push(steps, {func : CutsceneFunction.WaitPlayerVar, varname : "cutmoving", v : false});
 		return self;
 	}
     static finish = function() {
@@ -66,18 +79,38 @@ global.cutscenes = [];
 #macro Cutscenes global.cutscenes
 Cutscenes[CutsceneNames.OakLab] = new Cutscene("OakLab");
 Cutscenes[CutsceneNames.OakLab].dialog("Oak", "ExitingPallet1")
+.spawnNpc(1336, 1040, NpcNames.Oak)
+.moveNpc(NpcNames.Oak, [1336, 1024])
+.moveNpc(NpcNames.Oak, [1352, 1024])
+.moveNpc(NpcNames.Oak, [1352, 992])
+.moveNpc(NpcNames.Oak, [1368, 992])
+.moveNpc(NpcNames.Oak, [1368, 944])
+.moveNpc(NpcNames.Oak, [1384, 944])
+.moveNpc(NpcNames.Oak, [1384, 928])
 .addAlarm(50, function(){oCutscene.alarmdone = true;})
 .dialog("Oak", "ExitingPallet2")
-.movePlayer([1384, 944])
-.movePlayer([1368, 944])
-.movePlayer([1368, 1120])
-.movePlayer([1432, 1120])
-.movePlayer([1448, 1120])
+Cutscenes[CutsceneNames.OakLab].moveNpcAndPlayer(NpcNames.Oak, [1384, 944], [1384, 928])
+.moveNpcAndPlayer(NpcNames.Oak, [1368, 944], [1384, 944])
+.moveNpcAndPlayer(NpcNames.Oak, [1368, 960], [1368, 944])
+.moveNpcAndPlayer(NpcNames.Oak, [1368, 1120], [1368, 1104])
+.moveNpcAndPlayer(NpcNames.Oak, [1384, 1120], [1368, 1120])
+.moveNpcAndPlayer(NpcNames.Oak, [1448, 1120], [1448 - 16, 1120])
+.moveNpcAndPlayer(NpcNames.Oak, [1448, 1104], [1448, 1120])
+.addAlarm(20, function(){oCutscene.alarmdone = true;})
+.destroyNpc(NpcNames.Oak)
 .movePlayer([1448, 1104])
 .waitForRoom(rOakLab)
+.spawnNpc(648, 736, NpcNames.Oak)
+.moveNpc(NpcNames.Oak, [648, 608])
+Cutscenes[CutsceneNames.OakLab].addAlarm(45, function(){oCutscene.alarmdone = true;})
+.destroyNpc(NpcNames.Oak)
+.spawnNpc(632, 624, NpcNames.Gary)
+.rotateNpc(NpcNames.Gary, 90)
+.addAlarm(60, function(){oCutscene.alarmdone = true;})
 .movePlayer([648, 624])
-//b].addAlarm(100, function(){oCutscene.alarmdone = true;});
 .dialog("Oak", "InsideLab1")
+.addAlarm(80, function(){oCutscene.alarmdone = true;})
 .dialog("Oak", "InsideLab2")
+.addAlarm(80, function(){oCutscene.alarmdone = true;})
 .dialog("Oak", "InsideLab3")
 .finish();

@@ -14,8 +14,8 @@
     "path":"folders/Objects.yy",
   },
   "parentObjectId":{
-    "name":"oDepthParent",
-    "path":"objects/oDepthParent/oDepthParent.yy",
+    "name":"oColision",
+    "path":"objects/oColision/oColision.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

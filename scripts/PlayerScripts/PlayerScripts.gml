@@ -99,6 +99,9 @@ function cutscene_movement(){
 	}
 	if (placeToGo[0] == x and placeToGo[1] == y) {
 		cutmoving = false;
+		if (instance_exists(oCutscene) and variable_instance_exists(self, "cutscenenpc") and oCutscene.lastnpcinteracted == npc.nid) {
+		    oCutscene.cancontinue = true;
+		}
 		image_speed = 0;
 		image_index = 1;
 	}

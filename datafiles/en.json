@@ -33,13 +33,10 @@
 					"LabInteraction" : "OAK: Now, %playername%. [/page]Inside those three POKé BALLS are \nPOKéMON. [/page]Wich one will you choose for \nyourself?"
 				}
 			},
-			"Daniel" : {
-				"nome" : "Daniel",
+			"Gary" : {
+				"nome" : "Gary",
 				"Falas" : {
-					"Introducao" : "Se liga meu brother",
-					"eserio" : "E serio mesmo irmao",
-					"ronaldo" : "O jogador? vi nao",
-					"Despedida" : "Flw ae brother"
+					"LabInteraction" : "%rivalname%: Heh, I don't need to be \ngreedy like you. I'm mature! [/page]Go ahead and choose, %playername%"
 				}
 			}
 		}
