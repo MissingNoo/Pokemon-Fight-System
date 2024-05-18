@@ -623,6 +623,7 @@
     {"name":"sPFSSpecialIcon","order":1,"path":"sprites/sPFSSpecialIcon/sPFSSpecialIcon.yy",},
     {"name":"sPFSStatusIcon","order":2,"path":"sprites/sPFSStatusIcon/sPFSStatusIcon.yy",},
     {"name":"sPFSTypeIcons","order":3,"path":"sprites/sPFSTypeIcons/sPFSTypeIcons.yy",},
+    {"name":"sPokeball","order":16,"path":"sprites/sPokeball/sPokeball.yy",},
     {"name":"sPokeFont2","order":2,"path":"sprites/sPokeFont2/sPokeFont2.yy",},
     {"name":"sPokeFont3","order":1,"path":"sprites/sPokeFont3/sPokeFont3.yy",},
     {"name":"sPokeFont4","order":10,"path":"sprites/sPokeFont4/sPokeFont4.yy",},

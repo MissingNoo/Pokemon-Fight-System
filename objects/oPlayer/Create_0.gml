@@ -71,7 +71,7 @@ fsm.add("idle", {
 	  },
 	  draw: function() {
 		  draw_sprite_ext(sLectureBall, 0, x, y - sprite_height - 10, .5, .5, 0, c_white, .5);
-		  draw_text(x + 20, y, $"x:{x}\ny:{y}");
+		  //draw_text(x + 20, y, $"x:{x}\ny:{y}");
 	  },
 	  endstep: function() {
 		  if (!instance_exists(oCutscene)) {
@@ -92,9 +92,9 @@ image_speed = 0;
 image_index = 1;
 stairoffset = 0;
 movecam = true;
-PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[1]);
-PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[4]);
-PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[7]);
+//PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[1]);
+//PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[4]);
+//PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[7]);
 #region Multiplayer
 function sendPos(){
 	if (!ONLINE) { exit; }

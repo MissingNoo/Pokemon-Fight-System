@@ -134,10 +134,10 @@ function player_interact(){
 		    _sign = instance_place(x + _xoffset, y + _yoffset - 8, oSign);
 		}
 		if (_sign != noone) {
-		    var npc = "Sign";
+		    var npc = _sign.npc;
 			var text = _sign.text;
-			var optionsFalas = [];
-			var options = [];
+			var optionsFalas = _sign.optionsFalas;
+			var options = _sign.options;
 			if (!instance_exists(oDialog)) {
 			    instance_create_depth(x, y, depth - 1, oDialog, {npc : npc, text : text, options : options, optionsFalas : optionsFalas});
 				oDialog.onMap();
@@ -158,6 +158,7 @@ function player_interact(){
 			if (!instance_exists(oDialog)) {
 			    instance_create_depth(x, y, depth - 1, oDialog, {npc : npc, text : text, options : options, optionsFalas : optionsFalas});
 				oDialog.onMap();
+				_npc.fsm.change("talk");
 				oPlayer.fsm.change("dialog");
 			}
 		}

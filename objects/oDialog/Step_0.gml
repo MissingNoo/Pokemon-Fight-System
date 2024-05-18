@@ -30,7 +30,7 @@ if (canInteract and input_check("accept")) {
 			if (options[_currentText][selectedOption][2]) {
 			    options[_currentText][selectedOption][3]();
 			}
-			if (options[_currentText][selectedOption][1] == "Sair") {
+			if (options[_currentText][selectedOption][1] == "Exit") {
 			    instance_destroy();
 			}
 			else {

@@ -38,6 +38,13 @@
 				"Falas" : {
 					"LabInteraction" : "%rivalname%: Heh, I don't need to be \ngreedy like you. I'm mature! [/page]Go ahead and choose, %playername%"
 				}
+			},
+			"LabSelect" : {
+				"nome" : "LabSelect",
+				"Falas" : {
+					"Bulbasaur" : "I see! BULBASAUR is your choice. \nIt's very easy to raise. [/page]So, %playername%, you want to go with the GRASS POKéMON BULBASAUR?[showoptions]",
+					"BulbasaurChosen" : "This POKéMON is really quite \nenergetic! [/page]%playername% received the BULBASAUR from PROF. OAK! [/page]Do you want to give a nickname to this BULBASAUR?[showoptions]",
+				}
 			}
 		}
 	}

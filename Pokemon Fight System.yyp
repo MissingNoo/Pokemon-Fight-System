@@ -2061,6 +2061,7 @@
     {"id":{"name":"sPFSSpecialIcon","path":"sprites/sPFSSpecialIcon/sPFSSpecialIcon.yy",},},
     {"id":{"name":"sPFSStatusIcon","path":"sprites/sPFSStatusIcon/sPFSStatusIcon.yy",},},
     {"id":{"name":"sPFSTypeIcons","path":"sprites/sPFSTypeIcons/sPFSTypeIcons.yy",},},
+    {"id":{"name":"sPokeball","path":"sprites/sPokeball/sPokeball.yy",},},
     {"id":{"name":"sPokeFont1","path":"sprites/sPokeFont1/sPokeFont1.yy",},},
     {"id":{"name":"sPokeFont2","path":"sprites/sPokeFont2/sPokeFont2.yy",},},
     {"id":{"name":"sPokeFont3","path":"sprites/sPokeFont3/sPokeFont3.yy",},},

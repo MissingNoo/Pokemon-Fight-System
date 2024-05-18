@@ -43,6 +43,9 @@
     "name":"sOakWD",
     "path":"sprites/sOakWD/sOakWD.yy",
   },
-  "spriteMaskId":null,
+  "spriteMaskId":{
+    "name":"Sprite34",
+    "path":"sprites/Sprite34/Sprite34.yy",
+  },
   "visible":true,
 }
