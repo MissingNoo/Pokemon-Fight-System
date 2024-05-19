@@ -3,6 +3,9 @@ if (keyboard_check_pressed(vk_f5)) {
 }
 if (keyboard_check_pressed(vk_f4)) {
 	PlayerInventory.add_item("PokeBall");
+	PlayerInventory.add_item("GreatBall");
+	PlayerInventory.add_item("Potion");
+	PlayerInventory.add_item("SuperPotion");
 }
 if (keyboard_check_pressed(vk_f3)) {
 	room = rPallet;

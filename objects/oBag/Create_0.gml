@@ -8,11 +8,36 @@ drawalpha = 1;
 selecteditem = 0;
 tabselected = 0;
 
+function next_item_from_tab(tab, startfrom = -1) {
+	var _invlen = array_length(PlayerInventory.items);
+	for (var i = startfrom + 1; i <= _invlen ; ++i) {
+	    if (i >= _invlen) {
+		    return _invlen;
+		}
+		if (PlayerInventory.items[i].itemType == tab) {
+			return i;
+		}
+	}
+	return next_item_from_tab(tabselected, -1);
+}
+function previous_item_from_tab(tab, startfrom = -1) {
+	var _invlen = array_length(PlayerInventory.items);
+	for (var i = startfrom - 1; i >= 0; --i) {
+	    if (i < 0) {
+		    return 0;
+		}
+		if (PlayerInventory.items[i].itemType == tab) {
+			return i;
+		}
+	}
+	return _invlen;
+}
+
 fsm = new SnowState("Items");
 fsm.add("Items", {
 	enter: function() {
 		reclerp = 284;
-		selecteditem = 0;
+		selecteditem = next_item_from_tab(ItemType.Common_Item);
 		bagoffset = -10;
 	},
 	beginstep: function() {
@@ -30,7 +55,7 @@ fsm.add("Items", {
   .add("KeyItems", {
 	enter: function() {
 		reclerp = 284;
-		selecteditem = 0;
+		selecteditem = next_item_from_tab(ItemType.Key_Item);
 		bagoffset = -10;
 	},
 	beginstep: function() {
@@ -51,7 +76,7 @@ fsm.add("Items", {
   .add("Pokeballs", {
 	enter: function() {
 		reclerp = 284;
-		selecteditem = 0;
+		selecteditem = next_item_from_tab(ItemType.Poke_ball);
 		bagoffset = -10;
 	},
 	beginstep: function() {

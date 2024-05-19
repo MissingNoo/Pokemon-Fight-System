@@ -89,6 +89,7 @@ a = 0;
 b = 0;
 c = 0;
 d = 0;
+e = 0;
 DebugManager.debug_add_config(self, {
 	text : "a",
 	type : DebugTypes.UpDown,
@@ -114,6 +115,13 @@ DebugManager.debug_add_config(self, {
 	text : "d",
 	type : DebugTypes.UpDown,
 	variable : "d",
+	//func: function(){},
+	page : "Battle"
+});
+DebugManager.debug_add_config(self, {
+	text : "e",
+	type : DebugTypes.UpDown,
+	variable : "e",
 	//func: function(){},
 	page : "Battle"
 });

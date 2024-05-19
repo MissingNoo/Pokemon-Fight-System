@@ -2,6 +2,17 @@
     "language": "en",
     "locale": "EN-US",
     "text" : {
+		"Items" : {
+			"PokeBall" : {
+				"Name" : "PokeBall",
+				"Desc" : "A Ball thrown to catch a wild POKéMON. It is designed in a capsule style."
+			}
+		},
+		"GUI" : {
+			"Bag" : {
+				"Close" : "CLOSE BAG"
+			}
+		},
 		"NPC" : {
 			"OakLecture" : {
 				"nome" : "Oak",

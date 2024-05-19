@@ -204,14 +204,21 @@ function Inventory() constructor {
 }
 PlayerData.inventory = new Inventory();
 
-function Item(_name, _type, _sprite) constructor {
+function Item(_name, _type, _sprite, _subimg) constructor {
 	static itemID = 0;
-	itemid = itemID;
 	name = _name;
 	itemType = _type;
 	sprite = _sprite;
+	subimg = _subimg;
 	quantity = 0;
 	itemID++;
 }
 
-array_push(GameItems, new Item("PokeBall", ItemType.Poke_ball, sIPokeball));
+array_push(GameItems, new Item("PokeBall", ItemType.Poke_ball, sPokeballs, 0));
+array_push(GameItems, new Item("GreatBall", ItemType.Poke_ball, sPokeballs, 1));
+array_push(GameItems, new Item("Ultraball", ItemType.Poke_ball, sPokeballs, 2));
+array_push(GameItems, new Item("MasterBall", ItemType.Poke_ball, sPokeballs, 3));
+array_push(GameItems, new Item("Potion", ItemType.Common_Item, sMedicines, 0));
+array_push(GameItems, new Item("SuperPotion", ItemType.Common_Item, sMedicines, 1));
+array_push(GameItems, new Item("HyperPotion", ItemType.Common_Item, sMedicines, 2));
+array_push(GameItems, new Item("MaxPotion", ItemType.Common_Item, sMedicines, 3));
