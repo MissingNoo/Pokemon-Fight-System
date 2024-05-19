@@ -17,6 +17,9 @@ if (selectingMenu) {
 			case PFSBattleMenus.Pokemon:
 				instance_create_depth(0, 0, -1, PFSPokemonManager, {onBattle : true});
 				break;
+			case PFSBattleMenus.Item:
+				instance_create_depth(0, 0, -1, oBag, {onBattle : true});
+				break;
 			case PFSBattleMenus.Battle:
 			    if (selectedMove > array_length(PFS.playerPokemons[pokemonOut].moves) - 1) { selectedMove = array_length(PFS.playerPokemons[pokemonOut].moves) - 1; }
 			    break;

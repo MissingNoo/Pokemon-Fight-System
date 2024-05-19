@@ -50,3 +50,7 @@ options = [
 		["Sair", "Sair"]
 	]
 ]
+*/
+if (keyboard_check_pressed(ord("C"))) {
+    modify_catch_rate(__PFS_generate_pokemon(PFS.Pokes[1]), 1);
+}

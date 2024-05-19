@@ -50,7 +50,7 @@ for (var i = 0; i <= _totalitems; ++i) {
 	scribble(_string)
 	.draw(_startx + 290, _starty + 38 + _yoffset);
 	if (selecteditem == i) {
-	    draw_sprite_ext(sBagSelected, 0, _startx + 290, _starty + 38 + _yoffset, 3, 3, 0, c_white, 1);
+	    draw_sprite_ext(sBagSelected, fsn.get_current_state() == "Interacting" ? 1 : 0, _startx + 290, _starty + 38 + _yoffset, 3, 3, 0, c_white, 1);
 	}
     _yoffset += 48;
 }
@@ -71,4 +71,18 @@ scribble(_string)
 draw_sprite_ext(_spr, _subimg, _startx + 58, _starty + 410, 3, 3, 0, c_white, 1);
 var _reccolor = #D6B552;
 draw_rectangle_color(_startx + 265, _starty + 25, _startx + 696, _starty + 25 + reclerp, _reccolor, _reccolor, _reccolor, _reccolor, false);
+if (fsn.get_current_state() == "Interacting") {
+	var _optionsoffset = onBattle ? 0 : 90;
+	_x = _startx + 500;
+	_y = _starty + 350;
+    draw_sprite_stretched(sDialogAnswer, 0, _x, _y - _optionsoffset, 214, 126 + _optionsoffset);
+	_yoffset = 0;
+	for (var i = 0; i < array_length(interactoptions); ++i) {
+	    scribble(interactoptions[i]).draw(_x + 40, _y + _yoffset - _optionsoffset + 25);
+		if (interactoption == i) {
+		    draw_sprite_ext(sBagSelected, 0, _x + 40 - a, _y + _yoffset - _optionsoffset + 25, 3, 3, 0, c_white, 1);
+		}
+		_yoffset += 46;
+	}
+}
 fsm.draw();

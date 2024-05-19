@@ -15,3 +15,12 @@ if (bagoffset > 0) {
     bagoffset = 0;
 }
 fsm.step();
+fsn.step();
+if (keyboard_check_pressed(ord("A"))) {
+    onBattle = !onBattle;
+	if (onBattle) {
+	    interactoptions = ["Use", "Cancel"];
+	}else {
+		interactoptions = ["Use", "Give", "Toss", "Cancel"];
+	}
+}

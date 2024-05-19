@@ -175,6 +175,14 @@ enum ItemType {
 	Key_Item,
 	Poke_ball
 }
+enum UseType {
+	Null,
+	Pokemon,
+	PokeBall
+}
+enum PotionType {
+	Heal
+}
 
 function Inventory() constructor {
 	items = [];
@@ -204,21 +212,79 @@ function Inventory() constructor {
 }
 PlayerData.inventory = new Inventory();
 
-function Item(_name, _type, _sprite, _subimg) constructor {
+function Pokeball(_name, _sprite, _subimg, _catchrate = 1) : Item(_name, _sprite, _subimg) constructor {
+	usetype = UseType.PokeBall;
+	itemType = ItemType.Poke_ball;
+	catchrate = _catchrate;
+}
+
+function Potion(_name, _sprite, _subimg, _potionType) : Item(_name, _sprite, _subimg) constructor {
+	usetype = UseType.Pokemon;
+	itemType = ItemType.Common_Item;
+	potionType = _potionType;
+}
+
+function Item(_name, _sprite, _subimg) constructor {
 	static itemID = 0;
+	usetype = UseType.Null;
 	name = _name;
-	itemType = _type;
+	itemType = ItemType.Common_Item;
 	sprite = _sprite;
 	subimg = _subimg;
 	quantity = 0;
 	itemID++;
 }
+//Net Ball
+//B = 3 if one of the Pokémon's types is Water or Bug; B = 1 otherwise
+//Nest Ball
+//B = ((41 - Pokémon's level) / 10), minimum 1
+//Dive Ball
+//B = 3.5 when on water; B = 1 otherwise
+//Repeat Ball
+//B = 3 if the Pokémon's species is already registered as caught in the Pokédex; B = 1 otherwise
+//Timer Ball
+//B = 1 + (number of turns passed in battle * 1229/4096), maximum 4. Since 1229/4096 is approximately 0.3, the bonus reaches its cap on the eleventh turn.
+//Quick Ball
+//B = 5 on the first turn of a battle; B = 1 otherwise
+//Dusk Ball
+//B = 3.5 outside at night and inside caves or dark places; B = 1 otherwise (including lit indoor areas at night)
+array_push(GameItems, new Pokeball("PokeBall", sPokeballs, 0, 1));
+array_push(GameItems, new Pokeball("GreatBall", sPokeballs, 1, 1.5));
+array_push(GameItems, new Pokeball("UltraBall", sPokeballs, 2, 2));
+array_push(GameItems, new Pokeball("MasterBall", sPokeballs, 3, 0));
+array_push(GameItems, new Potion("Potion", sMedicines, 0));
+array_push(GameItems, new Potion("SuperPotion", sMedicines, 1));
+array_push(GameItems, new Potion("HyperPotion", sMedicines, 2));
+array_push(GameItems, new Potion("MaxPotion", sMedicines, 3));
 
-array_push(GameItems, new Item("PokeBall", ItemType.Poke_ball, sPokeballs, 0));
-array_push(GameItems, new Item("GreatBall", ItemType.Poke_ball, sPokeballs, 1));
-array_push(GameItems, new Item("Ultraball", ItemType.Poke_ball, sPokeballs, 2));
-array_push(GameItems, new Item("MasterBall", ItemType.Poke_ball, sPokeballs, 3));
-array_push(GameItems, new Item("Potion", ItemType.Common_Item, sMedicines, 0));
-array_push(GameItems, new Item("SuperPotion", ItemType.Common_Item, sMedicines, 1));
-array_push(GameItems, new Item("HyperPotion", ItemType.Common_Item, sMedicines, 2));
-array_push(GameItems, new Item("MaxPotion", ItemType.Common_Item, sMedicines, 3));
+
+#region Balls
+function was_caught(pokemon, ballrate){
+	var M = pokemon.base.hp;
+	var H = pokemon.hp;
+	var G = 1; //Dark Grass
+	var C = real(PFS.PokeSpecies[pokemon.species_id].capture_rate);
+	var S = 1;
+	if (__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Poison) or __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis) or __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn)) {
+		S = 1.5;
+	}
+	if (__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Sleep) or __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Freeze)) {
+		S = 2.5;
+	}
+	var B = ballrate;
+	var E = 100; //unused
+	var aa = floor(round(floor(round(round((3 * M - 2 * H) * G) * C * B) / 3 * M) * S) * E / 100);
+	var shakes = 0;
+	var bb = 65536 * (sqrt(sqrt((aa/1044480))));
+	repeat (4) {
+	    var _rnd = irandom_range(0, 65535);
+		if (_rnd < bb) {
+		    shakes++;
+		}
+	}
+	if (shakes == 4) {
+	    return true;
+	}
+	return false;
+}
+#endregion

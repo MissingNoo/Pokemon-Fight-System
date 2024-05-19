@@ -114,6 +114,8 @@
     {"$GMIncludedFile":"","%Name":"controllertypes.csv","CopyToMask":-1,"filePath":"datafiles","name":"controllertypes.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"en.json","CopyToMask":-1,"filePath":"datafiles","name":"en.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"input_license.txt","CopyToMask":-1,"filePath":"datafiles","name":"input_license.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":".~lock.pokemon_species.csv#","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":".~lock.pokemon_species.csv#","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":".~lock.pokemon.csv#","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":".~lock.pokemon.csv#","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"abilities.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"abilities.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"move_flag_map.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_flag_map.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"move_flags.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_flags.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},

@@ -7,6 +7,8 @@ bagoffset = 0;
 drawalpha = 1;
 selecteditem = 0;
 tabselected = 0;
+interactoptions = ["Use", "Give", "Toss", "Cancel"];
+interactoption = 0;
 
 function next_item_from_tab(tab, startfrom = -1) {
 	var _invlen = array_length(PlayerInventory.items);
@@ -41,7 +43,7 @@ fsm.add("Items", {
 		bagoffset = -10;
 	},
 	beginstep: function() {
-		if (keyboard_check_pressed(vk_right)) {
+		if (keyboard_check_pressed(vk_right) and fsn.get_current_state() == "Idle") {
 		    fsm.change("KeyItems");
 		}
 	},
@@ -59,10 +61,10 @@ fsm.add("Items", {
 		bagoffset = -10;
 	},
 	beginstep: function() {
-		if (keyboard_check_pressed(vk_right)) {
+		if (keyboard_check_pressed(vk_right) and fsn.get_current_state() == "Idle") {
 		    fsm.change("Pokeballs");
 		}
-		if (keyboard_check_pressed(vk_left)) {
+		if (keyboard_check_pressed(vk_left) and fsn.get_current_state() == "Idle") {
 		    fsm.change("Items");
 		}
 	},
@@ -80,7 +82,7 @@ fsm.add("Items", {
 		bagoffset = -10;
 	},
 	beginstep: function() {
-		if (keyboard_check_pressed(vk_left)) {
+		if (keyboard_check_pressed(vk_left) and fsn.get_current_state() == "Idle") {
 		    fsm.change("KeyItems");
 		}
 	},
@@ -91,3 +93,58 @@ fsm.add("Items", {
 		
 	}
   })
+  
+fsn = new SnowState("Idle");
+fsn.add("Idle", {
+	enter: function() {
+	},
+	beginstep: function() {
+		if (keyboard_check_pressed(ord("Z"))) {
+		    fsn.change("Interacting");
+		}
+	}
+})
+.add("Interacting", {
+	enter: function() {
+		if (onBattle) {
+			interactoptions = ["Use", "Cancel"];
+		}
+	},
+	step: function() {
+		if (keyboard_check_pressed(ord("X"))) {
+		    fsn.change("Idle");
+		}
+		interactoption += -keyboard_check_pressed(vk_up) + keyboard_check_pressed(vk_down);
+		if (interactoption < 0) {
+		    interactoption = 0;
+		}
+		if (interactoption > array_length(interactoptions) - 1) {
+		    interactoption = array_length(interactoptions) - 1;
+		}
+		if (keyboard_check_pressed(ord("Z"))) {
+			if (interactoption == array_length(PlayerInventory.items)) {
+				if (onBattle) {
+				    PFSFightSystem.selectingMenu = true;
+				}
+			    instance_destroy();
+			}
+		    switch (interactoptions[interactoption]) {
+				case "Use":
+					if (onBattle) {
+						array_push(PFSFightSystem.turnSteps, [PFSTurnType.UseItem, PlayerInventory.items[selecteditem]]);
+						PFSFightSystem.selectedMenu = 0;
+						PFSFightSystem.selectingMenu = true;
+						PFSFightSystem.doTurn = true;
+						instance_destroy();
+					}
+					break;
+			    case "Cancel":
+			        fsn.change("Idle");
+			        break;
+			    default:
+			        // code here
+			        break;
+			}
+		}
+	}
+})

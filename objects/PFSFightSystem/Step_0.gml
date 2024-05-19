@@ -102,6 +102,20 @@ if (doTurn) {
 				}
 				load_sprite(PFS.playerPokemons[pokemonOut], 1);
 				break;
+			case PFSTurnType.UseItem:
+				switch (turnSteps[i][1].usetype) {
+				    case UseType.PokeBall:
+				        if (was_caught(enemyPokemon[enemyOut], turnSteps[i][1].catchrate)) {
+						    show_debug_message($"[PFS] {enemyPokemon[enemyOut].internalName} was caught!");
+							array_push(PFS.playerPokemons, enemyPokemon[enemyOut]);
+							instance_destroy();
+						}
+				        break;
+				    default:
+				        // code here
+				        break;
+				}
+				break;
 			case PFSTurnType.Run:
 				PFS.playerPokemons[pokemonOut] = __PFS_tick_status_effect(PFS.playerPokemons[pokemonOut]);
 				show_debug_message("Ran from battle");
