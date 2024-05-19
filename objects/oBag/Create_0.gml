@@ -5,12 +5,6 @@ startPosition = [GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2)];
 reclerp = 0;
 bagoffset = 0;
 drawalpha = 1;
-enum ItemType {
-	Item,
-	KeyItem,
-	Pokeball
-}
-
 selecteditem = 0;
 tabselected = 0;
 
