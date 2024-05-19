@@ -1,0 +1,4 @@
+Turn step: 3
+Pidgeotto used move Gust! dealing 18 damage! 
+Kabutops used move Scratch! dealing 38 damage! 
+

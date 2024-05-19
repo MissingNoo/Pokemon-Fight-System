@@ -1,6 +1,9 @@
 //Feather disable GM2017
 if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
 #region Turn data
+waittime = 0;
+caught = false;
+ranaway = false;
 dialog = noone;
 playerLastOneWasDead = false;
 lastUsedMove = 0;
@@ -63,9 +66,11 @@ pokemonOut = 0;
 for (var i = 0; i < array_length(PFS.playerPokemons); ++i) {
     if (PFS.playerPokemons[i].hp > 0) {
 	    pokemonOut = i;
+		pokemonhplerp = PFS.playerPokemons[i].hp;
 		break;
 	}
 }
+enemyhplerp = enemyPokemon[enemyOut].hp;
 enemySprite = sPFSBulbasaurBack;
 pokemonSprite = sPFSBulbasaurBack;
 selectedMove = 0;
@@ -191,4 +196,10 @@ if (__PFS_pokemon_have_ability(enemyPokemon[0], "mold-breaker")) {
 	show_debug_message($"{enemyPokemon[0].internalName} breaks the mold!");
 }
 #endregion
-dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text : "Enter"});
+dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text : "Enter", onBattle : true});
+function spawn_dialog(text) {
+	if (instance_exists(oDialog)) {
+	    exit;
+	}
+	dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text, onBattle : true});
+}

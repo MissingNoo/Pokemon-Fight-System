@@ -1,5 +1,6 @@
 //show_debug_message($"{text} / {acceptedOption}");
 if (!visible) { exit; }
+//feather disable once GM1041
 var _currentText = array_get_index(optionsFalas, text);
 var _state = typist.get_state();
 if (scr.get_page() == scr.get_page_count() - 1 and _state == 1) {
@@ -23,6 +24,7 @@ if (canInteract and input_check("accept")) {
 			nextPage();
 			break;
 		case Interactions.AcceptOption:
+		//feather disable once GM1041
 			if (array_length(options) == 0) {
 			    instance_destroy();
 			}

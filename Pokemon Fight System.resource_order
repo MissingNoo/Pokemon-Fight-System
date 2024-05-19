@@ -91,6 +91,7 @@
     {"name":"Font2","order":5,"path":"fonts/Font2/Font2.yy",},
     {"name":"scribble_fallback_font","order":12,"path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},
     {"name":"Note1","order":5,"path":"notes/Note1/Note1.yy",},
+    {"name":"Note2","order":1335,"path":"notes/Note2/Note2.yy",},
     {"name":"__PFSInit","order":7,"path":"objects/__PFSInit/__PFSInit.yy",},
     {"name":"DebugManager","order":3,"path":"objects/DebugManager/DebugManager.yy",},
     {"name":"input_controller_object","order":30,"path":"objects/input_controller_object/input_controller_object.yy",},

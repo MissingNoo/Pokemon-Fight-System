@@ -1,4 +1,7 @@
 //Feather disable GM2017
+if (waittime > 0) {
+    exit;
+}
 if (instance_exists(PFSPokemonManager) or dialog != noone) {
     exit;
 }

@@ -28,6 +28,7 @@ if (keyboard_check_pressed(ord("Z"))) {
 		    exit;
 		}
 		if (selectedPokemon != 7 and selectedPokemon != PFSFightSystem.pokemonOut) {
+			//Feather disable GM1041
 		    array_push(PFSFightSystem.turnSteps, [PFSTurnType.ChangePokemon, selectedPokemon]);
 			if (PFSFightSystem.pokePlayerDead) {
 				PFSFightSystem.playerLastOneWasDead = true;

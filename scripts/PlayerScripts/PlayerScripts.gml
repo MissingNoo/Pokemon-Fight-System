@@ -252,10 +252,10 @@ array_push(GameItems, new Pokeball("PokeBall", sPokeballs, 0, 1));
 array_push(GameItems, new Pokeball("GreatBall", sPokeballs, 1, 1.5));
 array_push(GameItems, new Pokeball("UltraBall", sPokeballs, 2, 2));
 array_push(GameItems, new Pokeball("MasterBall", sPokeballs, 3, 0));
-array_push(GameItems, new Potion("Potion", sMedicines, 0));
-array_push(GameItems, new Potion("SuperPotion", sMedicines, 1));
-array_push(GameItems, new Potion("HyperPotion", sMedicines, 2));
-array_push(GameItems, new Potion("MaxPotion", sMedicines, 3));
+array_push(GameItems, new Potion("Potion", sMedicines, 0, PotionType.Heal));
+array_push(GameItems, new Potion("SuperPotion", sMedicines, 1, PotionType.Heal));
+array_push(GameItems, new Potion("HyperPotion", sMedicines, 2, PotionType.Heal));
+array_push(GameItems, new Potion("MaxPotion", sMedicines, 3, PotionType.Heal));
 
 
 #region Balls

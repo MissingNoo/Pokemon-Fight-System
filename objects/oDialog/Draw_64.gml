@@ -7,6 +7,7 @@ scr = scribble(lexicon_text_struct($"NPC.{npc}.Falas.{text}", struc))
 		  .wrap(dialogWrap, dialogBoxEndY - 20);
 
 scr.draw(dialogTextX, dialogTextY, typist)
+//feather disable once GM1041
 var _currentText = array_get_index(optionsFalas, text);
 if (is_array(options) and showOptions and canInteract and _currentText != -1) {
 	var _yoffset = 0;

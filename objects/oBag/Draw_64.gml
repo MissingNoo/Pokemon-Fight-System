@@ -8,7 +8,6 @@ var _y = _starty;
 draw_set_font(PFS.Fonts.PokeFont[3]);
 draw_sprite_ext(sBagBG, 0, _startx + 1, _starty + 1, 3, 3, 0, c_white, 1);
 draw_set_font(PFS.Fonts.PokeFont[3]);
-var _subimg = 0;
 var a = DebugManager.a;
 var b = DebugManager.b;
 var c = DebugManager.c;
