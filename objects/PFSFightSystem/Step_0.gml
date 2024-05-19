@@ -1,3 +1,9 @@
+if (!instance_exists(oDialog)) {
+    dialog = noone;
+}
+if (dialog != noone) {
+    dialog.battlecoords();
+}
 //Feather disable GM2017
 pokemonhplerp = lerp(pokemonhplerp, PFS.playerPokemons[pokemonOut].hp, 0.1);
 enemyhplerp = lerp(enemyhplerp, enemyPokemon[0].hp, 0.1);
@@ -108,6 +114,8 @@ if (doTurn) {
 				        if (was_caught(enemyPokemon[enemyOut], turnSteps[i][1].catchrate)) {
 						    show_debug_message($"[PFS] {enemyPokemon[enemyOut].internalName} was caught!");
 							array_push(PFS.playerPokemons, enemyPokemon[enemyOut]);
+							turnSteps = [];
+							doTurn = false;
 							instance_destroy();
 						}
 				        break;

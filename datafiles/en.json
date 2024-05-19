@@ -14,6 +14,11 @@
 			}
 		},
 		"NPC" : {
+			"Battle" : {
+				"Falas" : {
+					"Enter" : "[speed,0.25]Foe has appeared!"
+				}
+			},
 			"OakLecture" : {
 				"nome" : "Oak",
 				"Falas" : {

@@ -1,9 +1,9 @@
 //Feather disable GM2017
-if (instance_exists(PFSPokemonManager)) {
+if (instance_exists(PFSPokemonManager) or dialog != noone) {
     exit;
 }
 var _leftRight = - keyboard_check_pressed(vk_left) + keyboard_check_pressed(vk_right);
-	var _upDown = (- keyboard_check_pressed(vk_up) + keyboard_check_pressed(vk_down)) * 2;
+var _upDown = (- keyboard_check_pressed(vk_up) + keyboard_check_pressed(vk_down)) * 2;
 if (selectingMenu) {
     selectedMenu += _leftRight + _upDown;
 	if (selectedMenu < 0) { selectedMenu = 0; }

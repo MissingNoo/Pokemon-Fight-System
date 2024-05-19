@@ -8,6 +8,9 @@ if (scr.get_page() == scr.get_page_count() - 1 and _state == 1) {
 if (canInteract and input_check("accept")) {	
 	switch (interaction) {
 	    case Interactions.Skip:
+			if (!canskip) {
+			    break;
+			}
 				if (typist.get_state() == 1) {
 				    nextPage();
 					break;

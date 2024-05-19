@@ -1,6 +1,7 @@
 //Feather disable GM2017
 if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
 #region Turn data
+dialog = noone;
 playerLastOneWasDead = false;
 lastUsedMove = 0;
 lastEnemyUsedMove = 0;
@@ -190,3 +191,4 @@ if (__PFS_pokemon_have_ability(enemyPokemon[0], "mold-breaker")) {
 	show_debug_message($"{enemyPokemon[0].internalName} breaks the mold!");
 }
 #endregion
+dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text : "Enter"});

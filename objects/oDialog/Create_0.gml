@@ -171,6 +171,21 @@ function onMap(){
 	oDialog.dialogSpacing = 160;
 	oDialog.dialogSprite = sDialogWindow2;	
 }
+function battlecoords(){
+	oDialog.dialogBoxX = PFSFightSystem.stx;
+	oDialog.dialogBoxY = PFSFightSystem.sty + 336;
+	oDialog.dialogBoxEndX = PFSFightSystem.windowSize[0];
+	oDialog.dialogBoxEndY = 144;
+	oDialog.dialogTextX = PFSFightSystem.stx + 50;
+	oDialog.dialogTextY = PFSFightSystem.sty + 366;
+	oDialog.dialogFontSize = 1;
+	oDialog.dialogWrap = 1000;
+	oDialog.dialogSpacing = 100;
+	oDialog.dialogSprite = sDialogWindow2;	
+}
+if (onBattle) {
+    battlecoords();
+}
 function nextPage(){
 	if (scr.get_page() < scr.get_page_count()) {
 		scr.page(scr.get_page() + 1);
