@@ -1,3 +1,6 @@
+if (keyboard_check_pressed(vk_f5)) {
+	instance_create_depth(x, y, oPlayer.depth, oBag);
+}
 if (keyboard_check_pressed(vk_f4)) {
 	instance_create_depth(x, y, oPlayer.depth, oNpc, {npc : Npcs[NpcNames.Oak]});
 }

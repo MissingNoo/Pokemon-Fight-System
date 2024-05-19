@@ -5,3 +5,15 @@ if (movecam) {
 	oCam.y = oPlayer.y;
 }
 fsm.endstep();
+if (instance_exists(PFSFightSystem)) {
+	fsm.change("battle");
+	exit;
+}
+if (instance_exists(oDialog)) {
+	fsm.change("dialog");
+	exit;
+}
+if (instance_exists(oBag)) {
+	fsm.change("bag");
+	exit;
+}
