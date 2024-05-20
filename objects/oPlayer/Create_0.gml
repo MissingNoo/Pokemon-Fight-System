@@ -7,6 +7,11 @@ alarms = [
 #region State Machine
 fsm = new SnowState("idle");
 fsm.add("idle", {
+	beginstep: function() {
+		if (instance_exists(oDialog) and !instance_exists(PFSFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
+		if (!instance_exists(oDialog) and instance_exists(PFSFightSystem)) { fsm.change("battle"); }
+		if (!instance_exists(oDialog) and instance_exists(oCutscene)) { fsm.change("cutscene"); }
+	},
     step: function() {
 		player_interact();
 		if (keyboard_check(vk_down) or keyboard_check(vk_up) or keyboard_check(vk_left) or keyboard_check(vk_right)) {
