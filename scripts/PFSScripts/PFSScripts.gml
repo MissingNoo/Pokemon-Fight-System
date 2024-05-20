@@ -243,6 +243,9 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	var _calc = [0, [0, 0], [0, 0]];
 	var _appliedStatus = "";
 	_calc = __PFS_damage_calculation(pokemon, enemy, move);
+	if (_calc[4]) {
+	    array_push(global.nextdialog, {npc : "Battle", text : $"Critical", onBattle : true});
+	}
 	for (var i = 1; i <= 2; ++i) {
 	    if (_calc[i] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[i][0]) and _calc[i][0] != 0) {
 			_appliedStatus = $"{_appliedStatus} and applied {PFS.StatusAilments[_calc[i][0]]} status!";
@@ -266,7 +269,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 			if (enemyPokemon[0].hp <= 0) {
 				enemyPokemon[0].hp = 0;
 				show_debug_message($"{enemyPokemon[0].internalName} died");
-				array_push(global.nextdialog, {npc : "Battle", text : $"Fainted", onBattle : true});
+				array_push(global.nextdialog, {npc : "Battle", text : $"EnemyPokemonFainted", onBattle : true});
 				if (lastEnemyUsedMove == __PFS_get_move_id("Destiny Bond")) {
 					PFS.playerPokemons[pokemonOut].hp = 0;
 					show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died together due to {enemyPokemon[0].internalName}'s Destiny Bond!");
@@ -277,7 +280,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 			PFS.playerPokemons[pokemonOut].hp -= _calc[0];
 			if (PFS.playerPokemons[pokemonOut].hp <= 0) { 
 				show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died");
-				array_push(global.nextdialog, {npc : "Battle", text : $"Fainted", onBattle : true});
+				array_push(global.nextdialog, {npc : "Battle", text : $"PlayerPokemonFainted", onBattle : true});
 				enemyDead = true;
 				if (lastUsedMove == __PFS_get_move_id("Destiny Bond")) {
 					enemyPokemon[0].hp = 0;
@@ -386,12 +389,14 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 					#region Shield Dust
 						if (move.effect_chance < 100 and __PFS_pokemon_have_ability(enemy, "shield-dust")) {
 							show_debug_message($"{enemy.internalName}'s Shield Dust cancelled the status effect!");
+							array_push(global.nextdialog, {npc : "Battle", text : $"ShieldDust", onBattle : true});
 							_status = 0;
 						}
 					#endregion
 					#region SoundProof
 						if (_status[0] == PFSStatusAilments.Perish_song and __PFS_pokemon_have_ability(enemy, "soundproof")) {
 							show_debug_message($"{enemy.internalName}'s Soundproof ignored Perish Song!");
+							array_push(global.nextdialog, {npc : "Battle", text : $"SoundProofPerish", onBattle : true});
 							_status = 0;
 						}
 					#endregion
@@ -409,6 +414,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 				if (_isCritical == 2 and __PFS_pokemon_have_ability(enemy, "battle-armor")) {
 					_isCritical = 1; // 1 for normal, 2 for critical
 					show_debug_message($"{enemy.internalName}'s Battle Armor cancels the critical damage!");
+					array_push(global.nextdialog, {npc : "Battle", text : $"BattleArmor", onBattle : true});
 				}
 			#endregion
 		#endregion
@@ -423,6 +429,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 				if (enemy.base.hp == enemy.hp and _damage > enemy.hp and __PFS_pokemon_have_ability(enemy, "sturdy") and !__PFS_pokemon_have_ability(pokemon, "mold-breaker")) {
 					_damage = enemy.hp - 1;
 					show_debug_message($"{enemy.internalName} held out thanks to Sturdy!");
+					array_push(global.nextdialog, {npc : "Battle", text : $"Sturdy", onBattle : true});
 				}
 			#endregion
 		#endregion
@@ -433,7 +440,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	#endregion
 	
 	//show_debug_message($"Dealt ( ( ( 2 * {_level} / 5 + 2) * {_power} * ({_a} / {_d}) ) / 50 + 2 )  * {_targets} * {_pb} * {_weather} * {_glaiverush} * {_isCritical} * {_rnd} * {_stab} * {_type} * {_burn} * {_other} = {_damage} damage");
-	return [_damage, _status, _ability_status, _affectUser];
+	return [_damage, _status, _ability_status, _affectUser, _isCritical == 2 ? true : false];
 }
 
 function __PFS_generate_pokemon(pokemon){

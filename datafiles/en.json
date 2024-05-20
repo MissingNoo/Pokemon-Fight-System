@@ -16,7 +16,13 @@
 		"NPC" : {
 			"Battle" : {
 				"Falas" : {
-					"Enter" : "[speed,0.25]Foe has appeared!"
+					"Enter" : "[speed,0.25]Foe has appeared!",
+					"Critical" : "It was super effective!",
+					"PlayerPokemonFainted" : "%pokeplayer% fainted.",
+					"EnemyPokemonFainted" : "%enemypoke% fainted.",
+					"PlayerUsedMove" : "%pokeplayer% used %playermove%.",
+					"EnemyUsedMove" : "%enemypoke% used %enemymove%.",
+					"SentOut" : "Sent out %pokeplayer%!"
 				}
 			},
 			"OakLecture" : {

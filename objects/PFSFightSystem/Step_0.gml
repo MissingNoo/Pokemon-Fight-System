@@ -8,6 +8,15 @@ pokemonhplerp = lerp(pokemonhplerp, PFS.playerPokemons[pokemonOut].hp, 0.1);
 enemyhplerp = lerp(enemyhplerp, enemyPokemon[0].hp, 0.1);
 if (dialog != noone) {
 	dialog = instance_find(oDialog, 0);
+	dialog.struc[$ "pokeplayer"] = PFS.playerPokemons[pokemonOut].internalName;
+	dialog.struc[$ "enemypoke"] = enemyPokemon[enemyOut].internalName;
+	if (lastUsedMove != 0) {
+	    dialog.struc[$ "playermove"] = PFS.moves[lastUsedMove].internalName;
+	}
+	if (lastEnemyUsedMove != 0) {
+		dialog.struc[$ "enemymove"] = PFS.moves[lastEnemyUsedMove].internalName;
+	}
+	
 	waittime = 10;
     dialog.battlecoords();
 	exit;
@@ -31,6 +40,8 @@ if (!enemy_alive()) {
 	instance_destroy();
 }
 if (doTurn) {
+	lastUsedMove = 0;
+	lastEnemyUsedMove = 0;
 	PFS.playerPokemons[pokemonOut] = __PFS_count_status_effect(PFS.playerPokemons[pokemonOut]);
 	enemyPokemon[0] = __PFS_count_status_effect(enemyPokemon[0]);
 	var _rnd = irandom_range(0, array_length(enemyPokemon[0].moves) - 1);
@@ -100,18 +111,21 @@ if (doTurn) {
 				
 				switch (turnSteps[0][4]) {
 				    case PFSBattleSides.Player:
+						turnSteps[0][1].hp = PFS.playerPokemons[pokemonOut].hp;
+						if (turnSteps[0][1].hp > 0) {
+						    spawn_dialog($"PlayerUsedMove");
+						}
 						lastUsedMove = turnSteps[0][3].id;
-				        turnSteps[0][1].hp = PFS.playerPokemons[pokemonOut].hp;
 				        break;
 				    case PFSBattleSides.Enemy:
+						turnSteps[0][1].hp = enemyPokemon[0].hp;
+						if (turnSteps[0][1].hp > 0) {
+						    spawn_dialog($"EnemyUsedMove");
+						}
 						lastEnemyUsedMove = turnSteps[0][3].id;
-				        turnSteps[0][1].hp = enemyPokemon[0].hp;
 				        break;
 				}
 				__PFS_use_move(turnSteps[0][1], turnSteps[0][2], turnSteps[0][3], turnSteps[0][4]);
-				if (turnSteps[0][1].hp > 0) {
-				    spawn_dialog($"UsedMove");
-				}
 				//else {
 				//	spawn_dialog($"Fainted");
 				//}
@@ -171,8 +185,6 @@ if (doTurn) {
 		if (PFS.playerPokemons[pokemonOut].hp <= 0) {
 		    pokePlayerDead = true;
 		}
-		lastUsedMove = 0;
-		lastEnemyUsedMove = 0;
 	    doTurn = false;
 		startturn = true;
 		selectingMenu = true;
