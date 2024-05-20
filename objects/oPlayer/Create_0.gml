@@ -16,6 +16,9 @@ fsm.add("idle", {
   })
   .add("walk", {
     step: function() {
+		if (instance_exists(oDialog) and !instance_exists(PFSFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
+		if (!instance_exists(oDialog) and instance_exists(PFSFightSystem)) { fsm.change("battle"); }
+		if (!instance_exists(oDialog) and instance_exists(oCutscene)) { fsm.change("cutscene"); }
 		player_movement();
     },
 	endstep: function() {

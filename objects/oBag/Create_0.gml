@@ -127,6 +127,7 @@ fsn.add("Idle", {
 				    PFSFightSystem.selectingMenu = true;
 				}
 			    instance_destroy();
+				exit;
 			}
 		    switch (interactoptions[interactoption]) {
 				case "Use":

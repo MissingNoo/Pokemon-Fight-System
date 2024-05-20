@@ -1,7 +1,6 @@
 typist = scribble_typist();
 typist.in(1, 0);
 //typist.function_on_complete()
-scribble_typists_add_event("showoptions", function(){showOptions = true;});
 canDestroy = false;
 alarm[0] = 10;
 scr = scribble("");
@@ -172,6 +171,9 @@ function onMap(){
 	oDialog.dialogSprite = sDialogWindow2;	
 }
 function battlecoords(){
+	if (!instance_exists(PFSFightSystem)) {
+	    exit;
+	}
 	oDialog.dialogBoxX = PFSFightSystem.stx;
 	oDialog.dialogBoxY = PFSFightSystem.sty + 336;
 	oDialog.dialogBoxEndX = PFSFightSystem.windowSize[0];

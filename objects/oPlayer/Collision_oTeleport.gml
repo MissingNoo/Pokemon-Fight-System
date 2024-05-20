@@ -1,5 +1,5 @@
 if (x == other.x and y == other.y) {
-	if (other.go and global.blackfade[0] = 1) {
+	if (other.go and global.blackfade[0] > 0.99) {
 		room_goto(other.destination);
 		alarm[1] = 10;
 		sendPos();

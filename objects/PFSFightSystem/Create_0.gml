@@ -1,6 +1,7 @@
 //Feather disable GM2017
 if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
 #region Turn data
+startturn = true;
 waittime = 0;
 caught = false;
 ranaway = false;

@@ -1,4 +1,5 @@
 scribble_typists_add_event("closeDialog", function(_element, _parameter_array, _character_index){ oDialog.alarm[2] = _parameter_array[0]});
+nextdialog = [];
 enum CutsceneFunction {
 	MovePlayer,
 	WaitPlayerVar,
