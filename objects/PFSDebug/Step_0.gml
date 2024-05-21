@@ -32,7 +32,7 @@ if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
 	//PFS.playerPokemons[4] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//PFS.playerPokemons[5] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//Random enemy
-	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
+	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]), __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
 	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[6])];
 	//_enemyPokemon[enemyOut].moves = [];
 	//_enemyPokemon[enemyOut].moves[0] = __PFS_add_move("Pound");

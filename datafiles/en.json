@@ -23,6 +23,7 @@
 					"PlayerUsedMove" : "%pokeplayer% used %playermove%.",
 					"EnemyUsedMove" : "%enemypoke% used %enemymove%.",
 					"SentOut" : "Sent out %pokeplayer%!",
+					"EnemySentOut" : "Foe sent out %enemypoke%!",
 					"Asleep" : "%pokename% is fast asleep.",
 					"BreaksTheMold" : "%pokename% breaks the mold!"
 				}

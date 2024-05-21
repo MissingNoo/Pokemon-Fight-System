@@ -21,6 +21,7 @@ pokemonhplerp = 0;
 enum PFSTurnType {
 	Move,
 	ChangePokemon,
+	EnemyChangePokemon,
 	UseItem,
 	Run
 }
@@ -55,12 +56,21 @@ function order_turn() {
 
 function enemy_alive() {
 	//Feather disable once GM1041
-	for (var i = 0; i < array_length(enemyPokemon); ++i) {
-	    if (enemyPokemon[i].hp > 0) {
+	//for (var i = 0; i < array_length(enemyPokemon); ++i) {
+	    if (enemyPokemon[enemyOut].hp > 0) {
 		    return true;
 		}
-	}
+	//}
 	return false;
+}
+function enemy_team_defeated() {
+	//Feather disable once GM1041
+	for (var i = 0; i < array_length(enemyPokemon); ++i) {
+	    if (enemyPokemon[i].hp > 0) {
+		    return false;
+		}
+	}
+	return true;
 }
 #endregion
 
@@ -213,7 +223,7 @@ function spawn_dialog(text) {
 	dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text, onBattle : true});
 }
 nextstate = "menu";
-sys = new SnowState("menu");
+sys = new SnowState("animation");
 sys.add("idle", {	
 	enter: function() {
 		//waittime = 10;
@@ -254,7 +264,8 @@ sys.add("idle", {
 		PFS.playerPokemons[pokemonOut] = __PFS_count_status_effect(PFS.playerPokemons[pokemonOut]);
 		enemyPokemon[enemyOut] = __PFS_count_status_effect(enemyPokemon[enemyOut]);
 		var _rnd = irandom_range(0, array_length(enemyPokemon[enemyOut].moves) - 1);
-		if (!enemy_alive() and turnSteps[0][0] != PFSTurnType.Run) {
+		if (enemy_team_defeated() and turnSteps[0][0] != PFSTurnType.Run) {
+		//if (turnSteps[0][0] != PFSTurnType.Run) {
 			exit;
 		}
 		switch (turnSteps[0][0]) {
@@ -329,11 +340,29 @@ sys.add("idle", {
 				show_debug_message_debugmode($"Sent {PFS.playerPokemons[pokemonOut].internalName} out!");
 				spawn_dialog("SentOut");
 				if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
-					global.dialogdata[$"pokename"] = PFS.playerPokemons[pokemonOut].internalName;
+					global.dialogdata[$"pokename"] = enemyPokemon[enemyOut].internalName;
 					show_debug_message_debugmode($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
 					array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
 				}
 				load_sprite(PFS.playerPokemons[pokemonOut], 1);
+				break;
+			case PFSTurnType.EnemyChangePokemon: //TODO: redo
+				for (var j = 0; j < array_length(enemyPokemon[enemyOut].statusAilments); ++j) {
+					if (enemyPokemon[enemyOut].statusAilments[j][0] == PFSStatusAilments.Perish_song) {
+						array_delete(enemyPokemon[enemyOut].statusAilments, j, 1);
+						j = 0;
+					}
+				}
+				enemyOut = turnSteps[0][1];
+				enemyhplerp = enemyPokemon[enemyOut].hp; //TODO: enemy pokemon
+				show_debug_message_debugmode($"Foe sent {enemyPokemon[enemyOut].internalName} out!");
+				spawn_dialog("EnemySentOut");
+				if (__PFS_pokemon_have_ability(enemyPokemon[enemyOut], "mold-breaker")) {
+					global.dialogdata[$"pokename"] = enemyPokemon[enemyOut].internalName;
+					show_debug_message_debugmode($"{enemyPokemon[enemyOut].internalName} breaks the mold!");
+					array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
+				}
+				load_sprite(enemyPokemon[enemyOut], 0);
 				break;
 			case PFSTurnType.UseItem://TODO: Ball shakes
 				switch (turnSteps[0][1].usetype) {
@@ -363,10 +392,20 @@ sys.add("idle", {
 	},
 	endturn: function(){
 		if (array_length(turnSteps) == 0) {
+			show_debug_message("[PFS] Turn End!");
 			currentTurn++;
 			playerLastOneWasDead = false;
 			if (PFS.playerPokemons[pokemonOut].hp <= 0) {
 				pokePlayerDead = true;
+			}
+			if (!enemy_alive()) {
+			    for (var i = 0; i < array_length(enemyPokemon); ++i) {
+				    if (enemyPokemon[i].hp > 0) {
+						array_push(PFSFightSystem.turnSteps, [PFSTurnType.EnemyChangePokemon, i]);
+						sys.change("turn");
+						exit;
+					}
+				}
 			}
 			sys.change("menu");
 		}

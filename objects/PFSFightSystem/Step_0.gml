@@ -24,7 +24,7 @@ if (instance_exists(oDialog)) {
 //    display_set_gui_size(window_get_width(), window_get_height());
 //	startPosition = [display_get_gui_width() / 2 - 350, display_get_gui_height() / 2 - 300];
 //}
-if (!enemy_alive()) {
+if (enemy_team_defeated()) {
 	instance_destroy();
 }
 sys.step();

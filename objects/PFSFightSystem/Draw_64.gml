@@ -1,3 +1,4 @@
+scribble($"state: {sys.get_current_state()}\ncaninteract: {caninteract}").scale(DebugManager.a + 1).draw(10, 10);
 //Feather disable GM2017
 //draw_sprite_ext(sEndResult, 0, GW/2, GH/2, 3, 3, 0, c_white, 1);
 #region Start Variables
