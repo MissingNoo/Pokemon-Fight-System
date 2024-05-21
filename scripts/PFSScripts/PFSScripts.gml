@@ -244,7 +244,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	var _appliedStatus = "";
 	_calc = __PFS_damage_calculation(pokemon, enemy, move);
 	if (_calc[4]) {
-	    array_push(global.nextdialog, {npc : "Battle", text : $"Critical", onBattle : true});
+		array_push(global.nextdialog, {npc : "Battle", text : $"Critical", onBattle : true});
 	}
 	for (var i = 1; i <= 2; ++i) {
 	    if (_calc[i] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[i][0]) and _calc[i][0] != 0) {

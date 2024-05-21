@@ -1491,6 +1491,7 @@
     {"id":{"name":"rInit","path":"rooms/rInit/rInit.yy",},},
     {"id":{"name":"rOakLab","path":"rooms/rOakLab/rOakLab.yy",},},
     {"id":{"name":"rPallet","path":"rooms/rPallet/rPallet.yy",},},
+    {"id":{"name":"rPFSInit","path":"rooms/rPFSInit/rPFSInit.yy",},},
     {"id":{"name":"rPlayerHouse","path":"rooms/rPlayerHouse/rPlayerHouse.yy",},},
     {"id":{"name":"rPlayerHouse2f","path":"rooms/rPlayerHouse2f/rPlayerHouse2f.yy",},},
     {"id":{"name":"__input_axis_is_directional","path":"scripts/__input_axis_is_directional/__input_axis_is_directional.yy",},},
@@ -2115,6 +2116,7 @@
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
+    {"roomId":{"name":"rPFSInit","path":"rooms/rPFSInit/rPFSInit.yy",},},
     {"roomId":{"name":"rInit","path":"rooms/rInit/rInit.yy",},},
     {"roomId":{"name":"rPallet","path":"rooms/rPallet/rPallet.yy",},},
     {"roomId":{"name":"rPlayerHouse","path":"rooms/rPlayerHouse/rPlayerHouse.yy",},},

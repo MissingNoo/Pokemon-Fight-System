@@ -122,6 +122,7 @@
     {"name":"rInit","order":3,"path":"rooms/rInit/rInit.yy",},
     {"name":"rOakLab","order":3,"path":"rooms/rOakLab/rOakLab.yy",},
     {"name":"rPallet","order":2,"path":"rooms/rPallet/rPallet.yy",},
+    {"name":"rPFSInit","order":6,"path":"rooms/rPFSInit/rPFSInit.yy",},
     {"name":"rPlayerHouse2f","order":1,"path":"rooms/rPlayerHouse2f/rPlayerHouse2f.yy",},
     {"name":"__input_axis_is_directional","order":9,"path":"scripts/__input_axis_is_directional/__input_axis_is_directional.yy",},
     {"name":"__input_binding_get_label","order":10,"path":"scripts/__input_binding_get_label/__input_binding_get_label.yy",},

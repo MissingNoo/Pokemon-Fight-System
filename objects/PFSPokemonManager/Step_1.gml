@@ -30,14 +30,15 @@ if (keyboard_check_pressed(ord("Z"))) {
 		if (selectedPokemon != 7 and selectedPokemon != PFSFightSystem.pokemonOut) {
 			//Feather disable GM1041
 		    array_push(PFSFightSystem.turnSteps, [PFSTurnType.ChangePokemon, selectedPokemon]);
+			PFSFightSystem.lastpokemon = selectedPokemon;
 			if (PFSFightSystem.pokePlayerDead) {
 				PFSFightSystem.playerLastOneWasDead = true;
 			}
 			PFSFightSystem.pokePlayerDead = false;
-			PFSFightSystem.doTurn = true;
+			//PFSFightSystem.doTurn = true;
 		}
-		PFSFightSystem.selectedMenu = 0;
-		PFSFightSystem.selectingMenu = true;
+		//PFSFightSystem.selectedMenu = 0;
+		//PFSFightSystem.selectingMenu = true;
 		instance_destroy();
 	}
 }

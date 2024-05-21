@@ -7,7 +7,8 @@ if (keyboard_check_pressed(vk_numpad2)) {
 
 if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
 	//Random test team
-	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]);
+	//PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]);
+	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[93]);
 	//PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	////PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[88]);

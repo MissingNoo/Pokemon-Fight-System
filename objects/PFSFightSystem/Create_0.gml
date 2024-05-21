@@ -1,5 +1,6 @@
 //Feather disable GM2017
 if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
+lastpokemon = 0;
 caninteract = true;
 laststate = "";
 #region Turn data
@@ -69,6 +70,7 @@ pokemonOut = 0;
 for (var i = 0; i < array_length(PFS.playerPokemons); ++i) {
     if (PFS.playerPokemons[i].hp > 0) {
 	    pokemonOut = i;
+		lastpokemon = i;
 		pokemonhplerp = PFS.playerPokemons[i].hp;
 		break;
 	}
@@ -193,9 +195,13 @@ for (var i = 0; i < 100; ++i) {
 }
 show_debug_message_debugmode("[PFS] Starting battle!");
 if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
+	global.dialogdata[$"pokename"] = PFS.playerPokemons[pokemonOut].internalName;
+	array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
 	show_debug_message_debugmode($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
 }
 if (__PFS_pokemon_have_ability(enemyPokemon[enemyOut], "mold-breaker")) {
+	global.dialogdata[$"pokename"] = enemyPokemon[enemyOut].internalName;
+	array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
 	show_debug_message_debugmode($"{enemyPokemon[enemyOut].internalName} breaks the mold!");
 }
 #endregion
@@ -237,6 +243,11 @@ sys.add("idle", {
 	},
 })
 .add("turn", {
+	enter: function() {
+		if (array_length(turnSteps) == 0) {
+		    sys.change("menu");
+		}
+	},
 	step: function() {
 		lastUsedMove = 0;
 		lastEnemyUsedMove = 0;
@@ -253,6 +264,7 @@ sys.add("idle", {
 				turnSteps[0][1] = _ability_result[0];
 				turnSteps[0][3] = _ability_result[1];
 				var _pokeside = turnSteps[0][4] == PFSBattleSides.Player ? PFS.playerPokemons[pokemonOut] : enemyPokemon[enemyOut];
+				global.dialogdata[$"pokename"] = _pokeside.internalName;
 				#region Status
 				if (__PFS_pokemon_affected_by_status(_pokeside, PFSStatusAilments.Sleep)) {
 					_string = $"{_pokeside.internalName} is fast asleep!";
@@ -317,6 +329,7 @@ sys.add("idle", {
 				show_debug_message_debugmode($"Sent {PFS.playerPokemons[pokemonOut].internalName} out!");
 				spawn_dialog("SentOut");
 				if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
+					global.dialogdata[$"pokename"] = PFS.playerPokemons[pokemonOut].internalName;
 					show_debug_message_debugmode($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
 					array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
 				}
@@ -515,7 +528,12 @@ sys.add("idle", {
 		show_debug_message_debugmode("show animation");
 		switch (sys.get_previous_state()) {
 		    case "choosingpokemon":
-		        sys.change("turn");
+				if (pokemonOut != lastpokemon) {
+				    sys.change("preturn");
+				}
+				else {
+					sys.change("turn");
+				}
 		        break;
 		}
 	},

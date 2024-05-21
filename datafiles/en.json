@@ -22,7 +22,9 @@
 					"EnemyPokemonFainted" : "%enemypoke% fainted.",
 					"PlayerUsedMove" : "%pokeplayer% used %playermove%.",
 					"EnemyUsedMove" : "%enemypoke% used %enemymove%.",
-					"SentOut" : "Sent out %pokeplayer%!"
+					"SentOut" : "Sent out %pokeplayer%!",
+					"Asleep" : "%pokename% is fast asleep.",
+					"BreaksTheMold" : "%pokename% breaks the mold!"
 				}
 			},
 			"OakLecture" : {
