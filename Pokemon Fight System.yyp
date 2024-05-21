@@ -1997,6 +1997,7 @@
     {"id":{"name":"__shd_scribble_bake_outline_8dir","path":"shaders/__shd_scribble_bake_outline_8dir/__shd_scribble_bake_outline_8dir.yy",},},
     {"id":{"name":"__shd_scribble_bake_shadow","path":"shaders/__shd_scribble_bake_shadow/__shd_scribble_bake_shadow.yy",},},
     {"id":{"name":"__shd_scribble","path":"shaders/__shd_scribble/__shd_scribble.yy",},},
+    {"id":{"name":"Sound1","path":"sounds/Sound1/Sound1.yy",},},
     {"id":{"name":"asdasdas","path":"sprites/asdasdas/asdasdas.yy",},},
     {"id":{"name":"battlesprites","path":"sprites/battlesprites/battlesprites.yy",},},
     {"id":{"name":"DebugArrowButtonLeftRight","path":"sprites/DebugArrowButtonLeftRight/DebugArrowButtonLeftRight.yy",},},

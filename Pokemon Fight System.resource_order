@@ -568,6 +568,7 @@
     {"name":"__shd_scribble_bake_outline_8dir_2px","order":3,"path":"shaders/__shd_scribble_bake_outline_8dir_2px/__shd_scribble_bake_outline_8dir_2px.yy",},
     {"name":"__shd_scribble_bake_outline_8dir","order":2,"path":"shaders/__shd_scribble_bake_outline_8dir/__shd_scribble_bake_outline_8dir.yy",},
     {"name":"__shd_scribble_bake_shadow","order":4,"path":"shaders/__shd_scribble_bake_shadow/__shd_scribble_bake_shadow.yy",},
+    {"name":"Sound1","order":1336,"path":"sounds/Sound1/Sound1.yy",},
     {"name":"asdasdas","order":16,"path":"sprites/asdasdas/asdasdas.yy",},
     {"name":"battlesprites","order":7,"path":"sprites/battlesprites/battlesprites.yy",},
     {"name":"DebugArrowButtonUpDown","order":1,"path":"sprites/DebugArrowButtonUpDown/DebugArrowButtonUpDown.yy",},

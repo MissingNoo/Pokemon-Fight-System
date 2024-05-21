@@ -195,8 +195,8 @@ show_debug_message_debugmode("[PFS] Starting battle!");
 if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
 	show_debug_message_debugmode($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
 }
-if (__PFS_pokemon_have_ability(enemyPokemon[0], "mold-breaker")) {
-	show_debug_message_debugmode($"{enemyPokemon[0].internalName} breaks the mold!");
+if (__PFS_pokemon_have_ability(enemyPokemon[enemyOut], "mold-breaker")) {
+	show_debug_message_debugmode($"{enemyPokemon[enemyOut].internalName} breaks the mold!");
 }
 #endregion
 dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text : "Enter", onBattle : true});
@@ -224,9 +224,9 @@ sys.add("idle", {
 .add("preturn", {
 	enter: function(){
 		show_debug_message_debugmode("preturn");
-		var _rnd = irandom_range(0, array_length(enemyPokemon[0].moves) - 1);
+		var _rnd = irandom_range(0, array_length(enemyPokemon[enemyOut].moves) - 1);
 		if (!playerLastOneWasDead) {
-			array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[0], PFS.playerPokemons[pokemonOut], enemyPokemon[0].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
+			array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[enemyOut], PFS.playerPokemons[pokemonOut], enemyPokemon[enemyOut].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
 			if (enemy_alive()) {
 				show_debug_message_debugmode($"");
 				order_turn();
@@ -241,8 +241,8 @@ sys.add("idle", {
 		lastUsedMove = 0;
 		lastEnemyUsedMove = 0;
 		PFS.playerPokemons[pokemonOut] = __PFS_count_status_effect(PFS.playerPokemons[pokemonOut]);
-		enemyPokemon[0] = __PFS_count_status_effect(enemyPokemon[0]);
-		var _rnd = irandom_range(0, array_length(enemyPokemon[0].moves) - 1);
+		enemyPokemon[enemyOut] = __PFS_count_status_effect(enemyPokemon[enemyOut]);
+		var _rnd = irandom_range(0, array_length(enemyPokemon[enemyOut].moves) - 1);
 		if (!enemy_alive() and turnSteps[0][0] != PFSTurnType.Run) {
 			exit;
 		}
@@ -252,7 +252,7 @@ sys.add("idle", {
 				var _ability_result = __PFS_ability_before_move(turnSteps[0][1], turnSteps[0][3]);
 				turnSteps[0][1] = _ability_result[0];
 				turnSteps[0][3] = _ability_result[1];
-				var _pokeside = turnSteps[0][4] == PFSBattleSides.Player ? PFS.playerPokemons[pokemonOut] : enemyPokemon[0];
+				var _pokeside = turnSteps[0][4] == PFSBattleSides.Player ? PFS.playerPokemons[pokemonOut] : enemyPokemon[enemyOut];
 				#region Status
 				if (__PFS_pokemon_affected_by_status(_pokeside, PFSStatusAilments.Sleep)) {
 					_string = $"{_pokeside.internalName} is fast asleep!";
@@ -265,8 +265,6 @@ sys.add("idle", {
 					if (_chance <= 25) {
 						show_debug_message_debugmode($"{_pokeside.internalName} is paralyzed! It can't move!");
 						spawn_dialog($"Paralyzed");
-						//array_shift(turnSteps);
-						//i--;
 						break;
 					}
 				}
@@ -278,8 +276,6 @@ sys.add("idle", {
 					else {
 						show_debug_message_debugmode($"{turnSteps[0][1].internalName} flinched due to {turnSteps[0][2].internalName}'s Stench");
 						spawn_dialog($"Flinched");
-						//array_shift(turnSteps);
-						//i--;
 						break;
 					}
 				}
@@ -300,7 +296,7 @@ sys.add("idle", {
 						lastUsedMove = turnSteps[0][3].id;
 						break;
 					case PFSBattleSides.Enemy:
-						turnSteps[0][1].hp = enemyPokemon[0].hp;
+						turnSteps[0][1].hp = enemyPokemon[enemyOut].hp;
 						if (turnSteps[0][1].hp > 0) {
 							spawn_dialog($"EnemyUsedMove");
 						}
@@ -348,7 +344,7 @@ sys.add("idle", {
 				break;
 		}
 		PFS.playerPokemons[pokemonOut] = __PFS_tick_status_effect(PFS.playerPokemons[pokemonOut]);
-		enemyPokemon[0] = __PFS_tick_status_effect(enemyPokemon[0]);
+		enemyPokemon[enemyOut] = __PFS_tick_status_effect(enemyPokemon[enemyOut]);
 		array_shift(turnSteps);
 		exit;
 	},
@@ -403,7 +399,6 @@ sys.add("idle", {
 	//	}
 	},
 	draw: function() {
-		draw_text(MX, MY, $"can: {caninteract}");
 		var _startx = startPosition[0];
 		var _starty = startPosition[1];
 		var _yoff = 0;
@@ -432,7 +427,7 @@ sys.add("idle", {
 		if (selectedMove < 0) { selectedMove = 0; }
 		if (selectedMove > array_length(PFS.playerPokemons[pokemonOut].moves) - 1) { selectedMove = array_length(PFS.playerPokemons[pokemonOut].moves) - 1; }
 		if (caninteract and keyboard_check_pressed(ord("Z"))) {
-			array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[0], PFS.playerPokemons[pokemonOut].moves[selectedMove], PFSBattleSides.Player]);
+			array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[enemyOut], PFS.playerPokemons[pokemonOut].moves[selectedMove], PFSBattleSides.Player]);
 			sys.change("preturn");
 			exit;
 		}
@@ -473,7 +468,7 @@ sys.add("idle", {
 			draw_text_transformed(_x + _xoff, _y + _yoff + 6, move.internalName, 1, 1, 0);
 			#region unused
 			//if (createbutton(_x, _y + _yoff, $"{move.internalName} {move.pp}/{move.maxpp}", 1, true, undefined) and move.pp > 0) {
-			//	array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[0], move, PFSBattleSides.Player]);
+			//	array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[enemyOut], move, PFSBattleSides.Player]);
 			//	doTurn = true;
 			//}
 			//draw_sprite_ext(sPFSTypeIcons, move.type, _x + 8, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
@@ -504,7 +499,6 @@ sys.add("idle", {
 	step: function() {
 		if (pokePlayerDead and !instance_exists(PFSPokemonManager)) {
 		    selectedMenu = PFSBattleMenus.Pokemon;
-			//selectingMenu = false;
 			instance_create_depth(0, 0, -1, PFSPokemonManager, {onBattle : true});
 		}
 	},

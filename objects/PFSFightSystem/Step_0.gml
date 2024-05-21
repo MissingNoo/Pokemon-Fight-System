@@ -9,7 +9,7 @@ if (lastEnemyUsedMove != 0) {
 	global.dialogdata[$ "enemymove"] = PFS.moves[lastEnemyUsedMove].internalName;
 }
 pokemonhplerp = lerp(pokemonhplerp, PFS.playerPokemons[pokemonOut].hp, 0.1);
-enemyhplerp = lerp(enemyhplerp, enemyPokemon[0].hp, 0.1);
+enemyhplerp = lerp(enemyhplerp, enemyPokemon[enemyOut].hp, 0.1);
 if (instance_exists(oDialog)) {
 	exit;
 }
@@ -24,7 +24,7 @@ if (instance_exists(oDialog)) {
 //    display_set_gui_size(window_get_width(), window_get_height());
 //	startPosition = [display_get_gui_width() / 2 - 350, display_get_gui_height() / 2 - 300];
 //}
-//if (!enemy_alive()) {
-//	instance_destroy();
-//}
+if (!enemy_alive()) {
+	instance_destroy();
+}
 sys.step();

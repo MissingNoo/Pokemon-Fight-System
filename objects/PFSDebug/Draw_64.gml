@@ -37,13 +37,13 @@ if (createbutton(_x, _y, _text, 2) and !instance_exists(PFSFightSystem)) {
 	//Random enemy
 	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 151)])];
 	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[295])];
-	//_enemyPokemon[0].moves = [];
-	//_enemyPokemon[0].moves[0] = __PFS_add_move("Pound");
+	//_enemyPokemon[enemyOut].moves = [];
+	//_enemyPokemon[enemyOut].moves[0] = __PFS_add_move("Pound");
 	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[10])];
-	//_enemyPokemon[0].level = 100;
-	//_enemyPokemon[0] = __PFS_recalculate_stats(_enemyPokemon[0], true);
-	//_enemyPokemon[0].moves[0] = __PFS_add_move("Destiny Bond");
-	//_enemyPokemon[0].moves[0].pp = 9999;
+	//_enemyPokemon[enemyOut].level = 100;
+	//_enemyPokemon[enemyOut] = __PFS_recalculate_stats(_enemyPokemon[enemyOut], true);
+	//_enemyPokemon[enemyOut].moves[0] = __PFS_add_move("Destiny Bond");
+	//_enemyPokemon[enemyOut].moves[0].pp = 9999;
 	//Start Battle
 	//instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
 }

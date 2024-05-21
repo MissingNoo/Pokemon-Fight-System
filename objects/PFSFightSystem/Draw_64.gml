@@ -53,7 +53,7 @@ var _pokemon;
 var _boxEndX;
 var _boxEndY;
 #region Enemy Pokemon Info
-_pokemon = enemyPokemon[0];
+_pokemon = enemyPokemon[enemyOut];
 _x = _startx + (windowSize[0] * 0.02);
 _y = _starty + (windowSize[1] * 0.03);
 _boxEndX = _startx + (windowSize[0] * 0.30);
