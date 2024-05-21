@@ -19,9 +19,10 @@ DebugManager.debug_add_config(self, {
 });
 var _startx = startPosition[0];
 var _starty = startPosition[1];
-draw_sprite_ext(PFSBattleBgs, 1, _startx + 1, _starty + 1, 3, 3, 0, c_white, 1);
 var _yoff = 0;
 var _xoff = 0;
+draw_sprite_ext(PFSBattleBgs, 1, _startx + 1, _starty + 1, 3, 3, 0, c_white, 1);
+
 #endregion
 
 #region Main Window
@@ -80,56 +81,7 @@ if (!selectingMenu) {
 	_yoff = 0;
 	switch (selectedMenu) {
 	    case PFSBattleMenus.Battle:
-			_x = _startx + 1;
-			_y = _starty + 337;
-			draw_sprite_ext(PFSMoveWindow, 0, _x, _y, 3, 3, 0, c_white, 1);
-			_yoff = 0;
-			var moves = PFS.playerPokemons[pokemonOut].moves;
-	        for (var i = 0; i < array_length(moves); ++i) {
-				switch (i) {
-				    case 0:
-				        _xoff = 35;
-				        _yoff = 25;
-				        break;
-				    case 1:
-				        _xoff = 260;
-				        _yoff = 25;
-				        break;
-				    case 2:
-				        _xoff = 35;
-				        _yoff = 75;
-				        break;
-				    case 3:
-				        _xoff = 260;
-				        _yoff = 75;
-				        break;
-				}
-				var move = moves[i];
-				if (selectedMove == i) {
-				    draw_sprite_ext(PFSOptionSelected, 0, _x - 7 + _xoff, _y + 20 + _yoff, 2, 2, 0, c_white, 1);
-				}
-				draw_text_transformed(_x + _xoff, _y + _yoff + 6, move.internalName, 1, 1, 0);
-				#region unused
-				//if (createbutton(_x, _y + _yoff, $"{move.internalName} {move.pp}/{move.maxpp}", 1, true, undefined) and move.pp > 0) {
-				//	array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[0], move, PFSBattleSides.Player]);
-				//	doTurn = true;
-				//}
-				//draw_sprite_ext(sPFSTypeIcons, move.type, _x + 8, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
-				//var _cat = sPFSPhysicalIcon;
-				//switch (move.category) {
-				//    case PFSMoveCategory.Physical:
-				//        _cat = sPFSPhysicalIcon;
-				//        break;
-				//    case PFSMoveCategory.Special:
-				//        _cat = sPFSSpecialIcon;
-				//        break;
-				//    case PFSMoveCategory.Status:
-				//        _cat = sPFSStatusIcon;
-				//        break;
-				//}
-				//draw_sprite_ext(_cat, 0, _x + 25, _y + 27 + _yoff, 0.15, 0.15, 0, c_white, 1);
-				#endregion
-			}
+			
 	        break;
 		case PFSBattleMenus.Pokemon:
 			//_yoff = 0;
@@ -156,15 +108,7 @@ if (!selectingMenu) {
 
 #region Options
 if (selectingMenu) {
-	_x = _startx + 361;
-	_y = _starty + 337;
-	draw_sprite_ext(PFSBehindBar, 0, _x - 360, _y, 3, 3, 0, c_white, 1);
-	draw_sprite_ext(PFSOptionsMenu, 0, _x, _y, 3, 3, 0, c_white, 1);
-	//draw_rectangle(_x, _y, _startx + windowSize[0], _starty + windowSize[1], true);
-	_yoff = 0;
-	_xoff = 0;
-	var _optionsPos = [[35, 55], [205, 55], [35, 100], [205, 100]];
-	draw_sprite_ext(PFSOptionSelected, 0, _x + _optionsPos[selectedMenu][0], _y + _optionsPos[selectedMenu][1], 3, 3, 0, c_white, 1);
+	
 	//for (var i = 0; i < array_length(menus); ++i) {
 		//if (createbutton(_x + a, _y + b + _yoff, menus[i], 1, true, undefined, selectedMenu == i ? c_yellow : c_white)) {
 		//    selectedMenu = i;
@@ -182,4 +126,5 @@ if (selectingMenu) {
 	//}
 }
 #endregion
+sys.draw();
 draw_set_color(c_white);

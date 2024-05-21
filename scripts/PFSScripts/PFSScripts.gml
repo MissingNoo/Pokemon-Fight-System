@@ -280,7 +280,6 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 			PFS.playerPokemons[pokemonOut].hp -= _calc[0];
 			if (PFS.playerPokemons[pokemonOut].hp <= 0) { 
 				show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died");
-				array_push(global.nextdialog, {npc : "Battle", text : $"PlayerPokemonFainted", onBattle : true});
 				enemyDead = true;
 				if (lastUsedMove == __PFS_get_move_id("Destiny Bond")) {
 					enemyPokemon[0].hp = 0;

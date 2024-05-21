@@ -1,7 +1,7 @@
 if (npc == "0" or text == "0") { exit; }
 draw_sprite_stretched(dialogSprite, 0, dialogBoxX, dialogBoxY, dialogBoxEndX, dialogBoxEndY);
 //Feather disable once GM1041
-scr = scribble(lexicon_text_struct($"NPC.{npc}.Falas.{text}", struc))
+scr = scribble(lexicon_text_struct($"NPC.{npc}.Falas.{text}", global.dialogdata))
 		  .scale(dialogFontSize)
 		  .line_spacing($"{dialogSpacing}%")
 		  .wrap(dialogWrap, dialogBoxEndY - 20);

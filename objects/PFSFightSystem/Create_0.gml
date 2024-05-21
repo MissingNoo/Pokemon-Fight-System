@@ -1,5 +1,7 @@
 //Feather disable GM2017
 if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
+caninteract = true;
+laststate = "";
 #region Turn data
 startturn = true;
 waittime = 0;
@@ -25,7 +27,7 @@ function order_turn() {
 	array_sort(turnSteps, function(elm1, elm2) {
 		var _goAfter = false;
 		if (elm1[0] == PFSTurnType.Move and elm2[0] == PFSTurnType.Move) {
-			//show_debug_message($"{elm1[1].internalName} speed: {elm1[1].speed} / {elm2[1].internalName} speed: {elm2[1].speed}");
+			//show_debug_message_debugmode($"{elm1[1].internalName} speed: {elm1[1].speed} / {elm2[1].internalName} speed: {elm2[1].speed}");
 			elm1[1] = variable_clone(elm1[1]);
 			elm2[1] = variable_clone(elm2[1]);
 			#region Paralysis
@@ -187,14 +189,14 @@ load_sprite(enemyPokemon[enemyOut], 0);
 #region Battle Start
 //show_debug_log(true);
 for (var i = 0; i < 100; ++i) {
-    show_debug_message("");
+    show_debug_message_debugmode("");
 }
-show_debug_message("[PFS] Starting battle!");
+show_debug_message_debugmode("[PFS] Starting battle!");
 if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
-	show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
+	show_debug_message_debugmode($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
 }
 if (__PFS_pokemon_have_ability(enemyPokemon[0], "mold-breaker")) {
-	show_debug_message($"{enemyPokemon[0].internalName} breaks the mold!");
+	show_debug_message_debugmode($"{enemyPokemon[0].internalName} breaks the mold!");
 }
 #endregion
 dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text : "Enter", onBattle : true});
@@ -204,3 +206,345 @@ function spawn_dialog(text) {
 	}
 	dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text, onBattle : true});
 }
+nextstate = "menu";
+sys = new SnowState("menu");
+sys.add("idle", {	
+	enter: function() {
+		//waittime = 10;
+	},
+	step: function() {
+		waittime--;
+		if (waittime > 0) {
+		    exit;
+		}
+	},
+	endstep: function() {
+	}
+})
+.add("preturn", {
+	enter: function(){
+		show_debug_message_debugmode("preturn");
+		var _rnd = irandom_range(0, array_length(enemyPokemon[0].moves) - 1);
+		if (!playerLastOneWasDead) {
+			array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[0], PFS.playerPokemons[pokemonOut], enemyPokemon[0].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
+			if (enemy_alive()) {
+				show_debug_message_debugmode($"");
+				order_turn();
+				show_debug_message_debugmode($"Turn step: {currentTurn}");
+			}
+		}
+		sys.change("turn");
+	},
+})
+.add("turn", {
+	step: function() {
+		lastUsedMove = 0;
+		lastEnemyUsedMove = 0;
+		PFS.playerPokemons[pokemonOut] = __PFS_count_status_effect(PFS.playerPokemons[pokemonOut]);
+		enemyPokemon[0] = __PFS_count_status_effect(enemyPokemon[0]);
+		var _rnd = irandom_range(0, array_length(enemyPokemon[0].moves) - 1);
+		if (!enemy_alive() and turnSteps[0][0] != PFSTurnType.Run) {
+			exit;
+		}
+		switch (turnSteps[0][0]) {
+			case PFSTurnType.Move:
+				var _string = "";
+				var _ability_result = __PFS_ability_before_move(turnSteps[0][1], turnSteps[0][3]);
+				turnSteps[0][1] = _ability_result[0];
+				turnSteps[0][3] = _ability_result[1];
+				var _pokeside = turnSteps[0][4] == PFSBattleSides.Player ? PFS.playerPokemons[pokemonOut] : enemyPokemon[0];
+				#region Status
+				if (__PFS_pokemon_affected_by_status(_pokeside, PFSStatusAilments.Sleep)) {
+					_string = $"{_pokeside.internalName} is fast asleep!";
+					show_debug_message_debugmode(_string);
+					spawn_dialog($"Asleep");
+					break;
+				}
+				if (__PFS_pokemon_affected_by_status(_pokeside, PFSStatusAilments.Paralysis)) {
+					var _chance = irandom_range(0, 100);
+					if (_chance <= 25) {
+						show_debug_message_debugmode($"{_pokeside.internalName} is paralyzed! It can't move!");
+						spawn_dialog($"Paralyzed");
+						//array_shift(turnSteps);
+						//i--;
+						break;
+					}
+				}
+				if (_pokeside.flinch) {
+					if (__PFS_pokemon_have_ability(_pokeside, "inner-focus")) {
+						show_debug_message_debugmode($"{_pokeside} won't flinch because of its Inner Focus!");
+						spawn_dialog($"WontFlinch");
+					}
+					else {
+						show_debug_message_debugmode($"{turnSteps[0][1].internalName} flinched due to {turnSteps[0][2].internalName}'s Stench");
+						spawn_dialog($"Flinched");
+						//array_shift(turnSteps);
+						//i--;
+						break;
+					}
+				}
+				for (var j = 0; j < array_length(_pokeside.moves); ++j) {
+					if (_pokeside.moves[j].id == turnSteps[0][3].id) {
+						_pokeside.moves[j].pp--;
+						break;
+					}
+				}
+				#endregion
+			
+				switch (turnSteps[0][4]) {
+					case PFSBattleSides.Player:
+						turnSteps[0][1].hp = PFS.playerPokemons[pokemonOut].hp;
+						if (turnSteps[0][1].hp > 0) {
+							spawn_dialog($"PlayerUsedMove");
+						}
+						lastUsedMove = turnSteps[0][3].id;
+						break;
+					case PFSBattleSides.Enemy:
+						turnSteps[0][1].hp = enemyPokemon[0].hp;
+						if (turnSteps[0][1].hp > 0) {
+							spawn_dialog($"EnemyUsedMove");
+						}
+						lastEnemyUsedMove = turnSteps[0][3].id;
+						break;
+				}
+				__PFS_use_move(turnSteps[0][1], turnSteps[0][2], turnSteps[0][3], turnSteps[0][4]);
+				break;
+			case PFSTurnType.ChangePokemon: //TODO: redo
+				for (var j = 0; j < array_length(PFS.playerPokemons[pokemonOut].statusAilments); ++j) {
+					if (PFS.playerPokemons[pokemonOut].statusAilments[j][0] == PFSStatusAilments.Perish_song) {
+						array_delete(PFS.playerPokemons[pokemonOut].statusAilments, j, 1);
+						j = 0;
+					}
+				}
+				pokemonOut = turnSteps[0][1];
+				pokemonhplerp = PFS.playerPokemons[pokemonOut].hp; //TODO: enemy pokemon
+				show_debug_message_debugmode($"Sent {PFS.playerPokemons[pokemonOut].internalName} out!");
+				spawn_dialog("SentOut");
+				if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
+					show_debug_message_debugmode($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
+					array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
+				}
+				load_sprite(PFS.playerPokemons[pokemonOut], 1);
+				break;
+			case PFSTurnType.UseItem://TODO: Ball shakes
+				switch (turnSteps[0][1].usetype) {
+					case UseType.PokeBall:
+						if (was_caught(enemyPokemon[enemyOut], turnSteps[0][1].catchrate)) {
+							show_debug_message_debugmode($"[PFS] {enemyPokemon[enemyOut].internalName} was caught!");
+							spawn_dialog($"Caught");
+							array_push(PFS.playerPokemons, enemyPokemon[enemyOut]);
+							turnSteps = [];
+							doTurn = false;
+							caught = true;
+						}
+						break;
+				}
+				break;
+			case PFSTurnType.Run:
+				PFS.playerPokemons[pokemonOut] = __PFS_tick_status_effect(PFS.playerPokemons[pokemonOut]);
+				show_debug_message_debugmode("Ran from battle");
+				spawn_dialog($"RanAway");
+				ranaway = true;
+				break;
+		}
+		PFS.playerPokemons[pokemonOut] = __PFS_tick_status_effect(PFS.playerPokemons[pokemonOut]);
+		enemyPokemon[0] = __PFS_tick_status_effect(enemyPokemon[0]);
+		array_shift(turnSteps);
+		exit;
+	},
+	endturn: function(){
+		if (array_length(turnSteps) == 0) {
+			currentTurn++;
+			playerLastOneWasDead = false;
+			if (PFS.playerPokemons[pokemonOut].hp <= 0) {
+				pokePlayerDead = true;
+			}
+			sys.change("menu");
+		}
+	},
+	leave: function() {caninteract = false;}
+})
+.add("menu", {
+	enter: function() {
+		caninteract = false;
+		show_debug_message_debugmode("menu");
+		if (pokePlayerDead) {
+		    sys.change("pokeplayerdead");
+		}
+	},
+	step: function() {
+		var _leftRight = - keyboard_check_pressed(vk_left) + keyboard_check_pressed(vk_right);
+		var _upDown = (- keyboard_check_pressed(vk_up) + keyboard_check_pressed(vk_down)) * 2;
+		//if (selectingMenu) {
+		selectedMenu += _leftRight + _upDown;
+		if (selectedMenu < 0) { selectedMenu = 0; }
+		if (selectedMenu > 3) { selectedMenu = 3; }
+		if (caninteract and keyboard_check_pressed(ord("Z"))) {
+			startturn = true;
+			switch (selectedMenu) {
+				case PFSBattleMenus.Run:
+					array_push(turnSteps, [PFSTurnType.Run]);
+					sys.change("turn");
+					break;
+				case PFSBattleMenus.Pokemon:
+					sys.change("choosingpokemon");
+					break;
+				case PFSBattleMenus.Item:
+					sys.change("bag");
+					break;
+				case PFSBattleMenus.Battle:
+					if (selectedMove > array_length(PFS.playerPokemons[pokemonOut].moves) - 1) { selectedMove = array_length(PFS.playerPokemons[pokemonOut].moves) - 1; }
+					sys.change("selectattack");
+					break;
+			}
+			//selectingMenu = false;
+			exit;
+		}
+	//	}
+	},
+	draw: function() {
+		draw_text(MX, MY, $"can: {caninteract}");
+		var _startx = startPosition[0];
+		var _starty = startPosition[1];
+		var _yoff = 0;
+		var _xoff = 0;
+		var _x = _startx + 361;
+		var _y = _starty + 337;
+		draw_sprite_ext(PFSBehindBar, 0, _x - 360, _y, 3, 3, 0, c_white, 1);
+		draw_sprite_ext(PFSOptionsMenu, 0, _x, _y, 3, 3, 0, c_white, 1);
+		//draw_rectangle(_x, _y, _startx + windowSize[0], _starty + windowSize[1], true);
+		var _yoff = 0;
+		var _xoff = 0;
+		var _optionsPos = [[35, 55], [205, 55], [35, 100], [205, 100]];
+		draw_sprite_ext(PFSOptionSelected, 0, _x + _optionsPos[selectedMenu][0], _y + _optionsPos[selectedMenu][1], 3, 3, 0, c_white, 1);
+	},
+	leave: function() {caninteract = false;},
+	
+})
+.add("selectattack", {
+	enter: function() {
+		show_debug_message_debugmode("selectattack");
+	},
+	step: function() {
+		var _leftRight = - keyboard_check_pressed(vk_left) + keyboard_check_pressed(vk_right);
+		var _upDown = (- keyboard_check_pressed(vk_up) + keyboard_check_pressed(vk_down)) * 2;
+		selectedMove += _leftRight + _upDown;
+		if (selectedMove < 0) { selectedMove = 0; }
+		if (selectedMove > array_length(PFS.playerPokemons[pokemonOut].moves) - 1) { selectedMove = array_length(PFS.playerPokemons[pokemonOut].moves) - 1; }
+		if (caninteract and keyboard_check_pressed(ord("Z"))) {
+			array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[0], PFS.playerPokemons[pokemonOut].moves[selectedMove], PFSBattleSides.Player]);
+			sys.change("preturn");
+			exit;
+		}
+	},
+	draw: function() {
+		var _startx = startPosition[0];
+		var _starty = startPosition[1];
+		var _yoff = 0;
+		var _xoff = 0;
+		var _x = _startx + 1;
+		var _y = _starty + 337;
+		draw_sprite_ext(PFSMoveWindow, 0, _x, _y, 3, 3, 0, c_white, 1);
+		var _yoff = 0;
+		var moves = PFS.playerPokemons[pokemonOut].moves;
+	    for (var i = 0; i < array_length(moves); ++i) {
+			switch (i) {
+				case 0:
+				    _xoff = 35;
+				    _yoff = 25;
+				    break;
+				case 1:
+				    _xoff = 260;
+				    _yoff = 25;
+				    break;
+				case 2:
+				    _xoff = 35;
+				    _yoff = 75;
+				    break;
+				case 3:
+				    _xoff = 260;
+				    _yoff = 75;
+				    break;
+			}
+			var move = moves[i];
+			if (selectedMove == i) {
+				draw_sprite_ext(PFSOptionSelected, 0, _x - 7 + _xoff, _y + 20 + _yoff, 2, 2, 0, c_white, 1);
+			}
+			draw_text_transformed(_x + _xoff, _y + _yoff + 6, move.internalName, 1, 1, 0);
+			#region unused
+			//if (createbutton(_x, _y + _yoff, $"{move.internalName} {move.pp}/{move.maxpp}", 1, true, undefined) and move.pp > 0) {
+			//	array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[0], move, PFSBattleSides.Player]);
+			//	doTurn = true;
+			//}
+			//draw_sprite_ext(sPFSTypeIcons, move.type, _x + 8, _y + 36 + _yoff, 0.25, 0.25, 0, c_white, 1);
+			//var _cat = sPFSPhysicalIcon;
+			//switch (move.category) {
+			//    case PFSMoveCategory.Physical:
+			//        _cat = sPFSPhysicalIcon;
+			//        break;
+			//    case PFSMoveCategory.Special:
+			//        _cat = sPFSSpecialIcon;
+			//        break;
+			//    case PFSMoveCategory.Status:
+			//        _cat = sPFSStatusIcon;
+			//        break;
+			//}
+			//draw_sprite_ext(_cat, 0, _x + 25, _y + 27 + _yoff, 0.15, 0.15, 0, c_white, 1);
+			#endregion
+		}
+	},
+	leave: function() {caninteract = false;}
+	
+})
+.add("choosingpokemon", {
+	enter: function() {
+		show_debug_message_debugmode("choosing pokemon");
+		instance_create_depth(0, 0, -1, PFSPokemonManager, {onBattle : true});
+	},
+	step: function() {
+		if (pokePlayerDead and !instance_exists(PFSPokemonManager)) {
+		    selectedMenu = PFSBattleMenus.Pokemon;
+			//selectingMenu = false;
+			instance_create_depth(0, 0, -1, PFSPokemonManager, {onBattle : true});
+		}
+	},
+	endstep: function() {
+		if (!pokePlayerDead and !instance_exists(PFSPokemonManager)) {
+			sys.change("animation");
+		}
+	},
+	leave: function() {instance_destroy(PFSPokemonManager); caninteract = false;},
+	
+})
+.add("animation", {
+	enter: function(){
+		show_debug_message_debugmode("show animation");
+		switch (sys.get_previous_state()) {
+		    case "choosingpokemon":
+		        sys.change("turn");
+		        break;
+		}
+	},
+	leave: function() {caninteract = false;},
+	
+})
+.add("pokeplayerdead", {
+	enter: function() {
+		spawn_dialog($"PlayerPokemonFainted");
+	},
+	endstep: function() {
+		if (!instance_exists(oDialog)) {
+		    sys.change("choosingpokemon");
+		}
+	}	
+})
+.add("bag", {
+	enter: function() {
+		show_debug_message_debugmode("open bag");
+		instance_create_depth(0, 0, -1, oBag, {onBattle : true});
+	},
+	step: function(){
+		
+	},
+	leave: function() {caninteract = false;}
+});

@@ -107,8 +107,8 @@ image_index = 1;
 stairoffset = 0;
 movecam = true;
 PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[1]);
-//PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[4]);
-//PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[7]);
+PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[4]);
+PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[7]);
 #region Multiplayer
 function sendPos(){
 	if (!ONLINE) { exit; }

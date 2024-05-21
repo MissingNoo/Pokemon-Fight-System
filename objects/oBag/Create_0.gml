@@ -132,10 +132,16 @@ fsn.add("Idle", {
 		    switch (interactoptions[interactoption]) {
 				case "Use":
 					if (onBattle) {
-						array_push(PFSFightSystem.turnSteps, [PFSTurnType.UseItem, PlayerInventory.items[selecteditem]]);
-						PFSFightSystem.selectedMenu = 0;
-						PFSFightSystem.selectingMenu = true;
-						PFSFightSystem.doTurn = true;
+						if (selecteditem != array_length(PlayerInventory.items)) {
+							PFSFightSystem.selectedMenu = 0;
+							//PFSFightSystem.selectingMenu = true;
+						    array_push(PFSFightSystem.turnSteps, [PFSTurnType.UseItem, PlayerInventory.items[selecteditem]]);
+							//PFSFightSystem.doTurn = true;
+							PFSFightSystem.sys.change("preturn");
+						}
+						else {
+							PFSFightSystem.sys.change("menu");
+						}
 						instance_destroy();
 					}
 					break;

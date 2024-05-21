@@ -1,4 +1,10 @@
 //Feather disable GM2017
+function show_debug_message_debugmode(str) {
+	if (DEBUGMODE) {
+	    show_debug_message(str);
+	}
+}
+global.dialogdata = {};
 enum Gender { Male, Female }
 
 global.playerdata = {
