@@ -1,0 +1,65 @@
+//Feather disable GM2017
+enum AbilityTime {
+	Start,
+	BeforeDamage,
+	AfterDamage
+}
+function set_ability_code(name, struct) {
+	PFS.AbilitiesCode[__PFS_get_ability_id(name)] = struct;
+}
+#macro AbilityCodeStart code: function(pokemon, enemy, move, status, isCritical, _damage) {
+#macro AbilityCode [pokemon, enemy, move, status, isCritical, _damage]
+#macro AbilityCodeEnd }
+function populate_abilities() {
+	PFS.AbilitiesCode = array_create(array_length(PFS.Abilities), undefined);
+	//set_ability_code("", {
+	//	when : AbilityTime.Start,
+	//	AbilityCodeStart
+	//		return AbilityCode;
+	//	AbilityCodeEnd
+	//});
+	set_ability_code("battle-armor", {
+		when : AbilityTime.BeforeDamage,
+		AbilityCodeStart
+			if (isCritical == 2) {
+				isCritical = 1;
+				show_debug_message($"{enemy.internalName}'s Battle Armor cancels the critical damage!");
+				array_push(global.nextdialog, {npc : "Battle", text : $"BattleArmor", onBattle : true});
+			}
+			return AbilityCode;
+		AbilityCodeEnd
+	});
+	set_ability_code("shield-dust", {
+		when : AbilityTime.Start,
+		AbilityCodeStart
+			if (move.effect_chance < 100) {
+				show_debug_message($"{enemy.internalName}'s Shield Dust cancelled the status effect!");
+				array_push(global.nextdialog, {npc : "Battle", text : $"ShieldDust", onBattle : true});
+				status = 0;
+			}
+			return AbilityCode;
+		AbilityCodeEnd
+	});
+	set_ability_code("soundproof", {
+		when : AbilityTime.Start,
+		AbilityCodeStart
+			if (status[0] == PFSStatusAilments.Perish_song) {
+				show_debug_message($"{enemy.internalName}'s Soundproof ignored Perish Song!");
+				array_push(global.nextdialog, {npc : "Battle", text : $"SoundProofPerish", onBattle : true});
+				status = 0;
+			}
+			return AbilityCode;
+		AbilityCodeEnd
+	});
+	set_ability_code("sturdy", {
+		when : AbilityTime.AfterDamage,
+		AbilityCodeStart
+			if (enemy.base.hp == enemy.hp and _damage > enemy.hp and !__PFS_pokemon_have_ability(pokemon, "mold-breaker")) {
+				_damage = enemy.hp - 1;
+				show_debug_message($"{enemy.internalName} held out thanks to Sturdy!");
+				array_push(global.nextdialog, {npc : "Battle", text : $"Sturdy", onBattle : true});
+			}
+			return AbilityCode;
+		AbilityCodeEnd
+	});
+}

@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"__snowstate_config",
   "isCompatibility":false,
   "isDnD":false,

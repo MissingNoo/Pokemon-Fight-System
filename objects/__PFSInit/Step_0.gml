@@ -451,6 +451,10 @@ switch (step) {
 		step++;
 		break;
 	case 9:
+		populate_abilities();
+		step++;
+		break;
+	case 10:
 		//data for moves
 		file = working_directory + "PFS/Data/move_meta.csv";
 		if (file_exists(file)) {

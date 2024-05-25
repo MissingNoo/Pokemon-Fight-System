@@ -1450,7 +1450,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.400.0.556",
+    "IDEVersion":"2024.600.0.560",
   },
   "name":"Pokemon Fight System",
   "resources":[
@@ -1652,6 +1652,7 @@
     {"id":{"name":"__scribble_system","path":"scripts/__scribble_system/__scribble_system.yy",},},
     {"id":{"name":"__scribble_tick","path":"scripts/__scribble_tick/__scribble_tick.yy",},},
     {"id":{"name":"__snowstate_config","path":"scripts/__snowstate_config/__snowstate_config.yy",},},
+    {"id":{"name":"Abilites","path":"scripts/Abilites/Abilites.yy",},},
     {"id":{"name":"CutsceneScripts","path":"scripts/CutsceneScripts/CutsceneScripts.yy",},},
     {"id":{"name":"DebugLib","path":"scripts/DebugLib/DebugLib.yy",},},
     {"id":{"name":"draw_text_scribble_ext","path":"scripts/draw_text_scribble_ext/draw_text_scribble_ext.yy",},},

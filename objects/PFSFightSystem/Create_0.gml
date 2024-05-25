@@ -223,7 +223,7 @@ function spawn_dialog(text) {
 	dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text, onBattle : true});
 }
 nextstate = "menu";
-sys = new SnowState("animation");
+sys = new SnowState("menu");
 sys.add("idle", {	
 	enter: function() {
 		//waittime = 10;
@@ -566,6 +566,9 @@ sys.add("idle", {
 	enter: function(){
 		show_debug_message_debugmode("show animation");
 		switch (sys.get_previous_state()) {
+		    case "animation":
+				sys.change("menu");
+				break;
 		    case "choosingpokemon":
 				if (pokemonOut != lastpokemon) {
 				    sys.change("preturn");

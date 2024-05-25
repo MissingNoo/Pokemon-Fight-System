@@ -8,11 +8,13 @@ if (keyboard_check_pressed(vk_numpad2)) {
 if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
 	//Random test team
 	//PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]);
-	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[93]);
+	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[127]);
 	//PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	////PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[88]);
-	//PFS.playerPokemons[0].moves[0] = __PFS_add_move("Ember");
+	PFS.playerPokemons[0].moves[0] = __PFS_add_move("Bite");
+	PFS.playerPokemons[0].level = 100;
+	PFS.playerPokemons[0] = __PFS_recalculate_stats(PFS.playerPokemons[0], true);
 	//PFS.playerPokemons[0].moves[0].mpower = 0;
 	//PFS.playerPokemons[0].moves[1] = __PFS_add_move("Pound");
 	//PFS.playerPokemons[0].moves[1].mpower = 1;
@@ -32,7 +34,8 @@ if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
 	//PFS.playerPokemons[4] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//PFS.playerPokemons[5] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//Random enemy
-	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]), __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
+	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]), __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
+	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[81]), __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
 	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[6])];
 	//_enemyPokemon[enemyOut].moves = [];
 	//_enemyPokemon[enemyOut].moves[0] = __PFS_add_move("Pound");

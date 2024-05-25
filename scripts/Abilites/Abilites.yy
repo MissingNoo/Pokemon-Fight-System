@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Abilites",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Abilites",
+  "parent":{
+    "name":"PokeFightSystem",
+    "path":"folders/PokeFightSystem.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

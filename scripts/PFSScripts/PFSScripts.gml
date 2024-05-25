@@ -292,6 +292,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 }
 
 function __PFS_damage_calculation(pokemon, enemy, move){
+	var _damage = 0;
 	var _affectUser = 0;
 	var _status = 0;
 	var _ability_status = 0;
@@ -385,20 +386,20 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 				#endregion
 				
 				#region Abilities
-					#region Shield Dust
-						if (move.effect_chance < 100 and __PFS_pokemon_have_ability(enemy, "shield-dust")) {
-							show_debug_message($"{enemy.internalName}'s Shield Dust cancelled the status effect!");
-							array_push(global.nextdialog, {npc : "Battle", text : $"ShieldDust", onBattle : true});
-							_status = 0;
+					for (var i = 0; i < array_length(enemy.ability); ++i) {
+					    if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined) {
+							if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.Start) {
+							    continue;
+							}
+						    var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+							pokemon = _abresult[0];
+							enemy = _abresult[1];
+							move = _abresult[2];
+							_status = _abresult[3];
+							_isCritical = _abresult[4];
+							_damage = _abresult[5];
 						}
-					#endregion
-					#region SoundProof
-						if (_status[0] == PFSStatusAilments.Perish_song and __PFS_pokemon_have_ability(enemy, "soundproof")) {
-							show_debug_message($"{enemy.internalName}'s Soundproof ignored Perish Song!");
-							array_push(global.nextdialog, {npc : "Battle", text : $"SoundProofPerish", onBattle : true});
-							_status = 0;
-						}
-					#endregion
+					}
 				#endregion
 			#endregion
 		}
@@ -409,28 +410,42 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	}
 	#region Right before damage calculation
 		#region Abilities
-			#region Battle armor
-				if (_isCritical == 2 and __PFS_pokemon_have_ability(enemy, "battle-armor")) {
-					_isCritical = 1; // 1 for normal, 2 for critical
-					show_debug_message($"{enemy.internalName}'s Battle Armor cancels the critical damage!");
-					array_push(global.nextdialog, {npc : "Battle", text : $"BattleArmor", onBattle : true});
+			for (var i = 0; i < array_length(enemy.ability); ++i) {
+				if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined) {
+					if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.BeforeDamage) {
+						continue;
+					}
+					var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+					pokemon = _abresult[0];
+					enemy = _abresult[1];
+					move = _abresult[2];
+					_status = _abresult[3];
+					_isCritical = _abresult[4];
+					_damage = _abresult[5];
 				}
-			#endregion
+			}
 		#endregion
 	#endregion
-	var _damage = ( ( ( 2 * _level / 5 + 2) * _power * (_a / _d) ) / 50 + 2 );
+	_damage = ( ( ( 2 * _level / 5 + 2) * _power * (_a / _d) ) / 50 + 2 );
 	_damage = _damage * _targets * _pb * _weather * _glaiverush * _isCritical * _rnd * _stab * _type * _burn * _other;
 	_damage = round(_damage);
 	if (_power == 0) { _damage = 0; }
 	#region Right after damage calculation
 		#region Abilities
-			#region Sturdy
-				if (enemy.base.hp == enemy.hp and _damage > enemy.hp and __PFS_pokemon_have_ability(enemy, "sturdy") and !__PFS_pokemon_have_ability(pokemon, "mold-breaker")) {
-					_damage = enemy.hp - 1;
-					show_debug_message($"{enemy.internalName} held out thanks to Sturdy!");
-					array_push(global.nextdialog, {npc : "Battle", text : $"Sturdy", onBattle : true});
+		for (var i = 0; i < array_length(enemy.ability); ++i) {
+			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined) {
+				if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.AfterDamage) {
+					continue;
 				}
-			#endregion
+				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+				pokemon = _abresult[0];
+				enemy = _abresult[1];
+				move = _abresult[2];
+				_status = _abresult[3];
+				_isCritical = _abresult[4];
+				_damage = _abresult[5];
+			}
+		}
 		#endregion
 		#region Items
 			#region Focus Sash
