@@ -4,6 +4,10 @@ enum AbilityTime {
 	BeforeDamage,
 	AfterDamage
 }
+/// @function                set_ability_code(name, struct)
+/// @description             Set the code to run when a pokemon is hit and have the ability
+/// @param {String}     name    The unique instance ID value of the instance to check.
+/// @param {Struct}  struct The object index to be checked against.
 function set_ability_code(name, struct) {
 	PFS.AbilitiesCode[__PFS_get_ability_id(name)] = struct;
 }
