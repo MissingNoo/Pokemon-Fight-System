@@ -79,5 +79,5 @@ sys.draw();
 draw_set_color(c_white);
 surface_reset_target();
 if (surface_exists(fightsurface)) {
-	draw_surface(fightsurface, GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2));
+	draw_surface_ext(fightsurface, GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2), 1, 1, 0, c_white, 1);
 }

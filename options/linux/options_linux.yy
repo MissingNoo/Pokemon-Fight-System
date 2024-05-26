@@ -7,6 +7,7 @@
     },
     "Debug":{
       "option_linux_scale":"0",
+      "option_linux_display_name":"Pokemon GMEssentials",
     },
   },
   "name":"Linux",

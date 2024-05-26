@@ -23,6 +23,10 @@
     "Debug-No-Lecture":{
       "option_android_scale":"0",
     },
+    "Online":{
+      "option_android_orient_portrait_flipped":"false",
+      "option_android_orient_portrait":"false",
+    },
   },
   "name":"Android",
   "option_android_application_tag_inject":"",

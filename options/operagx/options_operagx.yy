@@ -14,7 +14,7 @@
   "option_operagx_game_name":"Pokemon GMEssentials",
   "option_operagx_guid":"3c0d38e0-5807-47e9-911d-5bfa9ca017dd",
   "option_operagx_internalShareUrl":"https://gx.games/games/qv9co3/pokemon-gmessentials/tracks/3f9a1a06-3705-4e8d-a1fd-e12318246a9b/",
-  "option_operagx_interpolate_pixels":true,
+  "option_operagx_interpolate_pixels":false,
   "option_operagx_mod_editUrl":"",
   "option_operagx_mod_game_name":"Created with GameMaker",
   "option_operagx_mod_guid":"",
