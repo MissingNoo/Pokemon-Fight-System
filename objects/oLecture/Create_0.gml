@@ -27,7 +27,7 @@ fsm.add("idle", {
 		instance_activate_object(oDialog);
 	},
 	step: function() {
-		if (keyboard_check_pressed(ord("Z")) and !lerping and !blacklerping) {
+		if (input_check_pressed("accept") and !lerping and !blacklerping) {
 			if (dialog != noone) {
 			    exit;
 			}

@@ -16,7 +16,7 @@ global.playerdata = {
 
 function player_movement(){
 	if (!moving and !instance_exists(PFSFightSystem) and canmove and global.blackfade[0] < 0.2) {
-		if (keyboard_check(vk_left)) {
+		if (input_check("left")) {
 			if (dir != 180) {
 			    dir = 180;
 				canmove = false;
@@ -29,7 +29,7 @@ function player_movement(){
 			}
 		
 		}
-		if (keyboard_check(vk_right)) {
+		if (input_check("right")) {
 			if (dir != 0) {
 			    dir = 0;
 				canmove = false;
@@ -41,7 +41,7 @@ function player_movement(){
 				moving = true;
 			}
 		}
-		if (keyboard_check(vk_up)) {
+		if (input_check("up")) {
 			if (dir != 90) {
 			    dir = 90;
 				canmove = false;
@@ -53,7 +53,7 @@ function player_movement(){
 				moving = true;
 			}
 		}
-		if (keyboard_check(vk_down)) {
+		if (input_check("down")) {
 			if (dir != 270) {
 				dir = 270;
 				canmove = false;
@@ -74,7 +74,7 @@ function player_movement(){
 	}
 	if (placeToGo[0] == x and placeToGo[1] == y) {
 		cutmoving = false;
-		if (!keyboard_check(vk_down) and !keyboard_check(vk_up) and !keyboard_check(vk_left) and !keyboard_check(vk_right)) {
+		if (!input_check("down") and !input_check("up") and !input_check("left") and !input_check("right")) {
 		    image_speed = 0;
 			image_index = 1;
 		}
@@ -113,7 +113,7 @@ function cutscene_movement(){
 	}
 }
 function player_interact(){
-	if (keyboard_check_pressed(ord("Z"))) {
+	if (input_check_pressed("accept")) {
 		var _xoffset = 0;
 		var _yoffset = 0;
 		switch (dir) {

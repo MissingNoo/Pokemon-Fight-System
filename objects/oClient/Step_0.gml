@@ -1,4 +1,4 @@
-if (room == rInit and keyboard_check_pressed(ord("Z"))) {
+if (room == rInit and input_check_pressed("accept")) {
     global.playerName = characters[0];
 	send_data({type : Contype.SelectCharacter, name : characters[0]});
 	room_goto(rConfig);

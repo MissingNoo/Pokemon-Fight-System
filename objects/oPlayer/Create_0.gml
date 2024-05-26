@@ -14,7 +14,7 @@ fsm.add("idle", {
 	},
     step: function() {
 		player_interact();
-		if (keyboard_check(vk_down) or keyboard_check(vk_up) or keyboard_check(vk_left) or keyboard_check(vk_right)) {
+		if (input_check("down") or input_check("up") or input_check("left") or input_check("right")) {
 			fsm.change("walk");
 		}
     }
@@ -27,7 +27,7 @@ fsm.add("idle", {
 		player_movement();
     },
 	endstep: function() {
-		if (keyboard_check(vk_down) or keyboard_check(vk_up) or keyboard_check(vk_left) or keyboard_check(vk_right)) {
+		if (input_check("down") or input_check("up") or input_check("left") or input_check("right")) {
 			sendPos();
 			cansend = false;
 		}
@@ -148,3 +148,7 @@ DebugManager.debug_add_config(self, {
 	func: function(){ show_debug_message($"[{oPlayer.x}, {oPlayer.y}]"); },
 	page : "Player"
 });
+PlayerInventory.add_item("PokeBall");
+PlayerInventory.add_item("GreatBall");
+PlayerInventory.add_item("Potion");
+PlayerInventory.add_item("SuperPotion");

@@ -9,25 +9,25 @@ if (x == other.x and y == other.y) {
 		alarm[0] = 10;
 	}
 	if (other.confirmation) {
-		if (other.dir == "Up" and keyboard_check_pressed(vk_up)) {
+		if (other.dir == "Up" and input_check_pressed("up")) {
 		    other.go = true;
 			if (global.blackfade[1] == 0) {
 				global.blackfade[1] = 1;
 			}
 		}
-		if (other.dir == "Down" and keyboard_check_pressed(vk_down)) {
+		if (other.dir == "Down" and input_check_pressed("down")) {
 		    other.go = true;
 			if (global.blackfade[1] == 0) {
 				global.blackfade[1] = 1;
 			}
 		}
-		if (other.dir == "Left" and keyboard_check_pressed(vk_left)) {
+		if (other.dir == "Left" and input_check_pressed("left")) {
 		    other.go = true;
 			if (global.blackfade[1] == 0) {
 				global.blackfade[1] = 1;
 			}
 		}
-		if (other.dir == "Right" and keyboard_check_pressed(vk_right)) {
+		if (other.dir == "Right" and input_check_pressed("right")) {
 		    other.go = true;
 			if (global.blackfade[1] == 0) {
 				global.blackfade[1] = 1;

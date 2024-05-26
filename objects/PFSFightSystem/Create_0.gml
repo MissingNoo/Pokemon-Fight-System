@@ -421,13 +421,13 @@ sys.add("idle", {
 		}
 	},
 	step: function() {
-		var _leftRight = - keyboard_check_pressed(vk_left) + keyboard_check_pressed(vk_right);
-		var _upDown = (- keyboard_check_pressed(vk_up) + keyboard_check_pressed(vk_down)) * 2;
+		var _leftRight = - input_check_pressed("left") + input_check_pressed("right");
+		var _upDown = (- input_check_pressed("up") + input_check_pressed("down")) * 2;
 		//if (selectingMenu) {
 		selectedMenu += _leftRight + _upDown;
 		if (selectedMenu < 0) { selectedMenu = 0; }
 		if (selectedMenu > 3) { selectedMenu = 3; }
-		if (caninteract and keyboard_check_pressed(ord("Z"))) {
+		if (caninteract and input_check_pressed("accept")) {
 			startturn = true;
 			switch (selectedMenu) {
 				case PFSBattleMenus.Run:
@@ -473,12 +473,12 @@ sys.add("idle", {
 		show_debug_message_debugmode("selectattack");
 	},
 	step: function() {
-		var _leftRight = - keyboard_check_pressed(vk_left) + keyboard_check_pressed(vk_right);
-		var _upDown = (- keyboard_check_pressed(vk_up) + keyboard_check_pressed(vk_down)) * 2;
+		var _leftRight = - input_check_pressed("left") + input_check_pressed("right");
+		var _upDown = (- input_check_pressed("up") + input_check_pressed("down")) * 2;
 		selectedMove += _leftRight + _upDown;
 		if (selectedMove < 0) { selectedMove = 0; }
 		if (selectedMove > array_length(PFS.playerPokemons[pokemonOut].moves) - 1) { selectedMove = array_length(PFS.playerPokemons[pokemonOut].moves) - 1; }
-		if (caninteract and keyboard_check_pressed(ord("Z"))) {
+		if (caninteract and input_check_pressed("accept")) {
 			array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[enemyOut], PFS.playerPokemons[pokemonOut].moves[selectedMove], PFSBattleSides.Player]);
 			sys.change("preturn");
 			exit;

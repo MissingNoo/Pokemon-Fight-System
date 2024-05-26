@@ -1479,6 +1479,7 @@
     {"id":{"name":"oMailBox","path":"objects/oMailBox/oMailBox.yy",},},
     {"id":{"name":"oNpc","path":"objects/oNpc/oNpc.yy",},},
     {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
+    {"id":{"name":"oScreenControls","path":"objects/oScreenControls/oScreenControls.yy",},},
     {"id":{"name":"oSign","path":"objects/oSign/oSign.yy",},},
     {"id":{"name":"oSlave","path":"objects/oSlave/oSlave.yy",},},
     {"id":{"name":"oTeleport","path":"objects/oTeleport/oTeleport.yy",},},

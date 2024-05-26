@@ -43,7 +43,7 @@ fsm.add("Items", {
 		bagoffset = -10;
 	},
 	beginstep: function() {
-		if (keyboard_check_pressed(vk_right) and fsn.get_current_state() == "Idle") {
+		if (input_check_pressed("right") and fsn.get_current_state() == "Idle") {
 		    fsm.change("KeyItems");
 		}
 	},
@@ -61,10 +61,10 @@ fsm.add("Items", {
 		bagoffset = -10;
 	},
 	beginstep: function() {
-		if (keyboard_check_pressed(vk_right) and fsn.get_current_state() == "Idle") {
+		if (input_check_pressed("right") and fsn.get_current_state() == "Idle") {
 		    fsm.change("Pokeballs");
 		}
-		if (keyboard_check_pressed(vk_left) and fsn.get_current_state() == "Idle") {
+		if (input_check_pressed("left") and fsn.get_current_state() == "Idle") {
 		    fsm.change("Items");
 		}
 	},
@@ -82,7 +82,7 @@ fsm.add("Items", {
 		bagoffset = -10;
 	},
 	beginstep: function() {
-		if (keyboard_check_pressed(vk_left) and fsn.get_current_state() == "Idle") {
+		if (input_check_pressed("left") and fsn.get_current_state() == "Idle") {
 		    fsm.change("KeyItems");
 		}
 	},
@@ -99,7 +99,7 @@ fsn.add("Idle", {
 	enter: function() {
 	},
 	beginstep: function() {
-		if (keyboard_check_pressed(ord("Z"))) {
+		if (input_check_pressed("accept")) {
 		    fsn.change("Interacting");
 		}
 	}
@@ -114,14 +114,14 @@ fsn.add("Idle", {
 		if (keyboard_check_pressed(ord("X"))) {
 		    fsn.change("Idle");
 		}
-		interactoption += -keyboard_check_pressed(vk_up) + keyboard_check_pressed(vk_down);
+		interactoption += -input_check_pressed("up") + input_check_pressed("down");
 		if (interactoption < 0) {
 		    interactoption = 0;
 		}
 		if (interactoption > array_length(interactoptions) - 1) {
 		    interactoption = array_length(interactoptions) - 1;
 		}
-		if (keyboard_check_pressed(ord("Z"))) {
+		if (input_check_pressed("accept")) {
 			if (interactoption == array_length(PlayerInventory.items)) {
 				if (onBattle) {
 				    PFSFightSystem.selectingMenu = true;

@@ -1,9 +1,9 @@
 //Feather disable GM2017
-var _upDown = (- keyboard_check_pressed(vk_up) + keyboard_check_pressed(vk_down));
-if (keyboard_check_pressed(vk_left)) {
+var _upDown = (- input_check_pressed("up") + input_check_pressed("down"));
+if (input_check_pressed("left")) {
     selectedPokemon = 0;
 }
-if (keyboard_check_pressed(vk_right) and selectedPokemon == 0 and array_length(PFS.playerPokemons) > 1) {
+if (input_check_pressed("right") and selectedPokemon == 0 and array_length(PFS.playerPokemons) > 1) {
     selectedPokemon = 1;
 }
 
@@ -18,7 +18,7 @@ else {
 	if (selectedPokemon == 7 and _upDown == -1) { selectedPokemon = array_length(PFS.playerPokemons) - 1; }
 }
 
-if (keyboard_check_pressed(ord("Z"))) {
+if (input_check_pressed("accept")) {
     if (selectedPokemon == 7 and !PFSFightSystem.pokePlayerDead) {
 		PFSFightSystem.selectingMenu = true;
 	    instance_destroy();

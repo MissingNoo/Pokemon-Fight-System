@@ -111,6 +111,7 @@
     {"name":"oLecture","order":7,"path":"objects/oLecture/oLecture.yy",},
     {"name":"oMailBox","order":6,"path":"objects/oMailBox/oMailBox.yy",},
     {"name":"oNpc","order":14,"path":"objects/oNpc/oNpc.yy",},
+    {"name":"oScreenControls","order":17,"path":"objects/oScreenControls/oScreenControls.yy",},
     {"name":"oSign","order":12,"path":"objects/oSign/oSign.yy",},
     {"name":"oSlave","order":11,"path":"objects/oSlave/oSlave.yy",},
     {"name":"oTeleport","order":5,"path":"objects/oTeleport/oTeleport.yy",},
