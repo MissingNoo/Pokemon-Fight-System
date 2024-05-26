@@ -1,4 +1,5 @@
 //Feather disable GM2017
+fightsurface = surface_create(240*3, 160*3);
 if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
 lastpokemon = 0;
 caninteract = true;
@@ -138,11 +139,15 @@ function load_sprite(pokemon, side){
 enemyHpX = 26;
 enemyHpY = 35;
 enemyHpScale = 2.98;
-playerHpX = 92;
-playerHpY = -138;
+playerHpX = 388;
+playerHpY = 224;
 playerHpScale = 2.98;
 #endregion
 function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side){
+	_startx = 0;
+	_starty = 0;
+	_x = 0;
+	_y = 0;
 	#region Poke Sprites
 	var _px = _startx + (windowSize[0] * 0.07);
 	var _py = _starty + (windowSize[1] * 0.45);
@@ -451,8 +456,8 @@ sys.add("idle", {
 	//	}
 	},
 	draw: function() {
-		var _startx = startPosition[0];
-		var _starty = startPosition[1];
+		var _startx = 0;
+		var _starty = 0;
 		var _yoff = 0;
 		var _xoff = 0;
 		var _x = _startx + 361;
@@ -485,8 +490,8 @@ sys.add("idle", {
 		}
 	},
 	draw: function() {
-		var _startx = startPosition[0];
-		var _starty = startPosition[1];
+		var _startx = 0;
+		var _starty = 0;
 		var _yoff = 0;
 		var _xoff = 0;
 		var _x = _startx + 1;

@@ -1,7 +1,9 @@
 //Feather disable GM2017
+bagsurf = surface_create(240*3, 160*3);
 if (instance_number(oBag) > 1) { instance_destroy(); }
 windowSize = [700, 400];
-startPosition = [GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2)];
+//startPosition = [GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2)];
+startPosition = [0, 0];
 reclerp = 0;
 bagoffset = 0;
 drawalpha = 1;
