@@ -155,8 +155,9 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	var _sprite = _side == PFSBattleSides.Player ? pokemonSprite : enemySprite;
 	if (sprite_exists(_sprite)) {
 		//var _pos = _side == PFSBattleSides.Player ? [_px - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_px + 120 + sprite_get_width(_sprite) / 2, _py - 200 - sprite_get_height(_sprite) / 2];
-		var _pos = _side == PFSBattleSides.Player ? [_px, _py - 60] : [_px + 360, _py - 230];
-		draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], DebugManager.a, DebugManager.a, 0, c_white, 1);
+		var _pos = _side == PFSBattleSides.Player ? [_px, _py - 60] : [_px + 350, _py - 220];
+		var _scale = _side == PFSBattleSides.Player ? 1 : 1.5;
+		draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], _scale, _scale, 0, c_white, 1);
 	}
 	#endregion
 	#region HP
