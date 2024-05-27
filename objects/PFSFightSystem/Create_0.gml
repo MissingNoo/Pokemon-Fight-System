@@ -109,28 +109,29 @@ animatedSprites = false;
 function load_sprite(pokemon, side){
 	var _extension = ".png";
 	var _imgnumb = 0;
-	if (file_exists(working_directory + "PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.sprite[1] + ".png")) {
+	var _side = side == PFSBattleSides.Player ? "Front/" : "Back/";
+	if (file_exists(working_directory + "PFS/Sprites/Pokemon/" + _side + string_upper(pokemon.internalName) + ".png")) {
 	    _extension = ".png";
 	}
-	if (file_exists(working_directory + "PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.internalName + ".ini")) {
-		ini_open(working_directory + "PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.internalName + ".ini");
-		_imgnumb = ini_read_real("image", "frames", 1);
-		_extension = string_concat("_strip", _imgnumb, ".png");
-		ini_close()
-	}
-	if (file_exists(working_directory + "PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.sprite[1] + _extension)) {
+	//if (file_exists(working_directory + "PFS/Sprites/Pokemons/"  + _side + pokemon.internalName + "/" + pokemon.internalName + ".ini")) {
+	//	ini_open(working_directory + "PFS/Sprites/Pokemons/"  + _side + pokemon.internalName + "/" + pokemon.internalName + ".ini");
+	//	_imgnumb = ini_read_real("image", "frames", 1);
+	//	_extension = string_concat("_strip", _imgnumb, ".png");
+	//	ini_close()
+	//}
+	if (file_exists(working_directory + "PFS/Sprites/Pokemon/"  + _side + string_upper(pokemon.internalName) + _extension)) {
 		switch (side) {
 			case 0:
 		        if (sprite_exists(enemySprite)) {
 				    sprite_delete(enemySprite);
 				}
-			    enemySprite = sprite_add(working_directory + "PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.sprite[0] + _extension, _imgnumb, false, false, 0, 0);
+			    enemySprite = sprite_add(working_directory + "PFS/Sprites/Pokemon/" + _side  + string_upper(pokemon.internalName) + _extension, _imgnumb, false, false, 0, 0);
 		        break;
 		    case 1:
 		        if (sprite_exists(pokemonSprite)) {
 				    sprite_delete(pokemonSprite);
 				}
-			    pokemonSprite = sprite_add(working_directory + "PFS/Sprites/Pokemons/" + pokemon.internalName + "/" + pokemon.sprite[1] + _extension, _imgnumb, false, false, 0, 0);
+			    pokemonSprite = sprite_add(working_directory + "PFS/Sprites/Pokemon/" + _side  + string_upper(pokemon.internalName) + _extension, _imgnumb, false, false, 0, 0);
 		        break;
 		}
 	}
@@ -155,7 +156,7 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	if (sprite_exists(_sprite)) {
 		//var _pos = _side == PFSBattleSides.Player ? [_px - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_px + 120 + sprite_get_width(_sprite) / 2, _py - 200 - sprite_get_height(_sprite) / 2];
 		var _pos = _side == PFSBattleSides.Player ? [_px, _py - 60] : [_px + 360, _py - 230];
-		draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], 3, 3, 0, c_white, 1);
+		draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], DebugManager.a, DebugManager.a, 0, c_white, 1);
 	}
 	#endregion
 	#region HP
@@ -465,8 +466,8 @@ sys.add("idle", {
 		draw_sprite_ext(PFSBehindBar, 0, _x - 360, _y, 3, 3, 0, c_white, 1);
 		draw_sprite_ext(PFSOptionsMenu, 0, _x, _y, 3, 3, 0, c_white, 1);
 		//draw_rectangle(_x, _y, _startx + windowSize[0], _starty + windowSize[1], true);
-		var _yoff = 0;
-		var _xoff = 0;
+		_yoff = 0;
+		_xoff = 0;
 		var _optionsPos = [[35, 55], [205, 55], [35, 100], [205, 100]];
 		draw_sprite_ext(PFSOptionSelected, 0, _x + _optionsPos[selectedMenu][0], _y + _optionsPos[selectedMenu][1], 3, 3, 0, c_white, 1);
 	},
@@ -497,7 +498,7 @@ sys.add("idle", {
 		var _x = _startx + 1;
 		var _y = _starty + 337;
 		draw_sprite_ext(PFSMoveWindow, 0, _x, _y, 3, 3, 0, c_white, 1);
-		var _yoff = 0;
+		_yoff = 0;
 		var moves = PFS.playerPokemons[pokemonOut].moves;
 	    for (var i = 0; i < array_length(moves); ++i) {
 			switch (i) {

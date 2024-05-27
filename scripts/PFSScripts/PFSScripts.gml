@@ -347,6 +347,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 		//_chance = 3;
 		
 		if (move.category == PFSMoveCategory.Status or _chance <= move.effect_chance) {
+			_isCritical = 1;
 			var _turns = -99;
 			var _effectData = PFS.StatusAilmentsData[move.id];
 			_turns = irandom_range(_effectData.min_turns, _effectData.max_turns);
