@@ -226,6 +226,33 @@ playerthrow = [false, 0, sprite_get_number(sPlayerBallThrow), sprite_get_speed(s
 currentanimation = "battlestart";
 animationended = false;
 #region battle start
+#region systems
+//ParticleSystem1
+ps = part_system_create();
+part_system_draw_order(ps, true);
+
+//Emitter
+ptype1 = part_type_create();
+part_type_shape(ptype1, pt_shape_spark);
+part_type_size(ptype1, 1, 1, 0, 0);
+part_type_scale(ptype1, 1, 1);
+part_type_speed(ptype1, 5, 5, 0, 0);
+part_type_direction(ptype1, 0, 360, 0, 0);
+part_type_gravity(ptype1, 0, 270);
+part_type_orientation(ptype1, 0, 0, 0, 0, false);
+part_type_colour3(ptype1, $FFFFFF, $FFFFFF, $FFFFFF);
+part_type_alpha3(ptype1, 1, 1, 1);
+part_type_blend(ptype1, false);
+part_type_life(ptype1, 20, 40);
+part_system_position(ps, 170, 320);
+part_system_automatic_draw(ps, false);
+
+#endregion
+ballrotation = 0;
+ballx = 90;
+bally = 220;
+ballendy = 340;
+drawball = false;
 battlestartfinished = false;
 enemypathx = [-240, 542];
 enemypathy = 240;
@@ -629,8 +656,15 @@ sys.add("idle", {
 					}
 					else {
 						if (alarm[0] == -1) {
-						    alarm[0] = 60;
+							alarm[0] = DebugManager.a;
 						}
+					}
+				}
+				if (playerthrow[1] > 3) {
+					if (bally < ballendy) {
+						drawball = true;
+						bally += 7;
+						ballx += 6;
 					}
 				}
 				#endregion
@@ -702,6 +736,11 @@ sys.add("idle", {
 		}
 	},
 	leave: function() {caninteract = false;},
+	draw: function() {
+		if (drawball) {
+		    draw_sprite_ext(sPokeballNormal, 0, ballx, bally, 3, 3, ballrotation, c_white, 1);
+		}
+	}
 	
 })
 .add("pokeplayerdead", {

@@ -75,10 +75,14 @@ _y = _starty + (windowSize[1] * 0.75);
 _boxEndX = _startx + (windowSize[0] * 0.70);
 _boxEndY = _starty + (windowSize[1] * 0.95);
 poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, PFSBattleSides.Player);
+part_system_drawit(ps);
 draw_sprite_ext(PFSBehindBar, 0, 0, 336, 3, 3, 0, c_white, 1);
 #endregion
 #endregion
 sys.draw();
+if (!battlestartfinished) {
+    draw_sprite_ext(PFSBehindBar, 0, 0, 336, 3, 3, 0, c_white, 1);
+}
 draw_set_color(c_white);
 surface_reset_target();
 if (surface_exists(fightsurface)) {
