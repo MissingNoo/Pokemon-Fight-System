@@ -705,7 +705,12 @@ sys.add("idle", {
 })
 .add("pokeplayerdead", {
 	enter: function() {
-		spawn_dialog($"PlayerPokemonFainted");
+		if (instance_exists(oDialog)) {
+			array_push(global.nextdialog, {npc : "Battle", text : $"PlayerPokemonFainted", onBattle : true});
+		}
+		else {
+			spawn_dialog($"PlayerPokemonFainted");
+		}
 	},
 	endstep: function() {
 		if (!instance_exists(oDialog)) {

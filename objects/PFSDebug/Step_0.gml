@@ -13,12 +13,12 @@ if (keyboard_check_pressed(vk_numpad2)) {
 
 if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
 	//Random test team
-	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[127]);
+	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[128]);
 	//PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 600)]);
 	//PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[88]);
-	PFS.playerPokemons[0].moves[0] = __PFS_add_move("Bite");
+	PFS.playerPokemons[0].moves = [__PFS_add_move("Send Bits"), __PFS_add_move("Give Subs")];
 	PFS.playerPokemons[0].level = 100;
 	PFS.playerPokemons[0] = __PFS_recalculate_stats(PFS.playerPokemons[0], true);
 	//PFS.playerPokemons[0].moves[0].mpower = 0;
@@ -41,7 +41,11 @@ if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
 	//PFS.playerPokemons[5] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//Random enemy
 	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]), __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
-	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[81]), __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
+	var _poke = __PFS_generate_pokemon(PFS.Pokes[127]);
+	_poke.level = 100;
+	_poke = __PFS_recalculate_stats(_poke, true);
+	_poke.moves = [__PFS_add_move("Screee")];
+	var _enemyPokemon = [_poke, __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
 	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[6])];
 	//_enemyPokemon[enemyOut].moves = [];
 	//_enemyPokemon[enemyOut].moves[0] = __PFS_add_move("Pound");

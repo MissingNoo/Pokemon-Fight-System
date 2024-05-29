@@ -125,8 +125,8 @@ id,identifier,species_id,height,weight,base_experience,order,is_default
 124,jynx,124,14,406,159,200,1
 125,electabuzz,125,11,300,172,202,1
 126,magmar,126,13,445,173,205,1
-127,pinsir,127,15,550,175,207,1
-128,tauros,128,14,884,172,209,1
+127,trickywi,127,15,550,175,207,1
+128,desdelon,128,14,884,172,209,1
 129,magikarp,129,9,100,40,210,1
 130,gyarados,130,65,2350,189,211,1
 131,lapras,131,25,2200,187,213,1
@@ -897,6 +897,7 @@ id,identifier,species_id,height,weight,base_experience,order,is_default
 896,glastrier,896,22,8000,290,1088,1
 897,spectrier,897,20,445,290,1089,1
 898,calyrex,898,11,77,250,1090,1
+899,trickywi,898,11,77,250,1090,1
 10001,deoxys-attack,386,17,608,270,515,0
 10002,deoxys-defense,386,17,608,270,516,0
 10003,deoxys-speed,386,17,608,270,517,0

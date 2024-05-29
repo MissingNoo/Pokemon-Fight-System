@@ -18,7 +18,7 @@
 				"Falas" : {
 					"Enter" : "Oh! A wild %enemypoke% has appeared!",
 					"Critical" : "It was super effective!",
-					"PlayerPokemonFainted" : "%pokeplayer% fainted.",
+					"PlayerPokemonFainted" : "%pokeplayer% fainted from happiness.",
 					"EnemyPokemonFainted" : "%enemypoke% fainted.",
 					"PlayerUsedMove" : "%pokeplayer% used %playermove%.",
 					"EnemyUsedMove" : "%enemypoke% used %enemymove%.",

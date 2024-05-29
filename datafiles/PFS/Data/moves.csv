@@ -1,7 +1,7 @@
 id,identifier,generation_id,type_id,power,pp,accuracy,priority,target_id,damage_class_id,effect_id,effect_chance,contest_type_id,contest_effect_id,super_contest_effect_id
-1,pound,1,1,40,35,100,0,10,2,1,,5,1,5
-2,karate-chop,1,2,50,25,100,0,10,2,44,,5,2,5
-3,double-slap,1,1,15,10,85,0,10,2,30,,5,10,7
+1,send-bits,1,1,40,35,100,1,10,2,1,,5,1,5
+2,give-subs,1,2,50,25,100,1,10,2,44,,5,2,5
+3,screee,1,1,999,10,85,0,10,2,30,,5,10,7
 4,comet-punch,1,1,18,15,85,0,10,2,30,,5,12,7
 5,mega-punch,1,1,80,20,85,0,10,2,1,,5,1,18
 6,pay-day,1,1,40,20,100,0,10,2,35,,4,11,23
