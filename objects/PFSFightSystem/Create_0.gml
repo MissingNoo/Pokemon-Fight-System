@@ -1,4 +1,10 @@
 //Feather disable GM2017
+if (!wildPokemon) {
+    enemyPokemon = trainer.team;
+	for (var i = 0; i < array_length(enemyPokemon); ++i) {
+	    enemyPokemon[i] = __PFS_recalculate_stats(enemyPokemon[i], true);
+	}
+}
 fightsurface = surface_create(240*3, 160*3);
 if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
 lastpokemon = 0;
@@ -140,7 +146,8 @@ function load_sprite(pokemon, side){
 #region PokeInfoVariables
 playerpokesize = 0;
 playerpokesizelerp = 0;
-enemypokesize = 1;
+enemypokesizelerp = 0;
+enemypokesize = 0;
 enemyHpX = 26;
 enemyHpY = 35;
 enemyHpScale = 2.98;
@@ -159,15 +166,20 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	var _sprite = _side == PFSBattleSides.Player ? pokemonSprite : enemySprite;
 	if (sprite_exists(_sprite)) {
 		//var _pos = _side == PFSBattleSides.Player ? [_px - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_px + 120 + sprite_get_width(_sprite) / 2, _py - 200 - sprite_get_height(_sprite) / 2];
-		var _pos = _side == PFSBattleSides.Player ? [playerpathx[0], playerpathy - 60] : [enemypathx[0], enemypathy + 20];
+		var _pos = _side == PFSBattleSides.Player ? [playerpathx[0], playerpathy - 60] : [enemypathx[0], enemypathy + 20  + enemyyoffset];
 		var _scale = _side == PFSBattleSides.Player ? 1 * playerpokesize : 1.5 * enemypokesize;
+		var _alpha = _side == PFSBattleSides.Player ? 1: enemyalpha;
 		var _draw = true;
 		if (_side == PFSBattleSides.Player and !battlestartfinished) {
 		    _draw = false;
-			draw_sprite_ext(sPlayerBallThrow, playerthrow[1], _pos[0] + playerthrow[4], _pos[1] + DebugManager.a, 3, 3, 0, c_white, 1);
+			draw_sprite_ext(sPlayerBallThrow, playerthrow[1], _pos[0] + playerthrow[4], _pos[1], 3, 3, 0, c_white, 1);
+		}
+		if (_side == PFSBattleSides.Enemy and !enemybattlestartfinished and !wildPokemon) {
+		    _draw = false;
+			draw_sprite_ext(trainer.sprite, 0, _pos[0] + enemytraineroffset, _pos[1] - 60, 3, 3, 0, c_white, 1);
 		}
 		if (_draw) {
-		    draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], _scale, _scale, 0, c_white, 1);
+		    draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], _scale, _scale, 0, c_white, _alpha);
 			if (_side == PFSBattleSides.Enemy and wildPokemon) {
 			    draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], _scale, _scale, 0, c_black, wildenemyalpha);
 			}
@@ -223,7 +235,10 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	//}
 }
 #endregion
-
+if (!wildPokemon) {
+	global.dialogdata[$"trainername"] = trainer.name;
+	spawn_dialog("Trainer");
+}
 #region animations
 playerthrow = [false, 0, sprite_get_number(sPlayerBallThrow), sprite_get_speed(sPlayerBallThrow), 0];
 currentanimation = "battlestart";
@@ -248,10 +263,20 @@ part_type_colour3(ptype1, $FFFFFF, $FFFFFF, $FFFFFF);
 part_type_alpha3(ptype1, 1, 1, 1);
 part_type_blend(ptype1, false);
 part_type_life(ptype1, 20, 40);
-part_system_position(ps, 170, 320);
 part_system_automatic_draw(ps, false);
 
 #endregion
+currentside = PFSBattleSides.Enemy;
+#region enemy
+enemyrelease = false;
+startenemyanimation = false;
+enemybattlestartfinished = false;
+enemytraineroffset = 0;
+drawenemyball = false;
+enemyyoffset = 0;
+enemyalpha = 1;
+#endregion
+
 ballrotation = 0;
 ballx = 90;
 bally = 220;
@@ -409,6 +434,8 @@ sys.add("idle", {
 				//}
 				break;
 			case PFSTurnType.EnemyChangePokemon: //TODO: redo
+				currentanimation = "enemyfainted";
+				sys.change("animation");
 				for (var j = 0; j < array_length(enemyPokemon[enemyOut].statusAilments); ++j) {
 					if (enemyPokemon[enemyOut].statusAilments[j][0] == PFSStatusAilments.Perish_song) {
 						array_delete(enemyPokemon[enemyOut].statusAilments, j, 1);
@@ -424,7 +451,7 @@ sys.add("idle", {
 					show_debug_message_debugmode($"{enemyPokemon[enemyOut].internalName} breaks the mold!");
 					array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
 				}
-				load_sprite(enemyPokemon[enemyOut], 0);
+				
 				break;
 			case PFSTurnType.UseItem://TODO: Ball shakes
 				switch (turnSteps[0][1].usetype) {
@@ -629,6 +656,13 @@ sys.add("idle", {
 	enter: function(){
 		show_debug_message_debugmode("show animation");
 		animationended = false;
+		if (currentanimation == "enemyfainted") {
+			enemyyoffset = 0;
+		}
+		if (currentanimation == "enemyrelease") {
+			startenemyanimation = true;
+			enemyrelease = true;
+		}
 		if (currentanimation == "comeback") {
 			drawball = true;
 			ballrotation = 0;
@@ -650,7 +684,37 @@ sys.add("idle", {
 	},
 	step: function() {
 		switch (currentanimation) {
-			case "comeback":
+			case "enemyrelease":{
+				currentside = PFSBattleSides.Enemy;
+				if (alarm[0] == -1) {
+				    alarm[0] = 38;
+				}
+				break;}
+			case "enemyfainted":{
+				if (enemyyoffset < 200) {
+				    enemyyoffset += 1.80;
+				}
+				if (enemyalpha > 0) {
+				    enemyalpha -= 0.025;
+					exit;
+				}
+				drawenemyball = true;
+				currentanimation = "enemyrelease";
+				sys.change("animation");
+				break;}
+			case "enemyenter":{
+					if (instance_exists(oDialog)) {
+					    exit;
+					}
+					if (enemytraineroffset < 300) {
+						drawenemyball = true;
+						enemytraineroffset += 6;
+					    exit;
+					}
+					currentanimation = "enemyrelease";
+					sys.change("animation");
+				break;}
+			case "comeback":{
 				lastanimation = currentanimation;
 				if (playerpokesize > 0.05) {
 				    playerpokesize = lerp(playerpokesize, playerpokesizelerp, 0.1);
@@ -658,8 +722,9 @@ sys.add("idle", {
 				}
 				currentanimation = "releasepokemon";
 				sys.change("animation");
-				break;
-			case "releasepokemon":
+				break;}
+			case "releasepokemon":{
+				currentside = PFSBattleSides.Player;
 				#region playerballthrown
 				if (playerthrow[0]) {
 					if (playerthrow[1] > 0) {
@@ -689,8 +754,8 @@ sys.add("idle", {
 					}
 				}
 				#endregion
-				break;
-		    case "battlestart":
+				break;}
+		    case "battlestart":{
 				if (enemypathx[0] < enemypathx[1]) {
 					if (enemypathx[0] + 8 >= enemypathx[1]) {
 					    enemypathx[0] = enemypathx[1];
@@ -711,7 +776,7 @@ sys.add("idle", {
 				else {
 					playerpathx[0] = playerpathx[1];
 				}
-				if (enemypathx[0] >= enemypathx[1]-100) {
+				if (enemypathx[0] >= enemypathx[1]-100 and wildPokemon) {
 					if (wildenemyalpha > 0) {
 					    wildenemyalpha -= 0.05;
 					}
@@ -719,7 +784,7 @@ sys.add("idle", {
 						wildenemyalpha = 0;
 					}
 				}
-				if (wildenemyalpha == 0) {
+				if (wildenemyalpha == 0 or (!wildPokemon and enemyrelease)) {
 				    if (wildenemyhpoffset < 0) {
 						if (wildenemyhpoffset + 10 >= 0) {
 						    wildenemyhpoffset = 0;
@@ -728,7 +793,24 @@ sys.add("idle", {
 					    wildenemyhpoffset += 10;
 					}
 				}
-				if (wildenemyalpha == 0 and enemypathx[0] == enemypathx[1] and wildenemyhpoffset == 0 and !instance_exists(oDialog)) {
+				if (enemypathx[0] == enemypathx[1] and !instance_exists(oDialog)) {
+					if ((wildPokemon and wildenemyalpha != 0)) {
+					    exit;
+					}
+					if (!wildPokemon and !startenemyanimation) {
+						currentanimation = "enemyenter";
+						sys.change("animation");
+						exit;
+					}
+					if (wildPokemon and !wildenemyhpoffset == 0) {
+					    exit;
+					}
+					if (enemyrelease and wildenemyhpoffset != 0) {
+					    exit;
+					}
+					else {
+						currentside = PFSBattleSides.Player;
+					}
 					global.dialogdata[$"releasepoke"] = PFS.playerPokemons[pokemonOut].internalName;
 					spawn_dialog("Release");
 					if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
@@ -739,7 +821,7 @@ sys.add("idle", {
 					currentanimation = "releasepokemon";
 					sys.change("animation");
 				}
-			    break;
+			    break;}
 		}
 		if (animationended) {
 		    switch (sys.get_previous_state()) {
@@ -774,6 +856,9 @@ sys.add("idle", {
 	draw: function() {
 		if (drawball) {
 		    draw_sprite_ext(sPokeballNormal, 0, ballx, bally, 3, 3, ballrotation, c_white, 1);
+		}
+		if (drawenemyball) {
+		    draw_sprite_ext(sPokeballNormal, 0, 550 + DebugManager.a, 180 + DebugManager.b, 3, 3, 0, c_white, 1);
 		}
 	}
 	

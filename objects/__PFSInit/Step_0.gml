@@ -452,10 +452,18 @@ switch (step) {
 		step++;
 		break;
 	case 9:
+		timer = get_timer();
 		populate_abilities();
+		show_debug_message($"[PFS] Loading abilities scripts: {(get_timer() - timer) / 1000000}s");
 		step++;
 		break;
 	case 10:
+		timer = get_timer();
+		populate_trainers();
+		show_debug_message($"[PFS] Loading npc trainers data 6: {(get_timer() - timer) / 1000000}s");
+		step++;
+		break;
+	case 11:
 		//data for moves
 		file = working_directory + "PFS/Data/move_meta.csv";
 		if (file_exists(file)) {

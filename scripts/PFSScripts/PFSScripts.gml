@@ -761,3 +761,20 @@ function spawn_dialog(text) {
 	}
 	dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text, onBattle : true});
 }
+
+#region Trainers
+global.trainers = [];
+#macro Trainers global.trainers
+function Trainer(_name, _sprite, _team) constructor {
+	name = _name;
+	sprite = _sprite;
+	team = [];
+	for (var i = 0; i < array_length(_team); ++i) {
+	    array_push(team, __PFS_generate_pokemon(PFS.Pokes[_team[i]]));
+	}
+}
+
+function populate_trainers(){
+	array_push(Trainers, new Trainer("Gary", sGaryBody, [3, 6, 9]));
+}
+#endregion

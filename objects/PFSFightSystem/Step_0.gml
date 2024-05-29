@@ -10,6 +10,7 @@ if (lastEnemyUsedMove != 0) {
 }
 pokemonhplerp = lerp(pokemonhplerp, PFS.playerPokemons[pokemonOut].hp, 0.05);
 enemyhplerp = lerp(enemyhplerp, enemyPokemon[enemyOut].hp, 0.05);
+enemypokesize = lerp(enemypokesize, enemypokesizelerp, 0.1);
 if (sys.get_current_state() != "animation") {
 	playerpokesize = lerp(playerpokesize, playerpokesizelerp, 0.1);
 }

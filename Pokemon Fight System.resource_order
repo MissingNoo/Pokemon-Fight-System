@@ -611,6 +611,7 @@
     {"name":"sDialogAnswer","order":1,"path":"sprites/sDialogAnswer/sDialogAnswer.yy",},
     {"name":"sDialogWindow2_1","order":4,"path":"sprites/sDialogWindow2_1/sDialogWindow2_1.yy",},
     {"name":"sDialogWindow2","order":3,"path":"sprites/sDialogWindow2/sDialogWindow2.yy",},
+    {"name":"sGaryBody","order":4,"path":"sprites/sGaryBody/sGaryBody.yy",},
     {"name":"sGaryWL","order":2,"path":"sprites/sGaryWL/sGaryWL.yy",},
     {"name":"sGaryWR","order":3,"path":"sprites/sGaryWR/sGaryWR.yy",},
     {"name":"sGaryWU","order":1,"path":"sprites/sGaryWU/sGaryWU.yy",},

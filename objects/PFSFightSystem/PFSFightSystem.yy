@@ -36,6 +36,7 @@
   "properties":[
     {"$GMObjectProperty":"v1","%Name":"enemyPokemon","filters":[],"listItems":[],"multiselect":false,"name":"enemyPokemon","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"[]","varType":4,},
     {"$GMObjectProperty":"v1","%Name":"wildPokemon","filters":[],"listItems":[],"multiselect":false,"name":"wildPokemon","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"trainer","filters":[],"listItems":[],"multiselect":false,"name":"trainer","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":4,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

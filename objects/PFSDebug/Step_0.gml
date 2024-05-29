@@ -52,5 +52,6 @@ if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
 	//_enemyPokemon[enemyOut].moves[0] = __PFS_add_move("Destiny Bond");
 	//_enemyPokemon[enemyOut].moves[0].pp = 9999;
 	//Start Battle
-	instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
+	//instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
+	instance_create_depth(0, 0, 0, PFSFightSystem, {trainer : Trainers[0], wildPokemon : false});
 }

@@ -28,7 +28,8 @@
 					"EnemySentOut" : "Foe sent out %enemypoke%!",
 					"Asleep" : "%pokename% is fast asleep.",
 					"BreaksTheMold" : "%pokename% breaks the mold!",
-					"Sturdy" : "%pokename% held out thanks to Sturdy!"
+					"Sturdy" : "%pokename% held out thanks to Sturdy!",
+					"Trainer" : "%trainername% challenge you to a fight!"
 				}
 			},
 			"OakLecture" : {
