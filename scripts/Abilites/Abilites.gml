@@ -38,7 +38,7 @@ function populate_abilities() {
 		AbilityCodeStart
 			if (move.effect_chance < 100) {
 				show_debug_message($"{enemy.internalName}'s Shield Dust cancelled the status effect!");
-				array_push(global.nextdialog, {npc : "Battle", text : $"ShieldDust", onBattle : true});
+				//array_push(global.nextdialog, {npc : "Battle", text : $"ShieldDust", onBattle : true});
 				status = 0;
 			}
 			return AbilityCode;
@@ -61,7 +61,8 @@ function populate_abilities() {
 			if (enemy.base.hp == enemy.hp and _damage > enemy.hp and !__PFS_pokemon_have_ability(pokemon, "mold-breaker")) {
 				_damage = enemy.hp - 1;
 				show_debug_message($"{enemy.internalName} held out thanks to Sturdy!");
-				array_push(global.nextdialog, {npc : "Battle", text : $"Sturdy", onBattle : true});
+				global.dialogdata[$"pokename"] = enemy.internalName;
+				spawn_dialog("Sturdy");
 			}
 			return AbilityCode;
 		AbilityCodeEnd

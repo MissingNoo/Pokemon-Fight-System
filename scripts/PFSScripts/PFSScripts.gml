@@ -458,7 +458,8 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	return [_damage, _status, _ability_status, _affectUser, _isCritical == 2 ? true : false];
 }
 
-function __PFS_generate_pokemon(pokemon){
+function __PFS_generate_pokemon(poke){
+	var pokemon = variable_clone(poke);
 	pokemon.level = irandom_range(real(pokemon.wildlevelrange[0]), real(pokemon.wildlevelrange[1]));
 	pokemon.moves = [];
 	for (var i = 0; i < array_length(pokemon.canLearn.level); ++i) {
@@ -519,8 +520,10 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 		        break;
 		}
 	}
-	for (var i = 0; i < array_length(pokemon.moves); ++i) {
-	    pokemon.moves[i].pp = pokemon.moves[i].maxpp;
+	if (pokecenter) {
+	    for (var i = 0; i < array_length(pokemon.moves); ++i) {
+		    pokemon.moves[i].pp = pokemon.moves[i].maxpp;
+		}
 	}
 	//show_debug_message($"{pokemon.internalName}: {json_stringify(pokemon)}");
 	//show_debug_message("");
@@ -751,3 +754,10 @@ function textbox(x, y, name, value, editing) {
 	draw_rectangle_color(_x, _y, _x + string_width(_value), _y + string_height(_value), _color, _color, _color, _color, true);
 }	
 #endregion
+function spawn_dialog(text) {
+	if (instance_exists(oDialog)) {
+		array_push(global.nextdialog, {npc : "Battle", text : text, onBattle : true});
+	    exit;
+	}
+	dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text, onBattle : true});
+}

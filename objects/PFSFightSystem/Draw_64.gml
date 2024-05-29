@@ -80,7 +80,7 @@ draw_sprite_ext(PFSBehindBar, 0, 0, 336, 3, 3, 0, c_white, 1);
 #endregion
 #endregion
 sys.draw();
-if (!battlestartfinished) {
+if (!battlestartfinished or drawball) {
     draw_sprite_ext(PFSBehindBar, 0, 0, 336, 3, 3, 0, c_white, 1);
 }
 draw_set_color(c_white);

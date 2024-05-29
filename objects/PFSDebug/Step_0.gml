@@ -13,13 +13,17 @@ if (keyboard_check_pressed(vk_numpad2)) {
 
 if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
 	//Random test team
-	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[127]);
+	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[700]);
 	//PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 600)]);
 	//PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[88]);
-	PFS.playerPokemons[0].moves[0] = __PFS_add_move("Bite");
+	//PFS.playerPokemons[0].moves[0] = __PFS_add_move("Bite");
 	PFS.playerPokemons[0].level = 100;
+	PFS.playerPokemons[0].moves[0] = __PFS_add_move("Destiny Bond");
+	PFS.playerPokemons[0].moves[1] = __PFS_add_move("Moonblast");
+	PFS.playerPokemons[0].moves[2] = __PFS_add_move("Pound");
+	PFS.playerPokemons[0].moves[3] = __PFS_add_move("Bite");
 	PFS.playerPokemons[0] = __PFS_recalculate_stats(PFS.playerPokemons[0], true);
 	//PFS.playerPokemons[0].moves[0].mpower = 0;
 	//PFS.playerPokemons[0].moves[1] = __PFS_add_move("Pound");
@@ -31,9 +35,6 @@ if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
 	//PFS.playerPokemons[0].moves[3] = __PFS_add_move("Thunder Wave");
 	//PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[338]);
 	//PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[700]);
-	//PFS.playerPokemons[2].moves[0] = __PFS_add_move("Destiny Bond");
-	//PFS.playerPokemons[2].moves[1] = __PFS_add_move("Moonblast");
-	//PFS.playerPokemons[2].moves[2] = __PFS_add_move("Pound");
 	//PFS.playerPokemons[2].level = 100;
 	//PFS.playerPokemons[2] = __PFS_recalculate_stats(PFS.playerPokemons[2], true);
 	//PFS.playerPokemons[3] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);

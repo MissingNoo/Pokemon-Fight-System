@@ -23,10 +23,12 @@
 					"PlayerUsedMove" : "%pokeplayer% used %playermove%.",
 					"EnemyUsedMove" : "%enemypoke% used %enemymove%.",
 					"SentOut" : "Sent out %pokeplayer%!",
-					"Release" : "Go! %pokeplayer%!",
+					"ComeBack" : "%comebackpoke% come back!",
+					"Release" : "Go! %releasepoke%!",
 					"EnemySentOut" : "Foe sent out %enemypoke%!",
 					"Asleep" : "%pokename% is fast asleep.",
-					"BreaksTheMold" : "%pokename% breaks the mold!"
+					"BreaksTheMold" : "%pokename% breaks the mold!",
+					"Sturdy" : "%pokename% held out thanks to Sturdy!"
 				}
 			},
 			"OakLecture" : {
