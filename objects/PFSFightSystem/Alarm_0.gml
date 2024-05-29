@@ -1,0 +1,2 @@
+battlestartfinished = true;
+animationended = true;

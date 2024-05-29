@@ -1,3 +1,4 @@
+draw_rectangle_color(GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2), GW/2 - (windowSize[0] / 2) + windowSize[0], GH/2 - (windowSize[1] / 2) + windowSize[1], c_black, c_black, c_black, c_black, false);
 surface_set_target(fightsurface);
 if (DEBUGMODE) {
     scribble($"state: {sys.get_current_state()}\ncaninteract: {caninteract}").scale(DebugManager.a + 1).draw(10, 10);
@@ -26,6 +27,8 @@ var _starty = 0;
 var _yoff = 0;
 var _xoff = 0;
 draw_sprite_ext(PFSBattleBgs, 1, _startx + 1, _starty + 1, 3, 3, 0, c_white, 1);
+draw_sprite_ext(PFSBattleBgsPaths, 1, enemypathx[0], enemypathy, 3, 3, 0, c_white, 1);
+draw_sprite_ext(PFSBattleBgsPaths, 1, playerpathx[0], playerpathy, 3, 3, 0, c_white, 1);
 //draw_sprite_ext(sEndResult, 1, _startx + 1, _starty + 1, 3, 3, 0, c_white, 1);
 
 #endregion

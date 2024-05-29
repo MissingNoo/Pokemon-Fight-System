@@ -16,13 +16,14 @@
 		"NPC" : {
 			"Battle" : {
 				"Falas" : {
-					"Enter" : "[speed,0.25]Foe has appeared!",
+					"Enter" : "Oh! A wild %enemypoke% has appeared!",
 					"Critical" : "It was super effective!",
 					"PlayerPokemonFainted" : "%pokeplayer% fainted.",
 					"EnemyPokemonFainted" : "%enemypoke% fainted.",
 					"PlayerUsedMove" : "%pokeplayer% used %playermove%.",
 					"EnemyUsedMove" : "%enemypoke% used %enemymove%.",
 					"SentOut" : "Sent out %pokeplayer%!",
+					"Release" : "Go! %pokeplayer%!",
 					"EnemySentOut" : "Foe sent out %enemypoke%!",
 					"Asleep" : "%pokename% is fast asleep.",
 					"BreaksTheMold" : "%pokename% breaks the mold!"

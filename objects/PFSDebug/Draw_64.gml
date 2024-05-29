@@ -11,9 +11,9 @@ _y = GH - string_height(_text) * 2 - 5;
 _x -= string_width(_text) * 2 + 9;
 if (createbutton(_x, _y, _text, 2) and !instance_exists(PFSFightSystem)) {
 	//Random test team
-	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]);
-	PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]);
-	PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]);
+	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 600)]);
+	PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 600)]);
+	PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 600)]);
 	//PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[700]);
 	//PFS.playerPokemons[0].moves[0] = __PFS_add_move("Perish Song");
 	//PFS.playerPokemons[0].moves[0].mpower = 0;

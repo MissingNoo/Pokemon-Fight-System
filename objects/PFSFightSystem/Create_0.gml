@@ -4,6 +4,7 @@ if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
 lastpokemon = 0;
 caninteract = true;
 laststate = "";
+
 #region Turn data
 startturn = true;
 waittime = 0;
@@ -155,17 +156,28 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	var _sprite = _side == PFSBattleSides.Player ? pokemonSprite : enemySprite;
 	if (sprite_exists(_sprite)) {
 		//var _pos = _side == PFSBattleSides.Player ? [_px - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_px + 120 + sprite_get_width(_sprite) / 2, _py - 200 - sprite_get_height(_sprite) / 2];
-		var _pos = _side == PFSBattleSides.Player ? [_px, _py - 60] : [_px + 350, _py - 220];
+		var _pos = _side == PFSBattleSides.Player ? [playerpathx[0] - (sprite_get_width(pokemonSprite) / 2), _py - 60] : [enemypathx[0] - (sprite_get_width(enemySprite) / 1.5), _py - 220];
 		var _scale = _side == PFSBattleSides.Player ? 1 : 1.5;
-		draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], _scale, _scale, 0, c_white, 1);
+		var _draw = true;
+		if (_side == PFSBattleSides.Player and !battlestartfinished) {
+		    _draw = false;
+			draw_sprite_ext(sPlayerBallThrow, playerthrow[1], _pos[0] + 120 + playerthrow[4], _pos[1] + 180, 3, 3, 0, c_white, 1);
+		}
+		if (_draw) {
+		    draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], _scale, _scale, 0, c_white, 1);
+			if (_side == PFSBattleSides.Enemy and wildPokemon) {
+			    draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], _scale, _scale, 0, c_black, wildenemyalpha);
+			}
+		}
 	}
 	#endregion
 	#region HP
 	var _hpx = _x;
 	var _hpy = _y;
 	var _hp = _side == PFSBattleSides.Player ? pokemonhplerp : enemyhplerp;
+	var _draw = true;
 	if (_side == PFSBattleSides.Enemy) {
-		_hpx += enemyHpX;
+		_hpx += enemyHpX + wildenemyhpoffset;
 		_hpy += enemyHpY;
 		draw_healthbar(_hpx + 115, _hpy + 50, _hpx + 259, _hpy + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
 	    draw_sprite_ext(PFSEnemyHpBar, 0, _hpx, _hpy, enemyHpScale, enemyHpScale, 0, c_white, 1);
@@ -173,15 +185,22 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	if (_side == PFSBattleSides.Player) {
 		_hpx += playerHpX;
 		_hpy += playerHpY;
-		draw_healthbar(_hpx + 143, _hpy + 50, _hpx + 285, _hpy + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
-		draw_sprite_ext(PFSPlayerHpBar, 0, _hpx, _hpy, playerHpScale, playerHpScale, 0, c_white, 1);
+		if (!battlestartfinished) {
+		    _draw = false;
+		}
+		if (_draw) {
+		    draw_healthbar(_hpx + 143, _hpy + 50, _hpx + 285, _hpy + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
+			draw_sprite_ext(PFSPlayerHpBar, 0, _hpx, _hpy, playerHpScale, playerHpScale, 0, c_white, 1);
+		}
 		_hpx += 28;
 	}
-	draw_set_font(PFS.Fonts.BattleFont[3]);
-	draw_text_transformed(_hpx + 15, _hpy + 15, $"{_pokemon.internalName}", 1, 1, 0);
-	draw_set_font(PFS.Fonts.BattleFont[2]);
-	draw_text_transformed(_hpx + 242, _hpy + 16, _pokemon.level, 1, 1, 0);
-	draw_set_font(PFS.Fonts.PokeFont[3]);
+	if (_draw) {
+	    draw_set_font(PFS.Fonts.BattleFont[3]);
+		draw_text_transformed(_hpx + 15, _hpy + 15, $"{_pokemon.internalName}", 1, 1, 0);
+		draw_set_font(PFS.Fonts.BattleFont[2]);
+		draw_text_transformed(_hpx + 242, _hpy + 16, _pokemon.level, 1, 1, 0);
+		draw_set_font(PFS.Fonts.PokeFont[3]);
+	}
 	#endregion
 	//var _status = "";
 	//for (var i = 0; i < array_length(_pokemon.statusAilments); ++i) {
@@ -202,6 +221,21 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 }
 #endregion
 
+#region animations
+playerthrow = [false, 0, sprite_get_number(sPlayerBallThrow), sprite_get_speed(sPlayerBallThrow), 0];
+currentanimation = "battlestart";
+animationended = false;
+#region battle start
+battlestartfinished = false;
+enemypathx = [-240, 542];
+enemypathy = 240;
+playerpathx = [800, 200];
+playerpathy = 400;
+wildenemyalpha = 0.75;
+wildenemyhpoffset = -320;
+#endregion
+#endregion
+
 load_sprite(PFS.playerPokemons[pokemonOut], 1);
 load_sprite(enemyPokemon[enemyOut], 0);
 
@@ -211,16 +245,6 @@ for (var i = 0; i < 100; ++i) {
     show_debug_message_debugmode("");
 }
 show_debug_message_debugmode("[PFS] Starting battle!");
-if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
-	global.dialogdata[$"pokename"] = PFS.playerPokemons[pokemonOut].internalName;
-	array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
-	show_debug_message_debugmode($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
-}
-if (__PFS_pokemon_have_ability(enemyPokemon[enemyOut], "mold-breaker")) {
-	global.dialogdata[$"pokename"] = enemyPokemon[enemyOut].internalName;
-	array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
-	show_debug_message_debugmode($"{enemyPokemon[enemyOut].internalName} breaks the mold!");
-}
 #endregion
 dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text : "Enter", onBattle : true});
 function spawn_dialog(text) {
@@ -230,7 +254,7 @@ function spawn_dialog(text) {
 	dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text, onBattle : true});
 }
 nextstate = "menu";
-sys = new SnowState("menu");
+sys = new SnowState("animation");
 sys.add("idle", {	
 	enter: function() {
 		//waittime = 10;
@@ -563,6 +587,7 @@ sys.add("idle", {
 	},
 	endstep: function() {
 		if (!pokePlayerDead and !instance_exists(PFSPokemonManager)) {
+			currentanimation = "changepokemon";
 			sys.change("animation");
 		}
 	},
@@ -572,18 +597,107 @@ sys.add("idle", {
 .add("animation", {
 	enter: function(){
 		show_debug_message_debugmode("show animation");
-		switch (sys.get_previous_state()) {
-		    case "animation":
-				sys.change("menu");
+		animationended = false;
+		if (currentanimation == "releasepokemon") {
+			if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
+				global.dialogdata[$"pokename"] = PFS.playerPokemons[pokemonOut].internalName;
+				array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
+				show_debug_message_debugmode($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
+			}
+			if (__PFS_pokemon_have_ability(enemyPokemon[enemyOut], "mold-breaker")) {
+				global.dialogdata[$"pokename"] = enemyPokemon[enemyOut].internalName;
+				array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
+				show_debug_message_debugmode($"{enemyPokemon[enemyOut].internalName} breaks the mold!");
+			}
+			playerthrow[0] = true;
+		}
+		if (currentanimation == "changepokemon") {
+		    animationended = true;
+		}
+	},
+	step: function() {
+		switch (currentanimation) {
+			case "releasepokemon":
+				#region playerballthrown
+				if (playerthrow[0]) {
+					if (playerthrow[1] > 0) {
+						playerthrow[4] -= 5;
+					}
+					if (playerthrow[1] <= playerthrow[2]) {
+					    playerthrow[1] += playerthrow[3] / 60;
+					}
+					else {
+						if (alarm[0] == -1) {
+						    alarm[0] = 60;
+						}
+					}
+				}
+				#endregion
 				break;
-		    case "choosingpokemon":
-				if (pokemonOut != lastpokemon) {
-				    sys.change("preturn");
+		    case "battlestart":
+				if (enemypathx[0] < enemypathx[1]) {
+					if (enemypathx[0] + 8 >= enemypathx[1]) {
+					    enemypathx[0] = enemypathx[1];
+						exit;
+					}
+				    enemypathx[0] += 8;
 				}
 				else {
-					sys.change("turn");
+					enemypathx[0] = enemypathx[1];
 				}
-		        break;
+				if (playerpathx[0] > playerpathx[1]) {
+					if (playerpathx[0] - 8 <= playerpathx[1]) {
+					    playerpathx[0] = playerpathx[1];
+						exit;
+					}
+				    playerpathx[0] -= 8;
+				}
+				else {
+					playerpathx[0] = playerpathx[1];
+				}
+				if (enemypathx[0] >= enemypathx[1]-100) {
+					if (wildenemyalpha > 0) {
+					    wildenemyalpha -= 0.05;
+					}
+					else {
+						wildenemyalpha = 0;
+					}
+				}
+				if (wildenemyalpha == 0) {
+				    if (wildenemyhpoffset < 0) {
+						if (wildenemyhpoffset + 10 >= 0) {
+						    wildenemyhpoffset = 0;
+							exit;
+						}
+					    wildenemyhpoffset += 10;
+					}
+				}
+				if (wildenemyalpha == 0 and enemypathx[0] == enemypathx[1] and wildenemyhpoffset == 0 and !instance_exists(oDialog)) {
+					//if (instance_exists(oDialog)) {
+						//array_push(global.nextdialog, {npc : "Battle", text : $"Release", onBattle : true});
+					//}
+					//else {
+						spawn_dialog("Release");
+					//}
+					currentanimation = "releasepokemon";
+					sys.change("animation");
+				}
+			    break;
+		}
+		if (animationended) {
+		    switch (sys.get_previous_state()) {
+				case "animation":
+					sys.change("menu");
+					break;
+				case "choosingpokemon":
+					if (pokemonOut != lastpokemon) {
+						sys.change("preturn");
+					}
+					else {
+						sys.change("turn");
+					}
+				    break;
+			}
 		}
 	},
 	leave: function() {caninteract = false;},

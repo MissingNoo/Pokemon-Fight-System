@@ -8,9 +8,9 @@ if (lastUsedMove != 0) {
 if (lastEnemyUsedMove != 0) {
 	global.dialogdata[$ "enemymove"] = PFS.moves[lastEnemyUsedMove].internalName;
 }
-pokemonhplerp = lerp(pokemonhplerp, PFS.playerPokemons[pokemonOut].hp, 0.1);
-enemyhplerp = lerp(enemyhplerp, enemyPokemon[enemyOut].hp, 0.1);
-if (instance_exists(oDialog)) {
+pokemonhplerp = lerp(pokemonhplerp, PFS.playerPokemons[pokemonOut].hp, 0.05);
+enemyhplerp = lerp(enemyhplerp, enemyPokemon[enemyOut].hp, 0.05);
+if (instance_exists(oDialog) and sys.get_current_state() != "animation") {
 	exit;
 }
 //if (dialog != noone) {
