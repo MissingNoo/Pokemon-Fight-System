@@ -249,6 +249,7 @@ show_debug_message_debugmode("[PFS] Starting battle!");
 dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text : "Enter", onBattle : true});
 function spawn_dialog(text) {
 	if (instance_exists(oDialog)) {
+		array_push(global.nextdialog, {npc : "Battle", text : text, onBattle : true});
 	    exit;
 	}
 	dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text, onBattle : true});
