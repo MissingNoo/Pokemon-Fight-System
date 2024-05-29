@@ -148,6 +148,10 @@ playerpokesize = 0;
 playerpokesizelerp = 0;
 enemypokesizelerp = 0;
 enemypokesize = 0;
+if (wildPokemon) {
+    enemypokesizelerp = 1;
+	enemypokesize = 1;
+}
 enemyHpX = 26;
 enemyHpY = 35;
 enemyHpScale = 2.98;

@@ -55,3 +55,17 @@ if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
 	//instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
 	instance_create_depth(0, 0, 0, PFSFightSystem, {trainer : Trainers[0], wildPokemon : false});
 }
+
+if (keyboard_check_pressed(vk_f5) and !instance_exists(PFSFightSystem)) {
+	//Random test team
+	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[700]);
+	PFS.playerPokemons[0].level = 100;
+	PFS.playerPokemons[0].moves[0] = __PFS_add_move("Destiny Bond");
+	PFS.playerPokemons[0].moves[1] = __PFS_add_move("Moonblast");
+	PFS.playerPokemons[0].moves[2] = __PFS_add_move("Pound");
+	PFS.playerPokemons[0].moves[3] = __PFS_add_move("Bite");
+	PFS.playerPokemons[0] = __PFS_recalculate_stats(PFS.playerPokemons[0], true);
+	
+	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
+	instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
+}
