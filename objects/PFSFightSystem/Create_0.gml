@@ -346,8 +346,8 @@ sys.add("idle", {
 		}
 	},
 	step: function() {
-		lastUsedMove = 0;
-		lastEnemyUsedMove = 0;
+		//lastUsedMove = 0;
+		//lastEnemyUsedMove = 0;
 		PFS.playerPokemons[pokemonOut] = __PFS_count_status_effect(PFS.playerPokemons[pokemonOut]);
 		enemyPokemon[enemyOut] = __PFS_count_status_effect(enemyPokemon[enemyOut]);
 		var _rnd = irandom_range(0, array_length(enemyPokemon[enemyOut].moves) - 1);
