@@ -57,7 +57,7 @@ switch (step) {
 				for (var i = 0; i < array_length(_pos); ++i) {
 				    _poke[$ _pos[i]] = _line[i];
 				}
-				_poke.sprite = [string(_poke.internalName + "Front"), string(_poke.internalName + "Back")];
+				//_poke.sprite = [string(_poke.internalName + "Front"), string(_poke.internalName + "Back")];
 				PFS.Pokes[_id] = variable_clone(_poke);
 			}
 			show_debug_message($"[PFS] Loading Pokemon Data 1: {(get_timer() - timer) / 1000000}s");

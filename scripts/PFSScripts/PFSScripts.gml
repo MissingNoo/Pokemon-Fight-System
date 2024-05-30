@@ -390,6 +390,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 				
 				#region Abilities
 					for (var i = 0; i < array_length(enemy.ability); ++i) {
+						if (enemy.ability[i][1] == 1) { continue; }
 					    if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined) {
 							if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.Start) {
 							    continue;
@@ -414,6 +415,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	#region Right before damage calculation
 		#region Abilities
 			for (var i = 0; i < array_length(enemy.ability); ++i) {
+				if (enemy.ability[i][1] == 1) { continue; }
 				if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined) {
 					if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.BeforeDamage) {
 						continue;
@@ -436,6 +438,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	#region Right after damage calculation
 		#region Abilities
 		for (var i = 0; i < array_length(enemy.ability); ++i) {
+			if (enemy.ability[i][1] == 1) { continue; }
 			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined) {
 				if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.AfterDamage) {
 					continue;
@@ -492,6 +495,19 @@ function __PFS_generate_pokemon(poke){
 		evasion : 0
 	}
 	pokemon.statusAilments = [];
+	if (pokemon.ability[0][0] != 0 and pokemon.ability[1][0] != 0) {
+		var _rnd = irandom_range(0,1);
+	    //show_message($"multiple abilities \n{pokemon.ability}\nkeeping {pokemon.ability[_rnd][0]}");
+		switch (_rnd) {
+		    case 0:
+		        pokemon.ability[1][0] = 0;
+		        break;
+		    case 1:
+		        pokemon.ability[0][0] = 0;
+		        break;
+		}
+	    //show_message($"{pokemon.ability}");
+	}
 	return __PFS_recalculate_stats(pokemon, true);
 }
 
