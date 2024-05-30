@@ -271,6 +271,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 				show_debug_message($"{enemyPokemon[enemyOut].internalName} died");
 				array_push(global.nextdialog, {npc : "Battle", text : $"EnemyPokemonFainted", onBattle : true});
 				if (lastEnemyUsedMove == __PFS_get_move_id("Destiny Bond")) {
+					lastEnemyUsedMove = 0;
 					PFS.playerPokemons[pokemonOut].hp = 0;
 					show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died together due to {enemyPokemon[enemyOut].internalName}'s Destiny Bond!");
 				}
@@ -282,6 +283,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 				show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died");
 				enemyDead = true;
 				if (lastUsedMove == __PFS_get_move_id("Destiny Bond")) {
+					lastUsedMove = 0;
 					enemyPokemon[enemyOut].hp = 0;
 					show_debug_message($"{enemyPokemon[enemyOut].internalName} died together due to {PFS.playerPokemons[pokemonOut].internalName}'s Destiny Bond!");
 				}
