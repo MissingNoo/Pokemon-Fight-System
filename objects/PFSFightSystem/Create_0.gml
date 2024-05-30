@@ -174,7 +174,7 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 		var _scale = _side == PFSBattleSides.Player ? 1 * playerpokesize : 1.5 * enemypokesize;
 		var _alpha = _side == PFSBattleSides.Player ? 1: enemyalpha;
 		var _draw = true;
-		if (_side == PFSBattleSides.Player and !battlestartfinished) {
+		if (_side == PFSBattleSides.Player and (!battlestartfinished or _scale <= 0.2)) {
 		    _draw = false;
 			draw_sprite_ext(sPlayerBallThrow, playerthrow[1], _pos[0] + playerthrow[4], _pos[1], 3, 3, 0, c_white, 1);
 		}
@@ -783,6 +783,7 @@ sys.add("idle", {
 				if (enemypathx[0] >= enemypathx[1]-100 and wildPokemon) {
 					if (wildenemyalpha > 0) {
 					    wildenemyalpha -= 0.05;
+						exit;
 					}
 					else {
 						wildenemyalpha = 0;
@@ -798,7 +799,7 @@ sys.add("idle", {
 					}
 				}
 				if (enemypathx[0] == enemypathx[1] and !instance_exists(oDialog)) {
-					if ((wildPokemon and wildenemyalpha != 0)) {
+					if (wildPokemon and wildenemyalpha != 0 ) {
 					    exit;
 					}
 					if (!wildPokemon and !startenemyanimation) {
@@ -806,7 +807,7 @@ sys.add("idle", {
 						sys.change("animation");
 						exit;
 					}
-					if (wildPokemon and !wildenemyhpoffset == 0) {
+					if (wildPokemon and wildenemyhpoffset != 0) {
 					    exit;
 					}
 					if (enemyrelease and wildenemyhpoffset != 0) {
