@@ -3,7 +3,7 @@ if (PFS.Initialized) { instance_destroy(); }
 timer = 0;
 start = 0;
 step = 0;
-mapstring = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?,-."
+mapstring = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?,-.:%"
 PFS.Fonts = {};
 PFS.Fonts.PokeFont[1] = font_add_sprite_ext(sPokeFont1, mapstring, true, 0);
 PFS.Fonts.PokeFont[2] = font_add_sprite_ext(sPokeFont2, mapstring, true, 0);
