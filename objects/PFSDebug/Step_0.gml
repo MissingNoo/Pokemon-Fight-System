@@ -42,7 +42,7 @@ if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
 	//PFS.playerPokemons[5] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 650)]);
 	//Random enemy
 	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]), __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
-	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[81]), __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
+	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[25]), __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
 	//var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[6])];
 	//_enemyPokemon[enemyOut].moves = [];
 	//_enemyPokemon[enemyOut].moves[0] = __PFS_add_move("Pound");
@@ -52,8 +52,8 @@ if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
 	//_enemyPokemon[enemyOut].moves[0] = __PFS_add_move("Destiny Bond");
 	//_enemyPokemon[enemyOut].moves[0].pp = 9999;
 	//Start Battle
-	//instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
-	instance_create_depth(0, 0, 0, PFSFightSystem, {trainer : Trainers[0], wildPokemon : false});
+	instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
+	//instance_create_depth(0, 0, 0, PFSFightSystem, {trainer : Trainers[0], wildPokemon : false});
 }
 
 if (keyboard_check_pressed(vk_f5) and !instance_exists(PFSFightSystem)) {

@@ -70,12 +70,12 @@ function loadPoke(move){
 	for (var i = 0; i < array_length(_names); ++i) {
 		variable_instance_set(self, _names[i], variable_struct_get(PFS.Pokes[move].basecalc, _names[i]));
 	}
-	if (file_exists(working_directory + "/PFS/Sprites/Pokemons/" + pokedata.internalName + "/" + pokedata.sprite[1] + ".png")) {
-	    if (sprite_exists(showsprite)) {
-		    sprite_delete(showsprite);
-		}
-	    showsprite = sprite_add(working_directory + "/PFS/Sprites/Pokemons/" + pokedata.internalName + "/" + pokedata.sprite[1] + ".png", 0, false, false, 0, 0);
-	}
+	//if (file_exists(working_directory + "/PFS/Sprites/Pokemons/" + pokedata.internalName + "/" + pokedata.sprite[1] + ".png")) {
+	//    if (sprite_exists(showsprite)) {
+	//	    sprite_delete(showsprite);
+	//	}
+	//    showsprite = sprite_add(working_directory + "/PFS/Sprites/Pokemons/" + pokedata.internalName + "/" + pokedata.sprite[1] + ".png", 0, false, false, 0, 0);
+	//}
 }
 loadPoke(1);
 #endregion

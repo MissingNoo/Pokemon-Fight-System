@@ -16,7 +16,7 @@ PFS.Fonts.PokeSelectFont[1] = font_add_sprite_ext(sPokeSelectFont1, mapstring, t
 PFS.Fonts.PokeSelectFont[2] = font_add_sprite_ext(sPokeSelectFont2, mapstring, true, 0);
 PFS.Fonts.PokeSelectFont[3] = font_add_sprite_ext(sPokeSelectFont3, mapstring, true, 0);
 //feather disable once GM1041
-draw_set_font(PFS.Fonts.PokeFont[3]);
-global.defaultFont = draw_get_font();
+draw_set_font(PFS.Fonts.PokeFont[2]);
+//global.defaultFont = draw_get_font();
 scribble_font_set_default("sPokeFont3");
 //Feather disable GM2017

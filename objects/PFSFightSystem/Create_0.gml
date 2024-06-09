@@ -1,17 +1,19 @@
 //Feather disable GM2017
+if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
 if (!wildPokemon) {
     enemyPokemon = trainer.team;
 	for (var i = 0; i < array_length(enemyPokemon); ++i) {
 	    enemyPokemon[i] = __PFS_recalculate_stats(enemyPokemon[i], true);
 	}
 }
+#region System
 fightsurface = surface_create(240*3, 160*3);
-if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
-lastpokemon = 0;
 caninteract = true;
 laststate = "";
+#endregion
 
 #region Turn data
+lastpokemon = 0;
 startturn = true;
 waittime = 0;
 caught = false;
@@ -26,13 +28,6 @@ turnSteps = [];
 doTurn = false;
 enemyhplerp = 0;
 pokemonhplerp = 0;
-enum PFSTurnType {
-	Move,
-	ChangePokemon,
-	EnemyChangePokemon,
-	UseItem,
-	Run
-}
 function order_turn() {
 	array_sort(turnSteps, function(elm1, elm2) {
 		var _goAfter = false;
@@ -63,16 +58,12 @@ function order_turn() {
 }
 
 function enemy_alive() {
-	//Feather disable once GM1041
-	//for (var i = 0; i < array_length(enemyPokemon); ++i) {
-	    if (enemyPokemon[enemyOut].hp > 0) {
+	if (enemyPokemon[enemyOut].hp > 0) {
 		    return true;
 		}
-	//}
 	return false;
 }
 function enemy_team_defeated() {
-	//Feather disable once GM1041
 	for (var i = 0; i < array_length(enemyPokemon); ++i) {
 	    if (enemyPokemon[i].hp > 0) {
 		    return false;
@@ -102,8 +93,6 @@ selectedMove = 0;
 #region Window
 windowSize = [700, 400];
 startPosition = [GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2)];
-stx = startPosition[0];
-sty = startPosition[1];
 windowXScale = 7.21;
 windowYScale = 4.81;
 selectedMenu = 0;
@@ -214,11 +203,13 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 		_hpx += 28;
 	}
 	if (_draw) {
-	    draw_set_font(PFS.Fonts.BattleFont[3]);
-		draw_text_transformed(_hpx + 15, _hpy + 15, $"{_pokemon.internalName}", 1, 1, 0);
-		draw_set_font(PFS.Fonts.BattleFont[2]);
-		draw_text_transformed(_hpx + 242, _hpy + 16, _pokemon.level, 1, 1, 0);
-		draw_set_font(PFS.Fonts.PokeFont[3]);
+		scribble($"{_pokemon.internalName}").scale(1, 1).draw(_hpx + 15, _hpy + 15);
+		scribble(_pokemon.level).scale(0.5, 0.5).draw(_hpx + 242, _hpy + 16);
+	    //draw_set_font(PFS.Fonts.BattleFont[3]);
+		//draw_text_transformed(_hpx + 15, _hpy + 15, $"{_pokemon.internalName}", 1, 1, 0);
+		//draw_set_font(PFS.Fonts.BattleFont[2]);
+		//draw_text_transformed(_hpx + 242, _hpy + 16, _pokemon.level, 1, 1, 0);
+		//draw_set_font(PFS.Fonts.PokeFont[3]);
 	}
 	#endregion
 	//var _status = "";
@@ -610,7 +601,7 @@ sys.add("idle", {
 			if (selectedMove == i) {
 				draw_sprite_ext(PFSOptionSelected, 0, _x - 7 + _xoff, _y + 20 + _yoff, 2, 2, 0, c_white, 1);
 			}
-			draw_text_transformed(_x + _xoff, _y + _yoff + 6, move.internalName, 1, 1, 0);
+			scribble(move.internalName).draw(_x + _xoff, _y + _yoff + 6);
 			#region unused
 			//if (createbutton(_x, _y + _yoff, $"{move.internalName} {move.pp}/{move.maxpp}", 1, true, undefined) and move.pp > 0) {
 			//	array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[enemyOut], move, PFSBattleSides.Player]);

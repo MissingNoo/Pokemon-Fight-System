@@ -174,12 +174,12 @@ function battlecoords(){
 	if (!instance_exists(PFSFightSystem)) {
 	    exit;
 	}
-	oDialog.dialogBoxX = PFSFightSystem.stx;
-	oDialog.dialogBoxY = PFSFightSystem.sty + 336;
+	oDialog.dialogBoxX = GW/5.40;
+	oDialog.dialogBoxY = GW/2.20;
 	oDialog.dialogBoxEndX = PFSFightSystem.windowSize[0];
 	oDialog.dialogBoxEndY = 144;
-	oDialog.dialogTextX = PFSFightSystem.stx + 50;
-	oDialog.dialogTextY = PFSFightSystem.sty + 366;
+	oDialog.dialogTextX = GW/5.40 + 50;
+	oDialog.dialogTextY = GW/2.20 + 20;
 	oDialog.dialogFontSize = 1;
 	oDialog.dialogWrap = 1000;
 	oDialog.dialogSpacing = 100;
