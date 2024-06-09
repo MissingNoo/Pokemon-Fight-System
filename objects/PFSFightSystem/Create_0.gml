@@ -477,6 +477,7 @@ sys.add("idle", {
 	endturn: function(){
 		if (array_length(turnSteps) == 0) {
 			show_debug_message("[PFS] Turn End!");
+			show_debug_message("");
 			currentTurn++;
 			playerLastOneWasDead = false;
 			if (PFS.playerPokemons[pokemonOut].hp <= 0) {
