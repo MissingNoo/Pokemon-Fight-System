@@ -16,6 +16,14 @@ PFS.StatusAilments = [];
 PFS.StatusAilmentsData = [];
 PFS.Initialized = false;
 
+enum PFSTurnType {
+	Move,
+	ChangePokemon,
+	EnemyChangePokemon,
+	UseItem,
+	Run
+}
+
 enum PFSBattleBackground {
 	Normal,
 	Grass,
@@ -229,6 +237,10 @@ function __PFS_add_move(id_or_name){
 	return _move;
 }
 
+function __PFS_apply_status(pokemon, status, turns = -99){
+	array_push(pokemon.statusAilments, [status, turns]);
+}
+
 function __PFS_pokemon_affected_by_status(pokemon, status_id) {
 	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
 	    if (pokemon.statusAilments[i][0] == status_id) {
@@ -314,7 +326,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	var _rnd = random_range(0.85, 1);
 	var _burn = move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and !__PFS_pokemon_have_ability(pokemon, "guts") ? 0.5 : 1; //TODO: don't affect fixed damage moves like Foul Play and ignore if its ability is guts
 	DEBUG
-	if (PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and __PFS_pokemon_have_ability(pokemon, "guts")) {
+	if (move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and __PFS_pokemon_have_ability(pokemon, "guts")) {
 	    show_debug_message("Burn damage halving ignored by Guts ability")
 	}
 	if (_burn != 1) {
