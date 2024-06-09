@@ -32,7 +32,7 @@ function order_turn() {
 	array_sort(turnSteps, function(elm1, elm2) {
 		var _goAfter = false;
 		if (elm1[0] == PFSTurnType.Move and elm2[0] == PFSTurnType.Move) {
-			//show_debug_message_debugmode($"{elm1[1].internalName} speed: {elm1[1].speed} / {elm2[1].internalName} speed: {elm2[1].speed}");
+			//show_debug_message($"{elm1[1].internalName} speed: {elm1[1].speed} / {elm2[1].internalName} speed: {elm2[1].speed}");
 			elm1[1] = variable_clone(elm1[1]);
 			elm2[1] = variable_clone(elm2[1]);
 			#region Paralysis
@@ -294,9 +294,9 @@ load_sprite(enemyPokemon[enemyOut], 0);
 #region Battle Start
 //show_debug_log(true);
 for (var i = 0; i < 100; ++i) {
-    show_debug_message_debugmode("");
+    show_debug_message("");
 }
-show_debug_message_debugmode("[PFS] Starting battle!");
+show_debug_message("[PFS] Starting battle!");
 #endregion
 dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text : "Enter", onBattle : true});
 nextstate = "menu";
@@ -317,14 +317,14 @@ sys.add("idle", {
 .add("preturn", {
 	enter: function(){
 		lastanimation = "";
-		show_debug_message_debugmode("preturn");
+		show_debug_message("preturn");
 		var _rnd = irandom_range(0, array_length(enemyPokemon[enemyOut].moves) - 1);
 		//if (!playerLastOneWasDead) {
 			array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[enemyOut], PFS.playerPokemons[pokemonOut], enemyPokemon[enemyOut].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
 			if (enemy_alive()) {
-				show_debug_message_debugmode($"");
+				show_debug_message($"");
 				order_turn();
-				show_debug_message_debugmode($"Turn step: {currentTurn}");
+				show_debug_message($"Turn step: {currentTurn}");
 			}
 		//}
 		sys.change("turn");
@@ -357,25 +357,25 @@ sys.add("idle", {
 				#region Status
 				if (__PFS_pokemon_affected_by_status(_pokeside, PFSStatusAilments.Sleep)) {
 					_string = $"{_pokeside.internalName} is fast asleep!";
-					show_debug_message_debugmode(_string);
+					show_debug_message(_string);
 					spawn_dialog($"Asleep");
 					break;
 				}
 				if (__PFS_pokemon_affected_by_status(_pokeside, PFSStatusAilments.Paralysis)) {
 					var _chance = irandom_range(0, 100);
 					if (_chance <= 25) {
-						show_debug_message_debugmode($"{_pokeside.internalName} is paralyzed! It can't move!");
+						show_debug_message($"{_pokeside.internalName} is paralyzed! It can't move!");
 						spawn_dialog($"Paralyzed");
 						break;
 					}
 				}
 				if (_pokeside.flinch) {
 					if (__PFS_pokemon_have_ability(_pokeside, "inner-focus")) {
-						show_debug_message_debugmode($"{_pokeside} won't flinch because of its Inner Focus!");
+						show_debug_message($"{_pokeside} won't flinch because of its Inner Focus!");
 						spawn_dialog($"WontFlinch");
 					}
 					else {
-						show_debug_message_debugmode($"{turnSteps[0][1].internalName} flinched due to {turnSteps[0][2].internalName}'s Stench");
+						show_debug_message($"{turnSteps[0][1].internalName} flinched due to {turnSteps[0][2].internalName}'s Stench");
 						spawn_dialog($"Flinched");
 						break;
 					}
@@ -417,14 +417,14 @@ sys.add("idle", {
 				    global.dialogdata[$"comebackpoke"] = PFS.playerPokemons[pokemonOut].internalName;
 				}
 				pokemonOut = turnSteps[0][1];
-				show_debug_message_debugmode($"Sent {PFS.playerPokemons[pokemonOut].internalName} out!");
+				show_debug_message($"Sent {PFS.playerPokemons[pokemonOut].internalName} out!");
 				spawn_dialog("ComeBack");
 				currentanimation = "comeback";
 				playerpokesizelerp = 0;
 				sys.change("animation");
 				//if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
 				//	global.dialogdata[$"pokename"] = enemyPokemon[enemyOut].internalName;
-				//	show_debug_message_debugmode($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
+				//	show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
 				//	array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
 				//}
 				break;
@@ -439,11 +439,11 @@ sys.add("idle", {
 				}
 				enemyOut = turnSteps[0][1];
 				enemyhplerp = enemyPokemon[enemyOut].hp; //TODO: enemy pokemon
-				show_debug_message_debugmode($"Foe sent {enemyPokemon[enemyOut].internalName} out!");
+				show_debug_message($"Foe sent {enemyPokemon[enemyOut].internalName} out!");
 				spawn_dialog("EnemySentOut");
 				if (__PFS_pokemon_have_ability(enemyPokemon[enemyOut], "mold-breaker")) {
 					global.dialogdata[$"pokename"] = enemyPokemon[enemyOut].internalName;
-					show_debug_message_debugmode($"{enemyPokemon[enemyOut].internalName} breaks the mold!");
+					show_debug_message($"{enemyPokemon[enemyOut].internalName} breaks the mold!");
 					array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
 				}
 				
@@ -452,7 +452,7 @@ sys.add("idle", {
 				switch (turnSteps[0][1].usetype) {
 					case UseType.PokeBall:
 						if (was_caught(enemyPokemon[enemyOut], turnSteps[0][1].catchrate)) {
-							show_debug_message_debugmode($"[PFS] {enemyPokemon[enemyOut].internalName} was caught!");
+							show_debug_message($"[PFS] {enemyPokemon[enemyOut].internalName} was caught!");
 							spawn_dialog($"Caught");
 							array_push(PFS.playerPokemons, enemyPokemon[enemyOut]);
 							turnSteps = [];
@@ -464,7 +464,7 @@ sys.add("idle", {
 				break;
 			case PFSTurnType.Run:
 				PFS.playerPokemons[pokemonOut] = __PFS_tick_status_effect(PFS.playerPokemons[pokemonOut]);
-				show_debug_message_debugmode("Ran from battle");
+				show_debug_message("Ran from battle");
 				spawn_dialog($"RanAway");
 				ranaway = true;
 				break;
@@ -500,7 +500,7 @@ sys.add("idle", {
 .add("menu", {
 	enter: function() {
 		caninteract = false;
-		show_debug_message_debugmode("menu");
+		show_debug_message("menu");
 		if (pokePlayerDead) {
 		    sys.change("pokeplayerdead");
 		}
@@ -555,7 +555,7 @@ sys.add("idle", {
 })
 .add("selectattack", {
 	enter: function() {
-		show_debug_message_debugmode("selectattack");
+		show_debug_message("selectattack");
 	},
 	step: function() {
 		var _leftRight = - input_check_pressed("left") + input_check_pressed("right");
@@ -630,7 +630,7 @@ sys.add("idle", {
 })
 .add("choosingpokemon", {
 	enter: function() {
-		show_debug_message_debugmode("choosing pokemon");
+		show_debug_message("choosing pokemon");
 		instance_create_depth(0, 0, -1, PFSPokemonManager, {onBattle : true});
 	},
 	step: function() {
@@ -650,7 +650,7 @@ sys.add("idle", {
 })
 .add("animation", {
 	enter: function(){
-		show_debug_message_debugmode("show animation");
+		show_debug_message("show animation");
 		animationended = false;
 		if (currentanimation == "enemyfainted") {
 			enemyyoffset = 0;
@@ -813,7 +813,7 @@ sys.add("idle", {
 					if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
 						global.dialogdata[$"pokename"] = PFS.playerPokemons[pokemonOut].internalName;
 						spawn_dialog("BreaksTheMold");
-						show_debug_message_debugmode($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
+						show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
 					}
 					currentanimation = "releasepokemon";
 					sys.change("animation");
@@ -872,7 +872,7 @@ sys.add("idle", {
 })
 .add("bag", {
 	enter: function() {
-		show_debug_message_debugmode("open bag");
+		show_debug_message("open bag");
 		instance_create_depth(0, 0, -1, oBag, {onBattle : true});
 	},
 	step: function(){

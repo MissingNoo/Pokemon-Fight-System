@@ -1,5 +1,5 @@
 //Feather disable GM2017
-function show_debug_message_debugmode(str) {
+function show_debug_message(str) {
 	if (DEBUGMODE) {
 	    show_debug_message(str);
 	}

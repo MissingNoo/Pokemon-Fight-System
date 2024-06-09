@@ -12,14 +12,14 @@ function set_ability_code(name, struct) {
 	PFS.AbilitiesCode[__PFS_get_ability_id(name)] = struct;
 }
 #macro AbilityCodeStart code: function(pokemon, enemy, move, status, isCritical, _damage) {
-#macro AbilityCode [pokemon, enemy, move, status, isCritical, _damage]
+#macro AbilityResult [pokemon, enemy, move, status, isCritical, _damage]
 #macro AbilityCodeEnd }
 function populate_abilities() {
 	PFS.AbilitiesCode = array_create(array_length(PFS.Abilities), undefined);
 	//set_ability_code("", {
 	//	when : AbilityTime.Start,
 	//	AbilityCodeStart
-	//		return AbilityCode;
+	//		return AbilityResult;
 	//	AbilityCodeEnd
 	//});
 	set_ability_code("battle-armor", {
@@ -30,7 +30,7 @@ function populate_abilities() {
 				show_debug_message($"{enemy.internalName}'s Battle Armor cancels the critical damage!");
 				array_push(global.nextdialog, {npc : "Battle", text : $"BattleArmor", onBattle : true});
 			}
-			return AbilityCode;
+			return AbilityResult;
 		AbilityCodeEnd
 	});
 	set_ability_code("shield-dust", {
@@ -41,7 +41,7 @@ function populate_abilities() {
 				//array_push(global.nextdialog, {npc : "Battle", text : $"ShieldDust", onBattle : true});
 				status = 0;
 			}
-			return AbilityCode;
+			return AbilityResult;
 		AbilityCodeEnd
 	});
 	set_ability_code("soundproof", {
@@ -52,7 +52,7 @@ function populate_abilities() {
 				array_push(global.nextdialog, {npc : "Battle", text : $"SoundProofPerish", onBattle : true});
 				status = 0;
 			}
-			return AbilityCode;
+			return AbilityResult;
 		AbilityCodeEnd
 	});
 	set_ability_code("sturdy", {
@@ -64,21 +64,21 @@ function populate_abilities() {
 				global.dialogdata[$"pokename"] = enemy.internalName;
 				spawn_dialog("Sturdy");
 			}
-			return AbilityCode;
+			return AbilityResult;
 		AbilityCodeEnd
 	});
 	set_ability_code("static", {
 		when : AbilityTime.AfterDamage,
 		AbilityCodeStart
 			if (!__PFS_move_make_contact(move)) { 
-				return AbilityCode;
+				return AbilityResult;
 			}
 			var _chance = irandom_range(0, 100);
 			if (_chance <= 30 and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis)) {
 				__PFS_apply_status(pokemon, PFSStatusAilments.Paralysis);				
 				show_debug_message($"{pokemon.internalName} was paralyzed due to {enemy.internalName}'s Static!");
 			}
-			return AbilityCode;
+			return AbilityResult;
 		AbilityCodeEnd
 	});
 	
@@ -87,9 +87,9 @@ function populate_abilities() {
 		AbilityCodeStart
 			if (move.type == __PFSTypes.Electric and _damage > 0) {
 				_damage = round(pokemon.base.hp / 4) * -1;
-				show_debug_message_debugmode($"{enemy.internalName} recovered {_damage * -1} hp due to Volt Absorb!");
+				show_debug_message($"{enemy.internalName} recovered {_damage * -1} hp due to Volt Absorb!");
 			}
-			return AbilityCode;
+			return AbilityResult;
 		AbilityCodeEnd
 	});
 	
@@ -98,9 +98,9 @@ function populate_abilities() {
 		AbilityCodeStart
 			if (move.type == __PFSTypes.Water and _damage > 0) {
 				_damage = round(pokemon.base.hp / 4) * -1;
-				show_debug_message_debugmode($"{enemy.internalName} recovered {_damage * -1} hp due to Volt Absorb!");
+				show_debug_message($"{enemy.internalName} recovered {_damage * -1} hp due to Volt Absorb!");
 			}
-			return AbilityCode;
+			return AbilityResult;
 		AbilityCodeEnd
 	});
 }
