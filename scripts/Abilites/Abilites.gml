@@ -70,13 +70,24 @@ function populate_abilities() {
 	set_ability_code("static", {
 		when : AbilityTime.AfterDamage,
 		AbilityCodeStart
-			if (move.category == PFSMoveCategory.Status or move.category == PFSMoveCategory.Special) { 
+			if (!__PFS_move_make_contact(move)) { 
 				return AbilityCode;
 			}
 			var _chance = irandom_range(0, 100);
 			if (_chance <= 30 and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis)) {
 				__PFS_apply_status(pokemon, PFSStatusAilments.Paralysis);				
 				show_debug_message($"{pokemon.internalName} was paralyzed due to {enemy.internalName}'s Static!");
+			}
+			return AbilityCode;
+		AbilityCodeEnd
+	});
+	
+	set_ability_code("volt-absorb", {
+		when : AbilityTime.AfterDamage,
+		AbilityCodeStart
+			if (move.type == __PFSTypes.Electric and _damage > 0) {
+				_damage = round(pokemon.base.hp / 4) * -1;
+				show_debug_message_debugmode($"{enemy.internalName} recovered {_damage * -1} hp due to Volt Absorb!");
 			}
 			return AbilityCode;
 		AbilityCodeEnd
