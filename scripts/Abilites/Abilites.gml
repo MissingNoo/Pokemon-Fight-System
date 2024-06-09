@@ -92,4 +92,15 @@ function populate_abilities() {
 			return AbilityCode;
 		AbilityCodeEnd
 	});
+	
+	set_ability_code("water-absorb", {
+		when : AbilityTime.AfterDamage,
+		AbilityCodeStart
+			if (move.type == __PFSTypes.Water and _damage > 0) {
+				_damage = round(pokemon.base.hp / 4) * -1;
+				show_debug_message_debugmode($"{enemy.internalName} recovered {_damage * -1} hp due to Volt Absorb!");
+			}
+			return AbilityCode;
+		AbilityCodeEnd
+	});
 }
