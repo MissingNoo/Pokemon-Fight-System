@@ -76,6 +76,7 @@ function enemy_team_defeated() {
 #region Battle
 enemyOut = 0;
 pokemonOut = 0;
+pokemonOutNext = 0;
 for (var i = 0; i < array_length(PFS.playerPokemons); ++i) {
     if (PFS.playerPokemons[i].hp > 0) {
 	    pokemonOut = i;
@@ -320,7 +321,13 @@ sys.add("idle", {
 		show_debug_message("preturn");
 		var _rnd = irandom_range(0, array_length(enemyPokemon[enemyOut].moves) - 1);
 		//if (!playerLastOneWasDead) {
-			array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[enemyOut], PFS.playerPokemons[pokemonOut], enemyPokemon[enemyOut].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
+			if (pokemonOut == pokemonOutNext) {
+			    array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[enemyOut], PFS.playerPokemons[pokemonOut], enemyPokemon[enemyOut].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
+			}
+			else {
+				array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[enemyOut], PFS.playerPokemons[pokemonOutNext], enemyPokemon[enemyOut].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
+			}
+			
 			if (enemy_alive()) {
 				show_debug_message($"");
 				order_turn();

@@ -12,7 +12,7 @@ enum AbilityTime {
 function set_ability_code(name, struct) {
 	PFS.AbilitiesCode[__PFS_get_ability_id(name)] = struct;
 }
-#macro AbilityCodeStart code: function(pokemon, enemy, move, status, isCritical, _damage) {
+#macro AbilityCodeStart code: function(pokemon, enemy, move, status, isCritical, _damage, _side) {
 #macro AbilityResult [pokemon, enemy, move, status, isCritical, _damage]
 #macro AbilityCodeEnd }
 function populate_abilities() {
@@ -75,9 +75,8 @@ function populate_abilities() {
 				return AbilityResult;
 			}
 			var _chance = irandom_range(0, 100);
-			if (_chance <= 30 and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis)) {
+			if (_chance <= 30 and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis) and __PFS_pokemon_have_ability(enemy, "static")) {
 				pokemon = __PFS_apply_status(pokemon, PFSStatusAilments.Paralysis);
-				show_debug_message(json_stringify(pokemon, true));
 				show_debug_message($"{pokemon.internalName} was paralyzed due to {enemy.internalName}'s Static!");
 			}
 			return AbilityResult;
@@ -87,7 +86,7 @@ function populate_abilities() {
 	set_ability_code("volt-absorb", {
 		when : AbilityTime.AfterDamage,
 		AbilityCodeStart
-			if (move.type == __PFSTypes.Electric and _damage > 0) {
+			if (move.type == __PFSTypes.Electric and _damage > 0 and __PFS_pokemon_have_ability(enemy, "volt-absorb")) {
 				_damage = round(pokemon.base.hp / 4) * -1;
 				show_debug_message($"{enemy.internalName} recovered {_damage * -1} hp due to Volt Absorb!");
 			}
@@ -98,7 +97,7 @@ function populate_abilities() {
 	set_ability_code("water-absorb", {
 		when : AbilityTime.AfterDamage,
 		AbilityCodeStart
-			if (move.type == __PFSTypes.Water and _damage > 0) {
+			if (move.type == __PFSTypes.Water and _damage > 0 and __PFS_pokemon_have_ability(enemy, "water-absorb")) {
 				_damage = round(pokemon.base.hp / 4) * -1;
 				show_debug_message($"{enemy.internalName} recovered {_damage * -1} hp due to Volt Absorb!");
 			}

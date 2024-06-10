@@ -272,7 +272,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	if (pokemon.hp <= 0) { return; }
 	var _calc = [0, [0, 0], [0, 0]];
 	var _appliedStatus = "";
-	_calc = __PFS_damage_calculation(pokemon, enemy, move);
+	_calc = __PFS_damage_calculation(pokemon, enemy, move, side);
 	switch (side) {
 			case PFSBattleSides.Player:
 				PFS.playerPokemons[PFSFightSystem.pokemonOut] = _calc[5];
@@ -333,7 +333,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	}
 }
 
-function __PFS_damage_calculation(pokemon, enemy, move){
+function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	var _damage = 0;
 	var _affectUser = 0;
 	var _status = 0;
@@ -354,7 +354,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 				if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.Start) {
 					continue;
 				}
-				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
 				pokemon = _abresult[0];
 				enemy = _abresult[1];
 				move = _abresult[2];
@@ -369,7 +369,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 				if (PFS.AbilitiesCode[pokemon.ability[i][0]].when != AbilityTime.Start) {
 					continue;
 				}
-				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
 				pokemon = _abresult[0];
 				enemy = _abresult[1];
 				move = _abresult[2];
@@ -474,7 +474,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 					if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.BeforeDamage) {
 						continue;
 					}
-					var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+					var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
 					pokemon = _abresult[0];
 					enemy = _abresult[1];
 					move = _abresult[2];
@@ -489,7 +489,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 					if (PFS.AbilitiesCode[pokemon.ability[i][0]].when != AbilityTime.BeforeDamage) {
 						continue;
 					}
-					var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+					var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
 					pokemon = _abresult[0];
 					enemy = _abresult[1];
 					move = _abresult[2];
@@ -512,7 +512,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 				if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.AfterDamage) {
 					continue;
 				}
-				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
 				pokemon = _abresult[0];
 				enemy = _abresult[1];
 				move = _abresult[2];
@@ -527,7 +527,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 				if (PFS.AbilitiesCode[pokemon.ability[i][0]].when != AbilityTime.AfterDamage) {
 					continue;
 				}
-				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
 				pokemon = _abresult[0];
 				enemy = _abresult[1];
 				move = _abresult[2];
