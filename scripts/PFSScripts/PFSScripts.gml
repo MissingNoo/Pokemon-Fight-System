@@ -246,6 +246,17 @@ function __PFS_move_make_contact(move) {
 
 function __PFS_apply_status(pokemon, status, turns = -99){
 	array_push(pokemon.statusAilments, [status, turns]);
+	return pokemon;
+}
+
+function __PFS_remove_status(pokemon, status){
+	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
+	    if (pokemon.statusAilments[0] == status) {
+		    array_delete(pokemon.statusAilments, i, 1);
+			i = 0;
+		}
+	}
+	return pokemon;
 }
 
 function __PFS_pokemon_affected_by_status(pokemon, status_id) {
@@ -262,6 +273,16 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	var _calc = [0, [0, 0], [0, 0]];
 	var _appliedStatus = "";
 	_calc = __PFS_damage_calculation(pokemon, enemy, move);
+	switch (side) {
+			case PFSBattleSides.Player:
+				PFS.playerPokemons[PFSFightSystem.pokemonOut] = _calc[5];
+				PFSFightSystem.enemyPokemon[PFSFightSystem.enemyOut] = _calc[6];
+				break;
+			case PFSBattleSides.Enemy:
+				PFS.playerPokemons[PFSFightSystem.pokemonOut] = _calc[6];
+				PFSFightSystem.enemyPokemon[PFSFightSystem.enemyOut] = _calc[5];
+				break;
+		}
 	if (_calc[4]) {
 		array_push(global.nextdialog, {npc : "Battle", text : $"Critical", onBattle : true});
 	}
@@ -326,6 +347,38 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	    _power = real(move.mpower);
 	}
 	catch (err) { }
+	#region Abilities
+		for (var i = 0; i < array_length(enemy.ability); ++i) {
+			if (enemy.ability[i][1] == 1) { continue; }
+			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined) {
+				if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.Start) {
+					continue;
+				}
+				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+				pokemon = _abresult[0];
+				enemy = _abresult[1];
+				move = _abresult[2];
+				_status = _abresult[3];
+				_isCritical = _abresult[4];
+				_damage = _abresult[5];
+			}
+		}
+		for (var i = 0; i < array_length(pokemon.ability); ++i) {
+			if (pokemon.ability[i][1] == 1) { continue; }
+			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined) {
+				if (PFS.AbilitiesCode[pokemon.ability[i][0]].when != AbilityTime.Start) {
+					continue;
+				}
+				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+				pokemon = _abresult[0];
+				enemy = _abresult[1];
+				move = _abresult[2];
+				_status = _abresult[3];
+				_isCritical = _abresult[4];
+				_damage = _abresult[5];
+			}
+		}
+	#endregion
 	var _stab = array_get_index(pokemon.type, move.type) != -1 ? 1.5 : 1;
 	var _type1 = __PFS_is_effective(enemy, move, 0);
 	var _type2 = array_length(enemy.type) > 1 ? __PFS_is_effective(enemy, move, 1) : 1;
@@ -353,7 +406,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	    case PFSMoveCategory.Physical:
 	        _a = pokemon.attack;
 			_d = enemy.defense;
-			var _result = __PFS_ability_on_contact(pokemon, enemy, move);
+			var _result = __PFS_ability_on_contact(pokemon, enemy, move); //TODO: change to new system
 			pokemon = _result[0];
 			enemy = _result[1];
 			_ability_status = _result[2];
@@ -406,24 +459,6 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 						}
 					#endregion
 				#endregion
-				
-				#region Abilities
-					for (var i = 0; i < array_length(enemy.ability); ++i) {
-						if (enemy.ability[i][1] == 1) { continue; }
-					    if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined) {
-							if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.Start) {
-							    continue;
-							}
-						    var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
-							pokemon = _abresult[0];
-							enemy = _abresult[1];
-							move = _abresult[2];
-							_status = _abresult[3];
-							_isCritical = _abresult[4];
-							_damage = _abresult[5];
-						}
-					}
-				#endregion
 			#endregion
 		}
 	}
@@ -440,6 +475,21 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 						continue;
 					}
 					var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+					pokemon = _abresult[0];
+					enemy = _abresult[1];
+					move = _abresult[2];
+					_status = _abresult[3];
+					_isCritical = _abresult[4];
+					_damage = _abresult[5];
+				}
+			}
+			for (var i = 0; i < array_length(pokemon.ability); ++i) {
+				if (pokemon.ability[i][1] == 1) { continue; }
+				if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined) {
+					if (PFS.AbilitiesCode[pokemon.ability[i][0]].when != AbilityTime.BeforeDamage) {
+						continue;
+					}
+					var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
 					pokemon = _abresult[0];
 					enemy = _abresult[1];
 					move = _abresult[2];
@@ -471,6 +521,21 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 				_damage = _abresult[5];
 			}
 		}
+		for (var i = 0; i < array_length(pokemon.ability); ++i) {
+			if (pokemon.ability[i][1] == 1) { continue; }
+			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined) {
+				if (PFS.AbilitiesCode[pokemon.ability[i][0]].when != AbilityTime.AfterDamage) {
+					continue;
+				}
+				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+				pokemon = _abresult[0];
+				enemy = _abresult[1];
+				move = _abresult[2];
+				_status = _abresult[3];
+				_isCritical = _abresult[4];
+				_damage = _abresult[5];
+			}
+		}
 		#endregion
 		#region Items
 			#region Focus Sash
@@ -479,7 +544,7 @@ function __PFS_damage_calculation(pokemon, enemy, move){
 	#endregion
 	
 	//show_debug_message($"Dealt ( ( ( 2 * {_level} / 5 + 2) * {_power} * ({_a} / {_d}) ) / 50 + 2 )  * {_targets} * {_pb} * {_weather} * {_glaiverush} * {_isCritical} * {_rnd} * {_stab} * {_type} * {_burn} * {_other} = {_damage} damage");
-	return [_damage, _status, _ability_status, _affectUser, _isCritical == 2 ? true : false];
+	return [_damage, _status, _ability_status, _affectUser, _isCritical == 2 ? true : false, pokemon, enemy];
 }
 
 function __PFS_generate_pokemon(poke){
@@ -558,6 +623,7 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 		}
 	}
 	if (pokecenter) {
+		pokemon.taunted = false;
 	    for (var i = 0; i < array_length(pokemon.moves); ++i) {
 		    pokemon.moves[i].pp = pokemon.moves[i].maxpp;
 		}
@@ -589,28 +655,16 @@ function __PFS_pokemon_have_ability(pokemon, abilityname){
 }
 
 function __PFS_ability_before_move(pokemon, move){
-	move = variable_clone(move);
-	for (var i = 0; i < array_length(pokemon.ability); ++i) {
-	    if (pokemon.ability[i][0] == __PFS_get_ability_id("pixilate")) {
-		    if (move.type == __PFSTypes.Normal) {
-			    show_debug_message($"{move.internalName} has changed type from Normal to Fairy by {pokemon.internalName}'s Pixilate!");
-				if (move.mpower != "") {
-				    move.mpower = round(real(move.mpower) * 1.3);
-				}
-				move.type = __PFSTypes.Fairy;
-			}
-		}
-	}
-	return [pokemon, move];
+	
 }
 
-function __PFS_ability_before_contact(pokemon, enemy){
-	for (var i = 0; i < array_length(pokemon.ability); ++i) {
-	    if (pokemon.ability[i][0] == __PFS_get_ability_id("indentifier")) {
-		}
-	}
-	return [pokemon, enemy];
-}
+//function __PFS_ability_before_contact(pokemon, enemy){
+//	for (var i = 0; i < array_length(pokemon.ability); ++i) {
+//	    if (pokemon.ability[i][0] == __PFS_get_ability_id("indentifier")) {
+//		}
+//	}
+//	return [pokemon, enemy];
+//}
 
 function __PFS_ability_on_contact(pokemon, enemy, move){
 	var _status = 0;

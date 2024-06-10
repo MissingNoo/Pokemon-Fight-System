@@ -349,9 +349,9 @@ sys.add("idle", {
 		switch (turnSteps[0][0]) {
 			case PFSTurnType.Move:
 				var _string = "";
-				var _ability_result = __PFS_ability_before_move(turnSteps[0][1], turnSteps[0][3]);
-				turnSteps[0][1] = _ability_result[0];
-				turnSteps[0][3] = _ability_result[1];
+				//var _ability_result = __PFS_ability_before_move(turnSteps[0][1], turnSteps[0][3]);
+				//turnSteps[0][1] = _ability_result[0];
+				//turnSteps[0][3] = _ability_result[1];
 				var _pokeside = turnSteps[0][4] == PFSBattleSides.Player ? PFS.playerPokemons[pokemonOut] : enemyPokemon[enemyOut];
 				global.dialogdata[$"pokename"] = _pokeside.internalName;
 				#region Status

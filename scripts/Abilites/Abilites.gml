@@ -1,4 +1,5 @@
 //Feather disable GM2017
+//Feather disable GM1014
 enum AbilityTime {
 	Start,
 	BeforeDamage,
@@ -75,7 +76,8 @@ function populate_abilities() {
 			}
 			var _chance = irandom_range(0, 100);
 			if (_chance <= 30 and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis)) {
-				__PFS_apply_status(pokemon, PFSStatusAilments.Paralysis);				
+				pokemon = __PFS_apply_status(pokemon, PFSStatusAilments.Paralysis);
+				show_debug_message(json_stringify(pokemon, true));
 				show_debug_message($"{pokemon.internalName} was paralyzed due to {enemy.internalName}'s Static!");
 			}
 			return AbilityResult;
@@ -99,6 +101,40 @@ function populate_abilities() {
 			if (move.type == __PFSTypes.Water and _damage > 0) {
 				_damage = round(pokemon.base.hp / 4) * -1;
 				show_debug_message($"{enemy.internalName} recovered {_damage * -1} hp due to Volt Absorb!");
+			}
+			return AbilityResult;
+		AbilityCodeEnd
+	});
+	
+	set_ability_code("pixilate", {
+		when : AbilityTime.Start,
+		AbilityCodeStart
+			move = variable_clone(move);
+			if (move.type == __PFSTypes.Normal) {
+			    show_debug_message($"{move.internalName} has changed type from Normal to Fairy by {pokemon.internalName}'s Pixilate!");
+				if (move.mpower != "") {
+				    move.mpower = round(real(move.mpower) * 1.3);
+				}
+				move.type = __PFSTypes.Fairy;
+			}
+			return AbilityResult;
+		AbilityCodeEnd
+	});
+	
+	set_ability_code("oblivious", {
+		when : AbilityTime.Start,
+		AbilityCodeStart
+			if (enemy.taunted) {
+			    enemy.taunted = false;
+				show_debug_message($"{enemy.internalName} Taunt was removed due to Oblivious!");
+			}
+			if (__PFS_pokemon_affected_by_status(enemy, PFSStatusAilments.Infatuation)) {
+			    enemy = __PFS_remove_status(enemy, PFSStatusAilments.Infatuation);
+				show_debug_message($"{enemy.internalName} was cured from infatuation due to Oblivious!");
+			}
+			if (status[0] == PFSStatusAilments.Infatuation or move.internalName == "captivate") {
+				status = 0;
+				show_debug_message($"{enemy.internalName} ignored infatuation/captivate due to Oblivious!");
 			}
 			return AbilityResult;
 		AbilityCodeEnd
