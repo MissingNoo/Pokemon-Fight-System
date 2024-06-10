@@ -124,9 +124,9 @@ function populate_abilities() {
 	set_ability_code("oblivious", {
 		when : AbilityTime.Start,
 		AbilityCodeStart
-			if (enemy.taunted) {
-			    enemy.taunted = false;
-				show_debug_message($"{enemy.internalName} Taunt was removed due to Oblivious!");
+			if (pokemon.taunted) { //TODO: test this
+			    pokemon.taunted = false;
+				show_debug_message($"{pokemon.internalName} Taunt was removed due to Oblivious!");
 			}
 			if (__PFS_pokemon_affected_by_status(enemy, PFSStatusAilments.Infatuation)) {
 			    enemy = __PFS_remove_status(enemy, PFSStatusAilments.Infatuation);
