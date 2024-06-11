@@ -4,7 +4,22 @@ var arr = string_split(buffer, ";", false);
 array_pop(arr);
 array_foreach(arr, function(_element, _index){
 	try {
+		show_debug_message("");
+		show_debug_message($"1: {_element}");
+		show_debug_message("");
 		var _json = json_parse(_element);
+		if (_json[$ "x"] != undefined) {
+		    _json.x = real(_json.x);
+		}
+		if (_json[$ "y"] != undefined) {
+		    _json.y = real(_json.y);
+		}
+		if (_json[$ "uid"] != undefined) {
+		    _json.uid = real(_json.uid);
+		}
+		if (_json[$ "type"] != undefined) {
+		    _json.type = real(_json.type);
+		}
 		if (instance_exists(oPlayer) and _json.uid == oPlayer.uid) {
 		    exit;
 		}
