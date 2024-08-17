@@ -107,28 +107,20 @@ function load_sprite(pokemon, side){
 	var _extension = ".png";
 	var _imgnumb = 0;
 	var _side = side == PFSBattleSides.Player ? "Front/" : "Back/";
-	if (file_exists(working_directory + "PFS/Sprites/Pokemon/" + _side + string_upper(pokemon.internalName) + ".png")) {
-	    _extension = ".png";
-	}
-	//if (file_exists(working_directory + "PFS/Sprites/Pokemons/"  + _side + pokemon.internalName + "/" + pokemon.internalName + ".ini")) {
-	//	ini_open(working_directory + "PFS/Sprites/Pokemons/"  + _side + pokemon.internalName + "/" + pokemon.internalName + ".ini");
-	//	_imgnumb = ini_read_real("image", "frames", 1);
-	//	_extension = string_concat("_strip", _imgnumb, ".png");
-	//	ini_close()
-	//}
-	if (file_exists(working_directory + "PFS/Sprites/Pokemon/"  + _side + string_upper(pokemon.internalName) + _extension)) {
+	var _sprite_path = working_directory + "PFS/Sprites/Pokemon/"  + _side + string_upper(pokemon.internalName) + _extension;
+	if (file_exists(_sprite_path)) {
 		switch (side) {
 			case 0:
 		        if (sprite_exists(enemySprite)) {
 				    sprite_delete(enemySprite);
 				}
-			    enemySprite = sprite_add(working_directory + "PFS/Sprites/Pokemon/" + _side  + string_upper(pokemon.internalName) + _extension, _imgnumb, false, false, 192/2, 192);
+			    enemySprite = sprite_add(_sprite_path, _imgnumb, false, false, 192/2, 192);
 		        break;
 		    case 1:
 		        if (sprite_exists(pokemonSprite)) {
 				    sprite_delete(pokemonSprite);
 				}
-			    pokemonSprite = sprite_add(working_directory + "PFS/Sprites/Pokemon/" + _side  + string_upper(pokemon.internalName) + _extension, _imgnumb, false, false, 192/1.5, 192);
+			    pokemonSprite = sprite_add(_sprite_path, _imgnumb, false, false, 192/1.5, 192);
 		        break;
 		}
 	}
