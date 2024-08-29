@@ -361,7 +361,7 @@ sys.add("idle", {
 					break;
 				}
 				if (__PFS_pokemon_affected_by_status(_pokeside, PFSStatusAilments.Paralysis)) {
-					var _chance = irandom_range(0, 100);
+					var _chance = __PFS_rng();
 					if (_chance <= 25) {
 						show_debug_message($"{_pokeside.internalName} is paralyzed! It can't move!");
 						spawn_dialog($"Paralyzed");

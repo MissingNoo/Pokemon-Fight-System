@@ -417,8 +417,7 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 			break;
 	}
 	if (move.category == PFSMoveCategory.Status or move.effect_chance != "") {
-		var _chance = irandom_range(0, 100);
-		//_chance = 3;
+		var _chance = __PFS_rng();
 		
 		if (move.category == PFSMoveCategory.Status or _chance <= move.effect_chance) {
 			_isCritical = 1;
@@ -668,7 +667,7 @@ function __PFS_ability_before_move(pokemon, move){
 
 function __PFS_ability_on_contact(pokemon, enemy, move){
 	var _status = 0;
-	var _chance = irandom_range(0, 100);
+	var _chance = __PFS_rng();
 	if (__PFS_pokemon_have_ability(pokemon, "stench")) {
 	    if (_chance <= 10 and move.mpower > 0) {
 			enemy.flinch = true;
@@ -869,3 +868,10 @@ function populate_trainers(){
 	array_push(Trainers, new Trainer("Gary", sGaryBody, [3, 6, 9]));
 }
 #endregion
+
+function __PFS_rng() {
+	if (global.testing) {
+		return 1;
+	}
+	return irandom_range(0, 100);
+}

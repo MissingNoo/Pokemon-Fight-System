@@ -74,7 +74,7 @@ function populate_abilities() {
 			if (!__PFS_move_make_contact(move)) { 
 				return AbilityResult;
 			}
-			var _chance = irandom_range(0, 100);
+			var _chance = __PFS_rng();
 			if (_chance <= 30 and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis) and __PFS_pokemon_have_ability(enemy, "static")) {
 				pokemon = __PFS_apply_status(pokemon, PFSStatusAilments.Paralysis);
 				show_debug_message($"{pokemon.internalName} was paralyzed due to {enemy.internalName}'s Static!");

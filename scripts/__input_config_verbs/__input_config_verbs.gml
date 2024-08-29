@@ -20,8 +20,8 @@ function __input_config_verbs()
             left:  [input_binding_key(vk_left),  input_binding_key("A")],
             right: [input_binding_key(vk_right), input_binding_key("D")],
             
-            accept:  [input_binding_key(vk_space), input_binding_key("Z")],
-            cancel:  [input_binding_key(vk_backspace), input_binding_key("X")],
+            accept:  input_binding_key(vk_space),
+            cancel:  input_binding_key(vk_backspace),
             action:  input_binding_key(vk_enter),
             special: input_binding_key(vk_shift),
             
