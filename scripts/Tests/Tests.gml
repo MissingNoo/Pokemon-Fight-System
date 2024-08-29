@@ -6,9 +6,10 @@ else {
 	global.testing = false;
 }
 
-function gen_enemy_poke(poke, level) {
+function gen_enemy_poke(poke, level, move) {
 	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[poke])];
 	_enemyPokemon[0].level = level;
+	_enemyPokemon[0].moves[0] = __PFS_add_move(move);
 	_enemyPokemon[0] = __PFS_recalculate_stats(_enemyPokemon[0], true);
 	return _enemyPokemon;
 }
@@ -34,28 +35,90 @@ function tests(){
 			});
 			
 			test("Ember: Apply Burn", function() {
-				var enemy = [1, 1];
+				var enemy = [1, 1, "Ember"];
 				set_player_poke(4, 1, "Ember");
-				_obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : gen_enemy_poke(enemy[0], enemy[1])});
+				_obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : gen_enemy_poke(enemy[0], enemy[1], enemy[2])});
 				with (_obj) {
 					__PFS_use_move(PFS.playerPokemons[0], PFSFightSystem.enemyPokemon[0], PFS.playerPokemons[0].moves[0], PFSBattleSides.Player);
 				}
 				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], PFSStatusAilments.Burn)).toBe(true);
-				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], PFSStatusAilments.Burn)).toBe(false);
+				instance_destroy(_obj);
+				
+				var enemy = [4, 1, "Ember"];
+				set_player_poke(1, 1, "Pound");
+				_obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : gen_enemy_poke(enemy[0], enemy[1], enemy[2])});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PFS.playerPokemons[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+				}
+				expect(__PFS_pokemon_affected_by_status(PFS.playerPokemons[0], PFSStatusAilments.Burn)).toBe(true);
 				instance_destroy(_obj);
 			});
 			
 			test("Ember: Immunity", function() {
-				var enemy = [4, 1];
+				var enemy = [4, 1, "Ember"];
 				set_player_poke(4, 1, "Ember");
-				_obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : gen_enemy_poke(enemy[0], enemy[1])});
+				_obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : gen_enemy_poke(enemy[0], enemy[1], enemy[2])});
 				with (_obj) {
 					__PFS_use_move(PFS.playerPokemons[0], PFSFightSystem.enemyPokemon[0], PFS.playerPokemons[0].moves[0], PFSBattleSides.Player);
 				}
 				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], PFSStatusAilments.Burn)).toBe(false);
 				instance_destroy(_obj);
+				
+				var enemy = [4, 1, "Ember"];
+				set_player_poke(4, 1, "Pound");
+				_obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : gen_enemy_poke(enemy[0], enemy[1], enemy[2])});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PFS.playerPokemons[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+				}
+				expect(__PFS_pokemon_affected_by_status(PFS.playerPokemons[0], PFSStatusAilments.Burn)).toBe(false);
+				instance_destroy(_obj);
+			});
+			
+			test("Thunder Shock", function() {
+				var move = "Thunder Shock";
+				var enemy = [1, 1, move];
+				set_player_poke(25, 1, move);
+				_obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : gen_enemy_poke(enemy[0], enemy[1], enemy[2])});
+				with (_obj) {
+					__PFS_use_move(PFS.playerPokemons[0], PFSFightSystem.enemyPokemon[0], PFS.playerPokemons[0].moves[0], PFSBattleSides.Player);
+				}
+				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(true);
+				instance_destroy(_obj);
+				
+				var enemy = [25, 1, move];
+				set_player_poke(1, 1, move);
+				_obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : gen_enemy_poke(enemy[0], enemy[1], enemy[2])});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PFS.playerPokemons[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+				}
+				expect(__PFS_pokemon_affected_by_status(PFS.playerPokemons[0], status)).toBe(true);
+				instance_destroy(_obj);
+			});
+			
+			test("Thunder Shock: Immunity", function() {
+				var move = "Thunder Shock";
+				var status = PFSStatusAilments.Paralysis;
+				var enemy = [25, 1, move];
+				set_player_poke(25, 1, move);
+				_obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : gen_enemy_poke(enemy[0], enemy[1], enemy[2])});
+				with (_obj) {
+					__PFS_use_move(PFS.playerPokemons[0], PFSFightSystem.enemyPokemon[0], PFS.playerPokemons[0].moves[0], PFSBattleSides.Player);
+				}
+				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(false);
+				instance_destroy(_obj);
+				
+				var enemy = [25, 1, move];
+				set_player_poke(25, 1, move);
+				_obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : gen_enemy_poke(enemy[0], enemy[1], enemy[2])});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PFS.playerPokemons[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+				}
+				expect(__PFS_pokemon_affected_by_status(PFS.playerPokemons[0], status)).toBe(false);
+				instance_destroy(_obj);
 			});
 		});
+		//section("", function() {
+		//});
 	});
 }
 

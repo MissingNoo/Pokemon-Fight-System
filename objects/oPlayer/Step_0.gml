@@ -32,25 +32,3 @@ for (var i = 0; i < array_length(alarms); ++i) {
 	}
 }
 #endregion
-//instance_create_layer(x, y, "Instances", Dialog, {npc : _npc.npc, text : _npc.text, options : _npc.options, optionsFalas : _npc.optionsFalas});
-/*
-
-npc = "Gabriel";
-text = "Introducao";
-optionsFalas = ["Introducao", "Lorem", "Despedida"]
-options = [
-	[
-		["Tchau", "Despedida"],
-		["Lorem", "Lorem"]
-	],
-	[
-		["Tchau", "Despedida"],
-	],	
-	[
-		["Sair", "Sair"]
-	]
-]
-*/
-if (keyboard_check_pressed(ord("C"))) {
-    modify_catch_rate(__PFS_generate_pokemon(PFS.Pokes[1]), 1);
-}
