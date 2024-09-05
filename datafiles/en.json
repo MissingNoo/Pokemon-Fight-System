@@ -29,7 +29,8 @@
 					"Asleep" : "%pokename% is fast asleep.",
 					"BreaksTheMold" : "%pokename% breaks the mold!",
 					"Sturdy" : "%pokename% held out thanks to Sturdy!",
-					"Trainer" : "%trainername% challenge you to a fight!"
+					"Trainer" : "%trainername% challenge you to a fight!",
+					"StatusDamage" : "%pokename% lost %damage%hp due to %statusname%"
 				}
 			},
 			"OakLecture" : {

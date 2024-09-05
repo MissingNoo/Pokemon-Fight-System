@@ -92,6 +92,7 @@
     {"$GMFolder":"","%Name":"Superfonts","folderPath":"folders/Libs/Scribble/Superfonts.yy","name":"Superfonts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"SnowState","folderPath":"folders/Libs/SnowState.yy","name":"SnowState","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Objects","folderPath":"folders/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Multiplayer","folderPath":"folders/Objects/Multiplayer.yy","name":"Multiplayer","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Props","folderPath":"folders/Objects/Props.yy","name":"Props","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"PokeFightSystem","folderPath":"folders/PokeFightSystem.yy","name":"PokeFightSystem","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"PFSFont","folderPath":"folders/PokeFightSystem/PFSFont.yy","name":"PFSFont","resourceType":"GMFolder","resourceVersion":"2.0",},

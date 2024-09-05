@@ -769,6 +769,10 @@ function __PFS_tick_status_effect(pokemon) {
 		}
 		if (_hploss != 0) {
 		    pokemon.hp -= _hploss;
+			global.dialogdata[$"pokename"] = pokemon.internalName;
+			global.dialogdata[$"damage"] = _hploss;
+			global.dialogdata[$"statusname"] = _statusName;
+			array_push(global.nextdialog, {npc : "Battle", text : $"StatusDamage", onBattle : true});
 			show_debug_message($"{pokemon.internalName} lost {_hploss}hp due to {_statusName}");
 		}
 	}
