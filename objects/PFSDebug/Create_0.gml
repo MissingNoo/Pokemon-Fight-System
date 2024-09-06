@@ -27,9 +27,12 @@ dbg_button("Start Battle", function() {
 });
 dbg_same_line();
 dbg_button("End Battle", function() { instance_destroy(PFSFightSystem); });
-dbg_button("Pokemon Manager", function() { instance_destroy(PFSPokemonManager); });
+dbg_button("Pokemon Manager", function() { instance_create_depth(0, 0, 0, PFSPokemonManager); });
 dbg_same_line();
 dbg_button("Close", function() { instance_destroy(PFSPokemonManager); });
+dbg_button("Pokedex", function() { instance_create_depth(0, 0, 0, PFSPokedex); });
+dbg_same_line();
+dbg_button("Close", function() { instance_destroy(PFSPokedex); });
 dbg_slider_int(ref_create(self, "ppoke"), 1, 152, "Poke:", 1);
 dbg_slider_int(ref_create(self, "ppokelvl"), 1, 100, "Level:", 1);
 dbg_button("Set Player pokemon", function() { 

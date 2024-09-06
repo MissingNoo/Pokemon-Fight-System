@@ -58,6 +58,25 @@ enum __PFSTypes {
 	Dark, 
 	Fairy,
 	NoType
+	//Normal = 1, 
+	//Fire = 10, 
+	//Water = 11, 
+	//Grass = 12, 
+	//Flying = 3, 
+	//Fighting = 2, 
+	//Poison = 4, 
+	//Electric = 13, 
+	//Ground = 5, 
+	//Rock = 6, 
+	//Psychic = 14, 
+	//Ice = 15, 
+	//Bug = 7, 
+	//Ghost = 8, 
+	//Steel = 9, 
+	//Dragon = 16, 
+	//Dark = 17, 
+	//Fairy = 18,
+	//NoType = 0
 };
 	
 enum PFSMoveCategory {
