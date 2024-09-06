@@ -1,3 +1,4 @@
+//feather disable GM2017
 global.__PFSEnemyTeam = [];
 #macro EnemyTeam global.__PFSEnemyTeam
 #macro PlayerTeam PFS.playerPokemons

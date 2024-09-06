@@ -48,9 +48,12 @@ function populate_abilities() {
 	set_ability_code("soundproof", {
 		when : AbilityTime.Start,
 		AbilityCodeStart
-			if (status[0] == PFSStatusAilments.Perish_song) {
-				show_debug_message($"{enemy.internalName}'s Soundproof ignored Perish Song!");
-				array_push(global.nextdialog, {npc : "Battle", text : $"SoundProofPerish", onBattle : true});
+		var ab = __PFS_move_have_flag(move, "sound");
+			if (__PFS_move_have_flag(move, "sound")) {
+				show_debug_message($"{enemy.internalName}'s Soundproof ignored {move.internalName}!");
+				DialogData[$ "movename"] = move.internalName;
+				DialogData[$ "pokename"] = enemy.internalName;
+				array_push(global.nextdialog, {npc : "Battle", text : $"SoundProof", onBattle : true});
 				status = 0;
 			}
 			return AbilityResult;
@@ -74,8 +77,10 @@ function populate_abilities() {
 			if (!__PFS_move_make_contact(move)) { 
 				return AbilityResult;
 			}
-			var _chance = __PFS_rng();
-			if (_chance <= 30 and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis) and __PFS_pokemon_have_ability(enemy, "static")) {
+			if (__PFS_rng() <= 30
+				and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis)
+				and __PFS_pokemon_have_ability(enemy, "static")
+				and !__PFS_pokemon_have_type(pokemon, __PFSTypes.Electric)) {
 				pokemon = __PFS_apply_status(pokemon, PFSStatusAilments.Paralysis);
 				show_debug_message($"{pokemon.internalName} was paralyzed due to {enemy.internalName}'s Static!");
 			}

@@ -30,7 +30,8 @@
 					"BreaksTheMold" : "%pokename% breaks the mold!",
 					"Sturdy" : "%pokename% held out thanks to Sturdy!",
 					"Trainer" : "%trainername% challenge you to a fight!",
-					"StatusDamage" : "%pokename% lost %damage%hp due to %statusname%"
+					"StatusDamage" : "%pokename% lost %damage%hp due to %statusname%.",
+					"SoundProof" : "%pokename%'s immune to %movename% due to Soundproof."
 				}
 			},
 			"OakLecture" : {
@@ -73,7 +74,7 @@
 				"nome" : "LabSelect",
 				"Falas" : {
 					"Bulbasaur" : "I see! BULBASAUR is your choice. \nIt's very easy to raise. [/page]So, %playername%, you want to go with the GRASS POKéMON BULBASAUR?[showoptions]",
-					"BulbasaurChosen" : "This POKéMON is really quite \nenergetic! [/page]%playername% received the BULBASAUR from PROF. OAK! [/page]Do you want to give a nickname to this BULBASAUR?[showoptions]",
+					"BulbasaurChosen" : "This POKéMON is really quite \nenergetic! [/page]%playername% received the BULBASAUR from PROF. OAK! [/page]Do you want to give a nickname to this BULBASAUR?[showoptions]"
 				}
 			}
 		}

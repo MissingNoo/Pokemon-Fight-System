@@ -7,6 +7,7 @@ global.__PFS = {};
 #macro PFS global.__PFS
 PFS.playerPokemons = [];
 PFS.moves = [];
+PFS.move_flags = [];
 PFS.PokeSpecies = [];
 PFS.Pokes = [];
 PFS.Abilities = [];
@@ -298,10 +299,8 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	if (result.critical) {
 		array_push(global.nextdialog, {npc : "Battle", text : $"Critical", onBattle : true});
 	}
-	
-	var _affected = [result.pokemon, result.enemy];
 	//Apply status
-	if (result.status[0] != -1 and !__PFS_pokemon_affected_by_status(enemy, result.status[0])) {
+	if (result.status != 0 and !__PFS_pokemon_affected_by_status(enemy, result.status[0])) {
 	    _appliedStatus = $"{_appliedStatus} and applied {PFS.StatusAilments[result.status[0]]} status!";
 		__PFS_apply_status(enemy, result.status[0], result.status[1]);
 	}
@@ -340,10 +339,14 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	}
 }
 
+function __PFS_pokemon_have_type(pokemon, type) {
+	return array_contains(pokemon.type, type);
+}
+
 function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	var _damage = 0;
 	var _affectUser = false;
-	var _status = [-1, 0];
+	var _status = 0;
 	var _ability_status = 0;
 	var _critChance = irandom_range(0, 255);
 	var _critTreshold = pokemon.speed / 2; //TODO: High crit chance atk and items
@@ -393,12 +396,12 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	var _rnd = random_range(0.85, 1);
 	var _burn = move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and !__PFS_pokemon_have_ability(pokemon, "guts") ? 0.5 : 1; //TODO: don't affect fixed damage moves like Foul Play and ignore if its ability is guts
 	DEBUG
-	if (move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and __PFS_pokemon_have_ability(pokemon, "guts")) {
-	    show_debug_message("Burn damage halving ignored by Guts ability")
-	}
-	if (_burn != 1) {
-	    show_debug_message($"{pokemon.internalName} damage is halved because it's burning");
-	}
+		if (move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and __PFS_pokemon_have_ability(pokemon, "guts")) {
+		    show_debug_message("Burn damage halving ignored by Guts ability")
+		}
+		if (_burn != 1) {
+		    show_debug_message($"{pokemon.internalName} damage is halved because it's burning");
+		}
 	ENDDEBUG
 	#region //TODO
 	var _targets = 1; //TODO: 0.75 if more than one target (0.5 in battle royale)
@@ -453,13 +456,13 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 			#region Invulnerabilities to status effects
 				#region Types
 					#region Burn
-						if (array_contains(enemy.type, __PFSTypes.Fire) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Burn) {
+						if (__PFS_pokemon_have_type(enemy, __PFSTypes.Fire) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Burn) {
 							show_debug_message($"{enemy.internalName} is immune to Burn!");
 							_status = 0;
 						}
 					#endregion
 					#region Paralysis
-						if (array_contains(enemy.type, __PFSTypes.Electric) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Paralysis) {
+						if (__PFS_pokemon_have_type(enemy, __PFSTypes.Electric) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Paralysis) {
 							show_debug_message($"{enemy.internalName} is immune to Paralysis!");
 							_status = 0;
 						}
@@ -608,6 +611,15 @@ function __PFS_generate_pokemon(poke){
 	    //show_message($"{pokemon.ability}");
 	}
 	return __PFS_recalculate_stats(pokemon, true);
+}
+
+function __PFS_get_flag_id(flag) {
+	return array_get_index(PFS.move_flags, string_lower(flag));
+}
+
+function __PFS_move_have_flag(move, flag) {
+	var pos = array_get_index(move.flags, __PFS_get_flag_id(flag));
+	return pos != -1
 }
 
 function __PFS_recalculate_stats(pokemon, pokecenter = false){

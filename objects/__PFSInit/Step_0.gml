@@ -347,7 +347,8 @@ switch (step) {
 						"pp": _pp,
 						"probability":"0",
 						"mpower" : _power,
-						"priority" : 0
+						"priority" : 0,
+						flags : []
 						}
 						for (var i = 0; i < array_length(_others); ++i) {
 							var value = 0;
@@ -428,7 +429,7 @@ switch (step) {
         step++
         break;
     case 8:
-		#region Status
+		
 		file = working_directory + "PFS/Data/move_meta_ailments.csv";
 		if (file_exists(file)) {
 			timer = get_timer();
@@ -489,7 +490,44 @@ switch (step) {
 			file_text_close(_fs);
 		}
 		else { show_message($"missing file {file} on installation"); }
-		#endregion
+		step++;
+		break;
+	case 12:
+		//move flags
+		file = working_directory + "PFS/Data/move_flags.csv";
+		if (file_exists(file)) {
+			timer = get_timer();
+			var _fs = file_text_open_read(file);
+			var _pos = [ "id", "identifier"];
+			while (!file_text_eof(_fs)) {
+				file_text_readln(_fs);
+				var _line = string_split(file_text_read_string(_fs), ",");
+				if (array_length(_line) == 1 or array_length(_line) == 0) { continue; }
+				var _id = real(_line[array_get_index(_pos, "id")]);
+				var identifier = _line[array_get_index(_pos, "identifier")];
+				PFS.move_flags[_id] = identifier;
+			}
+			show_debug_message($"[PFS] Loading Move Data 4: {(get_timer() - timer) / 1000000}s");
+			file_text_close(_fs);
+		}
+		else { show_message($"missing file {file} on installation"); }
+		file = working_directory + "PFS/Data/move_flag_map.csv";
+		if (file_exists(file)) {
+			timer = get_timer();
+			var _fs = file_text_open_read(file);
+			var _pos = [ "move_id", "move_flag_id"];
+			while (!file_text_eof(_fs)) {
+				file_text_readln(_fs);
+				var _line = string_split(file_text_read_string(_fs), ",");
+				if (array_length(_line) == 1 or array_length(_line) == 0) { continue; }
+				var move = real(_line[array_get_index(_pos, "move_id")]);
+				var flag = real(_line[array_get_index(_pos, "move_flag_id")]);
+				array_push(PFS.moves[move].flags, flag);
+			}
+			show_debug_message($"[PFS] Loading Move Data 5: {(get_timer() - timer) / 1000000}s");
+			file_text_close(_fs);
+		}
+		else { show_message($"missing file {file} on installation"); }
 		show_debug_message($"[PFS] Finished loading in {(get_timer() - start) / 1000000}s");
 		show_debug_message("------------------[PFS]------------------");
 		PFS.Initialized = true;
