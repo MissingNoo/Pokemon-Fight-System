@@ -48,7 +48,6 @@ function populate_abilities() {
 	set_ability_code("soundproof", {
 		when : AbilityTime.Start,
 		AbilityCodeStart
-		var ab = __PFS_move_have_flag(move, "sound");
 			if (__PFS_move_have_flag(move, "sound")) {
 				show_debug_message($"{enemy.internalName}'s Soundproof ignored {move.internalName}!");
 				DialogData[$ "movename"] = move.internalName;
@@ -74,10 +73,8 @@ function populate_abilities() {
 	set_ability_code("static", {
 		when : AbilityTime.AfterDamage,
 		AbilityCodeStart
-			if (!__PFS_move_make_contact(move)) { 
-				return AbilityResult;
-			}
-			if (__PFS_rng() <= 30
+			if (__PFS_move_have_flag(move, "contact")
+				and __PFS_rng() <= 30
 				and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis)
 				and __PFS_pokemon_have_ability(enemy, "static")
 				and !__PFS_pokemon_have_type(pokemon, __PFSTypes.Electric)) {

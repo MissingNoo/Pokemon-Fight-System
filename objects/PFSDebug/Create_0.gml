@@ -1,7 +1,7 @@
 //Feather disable GM2017
 ini_open("debug.ini");
 poke = ini_read_real("debug", "poke", 1);
-pokelvl = ini_read_real("debug", "poke", 1);
+pokelvl = ini_read_real("debug", "pokelvl", 1);
 ppoke = ini_read_real("debug", "ppoke", 1);
 ppokelvl = ini_read_real("debug", "ppokelvl", 1);
 ini_close();

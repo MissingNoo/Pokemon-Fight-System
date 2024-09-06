@@ -238,13 +238,6 @@ function __PFS_add_move(id_or_name){
 	return _move;
 }
 
-function __PFS_move_make_contact(move) {
-	if (move.category == PFSMoveCategory.Status or move.category == PFSMoveCategory.Special) { 
-		return false;
-	}
-	return true;
-}
-
 function __PFS_apply_status(pokemon, status, turns = -99){
 	array_push(pokemon.statusAilments, [status, turns]);
 	return pokemon;
