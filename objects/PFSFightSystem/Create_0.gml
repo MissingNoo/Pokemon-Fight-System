@@ -1,4 +1,5 @@
 //Feather disable GM2017
+EnemyTeam = enemyPokemon;
 if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
 if (!wildPokemon) {
     enemyPokemon = trainer.team;
@@ -28,49 +29,6 @@ turnSteps = [];
 doTurn = false;
 enemyhplerp = 0;
 pokemonhplerp = 0;
-function order_turn() {
-	array_sort(turnSteps, function(elm1, elm2) {
-		var _goAfter = false;
-		if (elm1[0] == PFSTurnType.Move and elm2[0] == PFSTurnType.Move) {
-			//show_debug_message($"{elm1[1].internalName} speed: {elm1[1].speed} / {elm2[1].internalName} speed: {elm2[1].speed}");
-			elm1[1] = variable_clone(elm1[1]);
-			elm2[1] = variable_clone(elm2[1]);
-			#region Paralysis
-			if (__PFS_pokemon_affected_by_status(elm1[1], PFSStatusAilments.Paralysis)) {
-			    elm1[1].speed = elm1[1].speed * 0.5;
-			}
-			if (__PFS_pokemon_affected_by_status(elm2[1], PFSStatusAilments.Paralysis)) {
-			    elm2[1].speed = elm2[1].speed * 0.5;
-			}
-			#endregion
-			if (elm1[1].speed < elm2[1].speed) {
-			    _goAfter = true;
-			}
-		    if (elm1[3].priority < elm2[3].priority) {
-			    _goAfter = true;
-			}
-		}
-		else {
-			_goAfter =  elm1[0] < elm2[0];
-		}
-	    return _goAfter;
-	});
-}
-
-function enemy_alive() {
-	if (enemyPokemon[enemyOut].hp > 0) {
-		    return true;
-		}
-	return false;
-}
-function enemy_team_defeated() {
-	for (var i = 0; i < array_length(enemyPokemon); ++i) {
-	    if (enemyPokemon[i].hp > 0) {
-		    return false;
-		}
-	}
-	return true;
-}
 #endregion
 
 #region Battle
@@ -309,24 +267,7 @@ sys.add("idle", {
 })
 .add("preturn", {
 	enter: function(){
-		lastanimation = "";
-		show_debug_message("preturn");
-		var _rnd = irandom_range(0, array_length(enemyPokemon[enemyOut].moves) - 1);
-		//if (!playerLastOneWasDead) {
-			if (pokemonOut == pokemonOutNext) {
-			    array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[enemyOut], PFS.playerPokemons[pokemonOut], enemyPokemon[enemyOut].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
-			}
-			else {
-				array_push(turnSteps, [PFSTurnType.Move, enemyPokemon[enemyOut], PFS.playerPokemons[pokemonOutNext], enemyPokemon[enemyOut].moves[_rnd], PFSBattleSides.Enemy]); //TODO: enemy don't attack if you released a new pokemon after the last one died
-			}
-			
-			if (enemy_alive()) {
-				show_debug_message($"");
-				order_turn();
-				show_debug_message($"Turn step: {currentTurn}");
-			}
-		//}
-		sys.change("turn");
+		__PFS_turn_begin();
 	},
 })
 .add("turn", {
@@ -336,129 +277,7 @@ sys.add("idle", {
 		}
 	},
 	step: function() {
-		PFS.playerPokemons[pokemonOut] = __PFS_count_status_effect(PFS.playerPokemons[pokemonOut]);
-		enemyPokemon[enemyOut] = __PFS_count_status_effect(enemyPokemon[enemyOut]);
-		var _rnd = irandom_range(0, array_length(enemyPokemon[enemyOut].moves) - 1);
-		if (enemy_team_defeated() and turnSteps[0][0] != PFSTurnType.Run) {
-			exit;
-		}
-		switch (turnSteps[0][0]) {
-			case PFSTurnType.Move:
-				var _string = "";
-				var _pokeside = turnSteps[0][4] == PFSBattleSides.Player ? PFS.playerPokemons[pokemonOut] : enemyPokemon[enemyOut];
-				global.dialogdata[$"pokename"] = _pokeside.internalName;
-				#region Status
-				if (__PFS_pokemon_affected_by_status(_pokeside, PFSStatusAilments.Sleep)) {
-					_string = $"{_pokeside.internalName} is fast asleep!";
-					show_debug_message(_string);
-					spawn_dialog($"Asleep");
-					break;
-				}
-				if (__PFS_pokemon_affected_by_status(_pokeside, PFSStatusAilments.Paralysis)) {
-					var _chance = __PFS_rng();
-					if (_chance <= 25) {
-						show_debug_message($"{_pokeside.internalName} is paralyzed! It can't move!");
-						spawn_dialog($"Paralyzed");
-						break;
-					}
-				}
-				if (_pokeside.flinch) {
-					if (__PFS_pokemon_have_ability(_pokeside, "inner-focus")) {
-						show_debug_message($"{_pokeside} won't flinch because of its Inner Focus!");
-						spawn_dialog($"WontFlinch");
-					}
-					else {
-						show_debug_message($"{turnSteps[0][1].internalName} flinched due to {turnSteps[0][2].internalName}'s Stench");
-						spawn_dialog($"Flinched");
-						break;
-					}
-				}
-				for (var j = 0; j < array_length(_pokeside.moves); ++j) {
-					if (_pokeside.moves[j].id == turnSteps[0][3].id) {
-						_pokeside.moves[j].pp--;
-						break;
-					}
-				}
-				#endregion
-			
-				switch (turnSteps[0][4]) {
-					case PFSBattleSides.Player:
-						turnSteps[0][1].hp = PFS.playerPokemons[pokemonOut].hp;
-						if (turnSteps[0][1].hp > 0) {
-							spawn_dialog($"PlayerUsedMove");
-						}
-						lastUsedMove = turnSteps[0][3].id;
-						break;
-					case PFSBattleSides.Enemy:
-						turnSteps[0][1].hp = enemyPokemon[enemyOut].hp;
-						if (turnSteps[0][1].hp > 0) {
-							spawn_dialog($"EnemyUsedMove");
-						}
-						lastEnemyUsedMove = turnSteps[0][3].id;
-						break;
-				}
-				__PFS_use_move(turnSteps[0][1], turnSteps[0][2], turnSteps[0][3], turnSteps[0][4]);
-				break;
-			case PFSTurnType.ChangePokemon: //TODO: redo
-				for (var j = 0; j < array_length(PFS.playerPokemons[pokemonOut].statusAilments); ++j) {
-					if (PFS.playerPokemons[pokemonOut].statusAilments[j][0] == PFSStatusAilments.Perish_song) {
-						array_delete(PFS.playerPokemons[pokemonOut].statusAilments, j, 1);
-						j = 0;
-					}
-				}
-				if (pokemonOut != turnSteps[0][1]) {
-				    global.dialogdata[$"comebackpoke"] = PFS.playerPokemons[pokemonOut].internalName;
-				}
-				pokemonOut = turnSteps[0][1];
-				show_debug_message($"Sent {PFS.playerPokemons[pokemonOut].internalName} out!");
-				spawn_dialog("ComeBack");
-				currentanimation = "comeback";
-				playerpokesizelerp = 0;
-				sys.change("animation");
-				break;
-			case PFSTurnType.EnemyChangePokemon: //TODO: redo
-				currentanimation = "enemyfainted";
-				sys.change("animation");
-				for (var j = 0; j < array_length(enemyPokemon[enemyOut].statusAilments); ++j) {
-					if (enemyPokemon[enemyOut].statusAilments[j][0] == PFSStatusAilments.Perish_song) {
-						array_delete(enemyPokemon[enemyOut].statusAilments, j, 1);
-						j = 0;
-					}
-				}
-				enemyOut = turnSteps[0][1];
-				enemyhplerp = enemyPokemon[enemyOut].hp; //TODO: enemy pokemon
-				show_debug_message($"Foe sent {enemyPokemon[enemyOut].internalName} out!");
-				spawn_dialog("EnemySentOut");
-				if (__PFS_pokemon_have_ability(enemyPokemon[enemyOut], "mold-breaker")) {
-					global.dialogdata[$"pokename"] = enemyPokemon[enemyOut].internalName;
-					array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
-					show_debug_message($"{enemyPokemon[enemyOut].internalName} breaks the mold!");
-				}
-				
-				break;
-			case PFSTurnType.UseItem://TODO: Ball shakes
-				switch (turnSteps[0][1].usetype) {
-					case UseType.PokeBall:
-						if (was_caught(enemyPokemon[enemyOut], turnSteps[0][1].catchrate)) {
-							show_debug_message($"[PFS] {enemyPokemon[enemyOut].internalName} was caught!");
-							spawn_dialog($"Caught");
-							array_push(PFS.playerPokemons, enemyPokemon[enemyOut]);
-							turnSteps = [];
-							doTurn = false;
-							caught = true;
-						}
-						break;
-				}
-				break;
-			case PFSTurnType.Run:
-				PFS.playerPokemons[pokemonOut] = __PFS_tick_status_effect(PFS.playerPokemons[pokemonOut]);
-				show_debug_message("Ran from battle");
-				spawn_dialog($"RanAway");
-				ranaway = true;
-				break;
-		}
-		array_shift(turnSteps);
-		exit;
+		__PFS_turn_step();
 	},
 	endturn: function(){
 		if (array_length(turnSteps) == 0) {
@@ -471,7 +290,7 @@ sys.add("idle", {
 			if (PFS.playerPokemons[pokemonOut].hp <= 0) {
 				pokePlayerDead = true;
 			}
-			if (!enemy_alive()) {
+			if (!__PFS_enemy_alive()) {
 			    for (var i = 0; i < array_length(enemyPokemon); ++i) {
 				    if (enemyPokemon[i].hp > 0) {
 						array_push(PFSFightSystem.turnSteps, [PFSTurnType.EnemyChangePokemon, i]);

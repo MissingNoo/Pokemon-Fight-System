@@ -40,6 +40,12 @@ dbg_button("Set Player pokemon", function() {
 		PFSFightSystem.load_sprite(PFS.playerPokemons[0], PFSBattleSides.Enemy);
 	}
 });
+movename = "";
+dbg_text_input(ref_create(self, "movename"), "Move Name:");
+dbg_button("Set Player Move", function() { 
+	PlayerTeam[0].moves[0] = __PFS_add_move(PFSDebug.movename);
+});
+
 
 if (string_contains(os_get_config(), "Tests")) {
 	tests();

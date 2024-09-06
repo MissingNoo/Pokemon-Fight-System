@@ -250,10 +250,9 @@ function __PFS_apply_status(pokemon, status, turns = -99){
 }
 
 function __PFS_remove_status(pokemon, status){
-	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
-	    if (pokemon.statusAilments[0] == status) {
+	for (var i = array_length(pokemon.statusAilments) - 1; i >= 0; --i) {
+	    if (pokemon.statusAilments[i] == status) {
 		    array_delete(pokemon.statusAilments, i, 1);
-			i = 0;
 		}
 	}
 	return pokemon;
@@ -269,65 +268,73 @@ function __PFS_pokemon_affected_by_status(pokemon, status_id) {
 }
 
 function __PFS_use_move(pokemon, enemy, move, side) {
+	var battle = PFSFightSystem;
+	var pokemonOut = battle.pokemonOut;
+	var enemyOut = battle.enemyOut;
 	if (pokemon.hp <= 0) { return; }
-	var _calc = [0, [0, 0], [0, 0]];
+	var result = {
+		damage : undefined,
+		status : undefined,
+		ability_status : undefined,
+		affect_user : undefined,
+		critical : undefined,
+		pokemon : undefined,
+		enemy : undefined
+	};
 	var _appliedStatus = "";
-	_calc = __PFS_damage_calculation(pokemon, enemy, move, side);
+	result = __PFS_damage_calculation(pokemon, enemy, move, side);
 	switch (side) {
-			case PFSBattleSides.Player:
-				PFS.playerPokemons[PFSFightSystem.pokemonOut] = _calc[5];
-				PFSFightSystem.enemyPokemon[PFSFightSystem.enemyOut] = _calc[6];
-				break;
-			case PFSBattleSides.Enemy:
-				PFS.playerPokemons[PFSFightSystem.pokemonOut] = _calc[6];
-				PFSFightSystem.enemyPokemon[PFSFightSystem.enemyOut] = _calc[5];
-				break;
+		case PFSBattleSides.Player: {
+			PlayerTeam[pokemonOut] = result.pokemon;
+			EnemyTeam[enemyOut] = result.enemy;
+			break; 
 		}
-	if (_calc[4]) {
+		case PFSBattleSides.Enemy:{
+			PlayerTeam[pokemonOut] = result.enemy;
+			EnemyTeam[enemyOut] = result.pokemon;
+			break;
+		}
+	}
+	if (result.critical) {
 		array_push(global.nextdialog, {npc : "Battle", text : $"Critical", onBattle : true});
 	}
-	for (var i = 1; i <= 2; ++i) {
-	    if (_calc[i] != 0 and !__PFS_pokemon_affected_by_status(enemy, _calc[i][0]) and _calc[i][0] != 0) {
-			_appliedStatus = $"{_appliedStatus} and applied {PFS.StatusAilments[_calc[i][0]]} status!";
-			array_push(side == PFSBattleSides.Player ? enemyPokemon[enemyOut].statusAilments : PFS.playerPokemons[pokemonOut].statusAilments, _calc[i]);
-		}
+	
+	var _affected = [result.pokemon, result.enemy];
+	//Apply status
+	if (result.status[0] != -1 and !__PFS_pokemon_affected_by_status(enemy, result.status[0])) {
+	    _appliedStatus = $"{_appliedStatus} and applied {PFS.StatusAilments[result.status[0]]} status!";
+		__PFS_apply_status(enemy, result.status[0], result.status[1]);
 	}
-	if (_calc[3] != 0) { // Move that affects the user (Perish Song)
-		switch (side) {
-			case PFSBattleSides.Player:
-				PFS.playerPokemons[pokemonOut] = _calc[3];
-				break;
-			case PFSBattleSides.Enemy:
-				enemyPokemon[enemyOut] = _calc[3];
-				break;
-		}
+	show_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}!", result.damage > 0 ? $" dealing {result.damage} damage!" : "", $" {_appliedStatus}"));
+	if (result.affect_user != false) { // Move that affects the user (Perish Song)
+		pokemon = result.affect_user;
 	}
-	show_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}!", _calc[0] > 0 ? $" dealing {_calc[0]} damage!" : "", $" {_appliedStatus}"));
+	
 	switch (side) {
 		case PFSBattleSides.Player:
-			enemyPokemon[enemyOut].hp -= _calc[0];
-			if (enemyPokemon[enemyOut].hp <= 0) {
-				enemyPokemon[enemyOut].hp = 0;
-				show_debug_message($"{enemyPokemon[enemyOut].internalName} died");
+			EnemyTeam[enemyOut].hp -= result.damage;
+			if (EnemyTeam[enemyOut].hp <= 0) {
+				EnemyTeam[enemyOut].hp = 0;
+				show_debug_message($"{EnemyTeam[enemyOut].internalName} died");
 				array_push(global.nextdialog, {npc : "Battle", text : $"EnemyPokemonFainted", onBattle : true});
-				if (lastEnemyUsedMove == __PFS_get_move_id("Destiny Bond")) {
-					lastEnemyUsedMove = 0;
-					PFS.playerPokemons[pokemonOut].hp = 0;
-					show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died together due to {enemyPokemon[enemyOut].internalName}'s Destiny Bond!");
+				if (battle.lastEnemyUsedMove == __PFS_get_move_id("Destiny Bond")) {
+					battle.lastEnemyUsedMove = 0;
+					PlayerTeam[pokemonOut].hp = 0;
+					show_debug_message($"{PlayerTeam[pokemonOut].internalName} died together due to {EnemyTeam[enemyOut].internalName}'s Destiny Bond!");
 				}
 			}
 			break;
 		case PFSBattleSides.Enemy:
-			PFS.playerPokemons[pokemonOut].hp -= _calc[0];
-			if (PFS.playerPokemons[pokemonOut].hp <= 0) { 
-				show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} died");
-				enemyDead = true;
-				if (lastUsedMove == __PFS_get_move_id("Destiny Bond")) {
-					lastUsedMove = 0;
-					enemyPokemon[enemyOut].hp = 0;
-					show_debug_message($"{enemyPokemon[enemyOut].internalName} died together due to {PFS.playerPokemons[pokemonOut].internalName}'s Destiny Bond!");
+			PlayerTeam[pokemonOut].hp -= result.damage;
+			if (PlayerTeam[pokemonOut].hp <= 0) { 
+				show_debug_message($"{PlayerTeam[pokemonOut].internalName} died");
+				battle.enemyDead = true;
+				if (battle.lastUsedMove == __PFS_get_move_id("Destiny Bond")) {
+					battle.lastUsedMove = 0;
+					EnemyTeam[enemyOut].hp = 0;
+					show_debug_message($"{EnemyTeam[enemyOut].internalName} died together due to {PlayerTeam[pokemonOut].internalName}'s Destiny Bond!");
 				}
-				PFS.playerPokemons[pokemonOut].hp = 0; 
+				PlayerTeam[pokemonOut].hp = 0; 
 			}
 			break;
 	}
@@ -335,8 +342,8 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 
 function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	var _damage = 0;
-	var _affectUser = 0;
-	var _status = 0;
+	var _affectUser = false;
+	var _status = [-1, 0];
 	var _ability_status = 0;
 	var _critChance = irandom_range(0, 255);
 	var _critTreshold = pokemon.speed / 2; //TODO: High crit chance atk and items
@@ -543,7 +550,16 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	#endregion
 	
 	//show_debug_message($"Dealt ( ( ( 2 * {_level} / 5 + 2) * {_power} * ({_a} / {_d}) ) / 50 + 2 )  * {_targets} * {_pb} * {_weather} * {_glaiverush} * {_isCritical} * {_rnd} * {_stab} * {_type} * {_burn} * {_other} = {_damage} damage");
-	return [_damage, _status, _ability_status, _affectUser, _isCritical == 2 ? true : false, pokemon, enemy];
+	
+	return {
+		damage : _damage,
+		status : _status,
+		ability_status : _ability_status,
+		affect_user : _affectUser,
+		critical : _isCritical == 2 ? true : false,
+		pokemon : pokemon,
+		enemy : enemy
+	};
 }
 
 function __PFS_generate_pokemon(poke){

@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"PFSScripts",
+  "%Name":"PFSBattleScripts",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"PFSScripts",
+  "name":"PFSBattleScripts",
   "parent":{
     "name":"PFSScripts",
     "path":"folders/PokeFightSystem/PFSScripts.yy",
