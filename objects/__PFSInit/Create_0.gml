@@ -1,4 +1,5 @@
 //Feather disable GM2017
+cf = -1;
 if (PFS.Initialized) { instance_destroy(); }
 timer = 0;
 start = 0;
@@ -20,3 +21,11 @@ draw_set_font(PFS.Fonts.PokeFont[2]);
 //global.defaultFont = draw_get_font();
 scribble_font_set_default("sPokeFont3");
 //Feather disable GM2017
+function loaded(str) {
+	show_debug_message($"[PFS] Loading {str}: {(get_timer() - timer) / 1000000}s");
+	try {
+		file_text_close(cf);
+	}
+	catch(err) {}
+    step++
+}

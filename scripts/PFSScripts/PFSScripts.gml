@@ -15,8 +15,24 @@ PFS.__PFSTypes = ["Normal", "Fire", "Water", "Grass", "Flying", "Fighting", "Poi
 PFS.PFSMoveCategory = [["Physical", sPFSPhysicalIcon], ["Special", sPFSSpecialIcon], ["Status", sPFSStatusIcon]];
 PFS.StatusAilments = [];
 PFS.StatusAilmentsData = [];
+PFS.Natures = [[0]];
 PFS.Initialized = false;
-
+PFS.NatureStatusNames = [
+ "",
+ "",
+ "attack",
+ "defense",
+ "spattack",
+ "spdefense",
+ "speed"
+]
+enum __PFSStatId {
+	Attack = 2,
+	Defense = 3,
+	SPAtk = 4,
+	SPDef = 5,
+	Speed = 6,
+}
 enum PFSTurnType {
 	Move,
 	ChangePokemon,
@@ -622,6 +638,7 @@ function __PFS_generate_pokemon(poke){
 		}
 	    //show_message($"{pokemon.ability}");
 	}
+	pokemon.nature = PFS.Natures[irandom_range(1, array_length(PFS.Natures) - 1)].id;
 	return __PFS_recalculate_stats(pokemon, true);
 }
 
@@ -639,7 +656,6 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 	    pokemon[$ "base"] = {};
 	}
 	var _names = variable_struct_get_names(pokemon.basecalc);
-	var _result = "";
 	for (var i = 0; i < array_length(_names); ++i) {
 		switch (_names[i]) {
 		    case "hp":
@@ -653,8 +669,18 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 				var _basestat = variable_struct_get(pokemon.basecalc, _names[i]);
 				var _iv = variable_struct_get(pokemon.ivs, _names[i]);
 				var _ev = variable_struct_get(pokemon.evs, _names[i]);
-				var _nature = 1; //TODO: nature
+				var _nature = pokemon.nature; //TODO: nature
+				var increase_multiplier = 0;
+				var decrease_multiplier = 0;
+				if (PFS.NatureStatusNames[PFS.Natures[_nature].increased_stat_id] == _names[i]) {
+				    increase_multiplier = 10;
+				}
+				if (PFS.NatureStatusNames[PFS.Natures[_nature].decreased_stat_id] == _names[i]) {
+				    decrease_multiplier = 10;
+				}
 		        variable_struct_set(pokemon.base, _names[i], ((floor(0.01 * (2 * real(_basestat) + real(_iv) + floor(0.25 * real(_ev))) * real(pokemon.level))) + 5) * 1);
+				pokemon.base[$ _names[i]] += (pokemon.base[$ _names[i]] * increase_multiplier) / 100;
+				pokemon.base[$ _names[i]] -= (pokemon.base[$ _names[i]] * decrease_multiplier) / 100;
 				if (pokecenter) {
 				    variable_struct_set(pokemon, _names[i], ((floor(0.01 * (2 * real(_basestat) + real(_iv) + floor(0.25 * real(_ev))) * real(pokemon.level))) + 5) * 1);
 				}
