@@ -2,7 +2,9 @@
 #macro runningtests false
 #macro Tests:runningtests true
 global.testing = runningtests;
-
+global.testingforcecrit = false;
+global.testingrandomdamage = true;
+global.testingforcefail = false;
 function gen_enemy_poke(poke, level, move) {
 	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[poke])];
 	_enemyPokemon[0].level = level;
@@ -22,14 +24,17 @@ function tests(){
 	suite(function() {
 		section("Abilities", function() {			
 			afterEach(function() {
+				global.testingrandomdamage = true;
+				global.testingforcefail = false;
 				if (instance_exists(PFSFightSystem)) {
 				    instance_destroy(PFSFightSystem);
 				}
 			});
+			
 			test("Own Tempo (Confusion Immunity) -- Player Side", function() {
 				var status = PFSStatusAilments.Confusion;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Slowpoke|Level: 100|Hardy Nature|Ability: Own Tempo|- Confusion");
-				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Confusion");
+				var enemy = __PFS_generate_pokemon_from_showdown("Charmander");
 				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
 					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
@@ -46,6 +51,108 @@ function tests(){
 					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
 				}
 				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(false);
+			});
+			
+			test("Overgrow", function() {
+				global.testingrandomdamage = false;
+				var p1 = __PFS_generate_pokemon_from_showdown("Bulbasaur|Ability: Overgrow|- Vine Whip");
+				var p2 = __PFS_generate_pokemon_from_showdown("Slowpoke");
+				
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				p1.hp = 5;
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				var pside = calcfirst.damage < calcsecond.damage;
+				
+				var p1 = __PFS_generate_pokemon_from_showdown("Bulbasaur|Ability: Overgrow|- Vine Whip");
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Enemy);
+				p1.hp = 5;
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Enemy);
+				var eside = calcfirst.damage < calcsecond.damage;
+				
+				expect(pside and eside).toBe(true);
+			});
+			
+			test("Torrent", function() {
+				global.testingrandomdamage = false;
+				var p1 = __PFS_generate_pokemon_from_showdown("Squirtle|Ability: Torrent|- Water Gun");
+				var p2 = __PFS_generate_pokemon_from_showdown("Slowpoke");
+				
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				p1.hp = 5;
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				var pside = calcfirst.damage < calcsecond.damage;
+				
+				var p1 = __PFS_generate_pokemon_from_showdown("Squirtle|Ability: Torrent|- Water Gun");
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Enemy);
+				p1.hp = 5;
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Enemy);
+				var eside = calcfirst.damage < calcsecond.damage;
+				
+				expect(pside and eside).toBe(true);
+			});
+			
+			test("Blaze", function() {
+				global.testingrandomdamage = false;
+				var p1 = __PFS_generate_pokemon_from_showdown("Charmander|Ability: Blaze|- Flamethrower");
+				var p2 = __PFS_generate_pokemon_from_showdown("Slowpoke");
+				
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				p1.hp = 5;
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				var pside = calcfirst.damage < calcsecond.damage;
+				
+				var p1 = __PFS_generate_pokemon_from_showdown("Charmander|Ability: Blaze|- Flamethrower");
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Enemy);
+				p1.hp = 5;
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Enemy);
+				var eside = calcfirst.damage < calcsecond.damage;
+				
+				expect(pside and eside).toBe(true);
+			});
+			
+			test("Shield Dust - Player Side", function() {
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Caterpie|Ability: Shield Dust|- Flamethrower");
+				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+				}
+				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Burn)).toBe(false);
+			});
+			
+			test("Shield Dust - Foe Side", function() {
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
+				var enemy = __PFS_generate_pokemon_from_showdown("Caterpie|Ability: Shield Dust|- Flamethrower");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+				}
+				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], PFSStatusAilments.Burn)).toBe(false);
+			});
+			
+			test("Shed Skin - Player Side - Sucess", function() {
+				global.testingforcefail = false;
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Metapod|Level: 100|Ability: Shed Skin|- Pound");
+				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+				}
+				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Burn)).toBe(false);
+			});
+			
+			test("Shed Skin - Player Side - Fail", function() {
+				global.testingforcefail = false;
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Metapod|Level: 100|Ability: Shed Skin|- Pound");
+				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+					global.testingforcefail = true;
+					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+				}
+				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Burn)).toBe(true);
 			});
 		});
 		
@@ -173,6 +280,14 @@ function tests(){
 		});
 		margin = 30;
 		section("Damage Calculation", function() {
+			beforeEach(function(){
+				global.testingrandomdamage = true;
+			});
+			
+			afterEach(function(){
+				global.testingrandomdamage = false;
+			});
+			
 			test($"Lvl 50 Bulbasaur Vine Whip vs. Lvl 1 Weedle: 87-103", function() {
 				var mindmg = 87;
 				var maxdmg = 103;
@@ -273,10 +388,24 @@ function __PFS_generate_pokemon_from_showdown(export_string) {
 	var data = string_split(string_replace(pokedata, "	", ""), "|");
 	//[ "Charmander","Level: 5","Timid Nature","Ability: Blaze","EVs: 44 HP / 12 Def / 196 SpA / 236 Spe","IVs: 0 Atk","- Flamethrower","- Fire Blast","- Overheat","- Sleep Talk" ]
 	var gen = __PFS_generate_pokemon(PFS.Pokes[__PFS_get_poke_id(data[0])]);
-	gen.level = real(string_digits(data[array_find_index(data, function(e, i){return string_contains(e, "Level")})]));
-	__PFS_set_pokemon_nature(gen, string_replace(data[array_find_index(data, function(e, i){return string_contains(e, "Nature")})], " Nature", ""));
-	__PFS_set_pokemon_ability(gen, string_replace(data[array_find_index(data, function(e, i){return string_contains(e, "Ability")})], "Ability: ", ""));
+	
+	if (string_contains(pokedata, "Level")) {
+		gen.level = real(string_digits(data[array_find_index(data, function(e, i){return string_contains(e, "Level")})]));
+	}
+	else {
+		gen.level = irandom_range(1, 100);
+	}
+	
+	if (string_contains(pokedata, "Nature")) {
+		__PFS_set_pokemon_nature(gen, string_replace(data[array_find_index(data, function(e, i){return string_contains(e, "Nature")})], " Nature", ""));
+	}
+	
+	if (string_contains(pokedata, "Ability")) {
+		__PFS_set_pokemon_ability(gen, string_replace(data[array_find_index(data, function(e, i){return string_contains(e, "Ability")})], "Ability: ", ""));
+	}
+	
 	__PFS_set_pokemon_ivs(gen, 31, 31, 31, 31, 31, 31);
+	
 	var haveevs = array_find_index(data, function(e, i){return string_contains(e, "EVs")});
 	if (haveevs != -1) {
 	    var evs = string_split(string_replace(data[haveevs], "EVs: ", ""), "/");
@@ -337,7 +466,10 @@ function __PFS_generate_pokemon_from_showdown(export_string) {
 		__PFS_set_pokemon_evs(gen, ehp, eatk, edef, espa, espd, espe);
 	}
 	
-	gen.moves = [ __PFS_add_move(string_replace(data[array_find_index(data, function(e, i){return string_contains(e, "- ")})], "- ", ""))];
+	if (string_contains(pokedata, "-")) {
+	    gen.moves = [ __PFS_add_move(string_replace(data[array_find_index(data, function(e, i){return string_contains(e, "- ")})], "- ", ""))];
+	}
+	
 	gen = __PFS_recalculate_stats(gen, true);
 	return gen;
 }

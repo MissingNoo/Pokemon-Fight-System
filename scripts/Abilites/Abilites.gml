@@ -36,7 +36,7 @@ function populate_abilities() {
 		AbilityCodeEnd
 	});
 	set_ability_code("shield-dust", {
-		when : AbilityTime.Start,
+		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(enemy, "shield-dust")) { return AbilityResult; }
 			if (move.effect_chance > 0 and move.effect_chance < 100) {
@@ -48,7 +48,7 @@ function populate_abilities() {
 		AbilityCodeEnd
 	});
 	set_ability_code("soundproof", {
-		when : AbilityTime.Start,
+		when : AbilityTime.BeforeDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(enemy, "soundproof")) { return AbilityResult; }
 			if (__PFS_move_have_flag(move, "sound")) {
@@ -184,7 +184,7 @@ function populate_abilities() {
 	});
 	
 	set_ability_code("shed-skin", {
-		when : AbilityTime.AfterDamageCalculation,
+		when : AbilityTime.Start,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "shed-skin")) { return AbilityResult; }
 			var chance = __PFS_rng();
@@ -220,5 +220,7 @@ function populate_abilities() {
 			return AbilityResult;
 		AbilityCodeEnd
 	});
+	
+	
 
 }

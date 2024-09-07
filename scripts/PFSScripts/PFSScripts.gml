@@ -376,11 +376,16 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	var _affectUser = false;
 	var _status = 0;
 	var _ability_status = 0;
-	var _critChance = irandom_range(0, 255);
+	var _critChance = __PFS_rng(0, 255);
 	var _critTreshold = pokemon.speed / 2; //TODO: High crit chance atk and items
 	var _isCritical = _critChance <= _critTreshold ? 2 : 1; //TODO _isCritical = 1 if target ability is Battle Armor or Shell Armor or with Luck Chant
 	if (global.testing) { // Do not crit if running tests
-	    _isCritical = 1;
+		if (global.testingforcecrit) {
+		    _isCritical = 2;
+		}
+	    else {
+			_isCritical = 1;
+		}
 	}
 	var _level = real(pokemon.level);
 	var _power  = 0;
@@ -424,7 +429,7 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	var _type1 = __PFS_is_effective(enemy, move, 0);
 	var _type2 = array_length(enemy.type) > 1 ? __PFS_is_effective(enemy, move, 1) : 1;
 	var _type = 1 * _type1 * _type2;
-	var _rnd = random_range(0.85, 1);
+	var _rnd = __PFS_rngr(0.85, 1);
 	var _burn = move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and !__PFS_pokemon_have_ability(pokemon, "guts") ? 0.5 : 1; //TODO: don't affect fixed damage moves like Foul Play and ignore if its ability is guts
 	DEBUG
 		if (move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and __PFS_pokemon_have_ability(pokemon, "guts")) {
@@ -469,7 +474,7 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 				_turns = -99;
 			}
 			_status = [real(PFS.StatusAilmentsData[move.id].meta_ailment_id), _turns];
-			#region Status that affect the user
+			#region Status that affect the user //TODO: make weapon functions
 				#region Perish Song
 					if (_status[0] == PFSStatusAilments.Perish_song) {
 					    if (!__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Perish_song)) {
@@ -629,7 +634,7 @@ function __PFS_generate_pokemon(poke){
 	}
 	pokemon.statusAilments = [];
 	if (pokemon.ability[0][0] != 0 and pokemon.ability[1][0] != 0) {
-		var _rnd = irandom_range(0,1);
+		var _rnd = __PFS_rng(0, 1);
 	    //show_message($"multiple abilities \n{pokemon.ability}\nkeeping {pokemon.ability[_rnd][0]}");
 		switch (_rnd) {
 		    case 0:
@@ -944,11 +949,21 @@ function populate_trainers(){
 }
 #endregion
 
-function __PFS_rng() {
+function __PFS_rng(minv = 0, maxv = 100) {
+	if (global.testingforcefail) {
+	    return 100;
+	}
 	if (global.testing) {
 		return 1;
 	}
-	return irandom_range(0, 100);
+	return irandom_range(minv, maxv);
+}
+
+function __PFS_rngr(minv = 0, maxv = 100) {
+	if (global.testing and !global.testingrandomdamage) {
+		return 1;
+	}
+	return random_range(minv, maxv);
 }
 
 function __PFS_debug_msg(str) {
