@@ -450,7 +450,7 @@ switch (step) {
 		loaded("Move Data 5");
         break;
 	case 12:
-		while (!file_text_eof(cf)) { event_perform(ev_draw, ev_gui); //Latest
+		while (!file_text_eof(cf)) { //Latest
 			var _line = string_split(file_text_read_string(cf), ",");
 			if (firstline) {
 			    firstline = false;

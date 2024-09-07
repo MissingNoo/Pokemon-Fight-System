@@ -26,6 +26,7 @@ function populate_abilities() {
 	set_ability_code("battle-armor", {
 		when : AbilityTime.BeforeDamage,
 		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(enemy, "battle-armor")) { return AbilityResult; }
 			if (isCritical == 2) {
 				isCritical = 1;
 				show_debug_message($"{enemy.internalName}'s Battle Armor cancels the critical damage!");
@@ -37,7 +38,8 @@ function populate_abilities() {
 	set_ability_code("shield-dust", {
 		when : AbilityTime.Start,
 		AbilityCodeStart
-			if (move.effect_chance < 100) {
+			if (!__PFS_pokemon_have_ability(enemy, "shield-dust")) { return AbilityResult; }
+			if (move.effect_chance > 0 and move.effect_chance < 100) {
 				show_debug_message($"{enemy.internalName}'s Shield Dust cancelled the status effect!");
 				//array_push(global.nextdialog, {npc : "Battle", text : $"ShieldDust", onBattle : true});
 				status = 0;
@@ -48,6 +50,7 @@ function populate_abilities() {
 	set_ability_code("soundproof", {
 		when : AbilityTime.Start,
 		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(enemy, "soundproof")) { return AbilityResult; }
 			if (__PFS_move_have_flag(move, "sound")) {
 				show_debug_message($"{enemy.internalName}'s Soundproof ignored {move.internalName}!");
 				DialogData[$ "movename"] = move.internalName;
@@ -61,6 +64,7 @@ function populate_abilities() {
 	set_ability_code("sturdy", {
 		when : AbilityTime.AfterDamage,
 		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(enemy, "sturdy")) { return AbilityResult; }
 			if (enemy.base.hp == enemy.hp and _damage > enemy.hp and !__PFS_pokemon_have_ability(pokemon, "mold-breaker")) {
 				_damage = enemy.hp - 1;
 				show_debug_message($"{enemy.internalName} held out thanks to Sturdy!");
@@ -73,6 +77,7 @@ function populate_abilities() {
 	set_ability_code("static", {
 		when : AbilityTime.AfterDamage,
 		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(enemy, "static")) { return AbilityResult; }
 			if (__PFS_move_have_flag(move, "contact")
 				and __PFS_rng() <= 30
 				and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis)
@@ -88,8 +93,9 @@ function populate_abilities() {
 	set_ability_code("volt-absorb", {
 		when : AbilityTime.AfterDamage,
 		AbilityCodeStart
-			if (move.type == __PFSTypes.Electric and _damage > 0 and __PFS_pokemon_have_ability(enemy, "volt-absorb")) {
-				_damage = round(pokemon.base.hp / 4) * -1;
+			if (!__PFS_pokemon_have_ability(enemy, "volt-absorb")) { return AbilityResult; }
+			if (move.type == __PFSTypes.Electric and _damage > 0) {
+				_damage = round(enemy.base.hp / 4) * -1;
 				show_debug_message($"{enemy.internalName} recovered {_damage * -1} hp due to Volt Absorb!");
 			}
 			return AbilityResult;
@@ -99,8 +105,9 @@ function populate_abilities() {
 	set_ability_code("water-absorb", {
 		when : AbilityTime.AfterDamage,
 		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(enemy, "water-absorb")) { return AbilityResult; }
 			if (move.type == __PFSTypes.Water and _damage > 0 and __PFS_pokemon_have_ability(enemy, "water-absorb")) {
-				_damage = round(pokemon.base.hp / 4) * -1;
+				_damage = round(enemy.base.hp / 4) * -1;
 				show_debug_message($"{enemy.internalName} recovered {_damage * -1} hp due to Volt Absorb!");
 			}
 			return AbilityResult;
@@ -110,6 +117,7 @@ function populate_abilities() {
 	set_ability_code("pixilate", {
 		when : AbilityTime.Start,
 		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(pokemon, "pixilate")) { return AbilityResult; }
 			move = variable_clone(move);
 			if (move.type == __PFSTypes.Normal) {
 			    show_debug_message($"{move.internalName} has changed type from Normal to Fairy by {pokemon.internalName}'s Pixilate!");
@@ -122,20 +130,34 @@ function populate_abilities() {
 		AbilityCodeEnd
 	});
 	
-	set_ability_code("oblivious", {
-		when : AbilityTime.Start,
+	//set_ability_code("oblivious", {
+	//	when : AbilityTime.Start,
+	//	AbilityCodeStart
+	//		if (!__PFS_pokemon_have_ability(pokemon, "oblivious")) { return AbilityResult; }
+	//		if (pokemon.taunted) { //TODO: test this
+	//		    pokemon.taunted = false;
+	//			show_debug_message($"{pokemon.internalName} Taunt was removed due to Oblivious!");
+	//		}
+	//		if (__PFS_pokemon_affected_by_status(enemy, PFSStatusAilments.Infatuation)) {
+	//		    enemy = __PFS_remove_status(enemy, PFSStatusAilments.Infatuation);
+	//			show_debug_message($"{enemy.internalName} was cured from infatuation due to Oblivious!");
+	//		}
+	//		if (status[0] == PFSStatusAilments.Infatuation or move.internalName == "captivate") {
+	//			status = 0;
+	//			show_debug_message($"{enemy.internalName} ignored infatuation/captivate due to Oblivious!");
+	//		}
+	//		return AbilityResult;
+	//	AbilityCodeEnd
+	//});
+	
+	set_ability_code("overgrow", {
+		when : AbilityTime.AfterDamage,
 		AbilityCodeStart
-			if (pokemon.taunted) { //TODO: test this
-			    pokemon.taunted = false;
-				show_debug_message($"{pokemon.internalName} Taunt was removed due to Oblivious!");
-			}
-			if (__PFS_pokemon_affected_by_status(enemy, PFSStatusAilments.Infatuation)) {
-			    enemy = __PFS_remove_status(enemy, PFSStatusAilments.Infatuation);
-				show_debug_message($"{enemy.internalName} was cured from infatuation due to Oblivious!");
-			}
-			if (status[0] == PFSStatusAilments.Infatuation or move.internalName == "captivate") {
-				status = 0;
-				show_debug_message($"{enemy.internalName} ignored infatuation/captivate due to Oblivious!");
+			if (!__PFS_pokemon_have_ability(pokemon, "overgrow")) { return AbilityResult; }
+			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Grass) {
+				var before = _damage;
+			    _damage = _damage * 1.5;
+				var bafter = _damage;
 			}
 			return AbilityResult;
 		AbilityCodeEnd
