@@ -1,4 +1,5 @@
 //Feather disable GM2017
+show_debug_message(json_stringify(PlayerTeam[0]))
 EnemyTeam = enemyPokemon;
 if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
 if (!wildPokemon) {

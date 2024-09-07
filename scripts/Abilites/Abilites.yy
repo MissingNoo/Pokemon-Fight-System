@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"Abilites",
   "parent":{
-    "name":"PokeFightSystem",
-    "path":"folders/PokeFightSystem.yy",
+    "name":"PFSScripts",
+    "path":"folders/PokeFightSystem/PFSScripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

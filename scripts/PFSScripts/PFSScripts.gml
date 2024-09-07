@@ -379,6 +379,9 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	var _critChance = irandom_range(0, 255);
 	var _critTreshold = pokemon.speed / 2; //TODO: High crit chance atk and items
 	var _isCritical = _critChance <= _critTreshold ? 2 : 1; //TODO _isCritical = 1 if target ability is Battle Armor or Shell Armor or with Luck Chant
+	if (global.testing) { // Do not crit if running tests
+	    _isCritical = 1;
+	}
 	var _level = real(pokemon.level);
 	var _power  = 0;
 	try {
@@ -681,6 +684,7 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 		        variable_struct_set(pokemon.base, _names[i], ((floor(0.01 * (2 * real(_basestat) + real(_iv) + floor(0.25 * real(_ev))) * real(pokemon.level))) + 5) * 1);
 				pokemon.base[$ _names[i]] += (pokemon.base[$ _names[i]] * increase_multiplier) / 100;
 				pokemon.base[$ _names[i]] -= (pokemon.base[$ _names[i]] * decrease_multiplier) / 100;
+				pokemon.base[$ _names[i]] = round(pokemon.base[$ _names[i]]);				
 				if (pokecenter) {
 				    variable_struct_set(pokemon, _names[i], ((floor(0.01 * (2 * real(_basestat) + real(_iv) + floor(0.25 * real(_ev))) * real(pokemon.level))) + 5) * 1);
 				}
@@ -700,12 +704,13 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 
 #region Abilities
 function __PFS_get_ability_id(name) {
+	string_replace_all(name, " ", "-");
 	for (var i = 0; i < array_length(PFS.Abilities); ++i) {
 	    if (PFS.Abilities[i][$ "internalName"] == name or PFS.Abilities[i][$ "identifier"] == name) {
 		    return i;
 		}
 	}
-	show_debug_message("Ability not found");
+	show_debug_message($"Ability {name} not found");
 	return 0;
 }
 	

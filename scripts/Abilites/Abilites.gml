@@ -155,9 +155,7 @@ function populate_abilities() {
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "overgrow")) { return AbilityResult; }
 			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Grass) {
-				var before = _damage;
 			    _damage = _damage * 1.5;
-				var bafter = _damage;
 			}
 			return AbilityResult;
 		AbilityCodeEnd
@@ -168,9 +166,7 @@ function populate_abilities() {
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "blaze")) { return AbilityResult; }
 			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Fire) {
-				var before = _damage;
 			    _damage = _damage * 1.5;
-				var bafter = _damage;
 			}
 			return AbilityResult;
 		AbilityCodeEnd
@@ -181,9 +177,7 @@ function populate_abilities() {
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "torrent")) { return AbilityResult; }
 			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Water) {
-				var before = _damage;
 			    _damage = _damage * 1.5;
-				var bafter = _damage;
 			}
 			return AbilityResult;
 		AbilityCodeEnd
@@ -201,4 +195,18 @@ function populate_abilities() {
 			return AbilityResult;
 		AbilityCodeEnd
 	});
+	
+	set_ability_code("swarm", {
+		when : AbilityTime.AfterDamage,
+		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(pokemon, "swarm")) { return AbilityResult; }
+			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Bug) {
+			    _damage = _damage * 1.5;
+			}
+			return AbilityResult;
+		AbilityCodeEnd
+	});
+	
+	
+
 }

@@ -73,6 +73,39 @@ function TestCase(_val, _args) constructor {
 		}
 	}
 	
+	/// @func toBeBetween(expected_result)
+	/// @param	{any}	expected_result
+	function toBeBetween(minv, maxv) {
+		var _typeOf	 = typeof(__internal_value);
+		var _isValid = false;
+		
+		//switch (_typeOf) {
+		//	case "array":
+		//		_isValid = array_equals(__internal_value, _expectedResult);
+		//		break;
+		//	case "struct":
+		//		_isValid = variable_get_hash(__internal_value) == variable_get_hash(_expectedResult);
+		//		break;
+		//	default:
+		//		toBe(_expectedResult);
+		//		return;
+		//}
+		
+		_isValid = __not ? !_isValid : _isValid;
+		var res = (__internal_value >= minv and __internal_value <= maxv) ? true : false;
+		if (!res) {
+			//__gmtl_internal_fn_stacktrace();
+			
+			array_push(gmtl_test_log, $"> expect({__internal_value}).toBeBetween({minv}, {maxv})");
+			array_push(gmtl_test_log, $"- Expected Result: 1");
+			array_push(gmtl_test_log, $"- Recieved Result: {bool(res)}");
+			gmtl_test_status = __gmtl_test_status.FAILED;
+			gmtl_suite_continue = false;
+		} else {
+			gmtl_test_status = __gmtl_test_status.SUCCESS;
+		}
+	}
+	
 	/// @func toHaveReturned()
 	function toHaveReturned() {
 		var _isValid = !is_undefined(__internal_value) && is_callable(__internal_value);
