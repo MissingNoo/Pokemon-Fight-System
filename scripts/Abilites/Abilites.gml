@@ -162,4 +162,43 @@ function populate_abilities() {
 			return AbilityResult;
 		AbilityCodeEnd
 	});
+	
+	set_ability_code("blaze", {
+		when : AbilityTime.AfterDamage,
+		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(pokemon, "blaze")) { return AbilityResult; }
+			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Fire) {
+				var before = _damage;
+			    _damage = _damage * 1.5;
+				var bafter = _damage;
+			}
+			return AbilityResult;
+		AbilityCodeEnd
+	});
+	
+	set_ability_code("torrent", {
+		when : AbilityTime.AfterDamage,
+		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(pokemon, "torrent")) { return AbilityResult; }
+			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Water) {
+				var before = _damage;
+			    _damage = _damage * 1.5;
+				var bafter = _damage;
+			}
+			return AbilityResult;
+		AbilityCodeEnd
+	});
+	
+	set_ability_code("shed-skin", {
+		when : AbilityTime.AfterDamage,
+		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(pokemon, "shed-skin")) { return AbilityResult; }
+			var chance = __PFS_rng();
+			if (chance <= 33) {
+			    pokemon.statusAilments = [];
+				__PFS_debug_msg($"{pokemon.internalName} shedded his skin!");
+			}
+			return AbilityResult;
+		AbilityCodeEnd
+	});
 }

@@ -945,3 +945,7 @@ function __PFS_rng() {
 	}
 	return irandom_range(0, 100);
 }
+
+function __PFS_debug_msg(str) {
+	show_debug_message("[PFS] " + str);
+}
