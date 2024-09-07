@@ -20,6 +20,34 @@ function set_player_poke(poke, level, move) {
 
 function tests(){
 	suite(function() {
+		section("Abilities", function() {			
+			afterEach(function() {
+				if (instance_exists(PFSFightSystem)) {
+				    instance_destroy(PFSFightSystem);
+				}
+			});
+			test("Own Tempo (Confusion Immunity) -- Player Side", function() {
+				var status = PFSStatusAilments.Confusion;
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Slowpoke|Level: 100|Hardy Nature|Ability: Own Tempo|- Confusion");
+				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Confusion");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+				}
+				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], status)).toBe(false);
+			});
+			
+			test("Own Tempo (Confusion Immunity) -- Foe Side", function() {
+				var status = PFSStatusAilments.Confusion;
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Confusion");
+				var enemy = __PFS_generate_pokemon_from_showdown("Slowpoke|Level: 100|Hardy Nature|Ability: Own Tempo|- Confusion");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+				}
+				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(false);
+			});
+		});
 		
 		section("Status", function() {
 			afterEach(function() {
@@ -31,7 +59,7 @@ function tests(){
 			test("Paralyze - Player", function() {
 				var status = PFSStatusAilments.Paralysis;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Pikachu|Level: 50|Hardy Nature|Ability: Static|- Thunder Shock");
-				var enemy = __PFS_generate_pokemon_from_showdown("Weedle|Level: 100|Hardy Nature|Ability: Shield Dust|- Absorb");
+				var enemy = __PFS_generate_pokemon_from_showdown("Weedle|Level: 100|Hardy Nature|Ability: Blaze|- Absorb");
 				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
 					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
@@ -41,7 +69,7 @@ function tests(){
 			
 			test("Paralyze - Foe", function() {
 				var status = PFSStatusAilments.Paralysis;
-				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Weedle|Level: 100|Hardy Nature|Ability: Shield Dust|- Absorb");
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Weedle|Level: 100|Hardy Nature|Ability: Blaze|- Absorb");
 				var enemy = __PFS_generate_pokemon_from_showdown("Pikachu|Level: 50|Hardy Nature|Ability: Static|- Thunder Shock");
 				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
@@ -69,43 +97,127 @@ function tests(){
 				with (_obj) {
 					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
 				}
+				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(false);
+			});
+			#endregion
+			
+			#region Burn
+			test("Burn - Player", function() {
+				var status = PFSStatusAilments.Burn;
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Ember");
+				var enemy = __PFS_generate_pokemon_from_showdown("Weedle|Level: 100|Hardy Nature|Ability: Blaze|- Absorb");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+				}
+				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(true);
+			});
+			
+			test("Burn - Foe", function() {
+				var status = PFSStatusAilments.Burn;
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Weedle|Level: 100|Hardy Nature|Ability: Blaze|- Absorb");
+				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Ember");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+				}
+				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], status)).toBe(true);
+			});
+			
+			test("Burn - Player Immunity", function() {
+				var status = PFSStatusAilments.Burn;
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Ember");
+				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Ember");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+				}
 				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], status)).toBe(false);
+			});
+			
+			test("Burn - Enemy Immunity", function() {
+				var status = PFSStatusAilments.Burn;
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Ember");
+				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Ember");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+				}
+				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(false);
+			});
+			#endregion
+			
+			#region Confusion
+			test("Confusion - Player", function() {
+				var status = PFSStatusAilments.Confusion;
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Confusion");
+				var enemy = __PFS_generate_pokemon_from_showdown("Weedle|Level: 100|Hardy Nature|Ability: Blaze|- Absorb");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+				}
+				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(true);
+			});
+			
+			test("Confusion - Foe", function() {
+				var status = PFSStatusAilments.Confusion;
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Weedle|Level: 100|Hardy Nature|Ability: Blaze|- Absorb");
+				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Confusion");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+				}
+				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], status)).toBe(true);
 			});
 			#endregion
 		});
-		
-		section("Moves", function() {
-			//test("Thunder Shock: Immunity", function() {
-			//	var move = "Thunder Shock";
-			//	var status = PFSStatusAilments.Paralysis;
-			//	var enemy = [25, 1, move];
-			//	set_player_poke(25, 1, move);
-			//	_obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : gen_enemy_poke(enemy[0], enemy[1], enemy[2])});
-			//	with (_obj) {
-			//		__PFS_use_move(PFS.playerPokemons[0], PFSFightSystem.enemyPokemon[0], PFS.playerPokemons[0].moves[0], PFSBattleSides.Player);
-			//	}
-			//	expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(false);
-			//	instance_destroy(_obj);
-				
-			//	var enemy = [25, 1, move];
-			//	set_player_poke(25, 1, move);
-			//	_obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : gen_enemy_poke(enemy[0], enemy[1], enemy[2])});
-			//	with (_obj) {
-			//		__PFS_use_move(PFSFightSystem.enemyPokemon[0], PFS.playerPokemons[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
-			//	}
-			//	expect(__PFS_pokemon_affected_by_status(PFS.playerPokemons[0], status)).toBe(false);
-			//	instance_destroy(_obj);
-			//});
-			var tr = 0;
-			repeat(3){
-				tr++;
-				test($"Lvl 50 Bulbasaur Vine Whip vs. Lvl 1 Weedle: Damage between 87-103 (Try {tr})", function() {
+		margin = 30;
+		section("Damage Calculation", function() {
+			test($"Lvl 50 Bulbasaur Vine Whip vs. Lvl 1 Weedle: 87-103", function() {
+				var mindmg = 87;
+				var maxdmg = 103;
+				var error = false;
+				repeat(3) {
 					var p1 = __PFS_generate_pokemon_from_showdown("Bulbasaur|Level: 50|Hardy Nature|Ability: Overgrow|- Vine Whip");
 					var p2 = __PFS_generate_pokemon_from_showdown("Weedle|Level: 1|Hardy Nature|Ability: Shield Dust|- Absorb");
 					var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0], PFSBattleSides.Player);
-					expect(calculation.damage).toBeBetween(87, 103);
-				});
-			}
+					if (!(calculation.damage >= mindmg - margin and calculation.damage <= maxdmg + margin)) {
+					    error = true;
+					}
+				}
+				expect(error).toBe(false);
+			});
+			
+			test($"Pikachu Thunder Shock vs. Diglett: 0-0", function() {
+				var mindmg = 0;
+				var maxdmg = 0;
+				var error = false;
+				repeat(3) {
+					var p1 = __PFS_generate_pokemon_from_showdown("Pikachu|Level: 100|Hardy Nature|Ability: Static|- Thunder Shock");
+					var p2 = __PFS_generate_pokemon_from_showdown("Diglett|Level: 100|Hardy Nature|Ability: Sand Veil|- Absorb");
+					var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0], PFSBattleSides.Player);
+					if (!(calculation.damage >= mindmg - margin and calculation.damage <= maxdmg + margin)) {
+					    error = true;
+					}
+				}
+				expect(error).toBe(false);
+			});
+			
+			test($"Garchomp Earthquake vs. Volcarona: 210-247", function() {
+				var mindmg = 210;
+				var maxdmg = 247;
+				var error = false;
+				repeat(3) {
+					var p1 = __PFS_generate_pokemon_from_showdown("Garchomp|Level: 100|Ability: Rough Skin|EVs: 252 Atk / 4 SpD / 252 Spe|Timid Nature|- Earthquake");
+					var p2 = __PFS_generate_pokemon_from_showdown("Volcarona|Level: 100|Timid Nature|Ability: Flame Body|EVs: 252 SpA / 4 SpD / 252 Spe|- Quiver Dance");
+					var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0], PFSBattleSides.Player);
+					if (!(calculation.damage >= mindmg - margin and calculation.damage <= maxdmg + margin)) {
+						show_debug_message($"TEST ERROR: {calculation.damage}:{mindmg}:{maxdmg}");
+					    error = true;
+					}
+				}
+				expect(error).toBe(false);
+			});
 		});
 	});
 }
@@ -141,7 +253,7 @@ function __PFS_set_pokemon_nature(pokemon, nature) {
 
 function __PFS_set_pokemon_ability(pokemon, ability) {
 	pokemon.ability = [
-					[ __PFS_get_ability_id(string_lower(ability)), 0 ],
+					[ __PFS_get_ability_id(ability), 0 ],
 					[ 0, 1 ],
 					[ 0, 1 ]
 				];

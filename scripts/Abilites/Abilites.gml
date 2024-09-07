@@ -2,8 +2,8 @@
 //Feather disable GM1014
 enum AbilityTime {
 	Start,
-	BeforeDamage,
-	AfterDamage
+	BeforeDamageCalculation,
+	AfterDamageCalculation
 }
 /// @function                set_ability_code(name, struct)
 /// @description             Set the code to run when a pokemon is hit and have the ability
@@ -24,7 +24,7 @@ function populate_abilities() {
 	//	AbilityCodeEnd
 	//});
 	set_ability_code("battle-armor", {
-		when : AbilityTime.BeforeDamage,
+		when : AbilityTime.BeforeDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(enemy, "battle-armor")) { return AbilityResult; }
 			if (isCritical == 2) {
@@ -62,7 +62,7 @@ function populate_abilities() {
 		AbilityCodeEnd
 	});
 	set_ability_code("sturdy", {
-		when : AbilityTime.AfterDamage,
+		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(enemy, "sturdy")) { return AbilityResult; }
 			if (enemy.base.hp == enemy.hp and _damage > enemy.hp and !__PFS_pokemon_have_ability(pokemon, "mold-breaker")) {
@@ -75,7 +75,7 @@ function populate_abilities() {
 		AbilityCodeEnd
 	});
 	set_ability_code("static", {
-		when : AbilityTime.AfterDamage,
+		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(enemy, "static")) { return AbilityResult; }
 			if (__PFS_move_have_flag(move, "contact")
@@ -91,7 +91,7 @@ function populate_abilities() {
 	});
 	
 	set_ability_code("volt-absorb", {
-		when : AbilityTime.AfterDamage,
+		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(enemy, "volt-absorb")) { return AbilityResult; }
 			if (move.type == __PFSTypes.Electric and _damage > 0) {
@@ -103,7 +103,7 @@ function populate_abilities() {
 	});
 	
 	set_ability_code("water-absorb", {
-		when : AbilityTime.AfterDamage,
+		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(enemy, "water-absorb")) { return AbilityResult; }
 			if (move.type == __PFSTypes.Water and _damage > 0 and __PFS_pokemon_have_ability(enemy, "water-absorb")) {
@@ -151,7 +151,7 @@ function populate_abilities() {
 	//});
 	
 	set_ability_code("overgrow", {
-		when : AbilityTime.AfterDamage,
+		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "overgrow")) { return AbilityResult; }
 			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Grass) {
@@ -162,7 +162,7 @@ function populate_abilities() {
 	});
 	
 	set_ability_code("blaze", {
-		when : AbilityTime.AfterDamage,
+		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "blaze")) { return AbilityResult; }
 			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Fire) {
@@ -173,7 +173,7 @@ function populate_abilities() {
 	});
 	
 	set_ability_code("torrent", {
-		when : AbilityTime.AfterDamage,
+		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "torrent")) { return AbilityResult; }
 			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Water) {
@@ -184,7 +184,7 @@ function populate_abilities() {
 	});
 	
 	set_ability_code("shed-skin", {
-		when : AbilityTime.AfterDamage,
+		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "shed-skin")) { return AbilityResult; }
 			var chance = __PFS_rng();
@@ -197,7 +197,7 @@ function populate_abilities() {
 	});
 	
 	set_ability_code("swarm", {
-		when : AbilityTime.AfterDamage,
+		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "swarm")) { return AbilityResult; }
 			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Bug) {
@@ -207,6 +207,18 @@ function populate_abilities() {
 		AbilityCodeEnd
 	});
 	
-	
+	set_ability_code("own-tempo", {
+		when : AbilityTime.AfterDamageCalculation,
+		AbilityCodeStart
+			//show_message($"{enemy.internalName}:{__PFS_pokemon_have_ability(enemy, "own-tempo")}:{__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Confusion)}");
+			if (!__PFS_pokemon_have_ability(enemy, "own-tempo")) { return AbilityResult; } 
+			if (__PFS_pokemon_affected_by_status(enemy, PFSStatusAilments.Confusion) or (status != 0 and status[0] == PFSStatusAilments.Confusion)) {
+			    __PFS_remove_status(enemy, PFSStatusAilments.Confusion);
+				status = 0;
+				show_debug_message($"{enemy.internalName}'s Own Tempo cleansed confusion");
+			}
+			return AbilityResult;
+		AbilityCodeEnd
+	});
 
 }
