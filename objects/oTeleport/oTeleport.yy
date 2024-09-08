@@ -10,8 +10,8 @@
   "name":"oTeleport",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"Map",
+    "path":"folders/Objects/Map.yy",
   },
   "parentObjectId":null,
   "persistent":false,

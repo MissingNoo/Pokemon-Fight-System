@@ -23,7 +23,9 @@ array_foreach(files, function(e, i){
 		show_message($"missing file {file} on installation"); 
 	}
 })
-cf = file_text_open_read(path + files[step]);
+if (files[step] != "") {
+    cf = file_text_open_read(path + files[step]);
+}
 timer = get_timer();
 var firstline = true;
 var _pos = [];

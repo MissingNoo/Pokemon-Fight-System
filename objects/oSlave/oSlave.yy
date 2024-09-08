@@ -10,8 +10,8 @@
   "name":"oSlave",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"Multiplayer",
+    "path":"folders/Objects/Multiplayer.yy",
   },
   "parentObjectId":{
     "name":"oDepthParent",

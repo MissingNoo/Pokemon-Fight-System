@@ -263,7 +263,6 @@ array_push(GameItems, new Potion("SuperPotion", sMedicines, 1, PotionType.Heal))
 array_push(GameItems, new Potion("HyperPotion", sMedicines, 2, PotionType.Heal));
 array_push(GameItems, new Potion("MaxPotion", sMedicines, 3, PotionType.Heal));
 
-
 #region Balls
 function was_caught(pokemon, ballrate){
 	var M = pokemon.base.hp;
@@ -272,10 +271,10 @@ function was_caught(pokemon, ballrate){
 	var C = real(PFS.PokeSpecies[pokemon.species_id].capture_rate);
 	var S = 1;
 	if (__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Poison) or __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis) or __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn)) {
-		S = 1.5;
+		S += .5;
 	}
 	if (__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Sleep) or __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Freeze)) {
-		S = 2.5;
+		S += 1.5;
 	}
 	var B = ballrate;
 	var E = 100; //unused
