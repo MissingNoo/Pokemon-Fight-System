@@ -34,7 +34,7 @@ function tests(){
 			test("Own Tempo (Confusion Immunity) -- Player Side", function() {
 				var status = PFSStatusAilments.Confusion;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Slowpoke|Level: 100|Hardy Nature|Ability: Own Tempo|- Confusion");
-				var enemy = __PFS_generate_pokemon_from_showdown("Charmander");
+				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
 				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
 					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
@@ -172,8 +172,67 @@ function tests(){
 				var eside = calcfirst.damage < calcsecond.damage;
 				
 				expect(pside and eside).toBe(true);
-			});			
+			});
 			
+			test("Soundproof", function() {
+				var p1 = __PFS_generate_pokemon_from_showdown("Rattata|Level: 100|- Perish Song");
+				var p2 = __PFS_generate_pokemon_from_showdown("Exploud");
+				
+				//Status
+				PlayerTeam[0] = variable_clone(p1);
+				var enemy = variable_clone(p2);
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+				}
+				var enemyaffected = __PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], PFSStatusAilments.Perish_song);
+				instance_destroy(_obj);
+				
+				PlayerTeam[0] = variable_clone(p2);
+				var enemy = variable_clone(p1);
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+				}
+				var playeraffected = __PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Perish_song);
+				instance_destroy(_obj);
+				
+				//Damage
+				var p1 = __PFS_generate_pokemon_from_showdown("Rattata|Level: 100|- Hyper Voice");
+				var p2 = __PFS_generate_pokemon_from_showdown("Exploud");
+				
+				PlayerTeam[0] = variable_clone(p1);
+				var enemy = variable_clone(p2);
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+				}
+				var enemydmgaffected = PFSFightSystem.enemyPokemon[0].hp < PFSFightSystem.enemyPokemon[0].base.hp;
+				instance_destroy(_obj);
+				
+				PlayerTeam[0] = variable_clone(p2);
+				var enemy = variable_clone(p1);
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+				}
+				var playerdmgaffected = PlayerTeam[0].hp < PlayerTeam[0].base.hp;
+				instance_destroy(_obj);
+				
+				expect(!enemyaffected and !playeraffected and !playerdmgaffected and !enemydmgaffected).toBe(true);
+			});
+			
+			test("Pixilate", function() {
+				var p1 = __PFS_generate_pokemon_from_showdown("Sylveon|Ability: Pixilate|- Pound");
+				var p2 = __PFS_generate_pokemon_from_showdown("Rattata");
+				
+				var _abresult = PFS.AbilitiesCode[p1.ability[0][0]].code(p1, p2, p1.moves[0], 0, 1, 1, PFSBattleSides.Player);
+				var psideconvert = _abresult.move.type == __PFSTypes.Fairy;
+				var _abresult = PFS.AbilitiesCode[p1.ability[0][0]].code(p1, p2, p1.moves[0], 0, 1, 1, PFSBattleSides.Enemy);
+				var esideconvert = _abresult.move.type == __PFSTypes.Fairy;
+				
+				expect(psideconvert and esideconvert).toBe(true);
+			});
 		});
 		
 		section("Status", function() {
@@ -306,6 +365,12 @@ function tests(){
 			
 			afterEach(function(){
 				global.testingrandomdamage = false;
+			});
+			
+			afterAll(function(){
+				if (global.testing) {
+				    game_end();
+				}
 			});
 			
 			test($"Lvl 50 Bulbasaur Vine Whip vs. Lvl 1 Weedle: 87-103", function() {

@@ -396,32 +396,22 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	#region Abilities
 		for (var i = 0; i < array_length(enemy.ability); ++i) {
 			if (enemy.ability[i][1] == 1) { continue; }
-			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined) {
-				if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.Start) {
-					continue;
-				}
+			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.Start) {
 				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-				pokemon = _abresult[0];
-				enemy = _abresult[1];
-				move = _abresult[2];
-				_status = _abresult[3];
-				_isCritical = _abresult[4];
-				_damage = _abresult[5];
+				_status = _abresult.status;
+				_isCritical = _abresult.critical;
+				_damage = _abresult.damage;
+				move = _abresult.move;
 			}
 		}
 		for (var i = 0; i < array_length(pokemon.ability); ++i) {
 			if (pokemon.ability[i][1] == 1) { continue; }
-			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined) {
-				if (PFS.AbilitiesCode[pokemon.ability[i][0]].when != AbilityTime.Start) {
-					continue;
-				}
+			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.Start) {
 				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-				pokemon = _abresult[0];
-				enemy = _abresult[1];
-				move = _abresult[2];
-				_status = _abresult[3];
-				_isCritical = _abresult[4];
-				_damage = _abresult[5];
+				_status = _abresult.status;
+				_isCritical = _abresult.critical;
+				_damage = _abresult.damage;
+				move = _abresult.move;
 			}
 		}
 	#endregion
@@ -515,32 +505,22 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 		#region Abilities
 			for (var i = 0; i < array_length(enemy.ability); ++i) {
 				if (enemy.ability[i][1] == 1) { continue; }
-				if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined) {
-					if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.BeforeDamageCalculation) {
-						continue;
-					}
+				if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.BeforeDamageCalculation) {
 					var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-					pokemon = _abresult[0];
-					enemy = _abresult[1];
-					move = _abresult[2];
-					_status = _abresult[3];
-					_isCritical = _abresult[4];
-					_damage = _abresult[5];
+					_status = _abresult.status;
+					_isCritical = _abresult.critical;
+					_damage = _abresult.damage;
+					move = _abresult.move;
 				}
 			}
 			for (var i = 0; i < array_length(pokemon.ability); ++i) {
 				if (pokemon.ability[i][1] == 1) { continue; }
-				if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined) {
-					if (PFS.AbilitiesCode[pokemon.ability[i][0]].when != AbilityTime.BeforeDamageCalculation) {
-						continue;
-					}
+				if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.BeforeDamageCalculation) {
 					var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-					pokemon = _abresult[0];
-					enemy = _abresult[1];
-					move = _abresult[2];
-					_status = _abresult[3];
-					_isCritical = _abresult[4];
-					_damage = _abresult[5];
+					_status = _abresult.status;
+					_isCritical = _abresult.critical;
+					_damage = _abresult.damage;
+					move = _abresult.move;
 				}
 			}
 		#endregion
@@ -553,32 +533,22 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 		#region Abilities
 		for (var i = 0; i < array_length(enemy.ability); ++i) {
 			if (enemy.ability[i][1] == 1) { continue; }
-			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined) {
-				if (PFS.AbilitiesCode[enemy.ability[i][0]].when != AbilityTime.AfterDamageCalculation) {
-					continue;
-				}
+			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.AfterDamageCalculation) {
 				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-				pokemon = _abresult[0];
-				enemy = _abresult[1];
-				move = _abresult[2];
-				_status = _abresult[3];
-				_isCritical = _abresult[4];
-				_damage = _abresult[5];
+				_status = _abresult.status;
+				_isCritical = _abresult.critical;
+				_damage = _abresult.damage;
+				move = _abresult.move;
 			}
 		}
 		for (var i = 0; i < array_length(pokemon.ability); ++i) {
 			if (pokemon.ability[i][1] == 1) { continue; }
-			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined) {
-				if (PFS.AbilitiesCode[pokemon.ability[i][0]].when != AbilityTime.AfterDamageCalculation) {
-					continue;
-				}
+			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.AfterDamageCalculation) {
 				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-				pokemon = _abresult[0];
-				enemy = _abresult[1];
-				move = _abresult[2];
-				_status = _abresult[3];
-				_isCritical = _abresult[4];
-				_damage = _abresult[5];
+				_status = _abresult.status;
+				_isCritical = _abresult.critical;
+				_damage = _abresult.damage;
+				move = _abresult.move;
 			}
 		}
 		#endregion

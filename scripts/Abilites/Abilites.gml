@@ -13,7 +13,7 @@ function set_ability_code(name, struct) {
 	PFS.AbilitiesCode[__PFS_get_ability_id(name)] = struct;
 }
 #macro AbilityCodeStart code: function(pokemon, enemy, move, status, isCritical, _damage, _side) {
-#macro AbilityResult [pokemon, enemy, move, status, isCritical, _damage]
+#macro AbilityResult {status : status, critical : isCritical, damage : _damage, move : move}
 #macro AbilityCodeEnd }
 function populate_abilities() {
 	PFS.AbilitiesCode = array_create(array_length(PFS.Abilities), undefined);
@@ -48,7 +48,7 @@ function populate_abilities() {
 		AbilityCodeEnd
 	});
 	set_ability_code("soundproof", {
-		when : AbilityTime.BeforeDamageCalculation,
+		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(enemy, "soundproof")) { return AbilityResult; }
 			if (__PFS_move_have_flag(move, "sound")) {
@@ -57,6 +57,7 @@ function populate_abilities() {
 				DialogData[$ "pokename"] = enemy.internalName;
 				array_push(global.nextdialog, {npc : "Battle", text : $"SoundProof", onBattle : true});
 				status = 0;
+				_damage = 0;
 			}
 			return AbilityResult;
 		AbilityCodeEnd
