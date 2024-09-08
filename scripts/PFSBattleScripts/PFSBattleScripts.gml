@@ -158,12 +158,44 @@ function __PFS_turn_step() {
 			//			break;
 			//	}
 			//	break;
-			//case PFSTurnType.Run:
-			//	PFS.playerPokemons[pokemonOut] = __PFS_tick_status_effect(PFS.playerPokemons[pokemonOut]);
-			//	show_debug_message("Ran from battle");
-			//	spawn_dialog($"RanAway");
-			//	ranaway = true;
-			//	break;
+			case PFSTurnType.Run:
+				escape_attempts++;
+				PFS.playerPokemons[pokemonOut] = __PFS_tick_status_effect(PFS.playerPokemons[pokemonOut]);
+				if (PlayerTeam[pokemonOut].speed > enemyPokemon[enemyOut].speed) {
+				    ranaway = true;
+				}
+				else {
+					var p = PlayerTeam[pokemonOut];
+					var w = enemyPokemon[enemyOut];
+					var odds = (((p.base.speed * 32) / (w.base.speed / 4)) + 30 * escape_attempts) / 256;
+					if (odds >= 1) {
+					    ranaway = true;
+					}
+				}
+				#region Abilities
+				var shadow_tag = __PFS_pokemon_have_ability(enemyPokemon[enemyOut], "Shadow Tag") and !__PFS_pokemon_have_ability(PlayerTeam[pokemonOut], "Shadow Tag");
+				var grounded = false; //TODO: https://bulbapedia.bulbagarden.net/wiki/Grounded
+				var arenatrap = __PFS_pokemon_have_ability(enemyPokemon[enemyOut], "Arena Trap");
+				var magnet_pull = __PFS_pokemon_have_ability(enemyPokemon[enemyOut], "Magnet Pull") and __PFS_pokemon_have_type(PlayerTeam[pokemonOut], __PFSTypes.Steel);
+				var trapped = false; //TODO
+				if (shadow_tag or (arenatrap and grounded) or magnet_pull or trapped) {
+				    ranaway = false;
+				}
+				if (__PFS_pokemon_have_ability(PlayerTeam[pokemonOut], "Run Away")) {
+				    ranaway = true;
+				}
+				#endregion
+				if (!canflee) {
+				    ranaway = false;
+				}
+				if (ranaway or forceflee) {
+					if (array_length(turnSteps) > 1) {
+					    turnSteps = [turnSteps[0]];
+					}					
+				    show_debug_message("Ran from battle");
+					spawn_dialog($"RanAway");
+				}
+				break;
 		}
 		array_shift(battle.turnSteps);
 		exit;

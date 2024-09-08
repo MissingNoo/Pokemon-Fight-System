@@ -207,11 +207,11 @@ function populate_abilities() {
 		AbilityCodeEnd
 	});
 	
-	set_ability_code("own-tempo", {
+	set_ability_code("Own Tempo", {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			//show_message($"{enemy.internalName}:{__PFS_pokemon_have_ability(enemy, "own-tempo")}:{__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Confusion)}");
-			if (!__PFS_pokemon_have_ability(enemy, "own-tempo")) { return AbilityResult; } 
+			if (!__PFS_pokemon_have_ability(enemy, "Own Tempo")) { return AbilityResult; } 
 			if (__PFS_pokemon_affected_by_status(enemy, PFSStatusAilments.Confusion) or (status != 0 and status[0] == PFSStatusAilments.Confusion)) {
 			    __PFS_remove_status(enemy, PFSStatusAilments.Confusion);
 				status = 0;
@@ -221,6 +221,24 @@ function populate_abilities() {
 		AbilityCodeEnd
 	});
 	
-	
+	set_ability_code("Guts", {
+		when : AbilityTime.AfterDamageCalculation,
+		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(pokemon, "Guts")) { return AbilityResult; }
+			var effects = [PFSStatusAilments.Sleep, PFSStatusAilments.Burn, PFSStatusAilments.Poison];
+			var afflicted = false;
+			for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
+				for (var j = 0; j < array_length(effects); ++j) {
+				    if (pokemon.statusAilments[i][0] == effects[j]) {
+						afflicted = true;
+					}
+				}
+			}
+			if (afflicted) {
+			    _damage = _damage * 1.5;
+			}
+			return AbilityResult;
+		AbilityCodeEnd
+	});
 
 }

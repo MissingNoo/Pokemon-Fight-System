@@ -720,6 +720,7 @@ function __PFS_get_ability_id(name) {
 }
 	
 function __PFS_pokemon_have_ability(pokemon, abilityname){
+	abilityname = string_lower(string_replace(abilityname, " ", "-"));
 	var _ability_id = __PFS_get_ability_id(abilityname);
 	for (var i = 0; i < array_length(pokemon.ability); ++i) {
 	    if (pokemon.ability[i][0] == _ability_id) {

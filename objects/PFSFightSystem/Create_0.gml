@@ -12,6 +12,7 @@ if (!wildPokemon) {
 fightsurface = surface_create(240*3, 160*3);
 caninteract = true;
 laststate = "";
+escape_attempts = 0;
 #endregion
 
 #region Turn data
@@ -324,7 +325,7 @@ sys.add("idle", {
 			switch (selectedMenu) {
 				case PFSBattleMenus.Run:
 					array_push(turnSteps, [PFSTurnType.Run]);
-					sys.change("turn");
+					sys.change("preturn");
 					break;
 				case PFSBattleMenus.Pokemon:
 					sys.change("choosingpokemon");

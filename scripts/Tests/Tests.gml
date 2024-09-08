@@ -154,6 +154,26 @@ function tests(){
 				}
 				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Burn)).toBe(true);
 			});
+				
+			test("Guts", function() {
+				global.testingrandomdamage = false;
+				var p1 = __PFS_generate_pokemon_from_showdown("Rattata|Ability: Guts|- Tackle");
+				var p2 = __PFS_generate_pokemon_from_showdown("Slowpoke");
+				
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				__PFS_apply_status(p1, PFSStatusAilments.Burn, -99);
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				var pside = calcfirst.damage < calcsecond.damage;
+				
+				var p1 = __PFS_generate_pokemon_from_showdown("Rattata|Ability: Guts|- Tackle");
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Enemy);
+				__PFS_apply_status(p1, PFSStatusAilments.Burn, -99);
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Enemy);
+				var eside = calcfirst.damage < calcsecond.damage;
+				
+				expect(pside and eside).toBe(true);
+			});			
+			
 		});
 		
 		section("Status", function() {
