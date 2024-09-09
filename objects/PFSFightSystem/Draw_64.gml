@@ -12,11 +12,6 @@ draw_sprite_ext(PFSBattleBgs, 1, 1, 1, 3, 3, 0, c_white, 1);
 draw_sprite_ext(PFSBattleBgsPaths, 1, enemypathx[0], enemypathy, 3, 3, 0, c_white, 1);
 draw_sprite_ext(PFSBattleBgsPaths, 1, playerpathx[0], playerpathy, 3, 3, 0, c_white, 1);
 //draw_sprite_ext(sEndResult, 1, 1, 1, 3, 3, 0, c_white, 1);
-
-#endregion
-
-#region Main Window
-draw_rectangle(0, 0, windowSize[0], windowSize[1], true);
 #endregion
 
 #region Battle Area
@@ -49,5 +44,6 @@ if (!battlestartfinished or drawball) {
 draw_set_color(c_white);
 surface_reset_target();
 if (surface_exists(fightsurface)) {
-	draw_surface_ext(fightsurface, GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2), 1, 1, 0, c_white, 1);
+	//draw_surface_ext(fightsurface, GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2), 1, 1, 0, c_white, 1);
+	draw_surface_stretched(fightsurface, 0, 0, GW, GH);
 }

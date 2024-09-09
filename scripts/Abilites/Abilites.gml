@@ -35,6 +35,7 @@ function populate_abilities() {
 			return AbilityResult;
 		AbilityCodeEnd
 	});
+	
 	set_ability_code("shield-dust", {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
@@ -47,6 +48,7 @@ function populate_abilities() {
 			return AbilityResult;
 		AbilityCodeEnd
 	});
+	
 	set_ability_code("soundproof", {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
@@ -62,6 +64,7 @@ function populate_abilities() {
 			return AbilityResult;
 		AbilityCodeEnd
 	});
+	
 	set_ability_code("sturdy", {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
@@ -75,6 +78,7 @@ function populate_abilities() {
 			return AbilityResult;
 		AbilityCodeEnd
 	});
+	
 	set_ability_code("static", {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart

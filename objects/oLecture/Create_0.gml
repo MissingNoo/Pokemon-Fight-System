@@ -92,8 +92,8 @@ fsm.add("idle", {
 						],	
 						[
 							["NEWNAME", "AfterRivalName", true, function() { oLecture.fsm.change("typing"); naming = "rival"; }],
-							["GREEN", "AfterRivalName", true, function() { PlayerData.rivalname = "GREEN"; dialog.struc[$ "rivalname"] = PlayerData.rivalname; }],
-							["GARY", "AfterRivalName", true, function() { PlayerData.rivalname = "GARY"; dialog.struc[$ "rivalname"] = PlayerData.rivalname; }],
+							["GREEN", "AfterRivalName", true, function() { PlayerData.rivalname = "GREEN"; DialogData[$ "rivalname"] = PlayerData.rivalname; }],
+							["GARY", "AfterRivalName", true, function() { PlayerData.rivalname = "GARY"; DialogData[$ "rivalname"] = PlayerData.rivalname; }],
 						],
 					]
 					if (dialog == noone) {
@@ -149,8 +149,8 @@ fsm.add("idle", {
   })
   .add("typing", {
 	  enter : function() {
-		  instance_deactivate_object(oDialog);
 		  keyboard_string = "";
+		  instance_deactivate_object(dialog);
 	  },
 	  step : function() {
 		  if (string_length(keyboard_string) > 7) {
@@ -161,11 +161,13 @@ fsm.add("idle", {
 			  switch (naming) {
 			      case "player":
 			          PlayerData.name = keyboard_string;
+					  DialogData[$ "playername"] = PlayerData.name;
 				      dialog.struc[$ "playername"] = PlayerData.name;
 					  dialog.text = "AfterName";
 			          break;
 			      case "rival":
 			          PlayerData.rivalname = keyboard_string;
+					  DialogData[$ "rivalname"] = PlayerData.rivalname;
 				      dialog.struc[$ "rivalname"] = PlayerData.rivalname;
 					  dialog.text = "AfterRivalName";
 			          break;
