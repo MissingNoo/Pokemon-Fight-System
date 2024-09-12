@@ -122,42 +122,42 @@ function __PFS_turn_step() {
 			battle.currentanimation = "comeback";
 			battle.playerpokesizelerp = 0;
 			battle.sys.change("animation");
-			break;
-		}
-			//case PFSTurnType.EnemyChangePokemon: //TODO: redo
-			//	currentanimation = "enemyfainted";
-			//	sys.change("animation");
-			//	for (var j = 0; j < array_length(enemyPokemon[enemyOut].statusAilments); ++j) {
-			//		if (enemyPokemon[enemyOut].statusAilments[j][0] == PFSStatusAilments.Perish_song) {
-			//			array_delete(enemyPokemon[enemyOut].statusAilments, j, 1);
-			//			j = 0;
-			//		}
-			//	}
-			//	enemyOut = turnSteps[0][1];
-			//	enemyhplerp = enemyPokemon[enemyOut].hp; //TODO: enemy pokemon
-			//	show_debug_message($"Foe sent {enemyPokemon[enemyOut].internalName} out!");
-			//	spawn_dialog("EnemySentOut");
-			//	if (__PFS_pokemon_have_ability(enemyPokemon[enemyOut], "mold-breaker")) {
-			//		global.dialogdata[$"pokename"] = enemyPokemon[enemyOut].internalName;
-			//		array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
-			//		show_debug_message($"{enemyPokemon[enemyOut].internalName} breaks the mold!");
-			//	}
+			break;}
+			case PFSTurnType.EnemyChangePokemon: //TODO: redo
+				currentanimation = "enemyfainted";
+				sys.change("animation");
+				for (var j = 0; j < array_length(enemyPokemon[enemyOut].statusAilments); ++j) {
+					if (enemyPokemon[enemyOut].statusAilments[j][0] == PFSStatusAilments.Perish_song) {
+						array_delete(enemyPokemon[enemyOut].statusAilments, j, 1);
+						j = 0;
+					}
+				}
+				battle.enemyOut = turnSteps[0][1];
+				var enemyOut = battle.enemyOut;
+				enemyhplerp = enemyPokemon[enemyOut].hp; //TODO: enemy pokemon
+				show_debug_message($"Foe sent {enemyPokemon[enemyOut].internalName} out!");
+				spawn_dialog("EnemySentOut");
+				if (__PFS_pokemon_have_ability(enemyPokemon[enemyOut], "mold-breaker")) {
+					DialogData[$"pokename"] = enemyPokemon[enemyOut].internalName;
+					array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
+					show_debug_message($"{enemyPokemon[enemyOut].internalName} breaks the mold!");
+				}
 				
-			//	break;
-			//case PFSTurnType.UseItem://TODO: Ball shakes
-			//	switch (turnSteps[0][1].usetype) {
-			//		case UseType.PokeBall:
-			//			if (was_caught(enemyPokemon[enemyOut], turnSteps[0][1].catchrate)) {
-			//				show_debug_message($"[PFS] {enemyPokemon[enemyOut].internalName} was caught!");
-			//				spawn_dialog($"Caught");
-			//				array_push(PFS.playerPokemons, enemyPokemon[enemyOut]);
-			//				turnSteps = [];
-			//				doTurn = false;
-			//				caught = true;
-			//			}
-			//			break;
-			//	}
-			//	break;
+				break;
+			case PFSTurnType.UseItem://TODO: Ball shakes
+				switch (turnSteps[0][1].usetype) {
+					case UseType.PokeBall:
+						if (was_caught(enemyPokemon[enemyOut], turnSteps[0][1].catchrate)) {
+							show_debug_message($"[PFS] {enemyPokemon[enemyOut].internalName} was caught!");
+							spawn_dialog($"Caught");
+							array_push(PFS.playerPokemons, enemyPokemon[enemyOut]);
+							turnSteps = [];
+							doTurn = false;
+							caught = true;
+						}
+						break;
+				}
+				break;
 			case PFSTurnType.Run:
 				escape_attempts++;
 				PFS.playerPokemons[pokemonOut] = __PFS_tick_status_effect(PFS.playerPokemons[pokemonOut]);

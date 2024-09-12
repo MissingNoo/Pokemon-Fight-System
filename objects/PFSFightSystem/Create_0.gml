@@ -107,8 +107,6 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	_x = 0;
 	_y = 0;
 	#region Poke Sprites
-	var _px = _startx + (windowSize[0] * 0.07);
-	var _py = _starty + (windowSize[1] * 0.45);
 	var _sprite = _side == PFSBattleSides.Player ? pokemonSprite : enemySprite;
 	if (sprite_exists(_sprite)) {
 		//var _pos = _side == PFSBattleSides.Player ? [_px - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_px + 120 + sprite_get_width(_sprite) / 2, _py - 200 - sprite_get_height(_sprite) / 2];
@@ -158,11 +156,6 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	if (_draw) {
 		scribble($"{_pokemon.internalName}").scale(1, 1).draw(_hpx + 15, _hpy + 15);
 		scribble(_pokemon.level).scale(0.5, 0.5).draw(_hpx + 242, _hpy + 16);
-	    //draw_set_font(PFS.Fonts.BattleFont[3]);
-		//draw_text_transformed(_hpx + 15, _hpy + 15, $"{_pokemon.internalName}", 1, 1, 0);
-		//draw_set_font(PFS.Fonts.BattleFont[2]);
-		//draw_text_transformed(_hpx + 242, _hpy + 16, _pokemon.level, 1, 1, 0);
-		//draw_set_font(PFS.Fonts.PokeFont[3]);
 	}
 	#endregion
 	//var _status = "";
@@ -461,7 +454,7 @@ sys.add("idle", {
 })
 .add("animation", {
 	enter: function(){
-		show_debug_message("show animation");
+		show_debug_message($"show animation: {currentanimation}");
 		animationended = false;
 		if (currentanimation == "enemyfainted") {
 			enemyyoffset = 0;
@@ -496,6 +489,7 @@ sys.add("idle", {
 				if (alarm[0] == -1) {
 				    alarm[0] = 38;
 				}
+				sys.change("menu");
 				break;}
 			case "enemyfainted":{
 				if (enemyyoffset < 200) {

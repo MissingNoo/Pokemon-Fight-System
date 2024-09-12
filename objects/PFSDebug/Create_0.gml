@@ -14,7 +14,7 @@ dbg_section("Systems");
 dbg_slider_int(ref_create(self, "poke"), 1, 152, "Poke:", 1);
 dbg_slider_int(ref_create(self, "pokelvl"), 1, 100, "Level:", 1);
 dbg_button("Start Battle", function() { 
-	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[poke])];
+	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[poke]), __PFS_generate_pokemon(PFS.Pokes[poke + 2])];
 	_enemyPokemon[0].level = pokelvl;
 	_enemyPokemon[0] = __PFS_recalculate_stats(_enemyPokemon[0], true);
 	if (!instance_exists(PFSFightSystem)) {
