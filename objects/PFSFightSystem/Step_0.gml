@@ -17,17 +17,6 @@ if (sys.get_current_state() != "animation") {
 if (instance_exists(oDialog) and sys.get_current_state() != "animation") {
 	exit;
 }
-//if (dialog != noone) {
-//	dialog = instance_find(oDialog, 0);
-	
-	//waittime = 10;
-    //dialog.battlecoords();
-	//exit;
-//}
-//if (keyboard_check_pressed(vk_numpad8)) {
-//    display_set_gui_size(window_get_width(), window_get_height());
-//	startPosition = [display_get_gui_width() / 2 - 350, display_get_gui_height() / 2 - 300];
-//}
 if (__PFS_enemy_team_defeated() and !instance_exists(oDialog)) {
 	instance_destroy();
 }

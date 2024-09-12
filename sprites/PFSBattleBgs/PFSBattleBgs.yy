@@ -34,8 +34,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"PFSUI",
-    "path":"folders/PokeFightSystem/PFSUI.yy",
+    "name":"Battle",
+    "path":"folders/PokeFightSystem/PFSUI/Battle.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
