@@ -247,6 +247,9 @@ load_sprite(enemyPokemon[enemyOut], 0);
 #region Battle Start
 //show_debug_log(true);
 for (var i = 0; i < 100; ++i) {
+	if (global.testing) {
+	    continue;
+	}
     show_debug_message("");
 }
 show_debug_message("[PFS] Starting battle!");

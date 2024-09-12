@@ -40,5 +40,6 @@ for (var i = 1; i < 6; ++i) {
 //draw_set_font(PFS.Fonts.PokeFont[3]);
 surface_reset_target();
 if (surface_exists(surface)) {
-	draw_surface_ext(surface, GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2), 1, 1, 0, c_white, 1);
+	//draw_surface_stretched(surface, GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2), 1, 1, 0, c_white, 1);
+	draw_surface_stretched(surface, 0, 0, GW, GH);
 }

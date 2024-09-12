@@ -1,5 +1,6 @@
 //show_debug_message($"{text} / {acceptedOption}");
 if (!visible) { exit; }
+battlecoords();
 //feather disable once GM1041
 var _currentText = array_get_index(optionsFalas, text);
 var _state = typist.get_state();
