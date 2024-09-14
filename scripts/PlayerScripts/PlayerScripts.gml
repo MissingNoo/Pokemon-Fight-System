@@ -92,6 +92,7 @@ function cutscene_movement(){
 		else if (placeToGo[0] < x and placeToGo[0] != x) {
 			dir = 180;
 		}
+		moving = true;
 	}
 	if (placeToGo[1] != y) {
 	    y += sign(placeToGo[1] - y);
@@ -102,9 +103,11 @@ function cutscene_movement(){
 		else if (placeToGo[1] < y and placeToGo[1] != y) {
 			dir = 90;
 		}
+		moving = true;
 	}
 	if (placeToGo[0] == x and placeToGo[1] == y) {
 		cutmoving = false;
+		moving = false;
 		if (instance_exists(oCutscene) and variable_instance_exists(self, "cutscenenpc") and oCutscene.lastnpcinteracted == npc.nid) {
 		    oCutscene.cancontinue = true;
 		}

@@ -13,6 +13,7 @@ switch (dir) {
         break;
 }
 draw_sprite_ext(sprite_index, image_index, x, y + stairoffset, 1, 1, 0, c_white, 1);
+scribble(image_speed).draw(x, y - 20);
 fsm.draw();
 //draw_text_transformed(x, y - 20 - sprite_height, fsm.get_current_state(), 0.25, 0.25, 0);
 if (ONLINE) {

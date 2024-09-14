@@ -688,6 +688,7 @@
     {"name":"sPokeSelectFont2","order":8,"path":"sprites/sPokeSelectFont2/sPokeSelectFont2.yy",},
     {"name":"sPokeSelectFont3","order":9,"path":"sprites/sPokeSelectFont3/sPokeSelectFont3.yy",},
     {"name":"Sprite121_1","order":5,"path":"sprites/Sprite121_1/Sprite121_1.yy",},
+    {"name":"Sprite128","order":1337,"path":"sprites/Sprite128/Sprite128.yy",},
     {"name":"Sprite34","order":1328,"path":"sprites/Sprite34/Sprite34.yy",},
     {"name":"Sprite38","order":1329,"path":"sprites/Sprite38/Sprite38.yy",},
     {"name":"Sprite63_1","order":1,"path":"sprites/Sprite63_1/Sprite63_1.yy",},

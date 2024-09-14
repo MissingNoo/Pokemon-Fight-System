@@ -1,3 +1,6 @@
+if (cutmoving and fsm.get_current_state() != "cutscene") {
+    fsm.change("cutscene");
+}
 if (keyboard_check_pressed(vk_f5)) {
 	instance_create_depth(x, y, oPlayer.depth, oBag);
 }
