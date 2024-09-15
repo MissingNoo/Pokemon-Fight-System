@@ -6,7 +6,7 @@ show = false;
 
 #region Move
 move = 0;
-internalName = "Tackle";
+identifier = "Tackle";
 type = 0;
 category = 0;
 mpower = 0;
@@ -18,7 +18,7 @@ probability = 0;
 #region Information Window
 options = [
 	["Move", "move"],
-	["internalName", "internalName"],
+	["identifier", "identifier"],
 	["Power", "mpower"],
 	["Accuracy", "accuracy"],
 	["PP", "pp"],
@@ -36,7 +36,7 @@ function loadMove(move){
 	if (move >= array_length(PFS.moves)) { exit; }
 	selected = move;
 	var _move = PFS.moves[move];
-	internalName = _move.internalName;
+	identifier = _move.identifier;
 	type = _move.type;
 	category = _move.category;
 	mpower = _move.mpower;

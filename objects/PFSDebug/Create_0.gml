@@ -27,6 +27,14 @@ dbg_button("Start Battle", function() {
 });
 dbg_same_line();
 dbg_button("End Battle", function() { instance_destroy(PFSFightSystem); });
+dbg_button("Add Ailments", function() { 
+	__PFS_apply_status(PlayerTeam[0], PFSStatusAilments.Freeze);
+	__PFS_apply_status(PlayerTeam[0], PFSStatusAilments.Burn);
+	__PFS_apply_status(PlayerTeam[0], PFSStatusAilments.Paralysis);
+	__PFS_apply_status(EnemyTeam[0], PFSStatusAilments.Freeze);
+	__PFS_apply_status(EnemyTeam[0], PFSStatusAilments.Burn);
+	__PFS_apply_status(EnemyTeam[0], PFSStatusAilments.Paralysis);
+	});
 dbg_button("Pokemon Manager", function() { instance_create_depth(0, 0, 0, PFSPokemonManager); });
 dbg_same_line();
 dbg_button("Close", function() { instance_destroy(PFSPokemonManager); });

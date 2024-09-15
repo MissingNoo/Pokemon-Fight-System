@@ -16,7 +16,7 @@ for (var i = 0; i <= array_length(options); ++i) {
 	if (i == array_length(options)) {
 	    if (createbutton(_x, _y + _yoff + 10, "Save", 1)) {
 			PFS.moves[move] = {
-				internalName,
+				identifier,
 				type,
 				category,
 				mpower,
@@ -36,7 +36,7 @@ for (var i = 0; i <= array_length(options); ++i) {
 _yoff = 0;
 for (var i = 0; i < array_length(PFS.moves); ++i) {
 	try {
-		if (createbutton(10, 10 + moveListOffset + _yoff, $"{i}:{PFS.moves[i].internalName}", 1, true, 0, move == i ? c_yellow : c_white)) {
+		if (createbutton(10, 10 + moveListOffset + _yoff, $"{i}:{PFS.moves[i].identifier}", 1, true, 0, move == i ? c_yellow : c_white)) {
 			selected = 1;
 			move = i;
 			loadMove(i);
@@ -107,7 +107,7 @@ for (var i = 0; i < _length; ++i) {
 //if (createbutton(_x, _y, _text, 2)) {
 //	var _newmove = array_length(PFS.moves);
 //	PFS.moves[_newmove] = {
-//		internalName : "New",
+//		identifier : "New",
 //		type : 0,
 //		category : 0,
 //		mpower : 0,

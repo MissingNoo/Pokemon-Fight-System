@@ -1,12 +1,12 @@
 //Feather disable GM2017
 //Feather disable GM1041
-global.dialogdata[$ "pokeplayer"] = PFS.playerPokemons[pokemonOut].internalName;
-global.dialogdata[$ "enemypoke"] = enemyPokemon[enemyOut].internalName;
+global.dialogdata[$ "pokeplayer"] = PFS.playerPokemons[pokemonOut].identifier;
+global.dialogdata[$ "enemypoke"] = enemyPokemon[enemyOut].identifier;
 if (lastUsedMove != 0) {
-	global.dialogdata[$ "playermove"] = PFS.moves[lastUsedMove].internalName;
+	global.dialogdata[$ "playermove"] = PFS.moves[lastUsedMove].identifier;
 }
 if (lastEnemyUsedMove != 0) {
-	global.dialogdata[$ "enemymove"] = PFS.moves[lastEnemyUsedMove].internalName;
+	global.dialogdata[$ "enemymove"] = PFS.moves[lastEnemyUsedMove].identifier;
 }
 pokemonhplerp = lerp(pokemonhplerp, PFS.playerPokemons[pokemonOut].hp, 0.05);
 enemyhplerp = lerp(enemyhplerp, enemyPokemon[enemyOut].hp, 0.05);

@@ -1,7 +1,7 @@
 surf = surface_create(239 * 2, 159 * 2);
 sprite = undefined;
 function load_sprite(pokemon){
-	var _sprite_path = working_directory + "PFS/Sprites/Pokemon/Front/" + string_upper(pokemon.internalName) + ".png";
+	var _sprite_path = working_directory + "PFS/Sprites/Pokemon/Front/" + string_upper(pokemon.identifier) + ".png";
 	if (file_exists(_sprite_path)) {
 		if (sprite != undefined) {
 		    sprite_delete(sprite);
@@ -23,11 +23,11 @@ tab.add("pokemon", {
 		draw_sprite_ext(PFSDexPokeInfo, 0, 0, 32, 2, 2, 0, c_white, 1);
 		draw_sprite_ext(PFSDexTab, 0, 0, 0, 2, 2, 0, c_white, 1);
 		draw_sprite_ext(PFSDexPokeArea, 0, 0, 32, 2, 2, 0, c_white, 1);
-		scribble($"Lv{PlayerTeam[pokemon].level} {PlayerTeam[pokemon].internalName}").scale(0.75).draw(10, 40);
+		scribble($"Lv{PlayerTeam[pokemon].level} {PlayerTeam[pokemon].identifier}").scale(0.75).draw(10, 40);
 		//Dex ID
 		scribble($"{PlayerTeam[pokemon].id}").scale(0.75).draw(335, 44); //+30
 		//Nickname
-		scribble($"{PlayerTeam[pokemon].internalName}").scale(0.75).draw(335, 74); //+30
+		scribble($"{PlayerTeam[pokemon].identifier}").scale(0.75).draw(335, 74); //+30
 		//Types
 		draw_sprite_ext(PFSTypes, PlayerTeam[pokemon].type[0], 365.50, 104 + 10, 1.50, 1.50, 0, c_white, 1);
 		if (PlayerTeam[pokemon].type[1] != __PFSTypes.NoType) {
@@ -57,7 +57,7 @@ tab.add("2", {
 		draw_sprite_ext(PFSDexTab, 1, 0, 0, 2, 2, 0, c_white, 1);
 		draw_sprite_ext(PFSDexPokeArea, 0, 0, 32, 2, 2, 0, c_white, 1);
 		//draw_sprite_ext(PFSDexPokeArea, 0, 0, 32, 2, 2, 0, c_white, 1);
-		//scribble($"Lv{PFS.Pokes[pokemon].level} {PlayerTeam[0].internalName}").scale(0.35).draw(5, 21);
+		//scribble($"Lv{PFS.Pokes[pokemon].level} {PlayerTeam[0].identifier}").scale(0.35).draw(5, 21);
 		//draw_sprite_ext(sprite, 0, 150, 190, 0.75, 0.75, 0, c_white, 1);
 	},
 	step : function() {
@@ -69,7 +69,7 @@ tab.add("3", {
 	draw : function() {
 		draw_sprite_ext(PFSDexTab, 2, 0, 0, 2, 2, 0, c_white, 1);
 		//draw_sprite_ext(PFSDexPokeArea, 0, 0, 32, 2, 2, 0, c_white, 1);
-		//scribble($"Lv{PFS.Pokes[pokemon].level} {PlayerTeam[0].internalName}").scale(0.35).draw(5, 21);
+		//scribble($"Lv{PFS.Pokes[pokemon].level} {PlayerTeam[0].identifier}").scale(0.35).draw(5, 21);
 		//draw_sprite_ext(sprite, 0, 150, 190, 0.75, 0.75, 0, c_white, 1);
 	},
 	step : function() {
@@ -81,7 +81,7 @@ tab.add("4", {
 	draw : function() {
 		draw_sprite_ext(PFSDexTab, 3, 0, 0, 2, 2, 0, c_white, 1);
 		//draw_sprite_ext(PFSDexPokeArea, 0, 0, 32, 2, 2, 0, c_white, 1);
-		//scribble($"Lv{PFS.Pokes[pokemon].level} {PlayerTeam[0].internalName}").scale(0.35).draw(5, 21);
+		//scribble($"Lv{PFS.Pokes[pokemon].level} {PlayerTeam[0].identifier}").scale(0.35).draw(5, 21);
 		//draw_sprite_ext(sprite, 0, 150, 190, 0.75, 0.75, 0, c_white, 1);
 	},
 	step : function() {

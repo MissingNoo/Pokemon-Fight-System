@@ -61,25 +61,25 @@ function __PFS_turn_step() {
 	switch (CurrentTurn[__PFS_tsnames.Type]) {
 		case PFSTurnType.Move: {
 			var current_pokemon = CurrentTurn[__PFS_tsnames.Side] == PFSBattleSides.Player ? PlayerTeam[pokemonOut] : EnemyTeam[enemyOut];
-			DialogData[$"pokename"] = current_pokemon.internalName;
+			DialogData[$"pokename"] = current_pokemon.identifier;
 			#region Status
 			if (__PFS_pokemon_affected_by_status(current_pokemon, PFSStatusAilments.Sleep)) {
-				show_debug_message($"{current_pokemon.internalName} is fast asleep!");
+				show_debug_message($"{current_pokemon.identifier} is fast asleep!");
 				spawn_dialog($"Asleep");
 				break;
 			}
 			if (__PFS_pokemon_affected_by_status(current_pokemon, PFSStatusAilments.Paralysis) and __PFS_rng() <= 25) {
-				show_debug_message($"{current_pokemon.internalName} is paralyzed! It can't move!");
+				show_debug_message($"{current_pokemon.identifier} is paralyzed! It can't move!");
 				spawn_dialog($"Paralyzed");
 				break;
 			}
 			if (current_pokemon.flinch) {
 				if (__PFS_pokemon_have_ability(current_pokemon, "inner-focus")) {
-					show_debug_message($"{current_pokemon.internalName} won't flinch because of its Inner Focus!");
+					show_debug_message($"{current_pokemon.identifier} won't flinch because of its Inner Focus!");
 					spawn_dialog($"WontFlinch");
 				}
 				else {
-					show_debug_message($"{current_pokemon.internalName} flinched due to {CurrentTurn[__PFS_tsnames.Enemy].internalName}'s Stench");
+					show_debug_message($"{current_pokemon.identifier} flinched due to {CurrentTurn[__PFS_tsnames.Enemy].identifier}'s Stench");
 					spawn_dialog($"Flinched");
 					break;
 				}
@@ -116,10 +116,10 @@ function __PFS_turn_step() {
 				__PFS_remove_status(e, PFSStatusAilments.Perish_song); 
 			});
 			if (pokemonOut != CurrentTurn[__PFS_tsnames.Pokemon]) {
-				global.dialogdata[$"comebackpoke"] = PlayerTeam[pokemonOut].internalName;
+				global.dialogdata[$"comebackpoke"] = PlayerTeam[pokemonOut].identifier;
 			}
 			battle.pokemonOut = CurrentTurn[__PFS_tsnames.Pokemon];
-			show_debug_message($"Sent {PlayerTeam[pokemonOut].internalName} out!");
+			show_debug_message($"Sent {PlayerTeam[pokemonOut].identifier} out!");
 			spawn_dialog("ComeBack");
 			battle.currentanimation = "comeback";
 			battle.playerpokesizelerp = 0;
@@ -137,12 +137,12 @@ function __PFS_turn_step() {
 				battle.enemyOut = turnSteps[0][1];
 				var enemyOut = battle.enemyOut;
 				enemyhplerp = enemyPokemon[enemyOut].hp; //TODO: enemy pokemon
-				show_debug_message($"Foe sent {enemyPokemon[enemyOut].internalName} out!");
+				show_debug_message($"Foe sent {enemyPokemon[enemyOut].identifier} out!");
 				spawn_dialog("EnemySentOut");
 				if (__PFS_pokemon_have_ability(enemyPokemon[enemyOut], "mold-breaker")) {
-					DialogData[$"pokename"] = enemyPokemon[enemyOut].internalName;
+					DialogData[$"pokename"] = enemyPokemon[enemyOut].identifier;
 					array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
-					show_debug_message($"{enemyPokemon[enemyOut].internalName} breaks the mold!");
+					show_debug_message($"{enemyPokemon[enemyOut].identifier} breaks the mold!");
 				}
 				
 				break;
@@ -150,7 +150,7 @@ function __PFS_turn_step() {
 				switch (turnSteps[0][1].usetype) {
 					case UseType.PokeBall:
 						if (was_caught(enemyPokemon[enemyOut], turnSteps[0][1].catchrate)) {
-							show_debug_message($"[PFS] {enemyPokemon[enemyOut].internalName} was caught!");
+							show_debug_message($"[PFS] {enemyPokemon[enemyOut].identifier} was caught!");
 							spawn_dialog($"Caught");
 							array_push(PFS.playerPokemons, enemyPokemon[enemyOut]);
 							turnSteps = [];

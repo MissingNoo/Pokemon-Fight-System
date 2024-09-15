@@ -19,13 +19,13 @@ _yoff = 0;
 for (var i = 0; i <= optionsLenght; ++i) {
 	if (i == optionsLenght) {
 	    if (createbutton(_x, _y + _yoff + 10, "Save", 1)) {
-			pokedata.internalName = internalName;
+			pokedata.identifier = identifier;
 			pokedata.wildlevelrange = [lowerlevel, higherlevel];
 			var _names = variable_struct_get_names(defaultpokedata.basecalc);
 			for (var j = 0; j < array_length(_names); ++j) {
 				variable_struct_set(pokedata.basecalc, _names[j], variable_instance_get(self, _names[j]));
 			}
-			pokedata.sprite = [string(internalName + "Front"), string(internalName + "Back")];
+			pokedata.sprite = [string(identifier + "Front"), string(identifier + "Back")];
 			PFS.Pokes[poke] = variable_clone(pokedata);
 		}
 		break;
@@ -38,7 +38,7 @@ for (var i = 0; i <= optionsLenght; ++i) {
 #region Move List
 _yoff = 0;
 for (var i = 1; i < array_length(PFS.Pokes); ++i) {
-	if (createbutton(10, 10 + pokeListOffset + _yoff, $"{i}:{PFS.Pokes[i].internalName}", 1, true, 0, poke == i ? c_yellow : c_white)) {
+	if (createbutton(10, 10 + pokeListOffset + _yoff, $"{i}:{PFS.Pokes[i].identifier}", 1, true, 0, poke == i ? c_yellow : c_white)) {
 		set = false;
 		selected = 0;
 		poke = i;
@@ -50,7 +50,7 @@ for (var i = 1; i < array_length(PFS.Pokes); ++i) {
 _yoff = 0;
 #region can learn
 for (var i = 0; i < array_length(PFS.Pokes[poke].canLearn.level); ++i) {
-	var _move = $"{PFS.moves[PFS.Pokes[poke].canLearn.level[i].id].internalName}: {PFS.Pokes[poke].canLearn.level[i].level}";
+	var _move = $"{PFS.moves[PFS.Pokes[poke].canLearn.level[i].id].identifier}: {PFS.Pokes[poke].canLearn.level[i].level}";
 	draw_text(140, 10 + _yoff + canLearnOffset, _move);
     _yoff += 30;
 	if (_y + _yoff + canLearnOffset > canLearnMaxY) {

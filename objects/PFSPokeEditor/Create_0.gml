@@ -7,7 +7,7 @@ show = false;
 
 #region Move
 poke = 1;
-internalName = "Bulbasaur";
+identifier = "Bulbasaur";
 lowerlevel = 0;
 higherlevel = 0;
 hp = 45;
@@ -18,7 +18,7 @@ spdef = 65;
 speed = 45;
 gender = 0;
 defaultpokedata = {
-	internalName : "Bulbasaur",
+	identifier : "Bulbasaur",
 	type : [__PFSTypes.Grass, __PFSTypes.Poison],
 	wildlevelrange : [5, 7],
 	gender : 0,
@@ -40,7 +40,7 @@ pokedata = variable_clone(defaultpokedata);
 x1=0;
 showsprite = sPFSBulbasaurBack;
 options = [
-	["internalName", "internalName"],
+	["identifier", "identifier"],
 	["Lower level", "lowerlevel"],
 	["Higher level", "higherlevel"],
 ];
@@ -66,16 +66,16 @@ function loadPoke(move){
 	pokedata = variable_clone(_move);
 	lowerlevel = pokedata.wildlevelrange[0];
 	higherlevel = pokedata.wildlevelrange[1];
-	internalName = pokedata.internalName;	
+	identifier = pokedata.identifier;	
 	var _names = variable_struct_get_names(defaultpokedata.basecalc);
 	for (var i = 0; i < array_length(_names); ++i) {
 		variable_instance_set(self, _names[i], variable_struct_get(PFS.Pokes[move].basecalc, _names[i]));
 	}
-	//if (file_exists(working_directory + "/PFS/Sprites/Pokemons/" + pokedata.internalName + "/" + pokedata.sprite[1] + ".png")) {
+	//if (file_exists(working_directory + "/PFS/Sprites/Pokemons/" + pokedata.identifier + "/" + pokedata.sprite[1] + ".png")) {
 	//    if (sprite_exists(showsprite)) {
 	//	    sprite_delete(showsprite);
 	//	}
-	//    showsprite = sprite_add(working_directory + "/PFS/Sprites/Pokemons/" + pokedata.internalName + "/" + pokedata.sprite[1] + ".png", 0, false, false, 0, 0);
+	//    showsprite = sprite_add(working_directory + "/PFS/Sprites/Pokemons/" + pokedata.identifier + "/" + pokedata.sprite[1] + ".png", 0, false, false, 0, 0);
 	//}
 }
 loadPoke(1);

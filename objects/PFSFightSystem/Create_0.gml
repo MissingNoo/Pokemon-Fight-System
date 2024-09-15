@@ -67,7 +67,7 @@ function load_sprite(pokemon, side){
 	var _extension = ".png";
 	var _imgnumb = 0;
 	var _side = side == PFSBattleSides.Player ? "Front/" : "Back/";
-	var _sprite_path = working_directory + "PFS/Sprites/Pokemon/"  + _side + string_upper(pokemon.internalName) + _extension;
+	var _sprite_path = working_directory + "PFS/Sprites/Pokemon/"  + _side + string_upper(pokemon.identifier) + _extension;
 	if (file_exists(_sprite_path)) {
 		switch (side) {
 			case 0:
@@ -140,6 +140,11 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 		_hpy += enemyHpY;
 		draw_healthbar(_hpx + 115, _hpy + 50, _hpx + 259, _hpy + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
 	    draw_sprite_ext(PFSEnemyHpBar, 0, _hpx, _hpy, enemyHpScale, enemyHpScale, 0, c_white, 1);
+		var ailoffset = 0;
+		for (var i = 0; i < array_length(EnemyTeam[enemyOut].statusAilments); ++i) {
+		    draw_sprite_ext(PFSStatusIcons, EnemyTeam[enemyOut].statusAilments[i][0], _hpx + 66 + ailoffset, _hpy + 86, 2, 2, 0, c_white, 1);
+			ailoffset += 50;
+		}
 	}
 	if (_side == PFSBattleSides.Player) {
 		_hpx += playerHpX;
@@ -150,11 +155,16 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 		if (_draw) {
 		    draw_healthbar(_hpx + 143, _hpy + 50, _hpx + 285, _hpy + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
 			draw_sprite_ext(PFSPlayerHpBar, 0, _hpx, _hpy, playerHpScale, playerHpScale, 0, c_white, 1);
+			var ailoffset = 0;
+			for (var i = 0; i < array_length(PlayerTeam[enemyOut].statusAilments); ++i) {
+			    draw_sprite_ext(PFSStatusIcons, PlayerTeam[enemyOut].statusAilments[i][0], _hpx + 60 + ailoffset, _hpy + 78, 2, 2, 0, c_white, 1);
+				ailoffset += 50;
+			}
 		}
 		_hpx += 28;
 	}
 	if (_draw) {
-		scribble($"{_pokemon.internalName}").scale(1, 1).draw(_hpx + 15, _hpy + 15);
+		scribble($"{_pokemon.identifier}").scale(1, 1).draw(_hpx + 15, _hpy + 15);
 		scribble(_pokemon.level).scale(0.5, 0.5).draw(_hpx + 242, _hpy + 16);
 	}
 	#endregion
@@ -406,9 +416,9 @@ sys.add("idle", {
 			if (selectedMove == i) {
 				draw_sprite_ext(PFSOptionSelected, 0, _x - 7 + _xoff, _y + 20 + _yoff, 2, 2, 0, c_white, 1);
 			}
-			scribble(move.internalName).draw(_x + _xoff, _y + _yoff + 6);
+			scribble(move.identifier).draw(_x + _xoff, _y + _yoff + 6);
 			#region unused
-			//if (createbutton(_x, _y + _yoff, $"{move.internalName} {move.pp}/{move.maxpp}", 1, true, undefined) and move.pp > 0) {
+			//if (createbutton(_x, _y + _yoff, $"{move.identifier} {move.pp}/{move.maxpp}", 1, true, undefined) and move.pp > 0) {
 			//	array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[enemyOut], move, PFSBattleSides.Player]);
 			//	doTurn = true;
 			//}
@@ -613,12 +623,12 @@ sys.add("idle", {
 					else {
 						currentside = PFSBattleSides.Player;
 					}
-					global.dialogdata[$"releasepoke"] = PFS.playerPokemons[pokemonOut].internalName;
+					global.dialogdata[$"releasepoke"] = PFS.playerPokemons[pokemonOut].identifier;
 					spawn_dialog("Release");
 					if (__PFS_pokemon_have_ability(PFS.playerPokemons[pokemonOut], "mold-breaker")) {
-						global.dialogdata[$"pokename"] = PFS.playerPokemons[pokemonOut].internalName;
+						global.dialogdata[$"pokename"] = PFS.playerPokemons[pokemonOut].identifier;
 						spawn_dialog("BreaksTheMold");
-						show_debug_message($"{PFS.playerPokemons[pokemonOut].internalName} breaks the mold!");
+						show_debug_message($"{PFS.playerPokemons[pokemonOut].identifier} breaks the mold!");
 					}
 					currentanimation = "releasepokemon";
 					sys.change("animation");

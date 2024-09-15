@@ -34,7 +34,7 @@ switch (step) {
 		show_debug_message("------------------[PFS]------------------");
 		start = get_timer();		
 		var _pos = [ "id","identifier" ];
-		PFS.Abilities[0] = {identifier : "null", internalName : "null"}
+		PFS.Abilities[0] = {identifier : "null", identifier : "null"}
 		while (!file_text_eof(cf)) {
 			file_text_readln(cf);
 			var _line = string_split(file_text_read_string(cf), ",");
@@ -42,7 +42,7 @@ switch (step) {
 			if (_id == "") { continue; }
 			var _identifier = _line[array_get_index(_pos, "identifier")];
 			var _name = string_concat(string_upper(string_copy(_identifier, 1, 1)), string_copy(_identifier, 2, string_length(_identifier)));
-			PFS.Abilities[_id] = { identifier : _identifier, internalName : _name }
+			PFS.Abilities[_id] = { identifier : _identifier, identifier : _name }
 		}
 		loaded("Abilities");
         break;
@@ -305,7 +305,7 @@ switch (step) {
 					"type": _type,
 					"category": _category,
 					"accuracy": _accuracy,
-					"internalName": _name,
+					"identifier": _name,
 					"maxpp": _pp,
 					"pp": _pp,
 					"probability":"0",
@@ -333,7 +333,7 @@ switch (step) {
 					"type": __PFSTypes.NoType,
 					"category": 0,
 					"accuracy": 0,
-					"internalName": "Null",
+					"identifier": "Null",
 					"pp": 0,
 					"probability":"0",
 					"mpower": 0,

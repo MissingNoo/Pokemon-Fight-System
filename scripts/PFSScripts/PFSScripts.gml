@@ -264,7 +264,7 @@ function __PFS_is_effective(pokemon, move, pos){
 function __PFS_add_move(id_or_name){
 	var _move = variable_clone(PFS.moves[1]);
 	for (var i = 1; i < array_length(PFS.moves); ++i) {
-	    if (PFS.moves[i][$ "internalName"] == id_or_name) {
+	    if (PFS.moves[i][$ "identifier"] == id_or_name) {
 		    _move = variable_clone(PFS.moves[i]);
 		}
 		if (PFS.moves[i][$ "id"] == id_or_name) {
@@ -276,11 +276,11 @@ function __PFS_add_move(id_or_name){
 
 function __PFS_apply_status(pokemon, status, turns = -99){
 	if (__PFS_pokemon_have_type(pokemon, __PFSTypes.Fire) and status == PFSStatusAilments.Burn) {
-		show_debug_message($"{pokemon.internalName} is immune to Burn!");
+		show_debug_message($"{pokemon.identifier} is immune to Burn!");
 		exit;
 	}
 	if (__PFS_pokemon_have_type(pokemon, __PFSTypes.Electric) and status == PFSStatusAilments.Paralysis) {
-		show_debug_message($"{pokemon.internalName} is immune to Paralysis!");
+		show_debug_message($"{pokemon.identifier} is immune to Paralysis!");
 		exit;
 	}
 	array_push(pokemon.statusAilments, [status, turns]);
@@ -340,7 +340,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	    _appliedStatus = $"{_appliedStatus} and applied {PFS.StatusAilments[result.status[0]]} status!";
 		__PFS_apply_status(enemy, result.status[0], result.status[1]);
 	}
-	show_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}!", result.damage > 0 ? $" dealing {result.damage} damage!" : "", $" {_appliedStatus}"));
+	show_debug_message(string_concat($"{pokemon.identifier} used move {move.identifier}!", result.damage > 0 ? $" dealing {result.damage} damage!" : "", $" {_appliedStatus}"));
 	if (result.affect_user != false) { // Move that affects the user (Perish Song)
 		pokemon = result.affect_user;
 	}
@@ -350,24 +350,24 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 			EnemyTeam[enemyOut].hp -= result.damage;
 			if (EnemyTeam[enemyOut].hp <= 0) {
 				EnemyTeam[enemyOut].hp = 0;
-				show_debug_message($"{EnemyTeam[enemyOut].internalName} died");
+				show_debug_message($"{EnemyTeam[enemyOut].identifier} died");
 				array_push(global.nextdialog, {npc : "Battle", text : $"EnemyPokemonFainted", onBattle : true});
 				if (battle.lastEnemyUsedMove == __PFS_get_move_id("Destiny Bond")) {
 					battle.lastEnemyUsedMove = 0;
 					PlayerTeam[pokemonOut].hp = 0;
-					show_debug_message($"{PlayerTeam[pokemonOut].internalName} died together due to {EnemyTeam[enemyOut].internalName}'s Destiny Bond!");
+					show_debug_message($"{PlayerTeam[pokemonOut].identifier} died together due to {EnemyTeam[enemyOut].identifier}'s Destiny Bond!");
 				}
 			}
 			break;
 		case PFSBattleSides.Enemy:
 			PlayerTeam[PFSFightSystem.pokemonOut].hp -= result.damage;
             if (PlayerTeam[PFSFightSystem.pokemonOut].hp <= 0) { 
-                show_debug_message($"{PlayerTeam[PFSFightSystem.pokemonOut].internalName} died");
+                show_debug_message($"{PlayerTeam[PFSFightSystem.pokemonOut].identifier} died");
 				battle.enemyDead = true;
 				if (battle.lastUsedMove == __PFS_get_move_id("Destiny Bond")) {
 					battle.lastUsedMove = 0;
 					EnemyTeam[enemyOut].hp = 0;
-					show_debug_message($"{EnemyTeam[enemyOut].internalName} died together due to {PlayerTeam[pokemonOut].internalName}'s Destiny Bond!");
+					show_debug_message($"{EnemyTeam[enemyOut].identifier} died together due to {PlayerTeam[pokemonOut].identifier}'s Destiny Bond!");
 				}
 				PlayerTeam[pokemonOut].hp = 0; 
 			}
@@ -430,11 +430,14 @@ function __PFS_damage_calculation(pokemon, enemy, _move){
 	var _rnd = __PFS_rngr(0.85, 1);
 	var _burn = move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and !__PFS_pokemon_have_ability(pokemon, "guts") ? 0.5 : 1; //TODO: don't affect fixed damage moves like Foul Play and ignore if its ability is guts
 	DEBUG
+	var cate = move.category == PFSMoveCategory.Physical 
+	var affected = __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) 
+	var haveguts = __PFS_pokemon_have_ability(pokemon, "guts");
 		if (move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and __PFS_pokemon_have_ability(pokemon, "guts")) {
 		    show_debug_message("Burn damage halving ignored by Guts ability")
 		}
 		if (_burn != 1) {
-		    show_debug_message($"{pokemon.internalName} damage is halved because it's burning");
+		    show_debug_message($"{pokemon.identifier} damage is halved because it's burning");
 		}
 	ENDDEBUG
 	#region //TODO
@@ -476,7 +479,7 @@ function __PFS_damage_calculation(pokemon, enemy, _move){
 					if (_status[0] == PFSStatusAilments.Perish_song) {
 					    if (!__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Perish_song)) {
 							if (__PFS_pokemon_have_ability(pokemon, "soundproof")) {
-							    show_debug_message($"{pokemon.internalName}'s Soundproof ignored Perish Song!");
+							    show_debug_message($"{pokemon.identifier}'s Soundproof ignored Perish Song!");
 							}
 							else {
 								array_push(pokemon.statusAilments, _status);
@@ -659,7 +662,7 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 		    pokemon.moves[i].pp = pokemon.moves[i].maxpp;
 		}
 	}
-	//show_debug_message($"{pokemon.internalName}: {json_stringify(pokemon)}");
+	//show_debug_message($"{pokemon.identifier}: {json_stringify(pokemon)}");
 	//show_debug_message("");
 	return pokemon;
 }
@@ -668,19 +671,19 @@ function __PFS_recalculate_stats(pokemon, pokecenter = false){
 function __PFS_get_ability_id(name) {
 	name = string_replace_all(string_lower(name), " ", "-");
 	for (var i = 0; i < array_length(PFS.Abilities); ++i) {
-	    if (PFS.Abilities[i][$ "internalName"] == name or PFS.Abilities[i][$ "identifier"] == name) {
+	    if (string_lower(PFS.Abilities[i][$ "identifier"]) == name) {
 		    return i;
 		}
 	}
 	show_debug_message($"Ability {name} not found");
-	return 0;
+	return -1;
 }
 	
 function __PFS_pokemon_have_ability(pokemon, abilityname){
 	abilityname = string_lower(string_replace(abilityname, " ", "-"));
 	var _ability_id = __PFS_get_ability_id(abilityname);
 	for (var i = 0; i < array_length(pokemon.ability); ++i) {
-	    if (pokemon.ability[i][0] == _ability_id) {
+	    if (pokemon.ability[i][0] == _ability_id and pokemon.ability[i][1] == 0) {
 		    return true;
 		}
 	}
@@ -724,7 +727,7 @@ function __PFS_ability_on_contact(pokemon, enemy, move){//TODO:
 	//			_status = [PFSStatusAilments.Poison, -1, "Poison Touch"];
 	//		}
 	//		else {
-	//			show_debug_message($"{pokemon.internalName}'s Poison Touch canceled by {enemy.internalName}'s {_counter_ability}");
+	//			show_debug_message($"{pokemon.identifier}'s Poison Touch canceled by {enemy.identifier}'s {_counter_ability}");
 	//		}
 	//	}
 	//}
@@ -734,7 +737,7 @@ function __PFS_ability_on_contact(pokemon, enemy, move){//TODO:
 
 function __PFS_get_move_id(name) {
 	for (var i = 0; i < array_length(PFS.moves); ++i) {
-	    if (PFS.moves[i][$ "internalName"] == name or PFS.moves[i][$ "identifier"] == name) {
+	    if (PFS.moves[i][$ "identifier"] == name or PFS.moves[i][$ "identifier"] == name) {
 		    return PFS.moves[i].id;
 		}
 	}
@@ -749,7 +752,7 @@ function __PFS_count_status_effect(pokemon) {
 	    _status = pokemon.statusAilments[i][0];
 		if (pokemon.statusAilments[i][1] != -99) {
 			pokemon.statusAilments[i][1]-=0.5;
-			//show_debug_message($"{pokemon.internalName}'s {pokemon.statusAilments[i][0]} diminished by one");
+			//show_debug_message($"{pokemon.identifier}'s {pokemon.statusAilments[i][0]} diminished by one");
 		}
 	}
 	for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
@@ -757,14 +760,14 @@ function __PFS_count_status_effect(pokemon) {
 		if (pokemon.statusAilments[i][1] <= 0 and pokemon.statusAilments[i][1] != -99) {
 			switch (_status) {
 			    case PFSStatusAilments.Perish_song:
-					show_debug_message($"{pokemon.internalName} fainted due to Perish Song!");
+					show_debug_message($"{pokemon.identifier} fainted due to Perish Song!");
 					pokemon.hp = 0;
 					break;
 			    case PFSStatusAilments.Sleep:
-			        show_debug_message($"{pokemon.internalName} woke up!");
+			        show_debug_message($"{pokemon.identifier} woke up!");
 			        break;
 			    default:
-			        show_debug_message($"{pokemon.internalName} {PFS.StatusAilments[pokemon.statusAilments[i][0]]} status ran out!");
+			        show_debug_message($"{pokemon.identifier} {PFS.StatusAilments[pokemon.statusAilments[i][0]]} status ran out!");
 			        break;
 			}			
 			array_delete(pokemon.statusAilments, i, 1);
@@ -790,11 +793,11 @@ function __PFS_tick_status_effect(pokemon) {
 		}
 		if (_hploss != 0) {
 		    pokemon.hp -= _hploss;
-			global.dialogdata[$"pokename"] = pokemon.internalName;
+			global.dialogdata[$"pokename"] = pokemon.identifier;
 			global.dialogdata[$"damage"] = _hploss;
 			global.dialogdata[$"statusname"] = _statusName;
 			array_push(global.nextdialog, {npc : "Battle", text : $"StatusDamage", onBattle : true});
-			show_debug_message($"{pokemon.internalName} lost {_hploss}hp due to {_statusName}");
+			show_debug_message($"{pokemon.identifier} lost {_hploss}hp due to {_statusName}");
 		}
 	}
 	return pokemon;
