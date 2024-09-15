@@ -110,6 +110,15 @@ function tests(){
 				expect(pside and eside).toBe(true);
 			});
 			
+			test("Static", function() {
+				var p1 = __PFS_generate_pokemon_from_showdown("Pikachu|Ability: Static|- Pound");
+				var p2 = __PFS_generate_pokemon_from_showdown("Slowpoke");
+				show_message(__PFS_pokemon_affected_by_status(p2, PFSStatusAilments.Paralysis));
+				__PFS_damage_calculation(p2, p1, p2.moves[0], PFSBattleSides.Player);
+				show_message(__PFS_pokemon_affected_by_status(p2, PFSStatusAilments.Paralysis));
+				expect(pside and eside).toBe(true);
+			});
+			
 			test("Shield Dust - Player Side", function() {
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Caterpie|Ability: Shield Dust|- Flamethrower");
 				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");

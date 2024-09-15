@@ -12,7 +12,7 @@ enum AbilityTime {
 function set_ability_code(name, struct) {
 	PFS.AbilitiesCode[__PFS_get_ability_id(name)] = struct;
 }
-#macro AbilityCodeStart code: function(pokemon, enemy, move, status, isCritical, _damage, _side) {
+#macro AbilityCodeStart code: function(pokemon, enemy, move, status, isCritical, _damage) {
 #macro AbilityResult {status : status, critical : isCritical, damage : _damage, move : move}
 #macro AbilityCodeEnd }
 function populate_abilities() {
@@ -39,9 +39,9 @@ function populate_abilities() {
 	set_ability_code("shield-dust", {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
-			if (!__PFS_pokemon_have_ability(enemy, "shield-dust")) { return AbilityResult; }
+			if (!__PFS_pokemon_have_ability(pokemon, "shield-dust")) { return AbilityResult; }
 			if (move.effect_chance > 0 and move.effect_chance < 100) {
-				show_debug_message($"{enemy.internalName}'s Shield Dust cancelled the status effect!");
+				show_debug_message($"{pokemon.internalName}'s Shield Dust cancelled the status effect!");
 				//array_push(global.nextdialog, {npc : "Battle", text : $"ShieldDust", onBattle : true});
 				status = 0;
 			}
@@ -52,11 +52,11 @@ function populate_abilities() {
 	set_ability_code("soundproof", {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
-			if (!__PFS_pokemon_have_ability(enemy, "soundproof")) { return AbilityResult; }
+			if (!__PFS_pokemon_have_ability(pokemon, "soundproof")) { return AbilityResult; }
 			if (__PFS_move_have_flag(move, "sound")) {
-				show_debug_message($"{enemy.internalName}'s Soundproof ignored {move.internalName}!");
+				show_debug_message($"{pokemon.internalName}'s Soundproof ignored {move.internalName}!");
 				DialogData[$ "movename"] = move.internalName;
-				DialogData[$ "pokename"] = enemy.internalName;
+				DialogData[$ "pokename"] = pokemon.internalName;
 				array_push(global.nextdialog, {npc : "Battle", text : $"SoundProof", onBattle : true});
 				status = 0;
 				_damage = 0;
@@ -68,11 +68,11 @@ function populate_abilities() {
 	set_ability_code("sturdy", {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
-			if (!__PFS_pokemon_have_ability(enemy, "sturdy")) { return AbilityResult; }
-			if (enemy.base.hp == enemy.hp and _damage > enemy.hp and !__PFS_pokemon_have_ability(pokemon, "mold-breaker")) {
-				_damage = enemy.hp - 1;
-				show_debug_message($"{enemy.internalName} held out thanks to Sturdy!");
-				global.dialogdata[$"pokename"] = enemy.internalName;
+			if (!__PFS_pokemon_have_ability(pokemon, "sturdy")) { return AbilityResult; }
+			if (pokemon.base.hp == pokemon.hp and _damage > pokemon.hp and !__PFS_pokemon_have_ability(enemy, "mold-breaker")) {
+				_damage = pokemon.hp - 1;
+				show_debug_message($"{pokemon.internalName} held out thanks to Sturdy!");
+				global.dialogdata[$"pokename"] = pokemon.internalName;
 				spawn_dialog("Sturdy");
 			}
 			return AbilityResult;
@@ -82,14 +82,12 @@ function populate_abilities() {
 	set_ability_code("static", {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
-			if (!__PFS_pokemon_have_ability(enemy, "static")) { return AbilityResult; }
+			if (!__PFS_pokemon_have_ability(pokemon, "static")) { return AbilityResult; }
 			if (__PFS_move_have_flag(move, "contact")
 				and __PFS_rng() <= 30
-				and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Paralysis)
-				and __PFS_pokemon_have_ability(enemy, "static")
-				and !__PFS_pokemon_have_type(pokemon, __PFSTypes.Electric)) {
-				pokemon = __PFS_apply_status(pokemon, PFSStatusAilments.Paralysis);
-				show_debug_message($"{pokemon.internalName} was paralyzed due to {enemy.internalName}'s Static!");
+				and !__PFS_pokemon_affected_by_status(enemy, PFSStatusAilments.Paralysis)) {
+				__PFS_apply_status(enemy, PFSStatusAilments.Paralysis);
+				show_debug_message($"{enemy.internalName} was paralyzed due to {pokemon.internalName}'s Static!");
 			}
 			return AbilityResult;
 		AbilityCodeEnd
@@ -123,7 +121,6 @@ function populate_abilities() {
 		when : AbilityTime.Start,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "pixilate")) { return AbilityResult; }
-			move = variable_clone(move);
 			if (move.type == __PFSTypes.Normal) {
 			    show_debug_message($"{move.internalName} has changed type from Normal to Fairy by {pokemon.internalName}'s Pixilate!");
 				if (move.mpower != "") {
@@ -216,11 +213,11 @@ function populate_abilities() {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			//show_message($"{enemy.internalName}:{__PFS_pokemon_have_ability(enemy, "own-tempo")}:{__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Confusion)}");
-			if (!__PFS_pokemon_have_ability(enemy, "Own Tempo")) { return AbilityResult; } 
-			if (__PFS_pokemon_affected_by_status(enemy, PFSStatusAilments.Confusion) or (status != 0 and status[0] == PFSStatusAilments.Confusion)) {
-			    __PFS_remove_status(enemy, PFSStatusAilments.Confusion);
+			if (!__PFS_pokemon_have_ability(pokemon, "Own Tempo")) { return AbilityResult; } 
+			if (__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Confusion) or (status != 0 and status[0] == PFSStatusAilments.Confusion)) {
+			    __PFS_remove_status(pokemon, PFSStatusAilments.Confusion);
 				status = 0;
-				show_debug_message($"{enemy.internalName}'s Own Tempo cleansed confusion");
+				show_debug_message($"{pokemon.internalName}'s Own Tempo cleansed confusion");
 			}
 			return AbilityResult;
 		AbilityCodeEnd

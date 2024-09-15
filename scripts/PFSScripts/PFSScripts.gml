@@ -274,8 +274,15 @@ function __PFS_add_move(id_or_name){
 }
 
 function __PFS_apply_status(pokemon, status, turns = -99){
+	if (__PFS_pokemon_have_type(pokemon, __PFSTypes.Fire) and status == PFSStatusAilments.Burn) {
+		show_debug_message($"{pokemon.internalName} is immune to Burn!");
+		exit;
+	}
+	if (__PFS_pokemon_have_type(pokemon, __PFSTypes.Electric) and status == PFSStatusAilments.Paralysis) {
+		show_debug_message($"{pokemon.internalName} is immune to Paralysis!");
+		exit;
+	}
 	array_push(pokemon.statusAilments, [status, turns]);
-	return pokemon;
 }
 
 function __PFS_remove_status(pokemon, status){
@@ -371,7 +378,9 @@ function __PFS_pokemon_have_type(pokemon, type) {
 	return array_contains(pokemon.type, type);
 }
 
-function __PFS_damage_calculation(pokemon, enemy, move, _side){
+function __PFS_damage_calculation(pokemon, enemy, _move){
+	#region Start Variables
+	var move = variable_clone(_move);
 	var _damage = 0;
 	var _affectUser = false;
 	var _status = 0;
@@ -379,6 +388,7 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	var _critChance = __PFS_rng(0, 255);
 	var _critTreshold = pokemon.speed / 2; //TODO: High crit chance atk and items
 	var _isCritical = _critChance <= _critTreshold ? 2 : 1; //TODO _isCritical = 1 if target ability is Battle Armor or Shell Armor or with Luck Chant
+	#region Tests
 	if (global.testing) { // Do not crit if running tests
 		if (global.testingforcecrit) {
 		    _isCritical = 2;
@@ -387,33 +397,30 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 			_isCritical = 1;
 		}
 	}
+	#endregion
 	var _level = real(pokemon.level);
 	var _power  = 0;
-	try {
-	    _power = real(move.mpower);
-	}
-	catch (err) { }
+	try { _power = real(move.mpower); } catch (err) { }
+	#endregion
 	#region Abilities
-		for (var i = 0; i < array_length(enemy.ability); ++i) {
-			if (enemy.ability[i][1] == 1) { continue; }
-			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.Start) {
-				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-				_status = _abresult.status;
-				_isCritical = _abresult.critical;
-				_damage = _abresult.damage;
-				move = _abresult.move;
-			}
+	for (var i = 0; i < array_length(pokemon.ability); ++i) {
+		if (pokemon.ability[i][1] == 1) { continue; }
+		if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.Start) {
+			var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+			_status = _abresult.status;
+			_isCritical = _abresult.critical;
+			_damage = _abresult.damage;
 		}
-		for (var i = 0; i < array_length(pokemon.ability); ++i) {
-			if (pokemon.ability[i][1] == 1) { continue; }
-			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.Start) {
-				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-				_status = _abresult.status;
-				_isCritical = _abresult.critical;
-				_damage = _abresult.damage;
-				move = _abresult.move;
-			}
+	}
+	for (var i = 0; i < array_length(enemy.ability); ++i) {
+		if (enemy.ability[i][1] == 1) { continue; }
+		if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.Start) {
+			var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(enemy, pokemon, move, _status, _isCritical, _damage);
+			_status = _abresult.status;
+			_isCritical = _abresult.critical;
+			_damage = _abresult.damage;
 		}
+	}
 	#endregion
 	var _stab = array_get_index(pokemon.type, move.type) != -1 ? 1.5 : 1;
 	var _type1 = __PFS_is_effective(enemy, move, 0);
@@ -442,10 +449,10 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	    case PFSMoveCategory.Physical:
 	        _a = pokemon.attack;
 			_d = enemy.defense;
-			var _result = __PFS_ability_on_contact(pokemon, enemy, move); //TODO: change to new system
-			pokemon = _result[0];
-			enemy = _result[1];
-			_ability_status = _result[2];
+			//var _result = __PFS_ability_on_contact(pokemon, enemy, move); //TODO: change to new system
+			//pokemon = _result[0];
+			//enemy = _result[1];
+			//_ability_status = _result[2];
 	        break;
 	    case PFSMoveCategory.Special:
 			_a = pokemon.spattack;
@@ -454,7 +461,6 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	}
 	if (move.category == PFSMoveCategory.Status or move.effect_chance != "") {
 		var _chance = __PFS_rng();
-		
 		if (move.category == PFSMoveCategory.Status or _chance <= move.effect_chance) {
 			_isCritical = 1;
 			var _turns = -99;
@@ -479,22 +485,6 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 					}
 				#endregion
 			#endregion
-			#region Invulnerabilities to status effects
-				#region Types
-					#region Burn
-						if (__PFS_pokemon_have_type(enemy, __PFSTypes.Fire) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Burn) {
-							show_debug_message($"{enemy.internalName} is immune to Burn!");
-							_status = 0;
-						}
-					#endregion
-					#region Paralysis
-						if (__PFS_pokemon_have_type(enemy, __PFSTypes.Electric) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Paralysis) {
-							show_debug_message($"{enemy.internalName} is immune to Paralysis!");
-							_status = 0;
-						}
-					#endregion
-				#endregion
-			#endregion
 		}
 	}
 	if (_a > 255 or _d > 255) {
@@ -503,26 +493,24 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	}
 	#region Right before damage calculation
 		#region Abilities
-			for (var i = 0; i < array_length(enemy.ability); ++i) {
-				if (enemy.ability[i][1] == 1) { continue; }
-				if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.BeforeDamageCalculation) {
-					var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-					_status = _abresult.status;
-					_isCritical = _abresult.critical;
-					_damage = _abresult.damage;
-					move = _abresult.move;
-				}
+		for (var i = 0; i < array_length(pokemon.ability); ++i) {
+			if (pokemon.ability[i][1] == 1) { continue; }
+			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.BeforeDamageCalculation) {
+				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
+				_status = _abresult.status;
+				_isCritical = _abresult.critical;
+				_damage = _abresult.damage;
 			}
-			for (var i = 0; i < array_length(pokemon.ability); ++i) {
-				if (pokemon.ability[i][1] == 1) { continue; }
-				if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.BeforeDamageCalculation) {
-					var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-					_status = _abresult.status;
-					_isCritical = _abresult.critical;
-					_damage = _abresult.damage;
-					move = _abresult.move;
-				}
+		}
+		for (var i = 0; i < array_length(enemy.ability); ++i) {
+			if (enemy.ability[i][1] == 1) { continue; }
+			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.BeforeDamageCalculation) {
+				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(enemy, pokemon, move, _status, _isCritical, _damage);
+				_status = _abresult.status;
+				_isCritical = _abresult.critical;
+				_damage = _abresult.damage;
 			}
+		}
 		#endregion
 	#endregion
 	_damage = ( ( ( 2 * _level / 5 + 2) * _power * (_a / _d) ) / 50 + 2 );
@@ -531,24 +519,22 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	if (_power == 0) { _damage = 0; }
 	#region Right after damage calculation
 		#region Abilities
-		for (var i = 0; i < array_length(enemy.ability); ++i) {
-			if (enemy.ability[i][1] == 1) { continue; }
-			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.AfterDamageCalculation) {
-				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-				_status = _abresult.status;
-				_isCritical = _abresult.critical;
-				_damage = _abresult.damage;
-				move = _abresult.move;
-			}
-		}
 		for (var i = 0; i < array_length(pokemon.ability); ++i) {
 			if (pokemon.ability[i][1] == 1) { continue; }
 			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.AfterDamageCalculation) {
-				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
+				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage);
 				_status = _abresult.status;
 				_isCritical = _abresult.critical;
 				_damage = _abresult.damage;
-				move = _abresult.move;
+			}
+		}
+		for (var i = 0; i < array_length(enemy.ability); ++i) {
+			if (enemy.ability[i][1] == 1) { continue; }
+			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.AfterDamageCalculation) {
+				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(enemy, pokemon, move, _status, _isCritical, _damage);
+				_status = _abresult.status;
+				_isCritical = _abresult.critical;
+				_damage = _abresult.damage;
 			}
 		}
 		#endregion
@@ -712,49 +698,36 @@ function __PFS_ability_before_move(pokemon, move){
 //	return [pokemon, enemy];
 //}
 
-function __PFS_ability_on_contact(pokemon, enemy, move){
-	var _status = 0;
-	var _chance = __PFS_rng();
-	if (__PFS_pokemon_have_ability(pokemon, "stench")) {
-	    if (_chance <= 10 and move.mpower > 0) {
-			enemy.flinch = true;
-		}
-	}
-	if (__PFS_pokemon_have_ability(pokemon, "poison-touch")) {
-	    if (_chance <= 30) {
-			var _counters = ["shield-dust", "immunity"];
-			var _counter_ability = "";
-			var _countered = false;
-			for (var i = 0; i < array_length(_counters); ++i) {
-			    if (__PFS_pokemon_have_ability(enemy, _counters[i])) {
-					_counter_ability = _counters[i];
-					_countered = true;
-					break;
-				}
-			}
-			if (!_countered){
-				_status = [PFSStatusAilments.Poison, -1, "Poison Touch"];
-			}
-			else {
-				show_debug_message($"{pokemon.internalName}'s Poison Touch canceled by {enemy.internalName}'s {_counter_ability}");
-			}
-		}
-	}
-	return [pokemon, enemy, _status];
-}
-
-function __PFS_ability_after_contact(pokemon, enemy){
-	for (var i = 0; i < array_length(pokemon.ability); ++i) {
-	    if (pokemon.ability[i][0] == __PFS_get_ability_id("indentifier")) {
-		}
-	}
-	return [pokemon, enemy];
-}
-
-function __PFS_ability_before_damage_calculation(pokemon){
-	//if (__PFS_pokemon_have_ability(pokemon, "battle-armor")) {
-	    
+function __PFS_ability_on_contact(pokemon, enemy, move){//TODO:
+	show_debug_message("TODO");
+	//var _status = 0;
+	//var _chance = __PFS_rng();
+	//if (__PFS_pokemon_have_ability(pokemon, "stench")) {
+	//    if (_chance <= 10 and move.mpower > 0) {
+	//		enemy.flinch = true;
+	//	}
 	//}
+	//if (__PFS_pokemon_have_ability(pokemon, "poison-touch")) {
+	//    if (_chance <= 30) {
+	//		var _counters = ["shield-dust", "immunity"];
+	//		var _counter_ability = "";
+	//		var _countered = false;
+	//		for (var i = 0; i < array_length(_counters); ++i) {
+	//		    if (__PFS_pokemon_have_ability(enemy, _counters[i])) {
+	//				_counter_ability = _counters[i];
+	//				_countered = true;
+	//				break;
+	//			}
+	//		}
+	//		if (!_countered){
+	//			_status = [PFSStatusAilments.Poison, -1, "Poison Touch"];
+	//		}
+	//		else {
+	//			show_debug_message($"{pokemon.internalName}'s Poison Touch canceled by {enemy.internalName}'s {_counter_ability}");
+	//		}
+	//	}
+	//}
+	//return [pokemon, enemy, _status];
 }
 #endregion
 
