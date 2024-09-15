@@ -458,8 +458,9 @@ function __PFS_set_pokemon_ability(pokemon, ability) {
 }
 
 function __PFS_get_poke_id(name) {
-	for (var i = 0; i < array_length(PFS.Pokes); ++i) {
-	    if (PFS.Pokes[i][$ "identifier"] == string_lower(name)) {
+	for (var i = 1; i < array_length(PFS.Pokes); ++i) {
+		var a = PFS.Pokes[i][$ "identifier"];
+	    if (string_lower(PFS.Pokes[i][$ "identifier"]) == string_lower(name)) {
 		    return PFS.Pokes[i].id;
 		}
 	}
@@ -471,7 +472,6 @@ function __PFS_generate_pokemon_from_showdown(export_string) {
 	var data = string_split(string_replace(pokedata, "	", ""), "|");
 	//[ "Charmander","Level: 5","Timid Nature","Ability: Blaze","EVs: 44 HP / 12 Def / 196 SpA / 236 Spe","IVs: 0 Atk","- Flamethrower","- Fire Blast","- Overheat","- Sleep Talk" ]
 	var gen = __PFS_generate_pokemon(PFS.Pokes[__PFS_get_poke_id(data[0])]);
-	
 	if (string_contains(pokedata, "Level")) {
 		gen.level = real(string_digits(data[array_find_index(data, function(e, i){return string_contains(e, "Level")})]));
 	}

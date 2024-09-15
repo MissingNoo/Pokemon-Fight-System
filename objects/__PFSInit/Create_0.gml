@@ -1,4 +1,5 @@
 //Feather disable GM2017
+//show_message(__PFS_generate_pokemon_from_showdown("Charizard"));
 function copy_csv_line_to_struct(struct, names, array){
 	for (var i = 0; i < array_length(names); ++i) {
 		var value = array[i];
