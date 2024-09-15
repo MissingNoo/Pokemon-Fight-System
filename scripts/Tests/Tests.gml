@@ -58,9 +58,9 @@ function tests(){
 				var p1 = __PFS_generate_pokemon_from_showdown("Bulbasaur|Ability: Overgrow|- Vine Whip");
 				var p2 = __PFS_generate_pokemon_from_showdown("Slowpoke");
 				
-				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0]);
 				p1.hp = 5;
-				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0]);
 				var pside = calcfirst.damage < calcsecond.damage;
 				
 				var p1 = __PFS_generate_pokemon_from_showdown("Bulbasaur|Ability: Overgrow|- Vine Whip");
@@ -77,9 +77,9 @@ function tests(){
 				var p1 = __PFS_generate_pokemon_from_showdown("Squirtle|Ability: Torrent|- Water Gun");
 				var p2 = __PFS_generate_pokemon_from_showdown("Slowpoke");
 				
-				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0]);
 				p1.hp = 5;
-				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0]);
 				var pside = calcfirst.damage < calcsecond.damage;
 				
 				var p1 = __PFS_generate_pokemon_from_showdown("Squirtle|Ability: Torrent|- Water Gun");
@@ -96,9 +96,9 @@ function tests(){
 				var p1 = __PFS_generate_pokemon_from_showdown("Charmander|Ability: Blaze|- Flamethrower");
 				var p2 = __PFS_generate_pokemon_from_showdown("Slowpoke");
 				
-				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0]);
 				p1.hp = 5;
-				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0]);
 				var pside = calcfirst.damage < calcsecond.damage;
 				
 				var p1 = __PFS_generate_pokemon_from_showdown("Charmander|Ability: Blaze|- Flamethrower");
@@ -111,12 +111,15 @@ function tests(){
 			});
 			
 			test("Static", function() {
-				var p1 = __PFS_generate_pokemon_from_showdown("Pikachu|Ability: Static|- Pound");
-				var p2 = __PFS_generate_pokemon_from_showdown("Slowpoke");
-				show_message(__PFS_pokemon_affected_by_status(p2, PFSStatusAilments.Paralysis));
-				__PFS_damage_calculation(p2, p1, p2.moves[0], PFSBattleSides.Player);
-				show_message(__PFS_pokemon_affected_by_status(p2, PFSStatusAilments.Paralysis));
-				expect(pside and eside).toBe(true);
+				var p1 = __PFS_generate_pokemon_from_showdown("Slowpoke|- Headbutt");
+				var p2 = __PFS_generate_pokemon_from_showdown("Pikachu|Ability: Static|- Pound");
+				__PFS_damage_calculation(p1, p2, p1.moves[0]);
+				var effected = __PFS_pokemon_affected_by_status(p1, PFSStatusAilments.Paralysis);
+				var p3 = __PFS_generate_pokemon_from_showdown("Pikachu|Ability: Static|- Pound");
+				var p4 = __PFS_generate_pokemon_from_showdown("Pikachu|Ability: Static|- Pound");
+				__PFS_damage_calculation(p3, p4, p3.moves[0]);
+				var noteffected = !__PFS_pokemon_affected_by_status(p3, PFSStatusAilments.Paralysis);
+				expect(effected and noteffected).toBe(true);
 			});
 			
 			test("Shield Dust - Player Side", function() {
@@ -169,9 +172,9 @@ function tests(){
 				var p1 = __PFS_generate_pokemon_from_showdown("Rattata|Ability: Guts|- Tackle");
 				var p2 = __PFS_generate_pokemon_from_showdown("Slowpoke");
 				
-				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0]);
 				__PFS_apply_status(p1, PFSStatusAilments.Burn, -99);
-				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0]);
 				var pside = calcfirst.damage < calcsecond.damage;
 				
 				var p1 = __PFS_generate_pokemon_from_showdown("Rattata|Ability: Guts|- Tackle");
@@ -389,7 +392,7 @@ function tests(){
 				repeat(3) {
 					var p1 = __PFS_generate_pokemon_from_showdown("Bulbasaur|Level: 50|Hardy Nature|Ability: Overgrow|- Vine Whip");
 					var p2 = __PFS_generate_pokemon_from_showdown("Weedle|Level: 1|Hardy Nature|Ability: Shield Dust|- Absorb");
-					var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0], PFSBattleSides.Player);
+					var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0]);
 					if (!(calculation.damage >= mindmg - margin and calculation.damage <= maxdmg + margin)) {
 					    error = true;
 					}
@@ -404,7 +407,7 @@ function tests(){
 				repeat(3) {
 					var p1 = __PFS_generate_pokemon_from_showdown("Pikachu|Level: 100|Hardy Nature|Ability: Static|- Thunder Shock");
 					var p2 = __PFS_generate_pokemon_from_showdown("Diglett|Level: 100|Hardy Nature|Ability: Sand Veil|- Absorb");
-					var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0], PFSBattleSides.Player);
+					var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0]);
 					if (!(calculation.damage >= mindmg - margin and calculation.damage <= maxdmg + margin)) {
 					    error = true;
 					}
@@ -419,7 +422,7 @@ function tests(){
 				repeat(3) {
 					var p1 = __PFS_generate_pokemon_from_showdown("Garchomp|Level: 100|Ability: Rough Skin|EVs: 252 Atk / 4 SpD / 252 Spe|Timid Nature|- Earthquake");
 					var p2 = __PFS_generate_pokemon_from_showdown("Volcarona|Level: 100|Timid Nature|Ability: Flame Body|EVs: 252 SpA / 4 SpD / 252 Spe|- Quiver Dance");
-					var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0], PFSBattleSides.Player);
+					var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0]);
 					if (!(calculation.damage >= mindmg - margin and calculation.damage <= maxdmg + margin)) {
 						show_debug_message($"TEST ERROR: {calculation.damage}:{mindmg}:{maxdmg}");
 					    error = true;

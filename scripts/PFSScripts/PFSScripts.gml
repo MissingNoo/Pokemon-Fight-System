@@ -318,7 +318,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 		enemy : undefined
 	};
 	var _appliedStatus = "";
-	result = __PFS_damage_calculation(pokemon, enemy, move, side);
+	result = __PFS_damage_calculation(pokemon, enemy, move);
 	switch (side) {
 		case PFSBattleSides.Player: {
 			PlayerTeam[pokemonOut] = result.pokemon;
