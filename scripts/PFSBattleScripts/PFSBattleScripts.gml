@@ -13,6 +13,7 @@ enum __PFS_tsnames {
 }
 
 function __PFS_turn_begin() {
+    if (!instance_exists(PFSFightSystem)) {exit;}
 	var battle = PFSFightSystem;
 	var pokemonOut = battle.pokemonOut;
 	var enemyOut = battle.enemyOut;
@@ -48,6 +49,7 @@ function __PFS_turn_begin() {
 }
 
 function __PFS_turn_step() {
+    if (!instance_exists(PFSFightSystem)) {exit;}
 	var battle = PFSFightSystem;
 	var pokemonOut = battle.pokemonOut;
 	var enemyOut = battle.enemyOut;

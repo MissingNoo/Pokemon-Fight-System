@@ -1,7 +1,8 @@
 if (DEBUGMODE) {
     scribble($"state: {sys.get_current_state()}\ncurrentanimation: {currentanimation}\ncaninteract: {caninteract}").scale(1).draw(10, 10);
 }
-draw_rectangle_color(GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2), GW/2 - (windowSize[0] / 2) + windowSize[0], GH/2 - (windowSize[1] / 2) + windowSize[1], c_black, c_black, c_black, c_black, false);
+//draw_rectangle_color(GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2), GW/2 - (windowSize[0] / 2) + windowSize[0], GH/2 - (windowSize[1] / 2) + windowSize[1], c_black, c_black, c_black, c_black, false);
+draw_rectangle_color(0, 0, GW, GH, c_black, c_black, c_black, c_black, false);
 surface_set_target(fightsurface);
 //Feather disable GM2017
 //draw_sprite_ext(sEndResult, 0, GW/2, GH/2, 3, 3, 0, c_white, 1);

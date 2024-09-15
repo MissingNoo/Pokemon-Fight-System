@@ -35,6 +35,12 @@ dbg_same_line();
 dbg_button("Close", function() { instance_destroy(PFSPokedex); });
 dbg_slider_int(ref_create(self, "ppoke"), 1, 152, "Poke:", 1);
 dbg_slider_int(ref_create(self, "ppokelvl"), 1, 100, "Level:", 1);
+dbg_button("Random Team", function() { 
+    PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]);
+    PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]);
+    PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]);
+    PFS.playerPokemons[3] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)]);
+});
 dbg_button("Set Player pokemon", function() { 
 	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[ppoke]);	
 	PFS.playerPokemons[0].level = ppokelvl;

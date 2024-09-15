@@ -352,9 +352,9 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 			}
 			break;
 		case PFSBattleSides.Enemy:
-			PlayerTeam[pokemonOut].hp -= result.damage;
-			if (PlayerTeam[pokemonOut].hp <= 0) { 
-				show_debug_message($"{PlayerTeam[pokemonOut].internalName} died");
+			PlayerTeam[PFSFightSystem.pokemonOut].hp -= result.damage;
+            if (PlayerTeam[PFSFightSystem.pokemonOut].hp <= 0) { 
+                show_debug_message($"{PlayerTeam[PFSFightSystem.pokemonOut].internalName} died");
 				battle.enemyDead = true;
 				if (battle.lastUsedMove == __PFS_get_move_id("Destiny Bond")) {
 					battle.lastUsedMove = 0;
