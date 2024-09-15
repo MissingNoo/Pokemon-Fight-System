@@ -26,6 +26,7 @@ PFS.NatureStatusNames = [
  "spdefense",
  "speed"
 ]
+PFS.GrowthRates = [];
 enum __PFSStatId {
 	Attack = 2,
 	Defense = 3,
@@ -912,4 +913,8 @@ function __PFS_rngr(minv = 0, maxv = 100) {
 
 function __PFS_debug_msg(str) {
 	show_debug_message("[PFS] " + str);
+}
+	
+function __PFS_get_growth_rate(pokemon) {
+	show_debug_message(pokemon);
 }

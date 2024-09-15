@@ -1,4 +1,5 @@
 //feather disable GM2016
+step++;
 var file = "";
 var files = [
 	"abilities.csv", 
@@ -14,8 +15,7 @@ var files = [
 	"move_flags.csv", 
 	"move_flag_map.csv",
 	"natures.csv",
-	"",
-	"",
+	"growth_rates.csv",
 ];
 var path = working_directory + "PFS/Data/";
 array_foreach(files, function(e, i){
@@ -23,7 +23,7 @@ array_foreach(files, function(e, i){
 		show_message($"missing file {file} on installation"); 
 	}
 })
-if (files[step] != "") {
+if (step < array_length(files) and files[step] != "") {
     cf = file_text_open_read(path + files[step]);
 }
 timer = get_timer();
@@ -47,17 +47,7 @@ switch (step) {
 		loaded("Abilities");
         break;
     case 1:
-		var _pos = [ "id","identifier","species_id","height","weight","base_experience","order","is_default" ];
-		while (!file_text_eof(cf)) {
-			file_text_readln(cf);
-			var _line = string_split(file_text_read_string(cf), ",");
-			if (array_length(_line) == 1) { continue; }
-			var _id = _line[array_get_index(_pos, "id")];
-			if (_id == "") { continue; }
-			var _name = _line[array_get_index(_pos, "identifier")];
-			_name = string_concat(string_upper(string_copy(_name, 1, 1)), string_copy(_name, 2, string_length(_name)));
-			var _poke = {
-				internalName : _name,
+		PFS.Pokes = read_csv_to_array({
 				type : [__PFSTypes.NoType, __PFSTypes.NoType],
 				wildlevelrange : [5, 100],
 				canLearn : {
@@ -67,28 +57,28 @@ switch (step) {
 				effort : {},
 				ability : [[0, 1], [0, 1], [0, 1]],
 				flinch : false
-			}
-			for (var i = 0; i < array_length(_pos); ++i) {
-				_poke[$ _pos[i]] = _line[i];
-			}
-			PFS.Pokes[_id] = variable_clone(_poke);
-		}
+			});
+			array_insert(PFS.Pokes, 0, []);
+		//var _pos = [ "id","identifier","species_id","height","weight","base_experience","order","is_default" ];
+		//while (!file_text_eof(cf)) {
+		//	file_text_readln(cf);
+		//	var _line = string_split(file_text_read_string(cf), ",");
+		//	if (array_length(_line) == 1) { continue; }
+		//	var _id = _line[array_get_index(_pos, "id")];
+		//	if (_id == "") { continue; }
+		//	var _name = _line[array_get_index(_pos, "identifier")];
+		//	_name = string_concat(string_upper(string_copy(_name, 1, 1)), string_copy(_name, 2, string_length(_name)));
+		//	var _poke = 
+		//	for (var i = 0; i < array_length(_pos); ++i) {
+		//		_poke[$ _pos[i]] = _line[i];
+		//	}
+		//	PFS.Pokes[_id] = variable_clone(_poke);
+		//}
 		loaded("Pokemon Data 1");
         break;
     case 2:
 		//Species
-		var _pos = [ "id","identifier","generation_id","evolves_from_species_id","evolution_chain_id","color_id","shape_id","habitat_id","gender_rate","capture_rate","base_happiness","is_baby","hatch_counter","has_gender_differences","growth_rate_id","forms_switchable","is_legendary","is_mythical","order","conquest_order" ];
-		while (!file_text_eof(cf)) {
-			file_text_readln(cf);
-			var _line = string_split(file_text_read_string(cf), ",");
-			var _id = _line[array_get_index(_pos, "id")];
-			if (_id == "") { continue; }
-			var _poke = { }
-			for (var i = 0; i < array_length(_pos); ++i) {
-			    _poke[$ _pos[i]] = _line[i];
-			}
-			PFS.PokeSpecies[_id] = variable_clone(_poke);
-		}
+		PFS.PokeSpecies = read_csv_to_array();
 		loaded("Pokemon Data 2");
         break;
     case 3:
@@ -476,10 +466,14 @@ switch (step) {
 		loaded("Natures");
 		break;
 	case 13:
+		PFS.GrowthRates = read_csv_to_array();
+		loaded("Growth Rates");
+		break;
+	case 98:
 		populate_abilities();
 		loaded("Abilities Scripts");
 		break;
-	case 14:
+	case 99:
 		populate_trainers();
 		loaded("NPC trainer data");
 		

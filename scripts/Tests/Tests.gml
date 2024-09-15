@@ -5,20 +5,6 @@ global.testing = runningtests;
 global.testingforcecrit = false;
 global.testingrandomdamage = true;
 global.testingforcefail = false;
-function gen_enemy_poke(poke, level, move) {
-	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[poke])];
-	_enemyPokemon[0].level = level;
-	_enemyPokemon[0].moves[0] = __PFS_add_move(move);
-	_enemyPokemon[0] = __PFS_recalculate_stats(_enemyPokemon[0], true);
-	return _enemyPokemon;
-}
-
-function set_player_poke(poke, level, move) {
-	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[poke]);
-	PFS.playerPokemons[0].level = level;
-	PFS.playerPokemons[0].moves[0] = __PFS_add_move(move);
-	PFS.playerPokemons[0] = __PFS_recalculate_stats(PFS.playerPokemons[0], true);
-}
 
 function tests(){
 	suite(function() {

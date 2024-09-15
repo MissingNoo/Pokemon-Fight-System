@@ -1,4 +1,5 @@
 //Feather disable GM2017
+instance_destroy();
 if (!DEBUGMODE or instance_number(PFSPokeEditor) > 1) { instance_destroy(); }
 #region Move Editor
 show = false;
