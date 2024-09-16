@@ -469,6 +469,9 @@ switch (step) {
 		PFS.GrowthRates = read_csv_to_array();
 		loaded("Growth Rates");
 		break;
+	case 97:
+		PFSMoveScripts();
+		break;
 	case 98:
 		populate_abilities();
 		loaded("Abilities Scripts");

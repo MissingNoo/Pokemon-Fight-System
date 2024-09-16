@@ -45,6 +45,17 @@ function __PFS_turn_begin() {
 		__PFS_order_turn();
 		show_debug_message($"Turn step: {currentTurn}");
 	}
+	if (!__PFS_enemy_alive() and enemyDead) {
+		enemyDead = false;
+		for (var i = 0; i < array_length(PFSFightSystem.enemyPokemon); ++i) {
+			if (PFSFightSystem.enemyPokemon[i].hp > 0) {
+				array_push(PFSFightSystem.turnSteps, [PFSTurnType.EnemyChangePokemon, i]);
+				show_debug_message("Enemy died, changing");
+				sys.change("turn");
+				exit;
+			}
+		}
+	}
 	battle.sys.change("turn");
 }
 
@@ -53,8 +64,8 @@ function __PFS_turn_step() {
 	var battle = PFSFightSystem;
 	var pokemonOut = battle.pokemonOut;
 	var enemyOut = battle.enemyOut;
-	PlayerTeam[pokemonOut] = __PFS_count_status_effect(PlayerTeam[pokemonOut]);
-	EnemyTeam[enemyOut] = __PFS_count_status_effect(EnemyTeam[enemyOut]);
+	PlayerTeam[pokemonOut] = __PFS_count_status_effect(PlayerTeam[pokemonOut], PFSBattleSides.Player);
+	EnemyTeam[enemyOut] = __PFS_count_status_effect(EnemyTeam[enemyOut], PFSBattleSides.Enemy);
 	if (__PFS_enemy_team_defeated() and CurrentTurn[__PFS_tsnames.Type] != PFSTurnType.Run) {
 		exit;
 	}
@@ -125,7 +136,7 @@ function __PFS_turn_step() {
 			battle.playerpokesizelerp = 0;
 			battle.sys.change("animation");
 			break;}
-			case PFSTurnType.EnemyChangePokemon: //TODO: redo
+		case PFSTurnType.EnemyChangePokemon: //TODO: redo
 				currentanimation = "enemyfainted";
 				sys.change("animation");
 				for (var j = 0; j < array_length(enemyPokemon[enemyOut].statusAilments); ++j) {
@@ -248,7 +259,7 @@ function __PFS_order_turn() {
 
 function __PFS_enemy_team_defeated() {
 	for (var i = 0; i < array_length(EnemyTeam); ++i) {
-	    if (EnemyTeam[i].hp > 0) {
+	    if (EnemyTeam[i][$ "hp"] > 0) {
 		    return false;
 		}
 	}

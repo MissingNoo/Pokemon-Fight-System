@@ -1,4 +1,5 @@
 //Feather disable GM2017
+enemyDead = false;
 show_debug_message(json_stringify(PlayerTeam[0]))
 EnemyTeam = enemyPokemon;
 if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
@@ -664,7 +665,10 @@ sys.add("idle", {
 			}
 		}
 	},
-	leave: function() {caninteract = false; drawball = false;},
+	leave: function() {
+		caninteract = false; 
+		drawball = false;
+	},
 	draw: function() {
 		if (drawball) {
 		    draw_sprite_ext(sPokeballNormal, 0, ballx, bally, 3, 3, ballrotation, c_white, 1);

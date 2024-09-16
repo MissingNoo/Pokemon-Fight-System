@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"PFSMoveScripts",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"PFSMoveScripts",
+  "parent":{
+    "name":"PFSScripts",
+    "path":"folders/PokeFightSystem/PFSScripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

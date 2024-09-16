@@ -536,6 +536,7 @@
     {"name":"lexicon_text","order":5,"path":"scripts/lexicon_text/lexicon_text.yy",},
     {"name":"NpcScripts","order":6,"path":"scripts/NpcScripts/NpcScripts.yy",},
     {"name":"PFSBattleScripts","order":1,"path":"scripts/PFSBattleScripts/PFSBattleScripts.yy",},
+    {"name":"PFSMoveScripts","order":3,"path":"scripts/PFSMoveScripts/PFSMoveScripts.yy",},
     {"name":"PlayerScripts","order":2,"path":"scripts/PlayerScripts/PlayerScripts.yy",},
     {"name":"scribble_anim_cycle","order":1,"path":"scripts/scribble_anim_cycle/scribble_anim_cycle.yy",},
     {"name":"scribble_anim_jitter","order":2,"path":"scripts/scribble_anim_jitter/scribble_anim_jitter.yy",},
