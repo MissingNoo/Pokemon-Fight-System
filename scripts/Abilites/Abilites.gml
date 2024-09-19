@@ -242,5 +242,33 @@ function populate_abilities() {
 			return AbilityResult;
 		AbilityCodeEnd
 	});
+	
+	set_ability_code("poison-point", {
+		when : AbilityTime.AfterDamageCalculation,
+		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(pokemon, "poison-point")) { return AbilityResult; } 
+			if (__PFS_move_have_flag(move, "contact")) {
+			    var chance = __PFS_rng();
+				if (chance <= 30 and !__PFS_pokemon_affected_by_status(enemy, PFSStatusAilments.Poison)) {
+				    __PFS_apply_status(enemy, PFSStatusAilments.Poison, -99);
+				}
+			}
+			return AbilityResult;
+		AbilityCodeEnd
+	});
+
+	set_ability_code("rivalry", {
+		when : AbilityTime.AfterDamageCalculation,
+		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(pokemon, "rivalry")) { return AbilityResult; }
+			if (enemy.gender == pokemon.gender) {
+			    _damage = round(_damage * 1.25);
+			}
+			else {
+				_damage = round(_damage * 0.75);
+			}
+			return AbilityResult;
+		AbilityCodeEnd
+	});
 
 }

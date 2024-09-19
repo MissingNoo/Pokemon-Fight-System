@@ -143,7 +143,9 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	    draw_sprite_ext(PFSEnemyHpBar, 0, _hpx, _hpy, enemyHpScale, enemyHpScale, 0, c_white, 1);
 		var ailoffset = 0;
 		for (var i = 0; i < array_length(EnemyTeam[enemyOut].statusAilments); ++i) {
-		    draw_sprite_ext(PFSStatusIcons, EnemyTeam[enemyOut].statusAilments[i][0], _hpx + 66 + ailoffset, _hpy + 86, 2, 2, 0, c_white, 1);
+			var status = EnemyTeam[enemyOut].statusAilments[i][0];
+			if (status > 5) { continue; }
+		    draw_sprite_ext(PFSStatusIcons, status, _hpx + 66 + ailoffset, _hpy + 86, 2, 2, 0, c_white, 1);
 			ailoffset += 50;
 		}
 	}
@@ -157,8 +159,10 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 		    draw_healthbar(_hpx + 143, _hpy + 50, _hpx + 285, _hpy + 60, ((_hp / _pokemon.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
 			draw_sprite_ext(PFSPlayerHpBar, 0, _hpx, _hpy, playerHpScale, playerHpScale, 0, c_white, 1);
 			var ailoffset = 0;
-			for (var i = 0; i < array_length(PlayerTeam[enemyOut].statusAilments); ++i) {
-			    draw_sprite_ext(PFSStatusIcons, PlayerTeam[enemyOut].statusAilments[i][0], _hpx + 60 + ailoffset, _hpy + 78, 2, 2, 0, c_white, 1);
+			for (var i = 0; i < array_length(PlayerTeam[pokemonOut].statusAilments); ++i) {
+				var status = PlayerTeam[pokemonOut].statusAilments[i][0];
+				if (status > 5) { continue; }
+			    draw_sprite_ext(PFSStatusIcons, status, _hpx + 60 + ailoffset, _hpy + 78, 2, 2, 0, c_white, 1);
 				ailoffset += 50;
 			}
 		}
@@ -169,22 +173,6 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 		scribble(_pokemon.level).scale(0.5, 0.5).draw(_hpx + 242, _hpy + 16);
 	}
 	#endregion
-	//var _status = "";
-	//for (var i = 0; i < array_length(_pokemon.statusAilments); ++i) {
-	//    _status = $"{_status} {PFS.StatusAilments[_pokemon.statusAilments[i][0]]} turns: {_pokemon.statusAilments[i][1]} ;";
-	//}
-	//draw_text(_x, _y - 50, _status);
-	//draw_set_halign(fa_right);
-	//draw_text(_boxEndX - 10, _y, $"{_pokemon.hp}/{_pokemon.base.hp}");
-	
-	//draw_set_halign(fa_left);
-	//_y += 40;
-	//var _xoff = 0;
-	//var _array = _side == PFSBattleSides.Player ? PFS.playerPokemons : enemyPokemon;
-	//for (var i = 0; i < array_length(_array); ++i) {
-	//    draw_circle(_boxEndX - 15 - _xoff, _y, 7, PFS.playerPokemons[i].hp <= 0);
-	//	_xoff += 20;
-	//}
 }
 #endregion
 if (!wildPokemon) {

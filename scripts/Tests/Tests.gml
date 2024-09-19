@@ -231,6 +231,40 @@ function tests(){
 				
 				expect(psideconvert and esideconvert).toBe(true);
 			});
+			
+			test("Poison Point", function() {
+				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Seadra|Ability: Poison Point|- Pound");
+				var enemy = __PFS_generate_pokemon_from_showdown("Rattata");
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PlayerTeam[0], EnemyTeam[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+				}
+				expect(__PFS_pokemon_affected_by_status(EnemyTeam[0], PFSStatusAilments.Poison)).toBe(true);
+			});
+			
+			test("Rivalry", function() {
+				global.testingrandomdamage = false;
+				//no bonus
+				var p1 = __PFS_generate_pokemon_from_showdown("Shinx|Ability: Blaze|- Pound");
+				var p2 = __PFS_generate_pokemon_from_showdown("Rattata");
+				var calc = __PFS_damage_calculation(p1, p2, p1.moves[0]);
+				var result1 = calc.damage;
+				//debuff against other gender
+				p1 = __PFS_generate_pokemon_from_showdown("Shinx|Ability: Rivalry|- Pound|Male");
+				p2 = __PFS_generate_pokemon_from_showdown("Rattata|Female");
+				calc = __PFS_damage_calculation(p1, p2, p1.moves[0]);
+				var result2 = calc.damage;
+				//buff agains same gender
+				p1 = __PFS_generate_pokemon_from_showdown("Shinx|Ability: Rivalry|- Pound|Male");
+				p2 = __PFS_generate_pokemon_from_showdown("Rattata|Male");
+				calc = __PFS_damage_calculation(p1, p2, p1.moves[0]);
+				var result3 = calc.damage;
+				
+				var buff = result3 > result1;
+				var debuff = result2 < result1;
+				show_message($"r1: {result1}, r2: {result2}, r3: {result3}\nBuff: {buff}\nDebuff: {debuff}");
+				expect(buff and debuff).toBe(true);
+			});
 		});
 		
 		section("Status", function() {
@@ -472,6 +506,12 @@ function __PFS_generate_pokemon_from_showdown(export_string) {
 	var data = string_split(string_replace(pokedata, "	", ""), "|");
 	//[ "Charmander","Level: 5","Timid Nature","Ability: Blaze","EVs: 44 HP / 12 Def / 196 SpA / 236 Spe","IVs: 0 Atk","- Flamethrower","- Fire Blast","- Overheat","- Sleep Talk" ]
 	var gen = __PFS_generate_pokemon(PFS.Pokes[__PFS_get_poke_id(data[0])]);
+	if (string_contains(string_lower(pokedata), "male")) {
+	    gen.gender = 0;
+	}
+	if (string_contains(string_lower(pokedata), "female")) {
+	    gen.gender = 1;
+	}
 	if (string_contains(pokedata, "Level")) {
 		gen.level = real(string_digits(data[array_find_index(data, function(e, i){return string_contains(e, "Level")})]));
 	}

@@ -539,6 +539,7 @@ function __PFS_damage_calculation(pokemon, enemy, _move){
 
 function __PFS_generate_pokemon(poke){
 	var pokemon = variable_clone(poke);
+	pokemon.gender = choose(0, 1);
 	pokemon.level = irandom_range(real(pokemon.wildlevelrange[0]), real(pokemon.wildlevelrange[1]));
 	pokemon.moves = [];
 	for (var i = 0; i < array_length(pokemon.canLearn.level); ++i) {

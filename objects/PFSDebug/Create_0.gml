@@ -31,6 +31,8 @@ dbg_button("Add Ailments", function() {
 	__PFS_apply_status(PlayerTeam[0], PFSStatusAilments.Freeze);
 	__PFS_apply_status(PlayerTeam[0], PFSStatusAilments.Burn);
 	__PFS_apply_status(PlayerTeam[0], PFSStatusAilments.Paralysis);
+	__PFS_apply_status(PlayerTeam[0], PFSStatusAilments.Sleep);
+	__PFS_apply_status(EnemyTeam[0], PFSStatusAilments.Sleep);
 	__PFS_apply_status(EnemyTeam[0], PFSStatusAilments.Freeze);
 	__PFS_apply_status(EnemyTeam[0], PFSStatusAilments.Burn);
 	__PFS_apply_status(EnemyTeam[0], PFSStatusAilments.Paralysis);
