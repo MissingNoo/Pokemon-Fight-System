@@ -3,17 +3,20 @@ function set_move_code(name, struct) {
 }
 #macro MoveCodeStart code: function(pokemon, enemy) {
 #macro MoveCodeEnd }
+
 function PFSMoveScripts(){
 	set_move_code("Self Destruct", {
 		MoveCodeStart
 			pokemon.hp = 0;
 		MoveCodeEnd
 	});
+	
 	set_move_code("Explosion", {
 		MoveCodeStart
 			pokemon.hp = 0;
 		MoveCodeEnd
 	});
+	
 	set_move_code("Perish Song", {
 		MoveCodeStart
 			if (__PFS_pokemon_have_ability(pokemon, "soundproof")) {
@@ -24,6 +27,4 @@ function PFSMoveScripts(){
 			}
 		MoveCodeEnd
 	});
-	
 }
-

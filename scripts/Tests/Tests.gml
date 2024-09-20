@@ -245,24 +245,23 @@ function tests(){
 			test("Rivalry", function() {
 				global.testingrandomdamage = false;
 				//no bonus
-				var p1 = __PFS_generate_pokemon_from_showdown("Shinx|Ability: Blaze|- Pound");
-				var p2 = __PFS_generate_pokemon_from_showdown("Rattata");
+				var p1 = __PFS_generate_pokemon_from_showdown("Shinx|Ability: Blaze|Level 30|- Pound");
+				var p2 = __PFS_generate_pokemon_from_showdown("Rattata|Level 30");
 				var calc = __PFS_damage_calculation(p1, p2, p1.moves[0]);
 				var result1 = calc.damage;
 				//debuff against other gender
-				p1 = __PFS_generate_pokemon_from_showdown("Shinx|Ability: Rivalry|- Pound|Male");
-				p2 = __PFS_generate_pokemon_from_showdown("Rattata|Female");
+				p1 = __PFS_generate_pokemon_from_showdown("Shinx|Ability: Rivalry|Level 30|- Pound|Male");
+				p2 = __PFS_generate_pokemon_from_showdown("Rattata|Female|Level 30");
 				calc = __PFS_damage_calculation(p1, p2, p1.moves[0]);
 				var result2 = calc.damage;
 				//buff agains same gender
-				p1 = __PFS_generate_pokemon_from_showdown("Shinx|Ability: Rivalry|- Pound|Male");
-				p2 = __PFS_generate_pokemon_from_showdown("Rattata|Male");
+				p1 = __PFS_generate_pokemon_from_showdown("Shinx|Ability: Rivalry|Level 30|- Pound|Male");
+				p2 = __PFS_generate_pokemon_from_showdown("Rattata|Male|Level 30");
 				calc = __PFS_damage_calculation(p1, p2, p1.moves[0]);
 				var result3 = calc.damage;
 				
 				var buff = result3 > result1;
 				var debuff = result2 < result1;
-				show_message($"r1: {result1}, r2: {result2}, r3: {result3}\nBuff: {buff}\nDebuff: {debuff}");
 				expect(buff and debuff).toBe(true);
 			});
 		});
