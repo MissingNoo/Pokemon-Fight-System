@@ -281,6 +281,7 @@
     {"name":"__scribble_system","order":9,"path":"scripts/__scribble_system/__scribble_system.yy",},
     {"name":"__scribble_tick","order":10,"path":"scripts/__scribble_tick/__scribble_tick.yy",},
     {"name":"Abilites","order":2,"path":"scripts/Abilites/Abilites.yy",},
+    {"name":"AirFunctions","order":8,"path":"scripts/AirFunctions/AirFunctions.yy",},
     {"name":"CutsceneScripts","order":5,"path":"scripts/CutsceneScripts/CutsceneScripts.yy",},
     {"name":"DebugLib","order":2,"path":"scripts/DebugLib/DebugLib.yy",},
     {"name":"draw_text_scribble_ext","order":1,"path":"scripts/draw_text_scribble_ext/draw_text_scribble_ext.yy",},

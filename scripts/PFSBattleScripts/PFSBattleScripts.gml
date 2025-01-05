@@ -48,7 +48,11 @@ function __PFS_turn_begin() {
 }
 
 function __PFS_turn_step() {
+    trace("Turn step");
 	var battle = PFSFightSystem;
+    if (!instance_exists(battle)) {
+        exit;
+    }
 	var pokemonOut = battle.pokemonOut;
 	var enemyOut = battle.enemyOut;
 	PlayerTeam[pokemonOut] = __PFS_count_status_effect(PlayerTeam[pokemonOut]);
@@ -62,18 +66,18 @@ function __PFS_turn_step() {
 			DialogData[$"pokename"] = current_pokemon.internalName;
 			#region Status
 			if (__PFS_pokemon_affected_by_status(current_pokemon, PFSStatusAilments.Sleep)) {
-				show_debug_message($"{current_pokemon.internalName} is fast asleep!");
+				trace($"{current_pokemon.internalName} is fast asleep!");
 				spawn_dialog($"Asleep");
 				break;
 			}
 			if (__PFS_pokemon_affected_by_status(current_pokemon, PFSStatusAilments.Paralysis) and __PFS_rng() <= 25) {
-				show_debug_message($"{current_pokemon.internalName} is paralyzed! It can't move!");
+				trace($"{current_pokemon.internalName} is paralyzed! It can't move!");
 				spawn_dialog($"Paralyzed");
 				break;
 			}
 			if (current_pokemon.flinch) {
 				if (__PFS_pokemon_have_ability(current_pokemon, "inner-focus")) {
-					show_debug_message($"{current_pokemon.internalName} won't flinch because of its Inner Focus!");
+					trace($"{current_pokemon.internalName} won't flinch because of its Inner Focus!");
 					spawn_dialog($"WontFlinch");
 				}
 				else {

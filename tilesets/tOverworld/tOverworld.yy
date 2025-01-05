@@ -3,9 +3,13 @@
   "%Name":"tOverworld",
   "autoTileSets":[],
   "macroPageTiles":{
-    "SerialiseHeight":0,
-    "SerialiseWidth":0,
-    "TileSerialiseData":[],
+    "SerialiseHeight":9,
+    "SerialiseWidth":10,
+    "TileCompressedData":[
+      -24,0,22,10,11,0,12,13,14,128,129,0,0,74,75,0,76,77,78,320,321,0,0,138,139,-4,0,2,192,193,-5,0,13,140,
+      141,142,256,257,0,8,9,0,0,204,205,206,-3,0,2,72,73,-8,0,2,136,137,-5,0,
+    ],
+    "TileDataFormat":1,
   },
   "name":"tOverworld",
   "out_columns":38,

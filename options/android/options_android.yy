@@ -27,6 +27,13 @@
       "option_android_orient_portrait_flipped":"false",
       "option_android_orient_portrait":"false",
     },
+    "Tests":{
+      "option_android_build_tools":"",
+      "option_android_support_lib":"35.0.0",
+      "option_android_target_sdk":"35",
+      "option_android_compile_sdk":"35",
+      "option_android_minimum_sdk":"21",
+    },
   },
   "name":"Android",
   "option_android_application_tag_inject":"",
