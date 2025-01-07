@@ -21,7 +21,7 @@ function __input_config_verbs()
             right: [input_binding_key(vk_right), input_binding_key("D")],
             
             accept:  input_binding_key("Z"),
-            cancel:  input_binding_key("C"),
+            cancel:  input_binding_key("X"),
             action:  input_binding_key(vk_enter),
             special: input_binding_key(vk_shift),
             

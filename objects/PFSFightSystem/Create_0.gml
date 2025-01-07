@@ -367,10 +367,15 @@ sys.add("idle", {
 		selectedMove += _leftRight + _upDown;
 		if (selectedMove < 0) { selectedMove = 0; }
 		if (selectedMove > array_length(PFS.playerPokemons[pokemonOut].moves) - 1) { selectedMove = array_length(PFS.playerPokemons[pokemonOut].moves) - 1; }
-		if (caninteract and input_check_pressed("accept")) {
-			array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[enemyOut], PFS.playerPokemons[pokemonOut].moves[selectedMove], PFSBattleSides.Player]);
-			sys.change("preturn");
-			exit;
+		if (caninteract) {
+            if (input_check_pressed("accept")) {
+                array_push(turnSteps, [PFSTurnType.Move, PFS.playerPokemons[pokemonOut], enemyPokemon[enemyOut], PFS.playerPokemons[pokemonOut].moves[selectedMove], PFSBattleSides.Player]);
+                sys.change("preturn");
+                exit;
+            }
+			if (input_check_pressed("cancel")) {
+                sys.change("menu");
+            }
 		}
 	},
 	draw: function() {
