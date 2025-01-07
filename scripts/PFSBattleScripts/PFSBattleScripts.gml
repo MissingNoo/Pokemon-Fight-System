@@ -16,6 +16,7 @@ function __PFS_turn_begin() {
 	var battle = PFSFightSystem;
 	var pokemonOut = battle.pokemonOut;
 	var enemyOut = battle.enemyOut;
+    //TODO: Enemy move AI
 	var rng = irandom_range(0, array_length(EnemyTeam[battle.enemyOut].moves) - 1);
 	battle.lastanimation = "";
 	show_debug_message("[PFS] Turn Begin");
@@ -234,12 +235,15 @@ function __PFS_order_turn() {
 			    p2[1].speed = p2[1].speed * 0.5;
 			}
 			#endregion
-			if (p1[1].speed < p2[1].speed) {
-			    _goAfter = true;
-			}
-		    if (p1[3].priority < p2[3].priority) {
-			    _goAfter = true;
-			}
+            if (p1[1].speed < p2[1].speed) {
+                _goAfter = true;
+                trace($"{p2[1].internalName}:{p2[1].speed} is faster than {p1[1].internalName}:{p1[1].speed}, going first!");
+            }
+            if (p1[3].priority > p2[3].priority) {
+                _goAfter = false;
+                trace($"{p1[1].internalName}:{p1[3].internalName}:{p1[3].priority} has higher priority than {p2[1].internalName}:{p2[3].internalName}:{p2[3].priority}, going first!");
+            }
+			
 		}
 		else {
 			_goAfter =  elm1[0] < elm2[0];
