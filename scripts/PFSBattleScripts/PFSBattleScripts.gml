@@ -49,7 +49,7 @@ function __PFS_turn_begin() {
 }
 
 function __PFS_turn_step() {
-    trace("Turn step");
+    show_debug_message("Turn step");
 	var battle = PFSFightSystem;
     if (!instance_exists(battle)) {
         exit;
@@ -246,7 +246,7 @@ function __PFS_order_turn() {
 			
 		}
 		else {
-			_goAfter =  elm1[0] < elm2[0];
+			_goAfter = elm1[0] < elm2[0];
 		}
 	    return _goAfter;
 	});

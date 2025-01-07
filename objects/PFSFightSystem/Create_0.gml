@@ -109,6 +109,10 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	#region Poke Sprites
 	var _sprite = _side == PFSBattleSides.Player ? pokemonSprite : enemySprite;
 	if (sprite_exists(_sprite)) {
+        var si = sine_wave(current_time / 2000, 1, 2, 0);
+        if (_side == PFSBattleSides.Player) {
+            si = si * -1;
+        }
 		//var _pos = _side == PFSBattleSides.Player ? [_px - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_px + 120 + sprite_get_width(_sprite) / 2, _py - 200 - sprite_get_height(_sprite) / 2];
 		var _pos = _side == PFSBattleSides.Player ? [playerpathx[0], playerpathy - 60] : [enemypathx[0], enemypathy + 20  + enemyyoffset];
 		var _scale = _side == PFSBattleSides.Player ? 1 * playerpokesize : 1.5 * enemypokesize;
@@ -123,9 +127,9 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 			draw_sprite_ext(trainer.sprite, 0, _pos[0] + enemytraineroffset, _pos[1] - 60, 3, 3, 0, c_white, 1);
 		}
 		if (_draw) {
-		    draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], _scale, _scale, 0, c_white, _alpha);
+		    draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1] + si, _scale, _scale, 0, c_white, _alpha);
 			if (_side == PFSBattleSides.Enemy and wildPokemon) {
-			    draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1], _scale, _scale, 0, c_black, wildenemyalpha);
+			    draw_sprite_ext(_sprite, animatedSprites ? -1 : 0, _pos[0], _pos[1] + si, _scale, _scale, 0, c_black, wildenemyalpha);
 			}
 		}
 	}
