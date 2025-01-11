@@ -23,11 +23,9 @@ if (x == other.x and y == other.y) {
                 trace($"Pokemon found on Grass was {pokelist[selected_pokemon]}");
                 var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[pokelist[selected_pokemon]])];
                 instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
-                pokelist = [];
                 //Feather enable GM2017
             }
         }
-		
 	    other.collided = true;
 	}
 }
