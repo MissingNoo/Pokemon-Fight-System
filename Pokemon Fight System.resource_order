@@ -582,6 +582,7 @@
     {"name":"scribble_typists_add_event","order":6,"path":"scripts/scribble_typists_add_event/scribble_typists_add_event.yy",},
     {"name":"scribble","order":10,"path":"scripts/scribble/scribble.yy",},
     {"name":"script443","order":3,"path":"scripts/script443/script443.yy",},
+    {"name":"Script514","order":3,"path":"scripts/Script514/Script514.yy",},
     {"name":"SnowState","order":1,"path":"scripts/SnowState/SnowState.yy",},
     {"name":"StartScripts","order":1,"path":"scripts/StartScripts/StartScripts.yy",},
     {"name":"string_height_scribble_ext","order":3,"path":"scripts/string_height_scribble_ext/string_height_scribble_ext.yy",},

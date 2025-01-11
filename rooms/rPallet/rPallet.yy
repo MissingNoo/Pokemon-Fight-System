@@ -51,6 +51,8 @@
     {"name":"inst_60A4E506","path":"rooms/rPallet/rPallet.yy",},
     {"name":"inst_17D6CC5E","path":"rooms/rPallet/rPallet.yy",},
     {"name":"inst_5348650C","path":"rooms/rPallet/rPallet.yy",},
+    {"name":"inst_215B1449","path":"rooms/rPallet/rPallet.yy",},
+    {"name":"inst_2D592FE6","path":"rooms/rPallet/rPallet.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -114,6 +116,8 @@
         {"$GMRInstance":"v1","%Name":"inst_5348650C","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_5348650C","objectId":{"name":"oCutsceneStarter","path":"objects/oCutsceneStarter/oCutsceneStarter.yy",},"properties":[
             {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oCutsceneStarter","path":"objects/oCutsceneStarter/oCutsceneStarter.yy",},"propertyId":{"name":"cutscene","path":"objects/oCutsceneStarter/oCutsceneStarter.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"CutsceneNames.OakLab",},
           ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":1400.0,"y":912.0,},
+        {"$GMRInstance":"v1","%Name":"inst_215B1449","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_215B1449","objectId":{"name":"oGrass","path":"objects/oGrass/oGrass.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":1432.0,"y":832.0,},
+        {"$GMRInstance":"v1","%Name":"inst_2D592FE6","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_2D592FE6","objectId":{"name":"oGrass","path":"objects/oGrass/oGrass.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":1416.0,"y":832.0,},
       ],"layers":[],"name":"MapObjects","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Colisions","depth":300,"effectEnabled":true,"effectType":null,"gridX":8,"gridY":8,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"v1","%Name":"inst_684D01CC","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_684D01CC","objectId":{"name":"oColision","path":"objects/oColision/oColision.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":23.5,"x":1208.0,"y":1208.0,},

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Script514",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Script514",
+  "parent":{
+    "name":"PFSScripts",
+    "path":"folders/PokeFightSystem/PFSScripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

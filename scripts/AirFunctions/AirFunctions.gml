@@ -38,6 +38,9 @@ function __trace_pre(_file, _line) {
     return 1;
 }
 function __trace() {
+    if (os_get_config() != "Debug") {
+        return;
+    }
     var _buf = global.__trace_buf;
     for (var i = 0; i < argument_count; i++) {
         buffer_write(_buf, buffer_u8, ord(" "));
