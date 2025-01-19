@@ -617,6 +617,7 @@ function __PFS_generate_pokemon(poke){
 	    //show_message($"{pokemon.ability}");
 	}
 	pokemon.nature = PFS.Natures[irandom_range(1, array_length(PFS.Natures) - 1)].id;
+    pokemon.shiny = irandom_range(1, 4096) == 1; //TODO: Locked shinies
 	return __PFS_recalculate_stats(pokemon, true);
 }
 
@@ -940,3 +941,22 @@ function __PFS_rngr(minv = 0, maxv = 100) {
 function __PFS_debug_msg(str) {
 	show_debug_message("[PFS] " + str);
 }
+
+function sprite_container() constructor {
+    sprites = {};
+    static load_sprite = function(pokemon) {
+        var sprites_path = working_directory + "PFS/Sprites/Pokemon/";
+        variable_struct_set(sprites, pokemon.internalName, {});
+        var arr = ["Front", "Back", "Front shiny", "Back shiny"];
+        for (var i = 0; i < array_length(arr); i++) {
+            sprites[$pokemon.internalName][$ arr[i]] = sprite_add(sprites_path + arr[i] + "/" + string_upper(pokemon.internalName) + ".png", 1, false, false, 192/1.5, 192);
+        }
+    }
+    static get_sprite = function(pokemon, side) {
+        if (sprites[$pokemon.internalName] == undefined) {
+            load_sprite(pokemon);
+        }
+        return sprites[$pokemon.internalName][$side + (pokemon.shiny ? " shiny" : "")];
+    }
+}
+

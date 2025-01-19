@@ -29,3 +29,8 @@ function loaded(str) {
 	catch(err) {}
     step++
 }
+global.pokemon_sprites = new sprite_container();
+global.pokemon_sprites.load_sprite({
+    internalName: "Charizard",
+    shiny : false
+});

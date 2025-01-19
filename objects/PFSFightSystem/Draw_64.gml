@@ -45,5 +45,8 @@ draw_set_color(c_white);
 surface_reset_target();
 if (surface_exists(fightsurface)) {
 	//draw_surface_ext(fightsurface, GW/2 - (windowSize[0] / 2), GH/2 - (windowSize[1] / 2), 1, 1, 0, c_white, 1);
+    draw_set_color(c_black)
+    draw_rectangle(0, 0, GW, GH, false);
+    draw_set_color(c_white)
 	draw_surface_stretched(fightsurface, 0, 0, GW, GH);
 }

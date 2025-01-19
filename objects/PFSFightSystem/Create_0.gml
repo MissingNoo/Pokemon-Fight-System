@@ -107,7 +107,7 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
 	_x = 0;
 	_y = 0;
 	#region Poke Sprites
-	var _sprite = _side == PFSBattleSides.Player ? pokemonSprite : enemySprite;
+	var _sprite = _side == PFSBattleSides.Player ? global.pokemon_sprites.get_sprite(PlayerTeam[pokemonOut], "Back") : global.pokemon_sprites.get_sprite(enemyPokemon[enemyOut], "Front");
 	if (sprite_exists(_sprite)) {
         var si = sine_wave(current_time / 2000, 1, 2, 0);
         if (_side == PFSBattleSides.Player) {
