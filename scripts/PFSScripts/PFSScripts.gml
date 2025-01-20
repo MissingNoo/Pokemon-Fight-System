@@ -312,18 +312,18 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	};
 	var _appliedStatus = "";
 	result = __PFS_damage_calculation(pokemon, enemy, move, side);
-	switch (side) {
-		case PFSBattleSides.Player: {
-			PlayerTeam[pokemonOut] = result.pokemon;
-			EnemyTeam[enemyOut] = result.enemy;
-			break; 
-		}
-		case PFSBattleSides.Enemy:{
-			PlayerTeam[pokemonOut] = result.enemy;
-			EnemyTeam[enemyOut] = result.pokemon;
-			break;
-		}
-	}
+	//switch (side) {
+		//case PFSBattleSides.Player: {
+			//PlayerTeam[pokemonOut] = result.pokemon;
+			//EnemyTeam[enemyOut] = result.enemy;
+			//break; 
+		//}
+		//case PFSBattleSides.Enemy:{
+			//PlayerTeam[pokemonOut] = result.enemy;
+			//EnemyTeam[enemyOut] = result.pokemon;
+			//break;
+		//}
+	//}
 	if (result.critical) {
 		array_push(global.nextdialog, {npc : "Battle", text : $"Critical", onBattle : true});
 	}
@@ -333,9 +333,9 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 		__PFS_apply_status(enemy, result.status[0], result.status[1]);
 	}
 	show_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}!", result.damage > 0 ? $" dealing {result.damage} damage!" : "", $" {_appliedStatus}"));
-	if (result.affect_user != false) { // Move that affects the user (Perish Song)
-		pokemon = result.affect_user;
-	}
+	//if (result.affect_user != false) { // Move that affects the user (Perish Song)
+		//pokemon = result.affect_user;
+	//}
 	
 	switch (side) {
 		case PFSBattleSides.Player:
@@ -372,7 +372,199 @@ function __PFS_pokemon_have_type(pokemon, type) {
 }
 
 function __PFS_damage_calculation(pokemon, enemy, move, _side){
-	var _damage = 0;
+    //Critical
+    var critChance = __PFS_rng(0, 255);
+	var critTreshold = pokemon.speed / 2; //TODO: High crit chance atk and items
+	var critical = critChance <= critTreshold ? 2 : 1; //TODO _isCritical = 1 if target ability is Battle Armor or Shell Armor or with Luck Chant
+    if (global.testing) { // Do not crit if running tests
+		if (global.testingforcecrit) {
+		    _isCritical = 2;
+		}
+	    else {
+			_isCritical = 1;
+		}
+	}
+    //TODO: Conversely, unless critical hits are prevented entirely by one of the above effects, Critical will always be 1.5 (or 2 in Generation V) if the used move is Storm Throw, Frost Breath, Zippy Zap, Surging Strikes, Wicked Blow, or Flower Trick, the target is poisoned and the attacker's Ability is Merciless, or if the user is under the effect of Laser Focus.
+    //
+    var damage = 0;
+    var _status = 0;
+    var level = pokemon.level;
+    //A
+    var A = 1;
+    var D = 1;
+    switch (move.category) { //TODO: unmodified on criticals, light screen, reflect, (ignoring positive stat stages for a critical hit).
+	    case PFSMoveCategory.Physical:
+	        A = pokemon.attack;
+			D = enemy.defense;
+            //TODO: Contact abilities
+	        break;
+	    case PFSMoveCategory.Special:
+			A = pokemon.spattack;
+			D = enemy.spdefense; //TODO: move that uses the normal defense stat
+			break;
+	}
+    if (move.category == PFSMoveCategory.Status or move.effect_chance != "") {
+		var _chance = __PFS_rng();
+		
+		if (move.category == PFSMoveCategory.Status or _chance <= move.effect_chance) {
+			critical = 1;
+			var _turns = -99;
+			var _effectData = PFS.StatusAilmentsData[move.id];
+			_turns = irandom_range(_effectData.min_turns, _effectData.max_turns);
+			if (_effectData.max_turns == 0) {
+				_turns = -99;
+			}
+			_status = [real(PFS.StatusAilmentsData[move.id].meta_ailment_id), _turns];
+			#region Status that affect the user 
+            //TODO: make weapon functions
+				#region Perish Song
+					if (_status[0] == PFSStatusAilments.Perish_song) {
+					    if (!__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Perish_song)) {
+							if (__PFS_pokemon_have_ability(pokemon, "soundproof")) {
+							    show_debug_message($"{pokemon.internalName}'s Soundproof ignored Perish Song!");
+							}
+							else {
+								array_push(pokemon.statusAilments, _status);
+								//_affectUser = pokemon;
+							}
+						}
+					}
+				#endregion
+			#endregion
+			#region Invulnerabilities to status effects
+				#region Types
+					#region Burn
+						if (__PFS_pokemon_have_type(enemy, __PFSTypes.Fire) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Burn) {
+							show_debug_message($"{enemy.internalName} is immune to Burn!");
+							_status = 0;
+						}
+					#endregion
+					#region Paralysis
+						if (__PFS_pokemon_have_type(enemy, __PFSTypes.Electric) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Paralysis) {
+							show_debug_message($"{enemy.internalName} is immune to Paralysis!");
+							_status = 0;
+						}
+					#endregion
+				#endregion
+			#endregion
+		}
+	}
+    //Move power
+    var movepower = 0;
+    try {
+        movepower = real(move.mpower);
+    }
+    catch (error) { }
+    //
+    var targets = 1; //TODO: 0.75 if more than one target
+    var PB = 1; //TODO: if it's the second hit of parental bond, set to 0.25;
+    /*TODO: weather is 1.5 if a Water-type move is being used during rain 
+    or a Fire-type move or Hydro Steam during harsh sunlight, 
+    and 0.5 if a Water-type move (besides Hydro Steam) is used during harsh sunlight 
+    or a Fire-type move during rain, 
+    and 1 otherwise or if any Pokémon on the field have the Ability Cloud Nine or Air Lock.
+    */
+    var weather = 1; 
+    var glaive_rush = 1; //TODO: set to 2 ig Glaive rush was used last turn
+    #region Abilities before all
+		for (var i = 0; i < array_length(enemy.ability); ++i) {
+			if (enemy.ability[i][1] == 1) { continue; }
+			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.Start) {
+				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, critical, damage, _side);
+				_status = _abresult.status;
+				critical = _abresult.critical;
+				damage = _abresult.damage;
+				move = _abresult.move;
+			}
+		}
+		for (var i = 0; i < array_length(pokemon.ability); ++i) {
+			if (pokemon.ability[i][1] == 1) { continue; }
+			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.Start) {
+				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, critical, damage, _side);
+				_status = _abresult.status;
+				critical = _abresult.critical;
+				damage = _abresult.damage;
+				move = _abresult.move;
+			}
+		}
+	#endregion
+    var rnd = __PFS_rngr(0.85, 1);
+    var STAB = array_get_index(pokemon.type, move.type) != -1 ? 1.5 : 1;
+    if (__PFS_pokemon_have_ability(pokemon, "adaptability")) {
+        STAB = 2;
+    }
+    //TODO: Terastilize things
+	var _type1 = __PFS_is_effective(enemy, move, 0);
+	var _type2 = array_length(enemy.type) > 1 ? __PFS_is_effective(enemy, move, 1) : 1;
+	var type = 1 * _type1 * _type2;
+	//TODO: type things
+	var burn = (move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and !__PFS_pokemon_have_ability(pokemon, "guts")) ? 0.5 : 1; //TODO: don't affect fixed damage moves like Foul Play
+    var oth = 1; //TODO: todo this
+    #region Right before damage calculation
+		#region Abilities
+			for (var i = 0; i < array_length(enemy.ability); ++i) {
+				if (enemy.ability[i][1] == 1) { continue; }
+				if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.BeforeDamageCalculation) {
+					var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, critical, damage, _side);
+					_status = _abresult.status;
+					critical = _abresult.critical;
+					damage = _abresult.damage;
+					move = _abresult.move;
+				}
+			}
+			for (var i = 0; i < array_length(pokemon.ability); ++i) {
+				if (pokemon.ability[i][1] == 1) { continue; }
+				if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.BeforeDamageCalculation) {
+					var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, critical, damage, _side);
+					_status = _abresult.status;
+					critical = _abresult.critical;
+					damage = _abresult.damage;
+					move = _abresult.move;
+				}
+			}
+		#endregion
+	#endregion
+    var zmove = 1, tera_shield = 1;
+    //Damage Calculation
+    var step1 = ((2 * level) / 5) + 2;
+    var step2 = ((step1 * movepower * (A/D)) / 50) + 2;
+    damage = (step2) * targets * PB * weather * glaive_rush * critical * rnd * STAB * type * burn * oth * zmove * tera_shield;
+    //
+    #region Right after damage calculation
+		#region Abilities
+		for (var i = 0; i < array_length(enemy.ability); ++i) {
+			if (enemy.ability[i][1] == 1) { continue; }
+			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.AfterDamageCalculation) {
+				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, critical, damage, _side);
+				_status = _abresult.status;
+				critical = _abresult.critical;
+				damage = _abresult.damage;
+				move = _abresult.move;
+			}
+		}
+		for (var i = 0; i < array_length(pokemon.ability); ++i) {
+			if (pokemon.ability[i][1] == 1) { continue; }
+			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.AfterDamageCalculation) {
+				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, critical, damage, _side);
+				_status = _abresult.status;
+				critical = _abresult.critical;
+				damage = _abresult.damage;
+				move = _abresult.move;
+			}
+		}
+		#endregion
+		#region Items
+			#region Focus Sash
+			#endregion
+		#endregion
+	#endregion
+    trace($"[PFS] Move did {damage} damage");
+    return {
+		damage : round(damage),
+		status : _status,
+		critical : critical == 2 ? true : false,
+	};
+	/*var _damage = 0;
 	var _affectUser = false;
 	var _status = 0;
 	var _ability_status = 0;
@@ -559,16 +751,7 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	#endregion
 	
 	//show_debug_message($"Dealt ( ( ( 2 * {_level} / 5 + 2) * {_power} * ({_a} / {_d}) ) / 50 + 2 )  * {_targets} * {_pb} * {_weather} * {_glaiverush} * {_isCritical} * {_rnd} * {_stab} * {_type} * {_burn} * {_other} = {_damage} damage");
-	
-	return {
-		damage : _damage,
-		status : _status,
-		ability_status : _ability_status,
-		affect_user : _affectUser,
-		critical : _isCritical == 2 ? true : false,
-		pokemon : pokemon,
-		enemy : enemy
-	};
+     */
 }
 
 function __PFS_generate_pokemon(poke){
