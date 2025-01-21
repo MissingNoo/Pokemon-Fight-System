@@ -927,19 +927,6 @@ function __PFS_ability_on_contact(pokemon, enemy, move){
 	return [pokemon, enemy, _status];
 }
 
-function __PFS_ability_after_contact(pokemon, enemy){
-	for (var i = 0; i < array_length(pokemon.ability); ++i) {
-	    if (pokemon.ability[i][0] == __PFS_get_ability_id("indentifier")) {
-		}
-	}
-	return [pokemon, enemy];
-}
-
-function __PFS_ability_before_damage_calculation(pokemon){
-	//if (__PFS_pokemon_have_ability(pokemon, "battle-armor")) {
-	    
-	//}
-}
 #endregion
 
 function __PFS_get_move_id(name) {

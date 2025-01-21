@@ -238,8 +238,8 @@ wildenemyhpoffset = -320;
 #endregion
 #endregion
 
-load_sprite(PFS.playerPokemons[pokemonOut], 1);
-load_sprite(enemyPokemon[enemyOut], 0);
+//load_sprite(PFS.playerPokemons[pokemonOut], 1);
+//load_sprite(enemyPokemon[enemyOut], 0);
 
 #region Battle Start
 //show_debug_log(true);

@@ -7,7 +7,7 @@ if (currentside == PFSBattleSides.Player) {
 		if (lastanimation == "comeback") {
 		    instance_destroy(oDialog);
 		}
-		load_sprite(PFS.playerPokemons[pokemonOut], 1);
+		//load_sprite(PFS.playerPokemons[pokemonOut], 1);
 		part_system_position(ps, 170, 320);
 		var _pemit1 = part_emitter_create(ps);
 		part_emitter_region(ps, _pemit1, -32, 32, -32, 32, ps_shape_rectangle, ps_distr_linear);
@@ -22,7 +22,7 @@ if (currentside == PFSBattleSides.Enemy) {
 	enemyyoffset = 0;
 	enemypokesizelerp = 1;
 	enemyalpha = 1;
-	load_sprite(enemyPokemon[enemyOut], 0);
+	//load_sprite(enemyPokemon[enemyOut], 0);
 	part_system_position(ps, 550, 180);
 	var _pemit1 = part_emitter_create(ps);
 	part_emitter_region(ps, _pemit1, -32, 32, -32, 32, ps_shape_rectangle, ps_distr_linear);

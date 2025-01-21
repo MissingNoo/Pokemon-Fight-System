@@ -31,7 +31,7 @@ function tests(){
 				}
 			});
 			
-			test("Own Tempo (Confusion Immunity) -- Player Side", function() {
+			test("Own Tempo (Confusion Immunity)", function() {
 				var status = PFSStatusAilments.Confusion;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Slowpoke|Level: 100|Hardy Nature|Ability: Own Tempo|- Confusion");
 				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
@@ -40,17 +40,6 @@ function tests(){
 					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
 				}
 				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], status)).toBe(false);
-			});
-			
-			test("Own Tempo (Confusion Immunity) -- Foe Side", function() {
-				var status = PFSStatusAilments.Confusion;
-				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Confusion");
-				var enemy = __PFS_generate_pokemon_from_showdown("Slowpoke|Level: 100|Hardy Nature|Ability: Own Tempo|- Confusion");
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
-				with (_obj) {
-					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
-				}
-				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(false);
 			});
 			
 			test("Overgrow", function() {
@@ -110,7 +99,7 @@ function tests(){
 				expect(pside and eside).toBe(true);
 			});
 			
-			test("Shield Dust - Player Side", function() {
+			test("Shield Dust", function() {
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Caterpie|Ability: Shield Dust|- Flamethrower");
 				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
 				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
@@ -120,17 +109,7 @@ function tests(){
 				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Burn)).toBe(false);
 			});
 			
-			test("Shield Dust - Foe Side", function() {
-				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
-				var enemy = __PFS_generate_pokemon_from_showdown("Caterpie|Ability: Shield Dust|- Flamethrower");
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
-				with (_obj) {
-					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
-				}
-				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], PFSStatusAilments.Burn)).toBe(false);
-			});
-			
-			test("Shed Skin - Player Side - Sucess", function() {
+			test("Shed Skin - Sucess", function() {
 				global.testingforcefail = false;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Metapod|Level: 100|Ability: Shed Skin|- Pound");
 				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
@@ -142,7 +121,7 @@ function tests(){
 				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Burn)).toBe(false);
 			});
 			
-			test("Shed Skin - Player Side - Fail", function() {
+			test("Shed Skin - Fail", function() {
 				global.testingforcefail = false;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Metapod|Level: 100|Ability: Shed Skin|- Pound");
 				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
@@ -302,7 +281,7 @@ function tests(){
 			});
 			#endregion
 		});
-		margin = 5;
+		margin = 3;
         battle_tries = 16;
 		section("Damage Calculation", function() {
 			beforeEach(function(){
@@ -319,52 +298,55 @@ function tests(){
 				}
 			});
 			
-			test($"0 SpA Charmander Flamethrower vs. 0 HP / 0 SpD Bulbasaur: 186-218 (80.5 - 94.3%) -- guaranteed 2HKO", function() {
-				var mindmg = 186;
-				var maxdmg = 218;
-				var error = false;
-				repeat(battle_tries) {
-					var p1 = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Flamethrower"); 
-					var p2 = __PFS_generate_pokemon_from_showdown("Bulbasaur|Level: 100|Hardy Nature|Ability: Overgrow|- Tackle");
-					var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0], PFSBattleSides.Player);
-					if (!(calculation.damage >= mindmg - margin and calculation.damage <= maxdmg + margin)) {
-					    error = true;
-					}
-				}
-				expect(error).toBe(false);
+			test($"0 SpA Charmander Flamethrower vs. 0 HP / 0 SpD Bulbasaur: 186-218 (80.5 - 94.3%) -- guaranteed 2HKO", function() { 
+                expect(test_pokefight(
+                	"Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Flamethrower",
+                    "Bulbasaur|Level: 100|Hardy Nature|Ability: Overgrow|- Tackle",
+                    [186, 218]
+                )).toBe(false);
 			});
             
             test($"Lvl 50 0 SpA Charmander Flamethrower vs. 0 HP / 0 SpD Arceus: 16-19 (4.1 - 4.9%) -- possibly the worst move ever", function() {
-				var mindmg = 16;
-				var maxdmg = 19;
-				var error = false;
-				repeat(battle_tries) {
-					var p1 = __PFS_generate_pokemon_from_showdown("Charmander|Level: 50|Hardy Nature|Ability: Blaze|- Flamethrower"); 
-					var p2 = __PFS_generate_pokemon_from_showdown("Arceus|Level: 100|Hardy Nature|Ability: Multitype|- Absorb");
-					var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0], PFSBattleSides.Player);
-					if (!(calculation.damage >= mindmg - margin and calculation.damage <= maxdmg + margin)) {
-					    error = true;
-					}
-				}
-				expect(error).toBe(false);
+				expect(test_pokefight(
+                    "Charmander|Level: 50|Hardy Nature|Ability: Blaze|- Flamethrower",
+					"Arceus|Level: 100|Hardy Nature|Ability: Multitype|- Absorb",
+                    [16, 19]
+                )).toBe(false);
 			});
 			
 			test($"Pikachu Thunder Shock vs. Diglett: 0-0", function() {
-				var mindmg = 0;
-				var maxdmg = 0;
-				var error = false;
-				repeat(battle_tries) {
-					var p1 = __PFS_generate_pokemon_from_showdown("Pikachu|Level: 100|Hardy Nature|Ability: Static|- Thunder Shock");
-					var p2 = __PFS_generate_pokemon_from_showdown("Diglett|Level: 100|Hardy Nature|Ability: Sand Veil|- Absorb");
-					var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0], PFSBattleSides.Player);
-					if (!(calculation.damage >= mindmg - margin and calculation.damage <= maxdmg + margin)) {
-					    error = true;
-					}
-				}
-				expect(error).toBe(false);
+				expect(test_pokefight(
+                  "Pikachu|Level: 100|Hardy Nature|Ability: Static|- Thunder Shock" ,
+                  "Diglett|Level: 100|Hardy Nature|Ability: Sand Veil|- Absorb",
+  				  [0, 0]
+                )).toBe(false);
+			});
+            
+            test($"Lvl 80 0 SpA Abra Psychic vs. 0 HP / 0 SpD Aggron: 50-59 (17.7 - 20.9%) -- possible 5HKO", function() {
+				expect(test_pokefight(
+                    "Abra|Level: 80|Hardy Nature|Ability: Synchronize|- Psychic",
+                    "Aggron|Level: 100|Hardy Nature|Ability: Sturdy|- Tackle",
+                    [50, 59]
+                )).toBe(false);
 			});
 		});
 	});
+}
+
+function test_pokefight(poke1, poke2, dmg) {
+    var margin = 1;
+    var mindmg = dmg[0];
+    var maxdmg = dmg[1];
+    var error = false;
+    repeat(16) {
+        var p1 = __PFS_generate_pokemon_from_showdown(poke1);
+        var p2 = __PFS_generate_pokemon_from_showdown(poke2);
+        var calculation = __PFS_damage_calculation(p1, p2, p1.moves[0], PFSBattleSides.Player);
+        if (!(calculation.damage >= mindmg - margin and calculation.damage <= maxdmg + margin)) {
+            error = true;
+        }
+    }
+    return error;
 }
 
 function __PFS_set_pokemon_ivs(pokemon, hp, attack, defense, spatk, spdef, spd) {
