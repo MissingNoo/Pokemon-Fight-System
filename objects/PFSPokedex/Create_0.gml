@@ -44,7 +44,7 @@ tab.add("pokemon", {
 		//Capture map, level
 		scribble($"Met at PALLET TOWN at Lv5.").scale(0.75).draw(18, 262); //+30
 		//Poke Sprite
-		draw_sprite_ext(sprite, 0, 150, 190, 0.75, 0.75, 0, c_white, 1);
+		draw_sprite_ext(global.pokemon_sprites.get_sprite(PlayerTeam[pokemon], "Front"), 0, 150, 190, 0.75, 0.75, 0, c_white, 1);
 	},
 	step : function() {
 	}

@@ -63,28 +63,7 @@ animatedSprites = false;
 #endregion
 
 #region Function
-function load_sprite(pokemon, side){
-	var _extension = ".png";
-	var _imgnumb = 0;
-	var _side = side == PFSBattleSides.Player ? "Front/" : "Back/";
-	var _sprite_path = working_directory + "PFS/Sprites/Pokemon/"  + _side + string_upper(pokemon.internalName) + _extension;
-	if (file_exists(_sprite_path)) {
-		switch (side) {
-			case 0:
-		        if (sprite_exists(enemySprite)) {
-				    sprite_delete(enemySprite);
-				}
-			    enemySprite = sprite_add(_sprite_path, _imgnumb, false, false, 192/2, 192);
-		        break;
-		    case 1:
-		        if (sprite_exists(pokemonSprite)) {
-				    sprite_delete(pokemonSprite);
-				}
-			    pokemonSprite = sprite_add(_sprite_path, _imgnumb, false, false, 192/1.5, 192);
-		        break;
-		}
-	}
-}
+
 #region PokeInfoVariables
 playerpokesize = 0;
 playerpokesizelerp = 0;
@@ -114,7 +93,7 @@ function poke_info(_startx, _starty, _x, _y, _boxEndX, _boxEndY, _pokemon, _side
             si = si * -1;
         }
 		//var _pos = _side == PFSBattleSides.Player ? [_px - sprite_get_width(_sprite) / 2, _boxEndY - 250 - sprite_get_height(_sprite) / 2] : [_px + 120 + sprite_get_width(_sprite) / 2, _py - 200 - sprite_get_height(_sprite) / 2];
-		var _pos = _side == PFSBattleSides.Player ? [playerpathx[0], playerpathy - 60] : [enemypathx[0], enemypathy + 20  + enemyyoffset];
+		var _pos = _side == PFSBattleSides.Player ? [playerpathx[0] - 20, playerpathy - 55] : [enemypathx[0] + 50, enemypathy + 20  + enemyyoffset];
 		var _scale = _side == PFSBattleSides.Player ? 1 * playerpokesize : 1.5 * enemypokesize;
 		var _alpha = _side == PFSBattleSides.Player ? 1: enemyalpha;
 		var _draw = true;

@@ -113,7 +113,7 @@ function __PFS_turn_step() {
 			break;
 		}
 		
-		case PFSTurnType.ChangePokemon: {
+		case PFSTurnType.ChangePokemon: 
 			//When Changing pokemon, erase Perish Song from the party
 			array_foreach(PlayerTeam, function(e, i){
 				__PFS_remove_status(e, PFSStatusAilments.Perish_song); 
@@ -122,13 +122,15 @@ function __PFS_turn_step() {
 				global.dialogdata[$"comebackpoke"] = PlayerTeam[pokemonOut].internalName;
 			}
 			battle.pokemonOut = CurrentTurn[__PFS_tsnames.Pokemon];
+            battle.pokemonhplerp = PlayerTeam[battle.pokemonOut].hp;
 			show_debug_message($"Sent {PlayerTeam[pokemonOut].internalName} out!");
 			spawn_dialog("ComeBack");
 			battle.currentanimation = "comeback";
 			battle.playerpokesizelerp = 0;
 			battle.sys.change("animation");
-			break;}
-			case PFSTurnType.EnemyChangePokemon: //TODO: redo
+			break;
+        
+        case PFSTurnType.EnemyChangePokemon: //TODO: redo
 				currentanimation = "enemyfainted";
 				sys.change("animation");
 				for (var j = 0; j < array_length(enemyPokemon[enemyOut].statusAilments); ++j) {
