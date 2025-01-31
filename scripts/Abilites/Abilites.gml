@@ -159,7 +159,7 @@ function populate_abilities() {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "overgrow")) { return AbilityResult; }
-			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Grass) {
+			if (pokemon.hp <= pokemon.base.hp / 3 and move.type == __PFSTypes.Grass) {
 			    _damage = _damage * 1.5;
 			}
 			return AbilityResult;
@@ -170,7 +170,7 @@ function populate_abilities() {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "blaze")) { return AbilityResult; }
-			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Fire) {
+			if (pokemon.hp <= pokemon.base.hp / 3 and move.type == __PFSTypes.Fire) {
 			    _damage = _damage * 1.5;
 			}
 			return AbilityResult;
@@ -181,7 +181,7 @@ function populate_abilities() {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "torrent")) { return AbilityResult; }
-			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Water) {
+			if (pokemon.hp <= pokemon.base.hp / 3 and move.type == __PFSTypes.Water) {
 			    _damage = _damage * 1.5;
 			}
 			return AbilityResult;
@@ -205,7 +205,7 @@ function populate_abilities() {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "swarm")) { return AbilityResult; }
-			if (pokemon.hp < pokemon.base.hp / 3 and move.type == __PFSTypes.Bug) {
+			if (pokemon.hp <= pokemon.base.hp / 3 and move.type == __PFSTypes.Bug) {
 			    _damage = _damage * 1.5;
 			}
 			return AbilityResult;
@@ -230,20 +230,64 @@ function populate_abilities() {
 		when : AbilityTime.AfterDamageCalculation,
 		AbilityCodeStart
 			if (!__PFS_pokemon_have_ability(pokemon, "Guts")) { return AbilityResult; }
-			var effects = [PFSStatusAilments.Sleep, PFSStatusAilments.Burn, PFSStatusAilments.Poison];
+			var effects = [PFSStatusAilments.Sleep, PFSStatusAilments.Burn, PFSStatusAilments.Poison, PFSStatusAilments.Paralysis];
 			var afflicted = false;
-			for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
+			//for (var i = 0; i < array_length(pokemon.statusAilments); ++i) {
 				for (var j = 0; j < array_length(effects); ++j) {
-				    if (pokemon.statusAilments[i][0] == effects[j]) {
+				    if (__PFS_pokemon_affected_by_status(pokemon, effects[j])) {
 						afflicted = true;
 					}
 				}
-			}
+			//}
 			if (afflicted) {
 			    _damage = _damage * 1.5;
 			}
 			return AbilityResult;
 		AbilityCodeEnd
 	});
+    
+    set_ability_code("poison-point", {
+		when : AbilityTime.AfterDamageCalculation,
+		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(enemy, "poison-point")) { return AbilityResult; }
+			if (__PFS_move_have_flag(move, "contact")
+				and __PFS_rng() <= 30
+				and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Poison)
+				and __PFS_pokemon_have_ability(enemy, "poison-point")) {
+				pokemon = __PFS_apply_status(pokemon, PFSStatusAilments.Poison);
+				show_debug_message($"{pokemon.internalName} was poisoned due to {enemy.internalName}'s Poison Point!");
+			}
+			return AbilityResult;
+		AbilityCodeEnd
+	});
+    
+    set_ability_code("rivalry", {
+		when : AbilityTime.AfterDamageCalculation,
+		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(pokemon, "rivalry")) { return AbilityResult; }
+			if (pokemon.gender == enemy.gender) {
+                _damage = _damage * 1.25;
+            }
+            else {
+                _damage = _damage * 0.75;
+            }
+			return AbilityResult;
+		AbilityCodeEnd
+	});
 
+    set_ability_code("cute-charm", {
+		when : AbilityTime.AfterDamageCalculation,
+		AbilityCodeStart
+			if (!__PFS_pokemon_have_ability(enemy, "cute-charm")) { return AbilityResult; }
+			if (__PFS_move_have_flag(move, "contact")
+				and __PFS_rng() <= 30
+				and !__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Infatuation)
+				and __PFS_pokemon_have_ability(enemy, "cute-charm")) {
+				pokemon = __PFS_apply_status(pokemon, PFSStatusAilments.Infatuation);
+				show_debug_message($"{pokemon.internalName} was infatuated due to {enemy.internalName}'s Cute Charm!");
+			}
+			return AbilityResult;
+		AbilityCodeEnd
+	});
+    
 }

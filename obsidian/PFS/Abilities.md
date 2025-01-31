@@ -1,0 +1,38 @@
+- [x] Battle Armor
+- [x] Shield Dust
+- [x] Soundproof
+- [x] Sturdy
+- [x] Static
+- [x] Volt Absorb
+- [x] Water Absorb
+- [x] Pixilate
+- [x] Overgrow
+- [x] Blaze
+- [x] Torrent
+- [x] Shed Skin
+- [x] Swarm
+- [x] Own Tempo
+- [x] Guts
+- [ ] Keen Eye
+	- [ ] Prevents accuracy from being lowered.
+- [ ] Tangled Feet
+	- [ ] Doubles evasion when confused.
+- [x] Run Away
+- [ ] Intimidate
+	- [ ] Lowers opponents' Attack one stage upon entering battle.
+	- [ ] When this Pokémon enters battle, the opponent's Attack is lowered by one stage. In a double battle, both opponents are affected.
+	- [ ] This ability also takes effect when acquired during a battle, but will not take effect again if lost and reobtained without leaving battle.
+	- [ ] This ability has no effect on an opponent that has a [Substitute](https://veekun.com/dex/moves/substitute).
+	- [ ] Overworld: If the first Pokémon in the party has this ability, any random encounter with a Pokémon five or more levels lower than it has a 50% chance of being skipped.
+- [ ] Sand Veil
+	- [ ] Increases evasion to 1.25× during a sandstorm. Protects against sandstorm damage.
+	- [ ] The evasion bonus does not count as a stat modifier.
+	- [ ] Overworld: If the lead Pokémon has this ability, the wild encounter rate is halved in a sandstorm.
+- [x] Poison Point
+	- [x] Has a 30% chance of poisoning attacking Pokémon on contact.
+- [x] Rivalry
+	- [x] This Pokémon inflicts 1.25× as much regular damage against Pokémon of the same gender and 0.75× as much regular damage against Pokémon of the opposite gender.
+	- [ ] If either Pokémon is genderless, damage is unaffected.
+- [ ] Cute Charm
+	- [ ] Whenever a move makes contact with this Pokémon, the move's user has a 30% chance of being infatuated.
+	- [ ] Overworld: If the first Pokémon in the party has this ability, any wild Pokémon whose species can be either gender has a 2/3 chance of being set to the opposite gender, and a 1/3 chance of having a random gender as usual.

@@ -188,7 +188,7 @@ function __PFS_turn_step() {
 				if (shadow_tag or (arenatrap and grounded) or magnet_pull or trapped) {
 				    ranaway = false;
 				}
-				if (__PFS_pokemon_have_ability(PlayerTeam[pokemonOut], "Run Away")) {
+				if (__PFS_pokemon_have_ability(PlayerTeam[pokemonOut], "run-away")) {
 				    ranaway = true;
 				}
 				#endregion

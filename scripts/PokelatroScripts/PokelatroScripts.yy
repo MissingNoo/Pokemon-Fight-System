@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"PokelatroScripts",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"PokelatroScripts",
+  "parent":{
+    "name":"Pokelatro",
+    "path":"folders/Pokelatro.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

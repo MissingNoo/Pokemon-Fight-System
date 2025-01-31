@@ -378,10 +378,10 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 	var critical = critChance <= critTreshold ? 2 : 1; //TODO _isCritical = 1 if target ability is Battle Armor or Shell Armor or with Luck Chant
     if (global.testing) { // Do not crit if running tests
 		if (global.testingforcecrit) {
-		    _isCritical = 2;
+		    critical = 2;
 		}
 	    else {
-			_isCritical = 1;
+			critical = 1;
 		}
 	}
     //TODO: Conversely, unless critical hits are prevented entirely by one of the above effects, Critical will always be 1.5 (or 2 in Generation V) if the used move is Storm Throw, Frost Breath, Zippy Zap, Surging Strikes, Wicked Blow, or Flower Trick, the target is poisoned and the attacker's Ability is Merciless, or if the user is under the effect of Laser Focus.
@@ -756,6 +756,7 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 
 function __PFS_generate_pokemon(poke){
 	var pokemon = variable_clone(poke);
+    pokemon.gender = choose(Gender.Male, Gender.Female);
 	pokemon.level = irandom_range(real(pokemon.wildlevelrange[0]), real(pokemon.wildlevelrange[1]));
 	pokemon.moves = [];
 	for (var i = 0; i < array_length(pokemon.canLearn.level); ++i) {

@@ -212,6 +212,62 @@ function tests(){
 				
 				expect(psideconvert and esideconvert).toBe(true);
 			});
+            
+            test("Static", function() {
+                var p1 = __PFS_generate_pokemon_from_showdown("Rattata|- Tackle");
+				var p2 = __PFS_generate_pokemon_from_showdown("Pikachu|Ability: Static|- Pound");
+				
+				PlayerTeam[0] = variable_clone(p1);
+				var enemy = variable_clone(p2);
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+				}
+				var wasparalyzed = __PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Paralysis);
+				instance_destroy(_obj);
+				
+				expect(wasparalyzed).toBe(true);
+			});
+            
+            test("Poison Point", function() {
+                var p1 = __PFS_generate_pokemon_from_showdown("Rattata|- Tackle");
+				var p2 = __PFS_generate_pokemon_from_showdown("Nidorina|Ability: Poison Point|- Pound");
+				
+				PlayerTeam[0] = variable_clone(p1);
+				var enemy = variable_clone(p2);
+				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				with (_obj) {
+					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+				}
+				var wasparalyzed = __PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Poison);
+				instance_destroy(_obj);
+				
+				expect(wasparalyzed).toBe(true);
+			});
+            
+            test("Rivalry", function() {
+				global.testingrandomdamage = false;
+				var p1 = __PFS_generate_pokemon_from_showdown("Nidorina|Ability: Rivalry|- Tackle");
+                p1.gender = Gender.Male;
+				var p2 = __PFS_generate_pokemon_from_showdown("Nidorina|Ability: Rivalry|- Tackle");
+                p2.gender = Gender.Male;
+				
+				var calcfirst = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+                p2.gender = Gender.Female;
+				var calcsecond = __PFS_damage_calculation(variable_clone(p1), variable_clone(p2), p1.moves[0], PFSBattleSides.Player);
+				
+				expect(calcsecond.damage < calcfirst.damage).toBe(true);
+			});
+            
+            test("Cute Charm", function() {
+				var p1 = __PFS_generate_pokemon_from_showdown("Nidorina|Ability: Rivalry|- Tackle");
+				var p2 = __PFS_generate_pokemon_from_showdown("Cleffa|Ability: Cute Charm|- Tackle");
+				
+				var calcfirst = __PFS_damage_calculation(p1, p2, p1.moves[0], PFSBattleSides.Player);
+				
+				expect(__PFS_pokemon_affected_by_status(p1, PFSStatusAilments.Infatuation)).toBe(true);
+			});
+            
 		});
 		
 		section("Status", function() {

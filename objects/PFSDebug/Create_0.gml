@@ -22,7 +22,7 @@ dbg_button("Start Battle", function() {
 	}
 	else {
 		PFSFightSystem.enemyPokemon = _enemyPokemon;
-		PFSFightSystem.load_sprite(_enemyPokemon[0], PFSBattleSides.Player);
+		//PFSFightSystem.load_sprite(_enemyPokemon[0], PFSBattleSides.Player);
 	}
 });
 dbg_same_line();
@@ -40,7 +40,7 @@ dbg_button("Set Player pokemon", function() {
 	PFS.playerPokemons[0].level = ppokelvl;
 	PFS.playerPokemons[0] = __PFS_recalculate_stats(PFS.playerPokemons[0], true);
 	if (instance_exists(PFSFightSystem)) {
-		PFSFightSystem.load_sprite(PFS.playerPokemons[0], PFSBattleSides.Enemy);
+		//PFSFightSystem.load_sprite(PFS.playerPokemons[0], PFSBattleSides.Enemy);
 	}
 });
 movename = "";
