@@ -3,6 +3,19 @@ using System.Text.Json;
 
 namespace GMS_CSharp_Server
 {
+    public enum Contype
+    {
+        Join,
+        Update,
+        ChangeRoom,
+        Ping,
+        ServerPing,
+        Disconnect,
+        Login,
+        GetCharacters,
+        SelectCharacter,	
+        Null
+    }
     public class PlayerData {
         public string Name { get; set; }
         public string Playmat { get; set; }
@@ -176,7 +189,6 @@ namespace GMS_CSharp_Server
                     }
                 }
             }
-
             /// <summary>
             /// Reads data from the client and sends back a response.
             /// </summary>
@@ -198,7 +210,29 @@ namespace GMS_CSharp_Server
                         //Determine input commmand.
                         switch (constant)
                         {
-                            case 1:
+                            case (int)Contype.Login:
+                                try
+                                {
+                                    readBuffer.Read(out string json);
+                                    Server.log(json);
+                                    playerData = JsonSerializer.Deserialize<PlayerData>(json);
+                                    ClientName = playerData.Name;
+                                    Server.log(ClientName + " connected.");
+                                    Server.log(Convert.ToString(ParentServer.Clients.Count) + " clients online.");
+                                }
+                                catch (Exception)
+                                {
+                                    Server.log("Invalid player");
+                                }
+                                break;
+                            case (int)Contype.Ping:
+                                BufferStream buffer = new BufferStream(BufferSize, BufferAlignment);
+                                buffer.Seek(0);
+                                UInt16 constant_out = (int)Contype.Ping;
+                                buffer.Write(constant_out);
+                                SendMessage(buffer);
+                                break;
+                            /*case 1:
                             {
                                 var lobby = new Lobby();
                                 String lname = "";
@@ -287,21 +321,7 @@ namespace GMS_CSharp_Server
                             //New Connection
                             case 2000:
                                 {
-                                    try
-                                    {
-                                        readBuffer.Read(out string json);
-                                        Server.log(json);
-                                        playerData = JsonSerializer.Deserialize<PlayerData>(json);
-                                        ClientName = playerData.Name;
-
-                                        Server.log(ClientName + " connected.");
-                                        Server.log(Convert.ToString(ParentServer.Clients.Count) + " clients online.");
-                                    }
-                                    catch (Exception)
-                                    {
-                                        Server.log("Invalid player");
-                                    }
-                                    break;
+                                    
                                 }
 
                             //Find Game
@@ -377,7 +397,7 @@ namespace GMS_CSharp_Server
                                     ParentServer.SendToLobby(GameLobby, buffer);
                                     Server.log("Recived end turn from " + ClientName);
                                     break;
-                                }
+                                }*/
                         }
                     }
                     catch (IOException)

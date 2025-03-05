@@ -96,7 +96,7 @@ namespace GMS_CSharp_Server
                 Thread.Sleep(3000);
                 BufferStream buffer = new BufferStream(BufferSize, BufferAlignment);
                 buffer.Seek(0);
-                ushort constant_out = 1007;
+                ushort constant_out = (int)Contype.ServerPing;
                 buffer.Write(constant_out);
                 UInt16 online = (UInt16)Clients.Count;                                    
                 buffer.Write(online);

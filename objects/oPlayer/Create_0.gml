@@ -112,20 +112,20 @@ PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[7]);
 #region Multiplayer
 function sendPos(){
 	if (!ONLINE) { exit; }
-	send_data({
-		type : Contype.Update,
-		room : room_get_name(room),
-		x : placeToGo[0],
-		y : placeToGo[1]
-	});
+	//send_data({
+		//type : Contype.Update,
+		//room : room_get_name(room),
+		//x : placeToGo[0],
+		//y : placeToGo[1]
+	//});
 }
 if (ONLINE) {
-	send_data({
-		type : Contype.Join,
-		room : room_get_name(room),
-		x : x,
-		y : y
-	});
+	//send_data({
+		//type : Contype.Join,
+		//room : room_get_name(room),
+		//x : x,
+		//y : y
+	//});
 }
 #endregion
 DebugManager.debug_add_config(self, {
