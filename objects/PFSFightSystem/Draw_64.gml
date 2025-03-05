@@ -48,5 +48,5 @@ if (surface_exists(fightsurface)) {
     draw_set_color(c_black)
     draw_rectangle(0, 0, GW, GH, false);
     draw_set_color(c_white)
-	draw_surface_stretched(fightsurface, 0, 0, GW, GH);
+	draw_surface_stretched(fightsurface, 0, 0, GW, GH);z
 }
