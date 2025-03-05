@@ -22,7 +22,7 @@ n_root = flexpanel_create_node(
                     "flex" : 1,
                     "data" : {
                         "f" : function() {
-                            global.username = self.text;
+                            global.username = global.currenttextbox[$ "text"];
                         }
                     }
                 },
@@ -32,7 +32,7 @@ n_root = flexpanel_create_node(
                     "flex" : 1,
                     "data" : {
                         "f" : function() {
-                            global.password = self.text;
+                            global.password = global.currenttextbox[$ "text"];
                         }
                     }
                 },
@@ -42,7 +42,7 @@ n_root = flexpanel_create_node(
                     "marginInline" : 30, 
                     "flex" : 1,
                     "data" : {
-                        "f" : function() { show_message_async("test"); },
+                        "f" : function() { show_message_async($"{global.username} : {global.password}"); },
                         "text" : "Accept"
                     }
                 },

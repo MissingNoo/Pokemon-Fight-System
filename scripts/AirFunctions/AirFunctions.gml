@@ -147,6 +147,7 @@ function textbox() constructor {
                 keyboard_lastchar = "";
                 keyboard_lastkey = vk_nokey;
                 selected = true;
+                global.currenttextbox = self;
             } else {
                 selected = false;
             }
@@ -172,7 +173,7 @@ function textbox() constructor {
         //draw_set_color(c_black);
         //draw_rectangle_area(area, false, [c_black, selected ? c_yellow : c_white]);
         draw_sprite_stretched(sInput, 0, area[0], area[1], area[2] - area[0], area[3] - area[1]);
-        scribble($"[Fnt][c_black]{text}").scale_to_box(area[2] - area[0] - string_width("X") - 2, area[3] - area[1] - 3, true).draw(area[0], area[1]);
+        scribble($"[Fnt][c_black] {text}").scale_to_box(area[2] - area[0] - string_width("X") - 2, area[3] - area[1] - 3, true).draw(area[0], area[1]);
         //draw_set_color(c_white);
         return self;
     }
@@ -313,3 +314,5 @@ function listbox() constructor {
 function gui_can_interact() {
     return !global.listboxopen;
 }
+
+global.currenttextbox = undefined;
