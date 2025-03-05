@@ -163,7 +163,6 @@ namespace GMS_CSharp_Server
                         {
                             BufferStream buffer = WriteQueue.Dequeue();
                             NetworkStream stream = client.GetStream();
-                            stream.Write(buffer.Memory, 0, buffer.Iterator);
                             stream.Flush();
                         }
                         catch (IOException)
@@ -205,10 +204,10 @@ namespace GMS_CSharp_Server
                         ushort constant;
                         readBuffer.Read(out constant);
 
-                        //Determine input commmand.
                         switch (constant)
                         {
                             case (int)Contype.Login:
+                                Console.WriteLine("Login Packet");
                                 try
                                 {
                                     readBuffer.Read(out string ClientName);
@@ -225,6 +224,7 @@ namespace GMS_CSharp_Server
                                 }
                                 break;
                             case (int)Contype.Ping:
+                                Console.WriteLine("Ping");
                                 BufferStream buffer = new BufferStream(BufferSize, BufferAlignment);
                                 buffer.Seek(0);
                                 UInt16 constant_out = (int)Contype.Ping;
