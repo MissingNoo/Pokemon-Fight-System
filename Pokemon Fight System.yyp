@@ -11103,7 +11103,6 @@
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
-    {"roomId":{"name":"ruitest","path":"rooms/ruitest/ruitest.yy",},},
     {"roomId":{"name":"rPFSInit","path":"rooms/rPFSInit/rPFSInit.yy",},},
     {"roomId":{"name":"rInit","path":"rooms/rInit/rInit.yy",},},
     {"roomId":{"name":"rPallet","path":"rooms/rPallet/rPallet.yy",},},
@@ -11113,6 +11112,7 @@
     {"roomId":{"name":"rOakLab","path":"rooms/rOakLab/rOakLab.yy",},},
     {"roomId":{"name":"r_gmtl_demo","path":"rooms/r_gmtl_demo/r_gmtl_demo.yy",},},
     {"roomId":{"name":"latr","path":"rooms/latr/latr.yy",},},
+    {"roomId":{"name":"ruitest","path":"rooms/ruitest/ruitest.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

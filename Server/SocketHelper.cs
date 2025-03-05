@@ -1,5 +1,4 @@
 using System.Net.Sockets;
-using System.Text.Json;
 
 namespace GMS_CSharp_Server
 {
@@ -13,7 +12,8 @@ namespace GMS_CSharp_Server
         Disconnect,
         Login,
         GetCharacters,
-        SelectCharacter,	
+        SelectCharacter,
+        Register,
         Null
     }
     public class AccountData {

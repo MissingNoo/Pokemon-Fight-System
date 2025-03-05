@@ -37,14 +37,40 @@ n_root = flexpanel_create_node(
                     }
                 },
                 {
-                    "name" : "button_accept", 
-                    "height" : 10, 
-                    "marginInline" : 30, 
                     "flex" : 1,
-                    "data" : {
-                        "f" : function() { show_message_async($"{global.username} : {global.password}"); },
-                        "text" : "Accept"
-                    }
+                    "flexDirection" : "row",
+                    "nodes" : [
+                        {
+                            "name" : "button_accept", 
+                            "height" : 30, 
+                            "marginInline" : 10, 
+                            "flex" : 1,
+                            "data" : {
+                                "f" : function() {
+                                    new packet(Contype.Login)
+                                    .write(buffer_text, global.username)
+                                    .write(buffer_text, global.password)
+                                    .send();
+                                },
+                                "text" : "Accept"
+                            },
+                        },
+                        {
+                        "name" : "button_register", 
+                            "height" : 30, 
+                            "marginInline" : 10, 
+                            "flex" : 1,
+                            "data" : {
+                                "f" : function() {
+                                    new packet(Contype.Login)
+                                    .write(buffer_text, global.username)
+                                    .write(buffer_text, global.password)
+                                    .send();
+                                },
+                                "text" : "Register"
+                            }
+                        }
+                    ],
                 },
                 {}
             ]

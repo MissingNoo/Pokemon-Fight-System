@@ -20,7 +20,7 @@ if (bar_image != -1)
 }
 
 // Draw text, can optionally be centred
-if (text != "")
+if (text != "" and element == undefined)
 {
 	if (center_text)
 	{
