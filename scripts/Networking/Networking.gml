@@ -28,5 +28,6 @@ function packet(type) constructor {
         if (!ONLINE) { exit; } 
         network_send_raw(oClient.socket, buffer, buffer_get_size(buffer));
         buffer_delete(buffer);
+        show_debug_message("Sending Packet!");
     } 
 }

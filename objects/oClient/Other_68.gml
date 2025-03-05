@@ -5,15 +5,13 @@ if (socket_id = socket) {
         case network_type_connect:
         {
             var success = ds_map_find_value(async_load, "succeeded");
-            if (success = 0)
-            {            
-                //Failure connection. Retry.
+            if (success = 0) {
                 connected = -1;
-            }
-            else
-            {
-                //Succesful connection.
-                new packet(Contype.Login).send();
+            } else {
+                new packet(Contype.Login)
+                .write(buffer_string, "Airgeadlamh")
+                .write(buffer_string, "123")
+                .send();
                 new packet(Contype.Ping).send();
                 alarm[0] = -1;
                 alarm[1] = 60 * 1;

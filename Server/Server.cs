@@ -165,7 +165,7 @@ namespace GMS_CSharp_Server
                     //Finds a match for clients.
                     foreach (SocketHelper client2 in SearchingClients)
                     {
-                        if (client1.ClientName != client2.ClientName && client1.playerData.Version == client2.playerData.Version)
+                        if (client1.ClientName != client2.ClientName && client1.AccountData.Version == client2.AccountData.Version)
                         {
                             //Create a lobby
                             Lobby lobby = new Lobby();
@@ -195,14 +195,14 @@ namespace GMS_CSharp_Server
                             buffer.Seek(0);
                             constant = 9;//PlayerInfo
                             buffer.Write(constant);
-                            buffer.Write(JsonSerializer.Serialize(lobby.LobbyClients[1].playerData));
+                            buffer.Write(JsonSerializer.Serialize(lobby.LobbyClients[1].AccountData));
                             lobby.LobbyClients[0].SendMessage(buffer);
 
                             buffer = new BufferStream(BufferSize, BufferAlignment);
                             buffer.Seek(0);
                             constant = 9;//PlayerInfo
                             buffer.Write(constant);
-                            buffer.Write(JsonSerializer.Serialize(lobby.LobbyClients[0].playerData));
+                            buffer.Write(JsonSerializer.Serialize(lobby.LobbyClients[0].AccountData));
                             lobby.LobbyClients[1].SendMessage(buffer);
                             //SendToLobby(lobby, buffer);
                             string name_1 = client1.ClientName;

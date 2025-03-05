@@ -16,11 +16,9 @@ namespace GMS_CSharp_Server
         SelectCharacter,	
         Null
     }
-    public class PlayerData {
+    public class AccountData {
         public string Name { get; set; }
-        public string Playmat { get; set; }
-        public string Deck { get; set; }
-        public float Portrait { get; set; }
+        public string Password { get; set; }
         public string Version { get; set; }
     }
     public class SocketHelper
@@ -40,7 +38,7 @@ namespace GMS_CSharp_Server
             int BufferAlignment = Server.BufferAlignment;
             public int HandSize = 0;
             public string TalentCard = "undefined";
-            public PlayerData? playerData;
+            public AccountData? AccountData;
             /// <summary>
             /// Starts the given client in two threads for reading and writing.
             /// </summary>
@@ -213,10 +211,11 @@ namespace GMS_CSharp_Server
                             case (int)Contype.Login:
                                 try
                                 {
-                                    readBuffer.Read(out string json);
-                                    Server.log(json);
-                                    playerData = JsonSerializer.Deserialize<PlayerData>(json);
-                                    ClientName = playerData.Name;
+                                    readBuffer.Read(out string ClientName);
+                                    AccountData.Name = ClientName;
+                                    readBuffer.Read(out string password);
+                                    AccountData.Password = password;
+                                    
                                     Server.log(ClientName + " connected.");
                                     Server.log(Convert.ToString(ParentServer.Clients.Count) + " clients online.");
                                 }
