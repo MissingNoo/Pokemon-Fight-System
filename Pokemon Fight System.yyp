@@ -22,6 +22,7 @@
   },
   "defaultScriptType":1,
   "Folders":[
+    {"$GMFolder":"","%Name":"Fonts","folderPath":"folders/Fonts.yy","name":"Fonts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Libs","folderPath":"folders/Libs.yy","name":"Libs","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"DebugLib","folderPath":"folders/Libs/DebugLib.yy","name":"DebugLib","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"GMTL","folderPath":"folders/Libs/GMTL.yy","name":"GMTL","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -10392,6 +10393,7 @@
   "name":"Pokemon Fight System",
   "resources":[
     {"id":{"name":"fnt_gmtl_demo","path":"fonts/fnt_gmtl_demo/fnt_gmtl_demo.yy",},},
+    {"id":{"name":"Fnt","path":"fonts/Fnt/Fnt.yy",},},
     {"id":{"name":"Font2","path":"fonts/Font2/Font2.yy",},},
     {"id":{"name":"scribble_fallback_font","path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},},
     {"id":{"name":"Note1","path":"notes/Note1/Note1.yy",},},
@@ -11006,6 +11008,7 @@
     {"id":{"name":"sBed","path":"sprites/sBed/sBed.yy",},},
     {"id":{"name":"sBerries","path":"sprites/sBerries/sBerries.yy",},},
     {"id":{"name":"sBlank","path":"sprites/sBlank/sBlank.yy",},},
+    {"id":{"name":"sButton","path":"sprites/sButton/sButton.yy",},},
     {"id":{"name":"sCloseBag","path":"sprites/sCloseBag/sCloseBag.yy",},},
     {"id":{"name":"scribble_fallback_bulletpoint","path":"sprites/scribble_fallback_bulletpoint/scribble_fallback_bulletpoint.yy",},},
     {"id":{"name":"sDialogAnswer","path":"sprites/sDialogAnswer/sDialogAnswer.yy",},},
@@ -11021,6 +11024,7 @@
     {"id":{"name":"sHomeFlower","path":"sprites/sHomeFlower/sHomeFlower.yy",},},
     {"id":{"name":"sHomeStairCase","path":"sprites/sHomeStairCase/sHomeStairCase.yy",},},
     {"id":{"name":"sHouses","path":"sprites/sHouses/sHouses.yy",},},
+    {"id":{"name":"sInput","path":"sprites/sInput/sInput.yy",},},
     {"id":{"name":"sIPokeball_5","path":"sprites/sIPokeball_5/sIPokeball_5.yy",},},
     {"id":{"name":"sKeyItems","path":"sprites/sKeyItems/sKeyItems.yy",},},
     {"id":{"name":"sLecture","path":"sprites/sLecture/sLecture.yy",},},

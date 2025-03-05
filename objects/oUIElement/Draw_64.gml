@@ -1,6 +1,10 @@
+//draw_rectangle(x, y, x + width, y + height, 1);
+
+//draw_text(x, y, name);
+
 if (draw_back)
 {
-	draw_sprite_stretched(spr_box, 0, x, y, width, height);
+	draw_sprite_stretched(sButton, 0, x, y, width, height);
 }
 
 // Draw image (e.g. an icon)
@@ -23,12 +27,16 @@ if (text != "")
 		draw_set_halign(fa_center);
 		draw_set_valign(fa_middle);
 	}
-	
+	draw_set_color(c_black);
 	draw_text(x + (width / 2) * center_text, y + (height / 2) * center_text, text);
-	
+	draw_set_color(c_black);
 	if (center_text)
 	{
 		draw_set_halign(fa_left);
 		draw_set_valign(fa_top);
 	}
+}
+
+if (element != undefined) {
+    element.draw();
 }

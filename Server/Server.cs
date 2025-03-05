@@ -98,7 +98,7 @@ namespace GMS_CSharp_Server
                 buffer.Seek(0);
                 ushort constant_out = (int)Contype.ServerPing;
                 buffer.Write(constant_out);
-                SendToAllClients(buffer);            
+                SendToAllClients(buffer);
             }
         }
 

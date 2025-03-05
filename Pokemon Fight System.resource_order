@@ -1,5 +1,6 @@
 {
   "FolderOrderSettings":[
+    {"name":"Fonts","order":1338,"path":"folders/Fonts.yy",},
     {"name":"Libs","order":1326,"path":"folders/Libs.yy",},
     {"name":"GMTL","order":4,"path":"folders/Libs/GMTL.yy",},
     {"name":"Core","order":1,"path":"folders/Libs/GMTL/Core.yy",},
@@ -655,6 +656,7 @@
     {"name":"sGrass","order":3,"path":"sprites/sGrass/sGrass.yy",},
     {"name":"sHomeStairCase","order":1,"path":"sprites/sHomeStairCase/sHomeStairCase.yy",},
     {"name":"sHouses","order":10,"path":"sprites/sHouses/sHouses.yy",},
+    {"name":"sInput","order":1,"path":"sprites/sInput/sInput.yy",},
     {"name":"sIPokeball_5","order":10,"path":"sprites/sIPokeball_5/sIPokeball_5.yy",},
     {"name":"sKeyItems","order":8,"path":"sprites/sKeyItems/sKeyItems.yy",},
     {"name":"sLecture","order":1,"path":"sprites/sLecture/sLecture.yy",},

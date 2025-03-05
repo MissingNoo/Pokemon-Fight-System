@@ -172,7 +172,7 @@ function textbox() constructor {
         //draw_set_color(c_black);
         //draw_rectangle_area(area, false, [c_black, selected ? c_yellow : c_white]);
         draw_sprite_stretched(sInput, 0, area[0], area[1], area[2] - area[0], area[3] - area[1]);
-        scribble($"[Fnt][c_black] {text}").scale_to_box(area[2] - area[0] - string_width("X") - 2, area[3] - area[1] - 3, true).draw(area[0], area[1]);
+        scribble($"[Fnt][c_black]{text}").scale_to_box(area[2] - area[0] - string_width("X") - 2, area[3] - area[1] - 3, true).draw(area[0], area[1]);
         //draw_set_color(c_white);
         return self;
     }
@@ -226,7 +226,7 @@ function button(_text) constructor {
         }
         draw_sprite_stretched(sButton, held, area[0], area[1], area[2] - area[0], area[3] - area[1]);
         var alpha = enabled ? 1 : 0.5;
-        scribble($"[Fnt][alpha,{alpha}][c_black] {text}").scale_to_box(area[2] - area[0] - string_width("X") - 2, area[3] - area[1] - 3, true).draw(area[0], _y);
+        scribble($"[Fnt][alpha,{alpha}][c_black][fa_center]{text}").scale_to_box(area[2] - area[0] - string_width("X") - 2, area[3] - area[1] - 3, true).draw(area[0] + ((area[2] - area[0]) / 2), _y - 2);
         return self;
     }
 }

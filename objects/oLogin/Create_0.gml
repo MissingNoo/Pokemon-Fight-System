@@ -1,18 +1,52 @@
+global.username = "";
+global.password = "";
+//show_debug_overlay(true);
 n_root = flexpanel_create_node(
 {
+    "name" : "root",
+    "left" : room_width / 2 - (250 / 2),
+    "top": room_height / 2 - (200 / 2),
+    "position" : "absolute",
     "width" : 250,
     "height" : 200,
     "padding" : 10,
     "nodes" : [
         {  
-            "name" : "root",
             "flex": 1,
             "rowGap" : 10,
             "nodes" : [
-                {"name" : "title", "height":20},
-                {"name" : "username", "marginInline" : 30, "flex" : 1},
-                {"name" : "password", "marginInline" : 30, "flex" : 1},
-                {"name" : "accept", "height" : 10, "marginInline" : 30, "flex" : 1},
+                { "name" : "center_label", "height":20, "data" : { "text" : "Login" }},
+                {
+                    "name" : "textbox_username", 
+                    "marginInline" : 30, 
+                    "flex" : 1,
+                    "data" : {
+                        "f" : function() {
+                            global.username = self.text;
+                        }
+                    }
+                },
+                {
+                    "name" : "textbox_password", 
+                    "marginInline" : 30, 
+                    "flex" : 1,
+                    "data" : {
+                        "f" : function() {
+                            global.password = self.text;
+                        }
+                    }
+                },
+                {
+                    "name" : "button_accept", 
+                    "height" : 10, 
+                    "marginInline" : 30, 
+                    "flex" : 1,
+                    "data" : {
+                        "f" : function() { show_message_async("test"); },
+                        "text" : "Accept"
+                    }
+                },
+                {}
             ]
         }
     ]
@@ -20,10 +54,6 @@ n_root = flexpanel_create_node(
 );
 target_w = room_width;
 target_h = room_height;
-// Shared element properties
-ui_padding = 10; // ‘ui_’ prefix as it’s for the root canvas only
-gap = 5;
-padding = 5;
 flexpanel_calculate_layout(n_root, target_w, target_h, flexpanel_direction.LTR);
 ////// Generate object instances
 generate_instance = function(_node, _depth)
@@ -41,7 +71,8 @@ generate_instance = function(_node, _depth)
 		{
 			name: _name,
 			width: _pos.width,
-			height: _pos.height
+			height: _pos.height,
+            data: _data
 		});
 	
 		_data.inst = _inst;
@@ -53,6 +84,7 @@ generate_instance = function(_node, _depth)
 		_inst.y = _pos.top;
 		_inst.width = _pos.width;
 		_inst.height = _pos.height;
+        _inst.data = _data;
 	}
 	
 	// Call for children (recursive)
