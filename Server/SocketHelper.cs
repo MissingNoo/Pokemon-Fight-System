@@ -38,7 +38,7 @@ namespace GMS_CSharp_Server
             int BufferAlignment = Server.BufferAlignment;
             public int HandSize = 0;
             public string TalentCard = "undefined";
-            public AccountData? AccountData;
+            public AccountData AccountData = new AccountData();
             /// <summary>
             /// Starts the given client in two threads for reading and writing.
             /// </summary>
@@ -207,10 +207,9 @@ namespace GMS_CSharp_Server
                         switch (constant)
                         {
                             case (int)Contype.Login:
-                                Console.WriteLine("Login Packet");
                                 try
                                 {
-                                    readBuffer.Read(out string ClientName);
+                                    readBuffer.Read(out ClientName);
                                     AccountData.Name = ClientName;
                                     readBuffer.Read(out string password);
                                     AccountData.Password = password;
