@@ -10,12 +10,6 @@ namespace GMS_CSharp_Server
     {
         static void Main(string[] args)
         {
-            
-            //Set console size.
-            //Console.WindowHeight = 20;
-            //Console.WindowWidth = 80;
-            //test
-            //Starts the server.
             Server.log("Starting Server...");
             Server server = new Server();
             server.StartServer(10103);
