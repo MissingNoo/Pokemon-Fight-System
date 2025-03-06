@@ -1,5 +1,7 @@
 var socket_id = ds_map_find_value(async_load, "id");
-trace($"sid: {socket_id} : {socket}");
+//trace($"sid: {socket_id} : {socket}");
+var _names = ds_map_values_to_array(async_load);
+show_message_async(_names);
 if (socket_id = socket or true) {
     var type = ds_map_find_value(async_load, "type");
     switch (type) {

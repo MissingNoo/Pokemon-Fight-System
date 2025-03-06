@@ -157,36 +157,43 @@ namespace GMS_CSharp_Server
             {
                 while (true)
                 {
-                    Thread.Sleep(10);
-                                     
-                    if (WriteQueue.Count != 0)
+                    try
                     {
-                        try
+                        Thread.Sleep(10);                                        
+                        if (WriteQueue.Count != 0)
                         {
-                            BufferStream buffer = WriteQueue.Dequeue();
-                            NetworkStream stream = client.GetStream();
-                            stream.Flush();
-                        }
-                        catch (IOException)
-                        {
-                            DisconnectClient();
-                            break;
-                        }
-                        catch (NullReferenceException)
-                        {
-                            DisconnectClient();
-                            break;
-                        }
-                        catch (ObjectDisposedException)
-                        {
-                            break;
-                        }
-                        catch (InvalidOperationException)
-                        {
-                            break;
+                            try
+                            {
+                                BufferStream buffer = WriteQueue.Dequeue();
+                                NetworkStream stream = client.GetStream();
+                                stream.Flush();
+                            }
+                            catch (IOException)
+                            {
+                                DisconnectClient();
+                                break;
+                            }
+                            catch (NullReferenceException)
+                            {
+                                DisconnectClient();
+                                break;
+                            }
+                            catch (ObjectDisposedException)
+                            {
+                                break;
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                break;
+                            }
                         }
                     }
+                    catch (System.Exception)
+                    {
+                        break;
+                    }
                 }
+                    
             }
             /// <summary>
             /// Reads data from the client and sends back a response.
@@ -205,7 +212,10 @@ namespace GMS_CSharp_Server
                         //Read the header data.
                         ushort constant;
                         readBuffer.Read(out constant);
-
+                        if (constant == 0)
+                        {
+                            throw new NullReferenceException();
+                        }
                         switch (constant)
                         {
                             case (int)Contype.Login:
@@ -247,6 +257,7 @@ namespace GMS_CSharp_Server
                                 BufferStream buffer = new BufferStream(BufferSize, BufferAlignment);
                                 buffer.Seek(0);
                                 UInt16 constant_out = (int)Contype.Ping;
+                                Console.WriteLine(constant_out);
                                 buffer.Write(constant_out);
                                 SendMessage(buffer);
                                 break;
