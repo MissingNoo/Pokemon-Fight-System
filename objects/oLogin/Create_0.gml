@@ -1,6 +1,7 @@
 global.username = "";
 global.password = "";
 //show_debug_overlay(true);
+
 n_root = flexpanel_create_node(
 {
     "name" : "root",
@@ -62,7 +63,7 @@ n_root = flexpanel_create_node(
                             "flex" : 1,
                             "data" : {
                                 "f" : function() {
-                                    new packet(Contype.Login)
+                                    new packet(Contype.Register)
                                     .write(buffer_text, global.username)
                                     .write(buffer_text, global.password)
                                     .send();

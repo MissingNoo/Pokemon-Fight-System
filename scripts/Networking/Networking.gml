@@ -11,6 +11,7 @@ enum Contype {
 	Login,
 	GetCharacters,
 	SelectCharacter,
+    Register,
 	Null
 }
 

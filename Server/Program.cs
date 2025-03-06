@@ -4,11 +4,13 @@ namespace GMS_CSharp_Server
 {
     class Program
     {
+        public static MySqlConnection? connection;
+        public static string constr = "Server=localhost;Username=root;Password=;Database=PFS";
         static void Main(string[] args)
         {
             Server.log("Connecting to database");
-            string constr = "Server=localhost;Username=root;Password=;Database=PFS";
-            using var connection = new MySqlConnection(constr);
+            
+            connection = new MySqlConnection(constr);
             try
             {
                 connection.Open();
@@ -18,7 +20,7 @@ namespace GMS_CSharp_Server
                 Server.log("Can't connect to database. Exiting");
                 Environment.Exit(1);
             }
-            
+            connection.Close();
             /*using var command = new MySqlCommand("SELECT * FROM Accounts;", connection);
             using var reader = command.ExecuteReader();
             while (reader.Read())

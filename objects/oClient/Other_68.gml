@@ -1,17 +1,15 @@
 var socket_id = ds_map_find_value(async_load, "id");
-if (socket_id = socket) {
+trace($"sid: {socket_id} : {socket}");
+if (socket_id = socket or true) {
     var type = ds_map_find_value(async_load, "type");
     switch (type) {
         case network_type_connect:
         {
             var success = ds_map_find_value(async_load, "succeeded");
+            trace($"Success: {success}");
             if (success = 0) {
                 connected = -1;
             } else {
-                new packet(Contype.Login)
-                .write(buffer_string, "Airgeadlamh")
-                .write(buffer_string, "123")
-                .send();
                 new packet(Contype.Ping).send();
                 alarm[0] = -1;
                 alarm[1] = 60 * 1;
@@ -22,9 +20,9 @@ if (socket_id = socket) {
         { 
             var read_buffer = ds_map_find_value(async_load, "buffer");
             
-            //trace($"received message {constant}\nbuffer: {read_buffer}");
+            trace($"received message {constant}\nbuffer: {read_buffer}");
             while (true) {
-                //trace($"{buffer_tell(read_buffer)}:{buffer_get_size(read_buffer)}");
+                trace($"{buffer_tell(read_buffer)}:{buffer_get_size(read_buffer)}");
                 if (buffer_tell(read_buffer) >= buffer_get_size(read_buffer)) {
                     break;
                 }
@@ -40,6 +38,10 @@ if (socket_id = socket) {
                         ping = ping_step;
                         alarm[0] = -1;
                         alarm[1] = 60;
+                        break;
+                    case Contype.Login:
+                        instance_destroy(oUIElement);
+                        instance_destroy(oLogin);
                         break;
                 }
             }

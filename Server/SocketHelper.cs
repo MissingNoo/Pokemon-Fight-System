@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using MySqlConnector;
 
 namespace GMS_CSharp_Server
 {
@@ -17,21 +18,21 @@ namespace GMS_CSharp_Server
         Null
     }
     public class AccountData {
-        public string Name { get; set; }
-        public string Password { get; set; }
-        public string Version { get; set; }
+        public string? Name { get; set; }
+        public string? Password { get; set; }
+        public string? Version { get; set; }
     }
     public class SocketHelper
         {
             Queue<BufferStream> WriteQueue = new Queue<BufferStream>();
-            public Thread ReadThread;
-            public Thread WriteThread;
-            public Thread AbortThread;
-            public System.Net.Sockets.TcpClient MscClient;
-            public Server ParentServer;
+            public Thread? ReadThread;
+            public Thread? WriteThread;
+            public Thread? AbortThread;
+            public System.Net.Sockets.TcpClient? MscClient;
+            public Server? ParentServer;
             public string ClientName = "";
             public int ClientNumber = 0;
-            public Lobby GameLobby;
+            public Lobby? GameLobby;
             public bool IsSearching = false;
             public bool IsIngame = false;
             int BufferSize = Server.BufferSize;
@@ -39,6 +40,7 @@ namespace GMS_CSharp_Server
             public int HandSize = 0;
             public string TalentCard = "undefined";
             public AccountData AccountData = new AccountData();
+            public bool LoggedIn = false;
             /// <summary>
             /// Starts the given client in two threads for reading and writing.
             /// </summary>
@@ -214,8 +216,27 @@ namespace GMS_CSharp_Server
                                     readBuffer.Read(out string password);
                                     AccountData.Password = password;
                                     
-                                    Server.log(ClientName + " connected.");
-                                    Server.log(Convert.ToString(ParentServer.Clients.Count) + " clients online.");
+                                    using var connection = new MySqlConnection(Program.constr);
+                                    connection.Open();
+                                    using var command = new MySqlCommand("SELECT password FROM Accounts WHERE username = '" + ClientName + "';", connection);
+                                    using var reader = command.ExecuteReader();
+                                    
+                                    while (reader.Read())
+                                    {
+                                        if (reader.GetString(0) == password)
+                                        {
+                                            BufferStream buff = new BufferStream(BufferSize, BufferAlignment);
+                                            buff.Seek(0);
+                                            buff.Write((int)Contype.Login);
+                                            SendMessage(buff);
+                                            Server.log(ClientName + " connected.");
+                                            Server.log(Convert.ToString(ParentServer.Clients.Count) + " clients online.");
+                                        }
+                                        else
+                                        {
+                                            Server.log("Invalid password");
+                                        }
+                                    }
                                 }
                                 catch (Exception)
                                 {
@@ -223,13 +244,40 @@ namespace GMS_CSharp_Server
                                 }
                                 break;
                             case (int)Contype.Ping:
-                                Console.WriteLine("Ping");
                                 BufferStream buffer = new BufferStream(BufferSize, BufferAlignment);
                                 buffer.Seek(0);
                                 UInt16 constant_out = (int)Contype.Ping;
                                 buffer.Write(constant_out);
                                 SendMessage(buffer);
                                 break;
+                            case (int)Contype.Register:
+                            {
+                                readBuffer.Read(out string user);
+                                readBuffer.Read(out string pass);
+                                using var connection = new MySqlConnection(Program.constr);
+                                connection.Open();
+                                using var command = new MySqlCommand("SELECT username FROM Accounts WHERE username = '" + user + "';", connection);
+                                using var reader = command.ExecuteReader();
+                                int amnt = 0;
+                                while (reader.Read())
+                                {
+                                    amnt++;
+                                }
+                                using var connection2 = new MySqlConnection(Program.constr);
+                                connection2.Open();
+                                if (amnt == 0)
+                                {
+                                    using var register = new MySqlCommand("INSERT INTO `Accounts` (`username`, `password`, `id`, `created_on`) VALUES ('" + user + "', '" + pass + "', NULL, current_timestamp())", connection2);
+                                    register.ExecuteNonQuery();
+                                    Server.log("Registered user: " + user);
+                                }
+                                else
+                                {
+                                    Server.log("User " + user + " exists");
+                                }
+                                
+                                break;
+                            }
                             /*case 1:
                             {
                                 var lobby = new Lobby();
