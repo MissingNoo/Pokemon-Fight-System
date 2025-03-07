@@ -17,7 +17,7 @@ enum Contype {
 
 function packet(type) constructor {
     buffer = buffer_create(16, buffer_grow, 2)
-    buffer_seek(oClient.buffer, buffer_seek_start, 2);
+    buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_u8, type);
     
     static write = function(const, data) {

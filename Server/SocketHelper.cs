@@ -159,13 +159,15 @@ namespace GMS_CSharp_Server
                 {
                     try
                     {
-                        Thread.Sleep(10);                                        
+                        Thread.Sleep(10);
+                        Console.WriteLine(WriteQueue.Count);
                         if (WriteQueue.Count != 0)
                         {
                             try
                             {
                                 BufferStream buffer = WriteQueue.Dequeue();
                                 NetworkStream stream = client.GetStream();
+                                stream.Write(buffer.Memory, 0, buffer.Iterator);
                                 stream.Flush();
                             }
                             catch (IOException)

@@ -98,7 +98,6 @@ namespace GMS_CSharp_Server
                 buffer.Seek(0);
                 ushort constant_out = 1007;
                 buffer.Write(constant_out);
-                log("Sending Ping");
                 SendToAllClients(buffer);
             }
         }

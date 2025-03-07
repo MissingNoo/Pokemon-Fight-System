@@ -292,6 +292,7 @@
     {"name":"CutsceneScripts","order":5,"path":"scripts/CutsceneScripts/CutsceneScripts.yy",},
     {"name":"DebugLib","order":2,"path":"scripts/DebugLib/DebugLib.yy",},
     {"name":"draw_text_scribble_ext","order":1,"path":"scripts/draw_text_scribble_ext/draw_text_scribble_ext.yy",},
+    {"name":"FlexPanel","order":9,"path":"scripts/FlexPanel/FlexPanel.yy",},
     {"name":"GMTL_core_test_setup","order":1,"path":"scripts/GMTL_core_test_setup/GMTL_core_test_setup.yy",},
     {"name":"GMTL_core_TestCase","order":2,"path":"scripts/GMTL_core_TestCase/GMTL_core_TestCase.yy",},
     {"name":"GMTL_demo_tests","order":1,"path":"scripts/GMTL_demo_tests/GMTL_demo_tests.yy",},

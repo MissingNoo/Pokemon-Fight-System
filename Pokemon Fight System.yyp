@@ -10388,7 +10388,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.1300.0.743",
+    "IDEVersion":"2024.1300.0.768",
   },
   "name":"Pokemon Fight System",
   "resources":[
@@ -10610,6 +10610,7 @@
     {"id":{"name":"DebugLib","path":"scripts/DebugLib/DebugLib.yy",},},
     {"id":{"name":"draw_text_scribble_ext","path":"scripts/draw_text_scribble_ext/draw_text_scribble_ext.yy",},},
     {"id":{"name":"draw_text_scribble","path":"scripts/draw_text_scribble/draw_text_scribble.yy",},},
+    {"id":{"name":"FlexPanel","path":"scripts/FlexPanel/FlexPanel.yy",},},
     {"id":{"name":"GMTL_core_test_events","path":"scripts/GMTL_core_test_events/GMTL_core_test_events.yy",},},
     {"id":{"name":"GMTL_core_test_setup","path":"scripts/GMTL_core_test_setup/GMTL_core_test_setup.yy",},},
     {"id":{"name":"GMTL_core_TestCase","path":"scripts/GMTL_core_TestCase/GMTL_core_TestCase.yy",},},

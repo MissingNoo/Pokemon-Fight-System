@@ -1,8 +1,6 @@
 var socket_id = ds_map_find_value(async_load, "id");
 //trace($"sid: {socket_id} : {socket}");
-var _names = ds_map_values_to_array(async_load);
-show_message_async(_names);
-if (socket_id = socket or true) {
+if (socket_id = socket) {
     var type = ds_map_find_value(async_load, "type");
     switch (type) {
         case network_type_connect:
@@ -21,8 +19,6 @@ if (socket_id = socket or true) {
         case network_type_data:
         { 
             var read_buffer = ds_map_find_value(async_load, "buffer");
-            
-            trace($"received message {constant}\nbuffer: {read_buffer}");
             while (true) {
                 trace($"{buffer_tell(read_buffer)}:{buffer_get_size(read_buffer)}");
                 if (buffer_tell(read_buffer) >= buffer_get_size(read_buffer)) {
@@ -44,6 +40,7 @@ if (socket_id = socket or true) {
                     case Contype.Login:
                         instance_destroy(oUIElement);
                         instance_destroy(oLogin);
+						create_ui(global.player_info_ui);
                         break;
                 }
             }
