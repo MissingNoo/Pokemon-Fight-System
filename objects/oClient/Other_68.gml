@@ -40,6 +40,12 @@ if (socket_id = socket) {
                     case Contype.Login:
                         instance_destroy(oUIElement);
                         instance_destroy(oLogin);
+						PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[1]);
+						PFS.playerPokemons[1] = __PFS_generate_pokemon(PFS.Pokes[4]);
+						PFS.playerPokemons[2] = __PFS_generate_pokemon(PFS.Pokes[7]);
+						PFS.playerPokemons[3] = __PFS_generate_pokemon(PFS.Pokes[777]);
+						PFS.playerPokemons[4] = __PFS_generate_pokemon(PFS.Pokes[50]);
+						PFS.playerPokemons[5] = __PFS_generate_pokemon(PFS.Pokes[259]);
 						create_ui(global.player_info_ui);
                         break;
                 }

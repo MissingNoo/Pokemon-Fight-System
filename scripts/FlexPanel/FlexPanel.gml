@@ -103,12 +103,14 @@ global.player_info_ui = {
 						flex : 1,
 						nodes : [
 						{
-							flex : 1
+							flex : 1,
+							name : "pokeinfo",
+							data : {text : "pokename1", position : 0}
 						},
 						{
 							flex : 0.25,
 							borderWidth: 3,
-							data : {text : "pokename1"}							
+							data : {text : "pokename1"}
 						}
 						]
 					},
@@ -116,7 +118,9 @@ global.player_info_ui = {
 						flex : 1,
 						nodes : [
 						{
-							flex : 1
+							flex : 1,
+							name : "pokeinfo",
+							data : {text : "pokename1", position : 1}
 						},
 						{
 							flex : 0.25,
@@ -129,7 +133,9 @@ global.player_info_ui = {
 						flex : 1,
 						nodes : [
 						{
-							flex : 1
+							flex : 1,
+							name : "pokeinfo",
+							data : {text : "pokename1", position : 2}
 						},
 						{
 							flex : 0.25,
@@ -150,7 +156,9 @@ global.player_info_ui = {
 						flex : 1,
 						nodes : [
 						{
-							flex : 1
+							flex : 1,
+							name : "pokeinfo",
+							data : {text : "pokename1", position : 3}
 						},
 						{
 							flex : 0.25,
@@ -163,7 +171,9 @@ global.player_info_ui = {
 						flex : 1,
 						nodes : [
 						{
-							flex : 1
+							flex : 1,
+							name : "pokeinfo",
+							data : {text : "pokename1", position : 4}
 						},
 						{
 							flex : 0.25,
@@ -176,7 +186,9 @@ global.player_info_ui = {
 						flex : 1,
 						nodes : [
 						{
-							flex : 1
+							flex : 1,
+							name : "pokeinfo",
+							data : {text : "pokename1", position : 5}
 						},
 						{
 							flex : 0.25,

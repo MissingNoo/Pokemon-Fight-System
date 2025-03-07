@@ -22,14 +22,17 @@ if (bar_image != -1)
 // Draw text, can optionally be centred
 if (text != "" and element == undefined)
 {
+	var str = "";
 	if (center_text)
 	{
+		str = "[fa_center][fa_middle]";
 		draw_set_halign(fa_center);
 		draw_set_valign(fa_middle);
 	}
-	draw_set_color(c_black);
-	draw_text(x + (width / 2) * center_text, y + (height / 2) * center_text, text);
-	draw_set_color(c_black);
+	//draw_set_color(c_black);
+	scribble($"{str}[Fnt][c_black]{text}").scale(0.1).draw(x + (width / 2) * center_text, y + (height / 2) * center_text);
+	//draw_text(x + (width / 2) * center_text, y + (height / 2) * center_text, text);
+	draw_set_color(c_white);
 	if (center_text)
 	{
 		draw_set_halign(fa_left);

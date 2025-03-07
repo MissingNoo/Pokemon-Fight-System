@@ -24,6 +24,9 @@ if (string_contains(name, "textbox")) {
 if (string_contains(name, "button")) {
     element = new button(text);
 }
+if (string_contains(name, "pokeinfo")) {
+    element = new pokeinfo(PlayerTeam[data.position]);
+}
 if (element != undefined) {
     if (data[$ "f"] != undefined) {
         element.set_function(data.f);

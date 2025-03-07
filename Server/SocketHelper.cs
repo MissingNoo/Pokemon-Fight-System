@@ -160,7 +160,6 @@ namespace GMS_CSharp_Server
                     try
                     {
                         Thread.Sleep(10);
-                        Console.WriteLine(WriteQueue.Count);
                         if (WriteQueue.Count != 0)
                         {
                             try
@@ -259,7 +258,6 @@ namespace GMS_CSharp_Server
                                 BufferStream buffer = new BufferStream(BufferSize, BufferAlignment);
                                 buffer.Seek(0);
                                 UInt16 constant_out = (int)Contype.Ping;
-                                Console.WriteLine(constant_out);
                                 buffer.Write(constant_out);
                                 SendMessage(buffer);
                                 break;

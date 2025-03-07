@@ -1065,3 +1065,16 @@ function sprite_container() constructor {
     }
 }
 
+function pokeinfo(_pokemon) constructor {
+	pokemon = _pokemon;
+	xx = 0;
+	yy = 0;
+	static position = function(x, y, x2, y2) {
+		xx = x + (x2 / 8);
+		yy = y + (y2 / 3);
+	}
+	static draw = function() {
+		var spr = global.pokemon_sprites.get_sprite(pokemon, "Front");
+		draw_sprite_ext(spr, 0, xx, yy, 0.5, 0.5, 0, c_white, 1);
+	}
+}
