@@ -238,10 +238,11 @@ namespace GMS_CSharp_Server
                                             BufferStream buff = new BufferStream(BufferSize, BufferAlignment);
                                             buff.Seek(0);
                                             buff.Write((int)Contype.Login);
+                                            /*
                                             var teams = Program.db.GetDatabase("PFS").GetCollection<BsonDocument>("Team");
                                             string p0 = teams.Find(filter).First().GetValue("p0").ToString();
-                                            Console.WriteLine(p0);
                                             buff.Write(p0);
+                                            */
                                             SendMessage(buff);
                                             Server.log(ClientName + " connected.");
                                             Server.log(Convert.ToString(ParentServer.Clients.Count) + " clients online.");
