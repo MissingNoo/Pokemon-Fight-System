@@ -891,3 +891,19 @@ function pokeinfo(_pokemon) constructor {
 		draw_sprite_ext(spr, 0, xx, yy, 0.5, 0.5, 0, c_white, 1);
 	}
 }
+
+function __PFS_set_poke_data(pokemon) {
+	var on = json_parse(base64_decode(pokemon));
+	var _names = struct_get_names(on);
+	var n = __PFS_generate_pokemon_from_showdown($"{on.internalName}");
+	for (var i = 0; i < array_length(_names); ++i) {
+		if (_names[i] != "moves") {
+			n[$ _names[i]] = on[$ _names[i]];
+		}
+	}
+	for (var i = 0; i < array_length(on.moves); ++i) {
+		n.moves[i] = __PFS_add_move(on.moves[i].internalName);
+		n.moves[i].pp = on.moves[i].pp;
+	}
+	return n;
+}

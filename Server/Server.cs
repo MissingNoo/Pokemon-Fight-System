@@ -24,7 +24,7 @@ namespace GMS_CSharp_Server
         public TcpListener TCPListener = null;
 
         public const int BufferAlignment = 1;
-        public const int BufferSize = 256;
+        public const int BufferSize = 6144;
         private readonly string[] Maps = { "Open#Plains", "Riverside", "Lonely#Mountain", "Four#Islands", "Twin#Oasis", "Pyramid#Grounds", "Canyon#Valley", "Stone#Arena", "Caverns", "Sister#Caves", "Frozen#Lake", "Melting#Snow" };
         
         /// <summary>

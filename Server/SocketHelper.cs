@@ -1,4 +1,6 @@
 using System.Net.Sockets;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using MySqlConnector;
 
 namespace GMS_CSharp_Server
@@ -226,8 +228,32 @@ namespace GMS_CSharp_Server
                                     AccountData.Name = ClientName;
                                     readBuffer.Read(out string password);
                                     AccountData.Password = password;
-                                    
-                                    using var connection = new MySqlConnection(Program.constr);
+                                    var collection = Program.db.GetDatabase("PFS").GetCollection<BsonDocument>("Players");
+                                    var filter = Builders<BsonDocument>.Filter.Eq("name", ClientName);
+                                    try
+                                    {
+                                        var document = collection.Find(filter).First();
+                                        if (document.GetValue("password") == password)
+                                        {
+                                            BufferStream buff = new BufferStream(BufferSize, BufferAlignment);
+                                            buff.Seek(0);
+                                            buff.Write((int)Contype.Login);
+                                            var teams = Program.db.GetDatabase("PFS").GetCollection<BsonDocument>("Team");
+                                            string p0 = teams.Find(filter).First().GetValue("p0").ToString();
+                                            Console.WriteLine(p0);
+                                            buff.Write(p0);
+                                            SendMessage(buff);
+                                            Server.log(ClientName + " connected.");
+                                            Server.log(Convert.ToString(ParentServer.Clients.Count) + " clients online.");
+                                        } else {
+                                            Server.log("Invalid password");
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+                                        //player not found
+                                    }
+                                    /*using var connection = new MySqlConnection(Program.constr);
                                     connection.Open();
                                     using var command = new MySqlCommand("SELECT password FROM Accounts WHERE username = '" + ClientName + "';", connection);
                                     using var reader = command.ExecuteReader();
@@ -245,9 +271,10 @@ namespace GMS_CSharp_Server
                                         }
                                         else
                                         {
-                                            Server.log("Invalid password");
+                                            
                                         }
                                     }
+                                    */
                                 }
                                 catch (Exception)
                                 {
@@ -265,7 +292,7 @@ namespace GMS_CSharp_Server
                             {
                                 readBuffer.Read(out string user);
                                 readBuffer.Read(out string pass);
-                                using var connection = new MySqlConnection(Program.constr);
+                                /*using var connection = new MySqlConnection(Program.constr);
                                 connection.Open();
                                 using var command = new MySqlCommand("SELECT username FROM Accounts WHERE username = '" + user + "';", connection);
                                 using var reader = command.ExecuteReader();
@@ -286,7 +313,7 @@ namespace GMS_CSharp_Server
                                 {
                                     Server.log("User " + user + " exists");
                                 }
-                                
+                                */
                                 break;
                             }
                             /*case 1:

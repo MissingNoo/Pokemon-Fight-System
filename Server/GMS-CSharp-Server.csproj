@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="3.2.1" />
     <PackageReference Include="MySqlConnector" Version="2.4.0" />
   </ItemGroup>
 
