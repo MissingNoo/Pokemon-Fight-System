@@ -10435,6 +10435,7 @@
     {"id":{"name":"PFSPokemonManager","path":"objects/PFSPokemonManager/PFSPokemonManager.yy",},},
     {"id":{"name":"Pokelatro","path":"objects/Pokelatro/Pokelatro.yy",},},
     {"id":{"name":"ParticleSystem1","path":"particles/ParticleSystem1/ParticleSystem1.yy",},},
+    {"id":{"name":"ParticleSystem2","path":"particles/ParticleSystem2/ParticleSystem2.yy",},},
     {"id":{"name":"latr","path":"rooms/latr/latr.yy",},},
     {"id":{"name":"r_gmtl_demo","path":"rooms/r_gmtl_demo/r_gmtl_demo.yy",},},
     {"id":{"name":"rConfig","path":"rooms/rConfig/rConfig.yy",},},

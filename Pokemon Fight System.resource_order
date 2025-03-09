@@ -135,6 +135,7 @@
     {"name":"PFSPokeEditor","order":6,"path":"objects/PFSPokeEditor/PFSPokeEditor.yy",},
     {"name":"PFSPokemonManager","order":9,"path":"objects/PFSPokemonManager/PFSPokemonManager.yy",},
     {"name":"ParticleSystem1","order":20,"path":"particles/ParticleSystem1/ParticleSystem1.yy",},
+    {"name":"ParticleSystem2","order":1339,"path":"particles/ParticleSystem2/ParticleSystem2.yy",},
     {"name":"latr","order":7,"path":"rooms/latr/latr.yy",},
     {"name":"r_gmtl_demo","order":4,"path":"rooms/r_gmtl_demo/r_gmtl_demo.yy",},
     {"name":"rConfig","order":4,"path":"rooms/rConfig/rConfig.yy",},
