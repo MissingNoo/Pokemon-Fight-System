@@ -24,7 +24,7 @@ namespace GMS_CSharp_Server
         public TcpListener TCPListener = null;
 
         public const int BufferAlignment = 1;
-        public const int BufferSize = 256;
+        public const int BufferSize = 6144;
         private readonly string[] Maps = { "Open#Plains", "Riverside", "Lonely#Mountain", "Four#Islands", "Twin#Oasis", "Pyramid#Grounds", "Canyon#Valley", "Stone#Arena", "Caverns", "Sister#Caves", "Frozen#Lake", "Melting#Snow" };
         
         /// <summary>
@@ -96,11 +96,9 @@ namespace GMS_CSharp_Server
                 Thread.Sleep(3000);
                 BufferStream buffer = new BufferStream(BufferSize, BufferAlignment);
                 buffer.Seek(0);
-                ushort constant_out = (int)Contype.ServerPing;
+                ushort constant_out = 1007;
                 buffer.Write(constant_out);
-                UInt16 online = (UInt16)Clients.Count;                                    
-                buffer.Write(online);
-                SendToAllClients(buffer);            
+                SendToAllClients(buffer);
             }
         }
 

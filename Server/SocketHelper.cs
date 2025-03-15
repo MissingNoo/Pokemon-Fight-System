@@ -1,5 +1,7 @@
 using System.Net.Sockets;
-using System.Text.Json;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MySqlConnector;
 
 namespace GMS_CSharp_Server
 {
@@ -13,32 +15,34 @@ namespace GMS_CSharp_Server
         Disconnect,
         Login,
         GetCharacters,
-        SelectCharacter,	
+        SelectCharacter,
+        Register,
         Null
     }
     public class AccountData {
-        public string Name { get; set; }
-        public string Password { get; set; }
-        public string Version { get; set; }
+        public string? Name { get; set; }
+        public string? Password { get; set; }
+        public string? Version { get; set; }
     }
     public class SocketHelper
         {
             Queue<BufferStream> WriteQueue = new Queue<BufferStream>();
-            public Thread ReadThread;
-            public Thread WriteThread;
-            public Thread AbortThread;
-            public System.Net.Sockets.TcpClient MscClient;
-            public Server ParentServer;
+            public Thread? ReadThread;
+            public Thread? WriteThread;
+            public Thread? AbortThread;
+            public System.Net.Sockets.TcpClient? MscClient;
+            public Server? ParentServer;
             public string ClientName = "";
             public int ClientNumber = 0;
-            public Lobby GameLobby;
+            public Lobby? GameLobby;
             public bool IsSearching = false;
             public bool IsIngame = false;
             int BufferSize = Server.BufferSize;
             int BufferAlignment = Server.BufferAlignment;
             public int HandSize = 0;
             public string TalentCard = "undefined";
-            public AccountData? AccountData;
+            public AccountData AccountData = new AccountData();
+            public bool LoggedIn = false;
             /// <summary>
             /// Starts the given client in two threads for reading and writing.
             /// </summary>
@@ -155,37 +159,44 @@ namespace GMS_CSharp_Server
             {
                 while (true)
                 {
-                    Thread.Sleep(10);
-                                     
-                    if (WriteQueue.Count != 0)
+                    try
                     {
-                        try
+                        Thread.Sleep(10);
+                        if (WriteQueue.Count != 0)
                         {
-                            BufferStream buffer = WriteQueue.Dequeue();
-                            NetworkStream stream = client.GetStream();
-                            stream.Write(buffer.Memory, 0, buffer.Iterator);
-                            stream.Flush();
-                        }
-                        catch (IOException)
-                        {
-                            DisconnectClient();
-                            break;
-                        }
-                        catch (NullReferenceException)
-                        {
-                            DisconnectClient();
-                            break;
-                        }
-                        catch (ObjectDisposedException)
-                        {
-                            break;
-                        }
-                        catch (InvalidOperationException)
-                        {
-                            break;
+                            try
+                            {
+                                BufferStream buffer = WriteQueue.Dequeue();
+                                NetworkStream stream = client.GetStream();
+                                stream.Write(buffer.Memory, 0, buffer.Iterator);
+                                stream.Flush();
+                            }
+                            catch (IOException)
+                            {
+                                DisconnectClient();
+                                break;
+                            }
+                            catch (NullReferenceException)
+                            {
+                                DisconnectClient();
+                                break;
+                            }
+                            catch (ObjectDisposedException)
+                            {
+                                break;
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                break;
+                            }
                         }
                     }
+                    catch (System.Exception)
+                    {
+                        break;
+                    }
                 }
+                    
             }
             /// <summary>
             /// Reads data from the client and sends back a response.
@@ -204,20 +215,67 @@ namespace GMS_CSharp_Server
                         //Read the header data.
                         ushort constant;
                         readBuffer.Read(out constant);
-
-                        //Determine input commmand.
+                        if (constant == 0)
+                        {
+                            throw new NullReferenceException();
+                        }
                         switch (constant)
                         {
                             case (int)Contype.Login:
                                 try
                                 {
-                                    readBuffer.Read(out string ClientName);
+                                    readBuffer.Read(out ClientName);
                                     AccountData.Name = ClientName;
                                     readBuffer.Read(out string password);
                                     AccountData.Password = password;
+                                    var collection = Program.db.GetDatabase("PFS").GetCollection<BsonDocument>("Players");
+                                    var filter = Builders<BsonDocument>.Filter.Eq("name", ClientName);
+                                    try
+                                    {
+                                        var document = collection.Find(filter).First();
+                                        if (document.GetValue("password") == password)
+                                        {
+                                            BufferStream buff = new BufferStream(BufferSize, BufferAlignment);
+                                            buff.Seek(0);
+                                            buff.Write((int)Contype.Login);
+                                            /*
+                                            var teams = Program.db.GetDatabase("PFS").GetCollection<BsonDocument>("Team");
+                                            string p0 = teams.Find(filter).First().GetValue("p0").ToString();
+                                            buff.Write(p0);
+                                            */
+                                            SendMessage(buff);
+                                            Server.log(ClientName + " connected.");
+                                            Server.log(Convert.ToString(ParentServer.Clients.Count) + " clients online.");
+                                        } else {
+                                            Server.log("Invalid password");
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+                                        //player not found
+                                    }
+                                    /*using var connection = new MySqlConnection(Program.constr);
+                                    connection.Open();
+                                    using var command = new MySqlCommand("SELECT password FROM Accounts WHERE username = '" + ClientName + "';", connection);
+                                    using var reader = command.ExecuteReader();
                                     
-                                    Server.log(ClientName + " connected.");
-                                    Server.log(Convert.ToString(ParentServer.Clients.Count) + " clients online.");
+                                    while (reader.Read())
+                                    {
+                                        if (reader.GetString(0) == password)
+                                        {
+                                            BufferStream buff = new BufferStream(BufferSize, BufferAlignment);
+                                            buff.Seek(0);
+                                            buff.Write((int)Contype.Login);
+                                            SendMessage(buff);
+                                            Server.log(ClientName + " connected.");
+                                            Server.log(Convert.ToString(ParentServer.Clients.Count) + " clients online.");
+                                        }
+                                        else
+                                        {
+                                            
+                                        }
+                                    }
+                                    */
                                 }
                                 catch (Exception)
                                 {
@@ -231,6 +289,34 @@ namespace GMS_CSharp_Server
                                 buffer.Write(constant_out);
                                 SendMessage(buffer);
                                 break;
+                            case (int)Contype.Register:
+                            {
+                                readBuffer.Read(out string user);
+                                readBuffer.Read(out string pass);
+                                /*using var connection = new MySqlConnection(Program.constr);
+                                connection.Open();
+                                using var command = new MySqlCommand("SELECT username FROM Accounts WHERE username = '" + user + "';", connection);
+                                using var reader = command.ExecuteReader();
+                                int amnt = 0;
+                                while (reader.Read())
+                                {
+                                    amnt++;
+                                }
+                                using var connection2 = new MySqlConnection(Program.constr);
+                                connection2.Open();
+                                if (amnt == 0)
+                                {
+                                    using var register = new MySqlCommand("INSERT INTO `Accounts` (`username`, `password`, `id`, `created_on`) VALUES ('" + user + "', '" + pass + "', NULL, current_timestamp())", connection2);
+                                    register.ExecuteNonQuery();
+                                    Server.log("Registered user: " + user);
+                                }
+                                else
+                                {
+                                    Server.log("User " + user + " exists");
+                                }
+                                */
+                                break;
+                            }
                             /*case 1:
                             {
                                 var lobby = new Lobby();

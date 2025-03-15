@@ -564,194 +564,7 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 		status : _status,
 		critical : critical == 2 ? true : false,
 	};
-	/*var _damage = 0;
-	var _affectUser = false;
-	var _status = 0;
-	var _ability_status = 0;
-	var _critChance = __PFS_rng(0, 255);
-	var _critTreshold = pokemon.speed / 2; //TODO: High crit chance atk and items
-	var _isCritical = _critChance <= _critTreshold ? 2 : 1; //TODO _isCritical = 1 if target ability is Battle Armor or Shell Armor or with Luck Chant
-	if (global.testing) { // Do not crit if running tests
-		if (global.testingforcecrit) {
-		    _isCritical = 2;
-		}
-	    else {
-			_isCritical = 1;
-		}
-	}
-	var _level = real(pokemon.level);
-	var _power  = 0;
-	try {
-	    _power = real(move.mpower);
-	}
-	catch (err) { }
-	#region Abilities
-		for (var i = 0; i < array_length(enemy.ability); ++i) {
-			if (enemy.ability[i][1] == 1) { continue; }
-			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.Start) {
-				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-				_status = _abresult.status;
-				_isCritical = _abresult.critical;
-				_damage = _abresult.damage;
-				move = _abresult.move;
-			}
-		}
-		for (var i = 0; i < array_length(pokemon.ability); ++i) {
-			if (pokemon.ability[i][1] == 1) { continue; }
-			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.Start) {
-				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-				_status = _abresult.status;
-				_isCritical = _abresult.critical;
-				_damage = _abresult.damage;
-				move = _abresult.move;
-			}
-		}
-	#endregion
-	var _stab = array_get_index(pokemon.type, move.type) != -1 ? 1.5 : 1;
-	var _type1 = __PFS_is_effective(enemy, move, 0);
-	var _type2 = array_length(enemy.type) > 1 ? __PFS_is_effective(enemy, move, 1) : 1;
-	var _type = 1 * _type1 * _type2;
-	var _rnd = __PFS_rngr(0.85, 1);
-	var _burn = move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and !__PFS_pokemon_have_ability(pokemon, "guts") ? 0.5 : 1; //TODO: don't affect fixed damage moves like Foul Play and ignore if its ability is guts
-	DEBUG
-		if (move.category == PFSMoveCategory.Physical and __PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Burn) and __PFS_pokemon_have_ability(pokemon, "guts")) {
-		    show_debug_message("Burn damage halving ignored by Guts ability")
-		}
-		if (_burn != 1) {
-		    show_debug_message($"{pokemon.internalName} damage is halved because it's burning");
-		}
-	ENDDEBUG
-	#region //TODO
-	var _targets = 1; //TODO: 0.75 if more than one target (0.5 in battle royale)
-	var _pb = 1; //TODO: Parental Bond second hit = 0.25
-	var _weather = 1 //TODO: Weather
-	var _glaiverush = 1; //TODO: Glaive Rush = 2 if the move was used in the previous turn
-	var _other = 1;
-	#endregion
-	var _a = 1;
-	var _d = 1;
-	switch (move.category) { //TODO: unmodified on criticals, light screen, reflect, 
-	    case PFSMoveCategory.Physical:
-	        _a = pokemon.attack;
-			_d = enemy.defense;
-			var _result = __PFS_ability_on_contact(pokemon, enemy, move); //TODO: change to new system
-			pokemon = _result[0];
-			enemy = _result[1];
-			_ability_status = _result[2];
-	        break;
-	    case PFSMoveCategory.Special:
-			_a = pokemon.spattack;
-			_d = enemy.spdefense;
-			break;
-	}
-	if (move.category == PFSMoveCategory.Status or move.effect_chance != "") {
-		var _chance = __PFS_rng();
-		
-		if (move.category == PFSMoveCategory.Status or _chance <= move.effect_chance) {
-			_isCritical = 1;
-			var _turns = -99;
-			var _effectData = PFS.StatusAilmentsData[move.id];
-			_turns = irandom_range(_effectData.min_turns, _effectData.max_turns);
-			if (_effectData.max_turns == 0) {
-				_turns = -99;
-			}
-			_status = [real(PFS.StatusAilmentsData[move.id].meta_ailment_id), _turns];
-			#region Status that affect the user //TODO: make weapon functions
-				#region Perish Song
-					if (_status[0] == PFSStatusAilments.Perish_song) {
-					    if (!__PFS_pokemon_affected_by_status(pokemon, PFSStatusAilments.Perish_song)) {
-							if (__PFS_pokemon_have_ability(pokemon, "soundproof")) {
-							    show_debug_message($"{pokemon.internalName}'s Soundproof ignored Perish Song!");
-							}
-							else {
-								array_push(pokemon.statusAilments, _status);
-								_affectUser = pokemon;
-							}
-						}
-					}
-				#endregion
-			#endregion
-			#region Invulnerabilities to status effects
-				#region Types
-					#region Burn
-						if (__PFS_pokemon_have_type(enemy, __PFSTypes.Fire) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Burn) {
-							show_debug_message($"{enemy.internalName} is immune to Burn!");
-							_status = 0;
-						}
-					#endregion
-					#region Paralysis
-						if (__PFS_pokemon_have_type(enemy, __PFSTypes.Electric) and PFS.StatusAilmentsData[move.id].meta_ailment_id == PFSStatusAilments.Paralysis) {
-							show_debug_message($"{enemy.internalName} is immune to Paralysis!");
-							_status = 0;
-						}
-					#endregion
-				#endregion
-			#endregion
-		}
-	}
-	if (_a > 255 or _d > 255) {
-	    _a = floor(_a / 4);
-	    _d = floor(_d / 4);
-	}
-	#region Right before damage calculation
-		#region Abilities
-			for (var i = 0; i < array_length(enemy.ability); ++i) {
-				if (enemy.ability[i][1] == 1) { continue; }
-				if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.BeforeDamageCalculation) {
-					var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-					_status = _abresult.status;
-					_isCritical = _abresult.critical;
-					_damage = _abresult.damage;
-					move = _abresult.move;
-				}
-			}
-			for (var i = 0; i < array_length(pokemon.ability); ++i) {
-				if (pokemon.ability[i][1] == 1) { continue; }
-				if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.BeforeDamageCalculation) {
-					var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-					_status = _abresult.status;
-					_isCritical = _abresult.critical;
-					_damage = _abresult.damage;
-					move = _abresult.move;
-				}
-			}
-		#endregion
-	#endregion
-	_damage = ( ( ( 2 * _level / 5 + 2) * _power * (_a / _d) ) / 50 + 2 );
-	_damage = _damage * _targets * _pb * _weather * _glaiverush * _isCritical * _rnd * _stab * _type * _burn * _other;
-	_damage = round(_damage);
-	if (_power == 0) { _damage = 0; }
-	#region Right after damage calculation
-		#region Abilities
-		for (var i = 0; i < array_length(enemy.ability); ++i) {
-			if (enemy.ability[i][1] == 1) { continue; }
-			if (PFS.AbilitiesCode[enemy.ability[i][0]] != undefined and PFS.AbilitiesCode[enemy.ability[i][0]].when == AbilityTime.AfterDamageCalculation) {
-				var _abresult = PFS.AbilitiesCode[enemy.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-				_status = _abresult.status;
-				_isCritical = _abresult.critical;
-				_damage = _abresult.damage;
-				move = _abresult.move;
-			}
-		}
-		for (var i = 0; i < array_length(pokemon.ability); ++i) {
-			if (pokemon.ability[i][1] == 1) { continue; }
-			if (PFS.AbilitiesCode[pokemon.ability[i][0]] != undefined and PFS.AbilitiesCode[pokemon.ability[i][0]].when == AbilityTime.AfterDamageCalculation) {
-				var _abresult = PFS.AbilitiesCode[pokemon.ability[i][0]].code(pokemon, enemy, move, _status, _isCritical, _damage, _side);
-				_status = _abresult.status;
-				_isCritical = _abresult.critical;
-				_damage = _abresult.damage;
-				move = _abresult.move;
-			}
-		}
-		#endregion
-		#region Items
-			#region Focus Sash
-			#endregion
-		#endregion
-	#endregion
 	
-	//show_debug_message($"Dealt ( ( ( 2 * {_level} / 5 + 2) * {_power} * ({_a} / {_d}) ) / 50 + 2 )  * {_targets} * {_pb} * {_weather} * {_glaiverush} * {_isCritical} * {_rnd} * {_stab} * {_type} * {_burn} * {_other} = {_damage} damage");
-     */
 }
 
 function __PFS_generate_pokemon(poke){
@@ -1000,72 +813,6 @@ function __PFS_tick_status_effect(pokemon) {
 #endregion
 
 #region Functions
-function createbutton(_x, _y, text, textscale, show_border = true, bgalpha = 0.25, _color = c_white) {
-	var _clicked = false;
-	var w = string_width(text) * textscale;
-	var h = string_height(text) * textscale;	
-	draw_set_color(c_black);
-	draw_set_alpha(bgalpha);
-	if (show_border) {
-	    draw_rectangle(_x - 3, _y - 4, _x + w + 2, _y + h + 4, false);
-	}
-	draw_set_color(c_white);
-	draw_set_alpha(1);
-	if (show_border) {
-	    draw_rectangle(_x - 3, _y - 4, _x + w + 2, _y + h + 4, true);
-	}
-	draw_text_transformed_color(_x, _y, text, textscale, textscale, 0, _color, _color, _color, _color, 1);
-	if (mouse_check_button_pressed(mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _x + w, _y + h)) {
-		_clicked = true;
-	}
-	return _clicked;
-}
-function createbuttonspr(_x, _y, spr, subimg, sprscale, show_border = true, _color = c_white, align = "topleft", button = mb_left) {
-	var _clicked = false;
-	var pw = 0;
-	var ph = 0;
-	var w = sprite_get_width(spr) * sprscale;
-	var h = sprite_get_height(spr) * sprscale;
-	switch (align) {
-	    case "middlecenter":
-			w = w / 2;
-			h = h / 2;
-			ph = h;
-			pw = w
-	        break;
-	    default:
-	        // code here
-	        break;
-	}
-	if (show_border) {
-	    draw_rectangle(_x - pw - 3, _y - ph - 4, _x + w + 2, _y + h + 4, true);
-	}
-	draw_sprite_ext(spr, subimg, _x, _y, sprscale, sprscale, 0, _color, 1);
-	if (mouse_check_button_pressed(button) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x - pw, _y - ph, _x + w, _y + h)) {
-		_clicked = true;
-	}
-	return _clicked;
-}
-function textbox(x, y, name, value, editing) {
-	var _x = x;
-	var _y = y;
-	var _value = variable_instance_get(self, value);
-	var _set = variable_instance_get(self, "set");
-	if (editing) {
-		if (!_set) {
-		    keyboard_string = _value;
-			variable_instance_set(self, "set", true);
-		}
-		if (keyboard_string != "") {
-		    variable_instance_set(self, value, keyboard_string);
-		}
-	}
-	draw_text(_x, _y, $"{name}: ");
-	_x += string_width($"{name}: ");
-	draw_text(_x, _y, _value);
-	var _color = editing ? c_yellow : c_white;
-	draw_rectangle_color(_x, _y, _x + string_width(_value), _y + string_height(_value), _color, _color, _color, _color, true);
-}	
 #endregion
 function spawn_dialog(text) {
 	if (instance_exists(oDialog)) {
@@ -1131,3 +878,32 @@ function sprite_container() constructor {
     }
 }
 
+function pokeinfo(_pokemon) constructor {
+	pokemon = _pokemon;
+	xx = 0;
+	yy = 0;
+	static position = function(x, y, x2, y2) {
+		xx = x + (x2 / 8);
+		yy = y + (y2 / 3);
+	}
+	static draw = function() {
+		var spr = global.pokemon_sprites.get_sprite(pokemon, "Front");
+		draw_sprite_ext(spr, 0, xx, yy, 0.5, 0.5, 0, c_white, 1);
+	}
+}
+
+function __PFS_set_poke_data(pokemon) {
+	var on = json_parse(base64_decode(pokemon));
+	var _names = struct_get_names(on);
+	var n = __PFS_generate_pokemon_from_showdown($"{on.internalName}");
+	for (var i = 0; i < array_length(_names); ++i) {
+		if (_names[i] != "moves") {
+			n[$ _names[i]] = on[$ _names[i]];
+		}
+	}
+	for (var i = 0; i < array_length(on.moves); ++i) {
+		n.moves[i] = __PFS_add_move(on.moves[i].internalName);
+		n.moves[i].pp = on.moves[i].pp;
+	}
+	return n;
+}
