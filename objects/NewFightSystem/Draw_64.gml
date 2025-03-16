@@ -1,0 +1,79 @@
+surf = surface_recreate(surf, 720, 480);
+surface_set_target(surf);
+draw_clear_alpha(c_black, 1);
+
+battleui.foreach(function(name, pos, data) {
+	var D = DebugManager;
+	var spr = undefined;
+	if (data[$ "image"] != undefined) { spr = asset_get_index(data.image); }
+	if (spr == undefined or spr == -1) { spr = sBlank; }
+	var _x = pos.left;
+	var _y = pos.top;
+	var _xx = pos.width;
+	var _yy = pos.height;
+	var si;
+	
+	var custom_draw = false;
+	switch (name) {
+		#region Enemy
+	    case "enemy_poke_spr":
+			draw_set_alpha(enemy_alpha);
+			_x -= enemy_sprite_offset;
+			si = sine_wave(current_time / 2000, 1, 2, 0);
+			_y += si;
+			spr = global.pokemon_sprites.get_sprite(enemyPokemon[0], "Front");
+			draw_sprite_ext(PFSBattleBgsPaths, 0, _x + 97, _y - si + 184, 3, 3, 0, c_white, 1);
+	        break;
+	    case "enemy_poke_life_panel":
+			_x -= hp_offset;
+	        break;
+	    case "enemy_hp_bar":
+			_x -= hp_offset;
+	        break;
+	    case "enemy_poke_name":
+			_x -= hp_offset;
+	        scribble($"[sBattleFont1]{enemyPokemon[0].internalName}").scale_to_box(pos.width, pos.height, true).draw(_x, _y);
+	        break;
+		case "enemy_poke_level":
+			_x -= hp_offset;
+	        scribble($"[sBattleFont1]{enemyPokemon[0].level}").scale_to_box(pos.width, pos.height, true).draw(_x, _y);
+	        break;
+		#endregion
+		#region Own Pokemon
+		case "own_poke_life_panel":
+			_x += hp_offset;
+	        break;
+		case "hp_bar":
+			_x += hp_offset;
+	        break;
+	    case "poke_name":
+			_x += hp_offset;
+	        scribble($"[sBattleFont1]{PlayerTeam[pokemon_out].internalName}").scale_to_box(pos.width, pos.height, true).draw(_x, _y);
+	        break;
+	    case "poke_level":
+			_x += hp_offset;
+	        scribble($"[sBattleFont1]{PlayerTeam[pokemon_out].level}").scale_to_box(pos.width, pos.height, true).draw(_x, _y);
+	        break;
+		case "own_poke_spr":
+			_x += pokemon_offset;
+			si = sine_wave(current_time / 2000, 1, 2, 0);
+			_y += si;
+			_yy = 192 + si;
+			spr = global.pokemon_sprites.get_sprite(PlayerTeam[0], "Back");
+			draw_sprite_ext(PFSBattleBgsPaths, 0, _x + 105, _y - si + 180, 3.15, 3.15, 0, c_white, 1);
+			//custom_draw = true;
+			//48 = half from half of spr
+	        //draw_sprite_general(spr, 0, 0, 0, pos.width, pos.height + 192, pos.left + 24, pos.top - 72 + si, 1, 1, 0, c_white, c_white, c_white, c_white, 1);
+	        break;
+		#endregion
+	    default:
+	        break;
+	}
+	if (!custom_draw) {
+	    draw_sprite_stretched(spr, 0, _x, _y, _xx, _yy);
+	}
+	draw_set_alpha(1);
+});
+surface_reset_target();
+draw_rectangle_color(0, 0, GW, GH, c_black, c_black, c_black, c_black, false);
+draw_surface_stretched(surf, 0, 0, GW, GH);

@@ -1,0 +1,1 @@
+//draw_sprite(Game_Boy_Advance___Pokemon_FireRed_LeafGreen___Pokemon_Menu, 0, gui_x_percent(50), gui_y_percent(50));

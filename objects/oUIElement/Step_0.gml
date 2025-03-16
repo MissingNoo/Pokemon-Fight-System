@@ -1,0 +1,1 @@
+deltimer = clamp(deltimer - 1, 0, infinity);

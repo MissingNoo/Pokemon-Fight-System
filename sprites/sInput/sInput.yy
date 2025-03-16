@@ -12,6 +12,9 @@
     "Online-Debug":{
       "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
     },
+    "Debug":{
+      "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
+    },
   },
   "DynamicTexturePage":false,
   "edgeFiltering":false,
@@ -49,8 +52,8 @@
   },
   "origin":0,
   "parent":{
-    "name":"UI",
-    "path":"folders/Sprites/UI.yy",
+    "name":"AirUI",
+    "path":"folders/AirUI.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

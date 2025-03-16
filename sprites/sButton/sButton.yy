@@ -9,7 +9,7 @@
   "collisionKind":1,
   "collisionTolerance":0,
   "ConfigValues":{
-    "Online-Debug":{
+    "Debug":{
       "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
     },
   },
@@ -50,8 +50,8 @@
   },
   "origin":0,
   "parent":{
-    "name":"UI",
-    "path":"folders/Sprites/UI.yy",
+    "name":"AirUI",
+    "path":"folders/AirUI.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

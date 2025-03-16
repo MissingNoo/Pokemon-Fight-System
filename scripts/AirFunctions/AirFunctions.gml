@@ -121,11 +121,16 @@ function draw_surface_part_area(surf, area) {
 }
 
 global.listboxopen = false;
+global.elementselected = noone;
+global.listboxtimer = 60;
 
 function textbox() constructor {
+	only_numbers = false;
+	owner = noone;
     text = "";
     selected = false;
     area = [0, 0, 0, 0];
+	can_be_null = false;
     func = function(){};
     
     static position = function(x, y, xx, yy) {
@@ -139,6 +144,18 @@ function textbox() constructor {
     }
     
     static tick = function() {
+		var w =  mouse_wheel_up() - mouse_wheel_down();
+		if (mouse_in_area_gui(area) and w != 0) {
+			try {
+				if (is_real(real(text))) {
+					if (keyboard_check(vk_shift)) { w = w * 10; }
+					if (keyboard_check(vk_control)) { w = w * 0.1; }
+				    text = real(text) + w;
+					func(self);
+				}
+			}
+			catch (err) {}
+		}
         if (device_mouse_check_button_released(0, mb_left) and gui_can_interact()) {
             if (mouse_in_area_gui(area)) {
                 if (os_type == os_android) {
@@ -147,28 +164,65 @@ function textbox() constructor {
                 keyboard_lastchar = "";
                 keyboard_lastkey = vk_nokey;
                 selected = true;
+				global.elementselected = self;
                 global.currenttextbox = self;
             } else {
                 selected = false;
             }
         }
         if (selected) {
-            if (keyboard_lastchar != "") {
-                text += keyboard_lastchar;
-                keyboard_lastchar = "";
-                func();
-            }
-            if (keyboard_lastkey == vk_backspace) {
-                text = string_copy(text, 1, string_length(text) - 2);
-                //text = string_delete(text, string_length(text) - 1, 1); 
+			if (keyboard_lastkey == vk_f1) {
+                //text = string_copy(text, 1, string_length(text) - 1);
+                text = "";
                 keyboard_lastkey = vk_nokey;
+				return self;
             }
-            
+			if (keyboard_lastkey == vk_backspace) {
+                //text = string_copy(text, 1, string_length(text) - 1);
+                text = string_delete(text, string_length(text), 1);
+                keyboard_lastkey = vk_nokey;
+				return self;
+            }
+			if (keyboard_lastkey == vk_enter and text != "") {
+			    func(self);
+				keyboard_lastkey = vk_nokey;
+				return self;
+			}
+            if (keyboard_lastchar != "") {
+                text = string(text) + string(keyboard_lastchar);
+                keyboard_lastchar = "";
+				if (only_numbers) {
+					global.dot_pos = undefined;
+					string_foreach(text, function(e, i) {
+						if (e == ".") {
+						    global.dot_pos = i;
+						}
+					});
+					global.percent_pos = undefined;
+					string_foreach(text, function(e, i) {
+						if (e == "%") {
+						    global.percent_pos = i;
+						}
+					});
+				    text = string_digits(text);
+					if (global.dot_pos != undefined) {
+					    text = string_insert(".", text, global.dot_pos);
+					}
+					if (global.percent_pos != undefined) {
+					    text = string_insert("%", text, global.percent_pos);
+					}
+				}
+				if (keyboard_lastkey == vk_enter) {
+				    text = string_copy(text, 1, string_length(text) - 1);
+				}
+				return self;
+            }
         }
         return self;
     }
     
     static draw = function() {
+		if (area[0] == area[2]) { exit; }
         tick();
         //draw_set_color(c_black);
         //draw_rectangle_area(area, false, [c_black, selected ? c_yellow : c_white]);
@@ -180,12 +234,19 @@ function textbox() constructor {
 }
 
 function button(_text) constructor {
+	owner = noone;
     text = _text;
     area = [0, 0, 0, 0];
     enabled = true;
     gui = true;
+	sprite_back = sButton;
+	sprite = sButton;
     func = function(){};
     
+	static set_sprite = function(spr) {
+		sprite = spr;
+	}
+	
     static set_gui = function(boolean) {
         gui = boolean;
         return self;
@@ -208,12 +269,14 @@ function button(_text) constructor {
     
     static on_click = function() {
         if (enabled and (gui ? mouse_in_area_gui(area) : mouse_in_area(area)) and device_mouse_check_button_released(0, mb_left) and gui_can_interact()) {
-            func();
+            func(self);
+			global.elementselected = self;
         }
         return self;
     }
     
-    static draw = function() { 
+    static draw = function() {
+		if (area[0] == area[2]) { exit; }
         on_click();
         //draw_set_color(c_black);
         //draw_rectangle_area(area, false);
@@ -225,7 +288,10 @@ function button(_text) constructor {
             held = true;
             _y += 3;
         }
-        draw_sprite_stretched(sButton, held, area[0], area[1], area[2] - area[0], area[3] - area[1]);
+		if (sprite_back != undefined) {
+		    draw_sprite_stretched(sprite_back, held, area[0], area[1], area[2] - area[0], area[3] - area[1]);
+		}        
+        draw_sprite_stretched(sprite, held, area[0], area[1], area[2] - area[0], area[3] - area[1]);
         var alpha = enabled ? 1 : 0.5;
         scribble($"[Fnt][alpha,{alpha}][c_black][fa_center]{text}").scale_to_box(area[2] - area[0] - string_width("X") - 2, area[3] - area[1] - 3, true).draw(area[0] + ((area[2] - area[0]) / 2), _y - 2);
         return self;
@@ -233,6 +299,7 @@ function button(_text) constructor {
 }
 
 function listbox() constructor {
+	owner = noone;
     selected = "";
     list = [];
     open = false;
@@ -251,6 +318,11 @@ function listbox() constructor {
         func_on_select = f;
         return self;
     }
+	
+    static set_function = function(f) {
+        func_on_select = f;
+        return self;
+    }
     
     static add_item = function(name) {
         array_push(list, name);
@@ -266,6 +338,7 @@ function listbox() constructor {
         if (device_mouse_check_button_released(0, mb_left)) {
             if (mouse_in_area_gui(area) and gui_can_interact()) {
                 global.listboxopen = true;
+				global.elementselected = self;
                 open = true;
             //} else if (!mouse_in_area_gui(openarea)) {
             } else {
@@ -277,6 +350,7 @@ function listbox() constructor {
     }
     
     static draw = function() {
+		if (area[0] == area[2]) { exit; }
         openarea[1] = area[1] + (area[3] - area[1]) + 2;
         on_click();
         //draw_set_color(c_black);
@@ -297,16 +371,16 @@ function listbox() constructor {
                 var click_area = [openarea[0], _y, openarea[2], openarea[3]];
                 if (mouse_in_area_gui(click_area) and device_mouse_check_button_pressed(0, mb_left)) {
                     text = list[i];
-                    func_on_select();
+                    func_on_select(self);
                 }
-                scribble($"[Fnt][c_black] {list[i]}").scale(0.40).draw(openarea[0], _y);
+                scribble($"[Fnt][c_black] {list[i]}").scale_to_box(area[2] - area[0] - string_width("X") - 2, area[3] - area[1] - 3, true).draw(openarea[0], _y);
                 offset += 40;
                 if (openarea[3] < _y) {
                     openarea[3] = _y + offset + 10;
                 }
             }
             openarea[3] = _y + 50;
-        } 
+        }
         return self;
     }
 }
@@ -316,3 +390,24 @@ function gui_can_interact() {
 }
 
 global.currenttextbox = undefined;
+function string_contains(str, contain){
+	for (var i = 1; i < string_length(str); ++i) {
+		//show_debug_message("");
+		//show_debug_message($"{string_copy(str, i, 1)} : {string_copy(contain, 1, 1)}");
+	    if (string_copy(str, i, 1) == string_copy(contain, 1, 1)) {
+		    if (string_copy(str, i, string_length(contain)) == contain) {
+				//show_debug_message("contain");
+			    return true;
+			}
+		}
+	}
+	return false;
+}
+
+function surface_recreate(surf, w, h) {
+	if (!surface_exists(surf)) {
+	    return surface_create(w, h);
+	} else {
+		return surf;
+	}
+}

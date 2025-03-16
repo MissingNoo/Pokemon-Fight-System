@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"FlexPanel",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Scripts.yy",
+    "name":"AirUI",
+    "path":"folders/AirUI.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
