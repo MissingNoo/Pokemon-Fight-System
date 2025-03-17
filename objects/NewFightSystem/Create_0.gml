@@ -1,5 +1,7 @@
 pokemon_out = 0;
 
+selected_option = 0;
+
 #region systems
 //ParticleSystem1
 ps = part_system_create();
@@ -23,6 +25,7 @@ can_restart_particle = true;
 #endregion
 
 enum battle_animations {
+	none,
 	battle_start
 }
 
@@ -31,6 +34,7 @@ current_animation = battle_animations.battle_start;
 #region animations
 playerthrow = new animated_sprite(sPlayerBallThrow);
 draw_ball = false;
+draw_replace_timer = 60;
 bally = undefined;
 bally_end = 0;
 #endregion
@@ -64,15 +68,68 @@ fsm.add("Animation", {
 				if (enemy_sprite_offset == 0) {
 				    hp_offset = approach(hp_offset, 0, 5);
 				}
-				if (pokemon_offset == 0) {
+				if (pokemon_offset == 0 and hp_offset == 0) {
 					if (playerthrow.subimg > 3) {
 					    player_offset = approach(player_offset, -300, 4);
 						bally ??= 185;
 						bally = approach(bally, bally_end, 3);
+						if (bally == bally_end) {
+						    current_animation = battle_animations.none;
+							fsm.change("Idle");
+						}
 					}
 					playerthrow.animate();
 				}
 		        break;
+		}
+	}
+});
+
+fsm.add("Idle", {
+	enter : function() {
+		battleui.set_data("info_area_panel_transparent", {image : PFSBehindBar});
+		battleui.set_data("info_area2_panel_transparent", {image : PFSOptionsMenu});
+		selected_option = 0;
+	},
+	step : function() {
+		var updown = - input_check_pressed("up") + input_check_pressed("down");
+		var leftright = (- input_check_pressed("left") + input_check_pressed("right")) * 2;
+		selected_option = clamp(selected_option + updown + leftright, 0, 3);
+		if (input_check_pressed("accept")) {
+		    switch (selected_option) {
+			    case 0:
+			        fsm.change("Attack");
+			        break;
+			    default:
+			        // code here
+			        break;
+			}
+		}
+	}
+});
+
+fsm.add("Attack", {
+	enter : function() {
+		battleui.set_data("info_area2_panel_transparent", {image : undefined});
+		battleui.set_data("info_area_panel_transparent", {image : PFSMoveWindow});
+		selected_option = 0;
+	},
+	step : function() {
+		var updown = (- input_check_pressed("up") + input_check_pressed("down")) * 2;
+		var leftright = (- input_check_pressed("left") + input_check_pressed("right"));
+		selected_option = clamp(selected_option + updown + leftright, 0, 3);
+		if (input_check_pressed("cancel")) {
+			fsm.change("Idle");
+		}
+		if (input_check_pressed("accept")) {
+		    //switch (selected_option) {
+			//    case 0:
+			//        fsm.change("Attack");
+			//        break;
+			//    default:
+			//        // code here
+			//        break;
+			//}
 		}
 	}
 });
@@ -88,7 +145,7 @@ fsm.add("Battle_Start", {
 
 
 
-str =     {
+str = {
       "flex":0.0,
       "border":0.0,
       "name":"window_panel_transparent",
@@ -303,15 +360,16 @@ str =     {
                           "data":{
                           },
                           "height":23.0,
-                          "flex":1.0
+                          "flex":1.2999999523162842
                         },
                         {
+                          "name":"poke_level",
                           "padding":0.0,
-                          "width":16.0,
+                          "width":60.0,
                           "data":{
                           },
-                          "height":23.0,
-                          "name":"poke_level"
+                          "height":20.0,
+                          "flex":0.10000000149011612
                         }
                       ]
                     },
@@ -362,7 +420,62 @@ str =     {
               "width":60.0,
               "data":{
               },
-              "height":60.0,
+              "nodes":[
+                {
+                  "name":"panel_31795",
+                  "flexDirection":"row",
+                  "padding":10.0,
+                  "data":{
+                  },
+                  "height":60.0,
+                  "nodes":[
+                    {
+                      "padding":10.0,
+                      "width":60.0,
+                      "data":{
+                      },
+                      "name":"mname1",
+                      "flex":1.0
+                    },
+                    {
+                      "padding":10.0,
+                      "width":60.0,
+                      "data":{
+                      },
+                      "name":"mname2",
+                      "flex":1.0
+                    }
+                  ],
+                  "flex":1.0
+                },
+                {
+                  "name":"panel_93020",
+                  "flexDirection":"row",
+                  "padding":10.0,
+                  "data":{
+                  },
+                  "height":60.0,
+                  "nodes":[
+                    {
+                      "padding":10.0,
+                      "width":60.0,
+                      "data":{
+                      },
+                      "name":"mname3",
+                      "flex":1.0
+                    },
+                    {
+                      "padding":10.0,
+                      "width":60.0,
+                      "data":{
+                      },
+                      "name":"mname4",
+                      "flex":1.0
+                    }
+                  ],
+                  "flex":1.0
+                }
+              ],
               "flex":1.0
             },
             {
@@ -386,3 +499,16 @@ str =     {
 
 surf = surface_create(720, 480);
 battleui = new window(str, false);
+
+draw_move = function(mnum, pos) {
+	si = sine_wave(current_time / 2000, 1, 2, 0);
+	var _x = pos.left;
+	var _y = pos.top;
+	if (array_length(PlayerTeam[pokemon_out].moves) == 0) { exit; }
+	if (!array_length(PlayerTeam[pokemon_out].moves) >= mnum + 1) { exit; }
+	var move = PlayerTeam[pokemon_out].moves[mnum];
+	scribble($"[fa_middle][sPokeFont1]{move.internalName}").scale(2).scale_to_box(pos.width, pos.height, false).draw(_x + 20, _y + (pos.height / 2));
+	if (selected_option == mnum) {
+	    draw_sprite_ext(PFSOptionSelected, 0, _x + si + 10, _y + (pos.height / 2), 2, 2, 0, c_white, 1);
+	}
+}
