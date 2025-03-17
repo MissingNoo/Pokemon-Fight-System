@@ -1,10 +1,39 @@
 pokemon_out = 0;
 
+#region systems
+//ParticleSystem1
+ps = part_system_create();
+part_system_draw_order(ps, true);
+
+//Emitter
+ptype1 = part_type_create();
+part_type_shape(ptype1, pt_shape_spark);
+part_type_size(ptype1, 1, 1, 0, 0);
+part_type_scale(ptype1, 1, 1);
+part_type_speed(ptype1, 5, 5, 0, 0);
+part_type_direction(ptype1, 0, 360, 0, 0);
+part_type_gravity(ptype1, 0, 270);
+part_type_orientation(ptype1, 0, 0, 0, 0, false);
+part_type_colour3(ptype1, $FFFFFF, $FFFFFF, $FFFFFF);
+part_type_alpha3(ptype1, 1, 1, 1);
+part_type_blend(ptype1, false);
+part_type_life(ptype1, 20, 40);
+part_system_automatic_draw(ps, false);
+can_restart_particle = true;
+#endregion
+
 enum battle_animations {
 	battle_start
 }
 
 current_animation = battle_animations.battle_start;
+
+#region animations
+playerthrow = new animated_sprite(sPlayerBallThrow);
+draw_ball = false;
+bally = undefined;
+bally_end = 0;
+#endregion
 
 #region hp offset
 hp_offset = 500;
@@ -12,11 +41,18 @@ enemy_sprite_offset = 700;
 enemy_alpha = 0.20;
 
 pokemon_offset = 700;
+player_offset = 0;
+show_player_hp = false;
+pokemon_released = false;
 #endregion
 
 fsm = new SnowState("Battle_Start");
 
 fsm.add("Animation", {
+	enter : function() {
+		can_restart_particle = true;
+		draw_ball = true;
+	},
 	step : function() {
 		switch (current_animation) {
 		    case battle_animations.battle_start:
@@ -27,6 +63,14 @@ fsm.add("Animation", {
 				}
 				if (enemy_sprite_offset == 0) {
 				    hp_offset = approach(hp_offset, 0, 5);
+				}
+				if (pokemon_offset == 0) {
+					if (playerthrow.subimg > 3) {
+					    player_offset = approach(player_offset, -300, 4);
+						bally ??= 185;
+						bally = approach(bally, bally_end, 3);
+					}
+					playerthrow.animate();
 				}
 		        break;
 		}

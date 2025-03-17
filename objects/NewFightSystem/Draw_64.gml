@@ -14,6 +14,7 @@ battleui.foreach(function(name, pos, data) {
 	var si;
 	
 	var custom_draw = false;
+	var draw = true;
 	switch (name) {
 		#region Enemy
 	    case "enemy_poke_spr":
@@ -41,26 +42,57 @@ battleui.foreach(function(name, pos, data) {
 		#endregion
 		#region Own Pokemon
 		case "own_poke_life_panel":
+			draw = show_player_hp;
 			_x += hp_offset;
 	        break;
 		case "hp_bar":
+			draw = show_player_hp;
 			_x += hp_offset;
 	        break;
 	    case "poke_name":
+			draw = show_player_hp;
 			_x += hp_offset;
-	        scribble($"[sBattleFont1]{PlayerTeam[pokemon_out].internalName}").scale_to_box(pos.width, pos.height, true).draw(_x, _y);
+			if (draw) 
+				scribble($"[sBattleFont1]{PlayerTeam[pokemon_out].internalName}").scale_to_box(pos.width, pos.height, true).draw(_x, _y);
 	        break;
 	    case "poke_level":
+			draw = show_player_hp;
 			_x += hp_offset;
-	        scribble($"[sBattleFont1]{PlayerTeam[pokemon_out].level}").scale_to_box(pos.width, pos.height, true).draw(_x, _y);
+			if (draw) 
+				scribble($"[sBattleFont1]{PlayerTeam[pokemon_out].level}").scale_to_box(pos.width, pos.height, true).draw(_x, _y);
 	        break;
 		case "own_poke_spr":
+			bally_end = pos.top + pos.height;
+			
 			_x += pokemon_offset;
 			si = sine_wave(current_time / 2000, 1, 2, 0);
 			_y += si;
 			_yy = 192 + si;
-			spr = global.pokemon_sprites.get_sprite(PlayerTeam[0], "Back");
+			
 			draw_sprite_ext(PFSBattleBgsPaths, 0, _x + 105, _y - si + 180, 3.15, 3.15, 0, c_white, 1);
+			if (pokemon_released) {
+			    spr = global.pokemon_sprites.get_sprite(PlayerTeam[0], "Back");
+			} else {
+				custom_draw = true;
+			}
+			_y -= si;
+			if (bally != undefined and draw_ball) {
+				draw_sprite_ext(sPokeballNormal, 0, _x + (pos.width / 2), bally, 3, 3, 0, c_white, 1);
+			}
+			if (bally == bally_end) {
+				if (can_restart_particle) {
+					can_restart_particle = false;
+					part_system_position(ps, pos.left + (pos.width / 2), pos.top + pos.height);
+					var _pemit1 = part_emitter_create(ps);
+					part_emitter_region(ps, _pemit1, -32, 32, -32, 32, ps_shape_rectangle, ps_distr_linear);
+					part_emitter_burst(ps, _pemit1, ptype1, 30);
+					draw_ball = false;
+					pokemon_released = true;
+				}
+				part_system_drawit(ps);
+			}
+			draw_sprite_ext(playerthrow.sprite, playerthrow.subimg, _x + 75 + player_offset, _y + 112, 3, 3, 0, c_white, 1);
+			
 			//custom_draw = true;
 			//48 = half from half of spr
 	        //draw_sprite_general(spr, 0, 0, 0, pos.width, pos.height + 192, pos.left + 24, pos.top - 72 + si, 1, 1, 0, c_white, c_white, c_white, c_white, 1);
@@ -69,7 +101,7 @@ battleui.foreach(function(name, pos, data) {
 	    default:
 	        break;
 	}
-	if (!custom_draw) {
+	if (!custom_draw and draw) {
 	    draw_sprite_stretched(spr, 0, _x, _y, _xx, _yy);
 	}
 	draw_set_alpha(1);

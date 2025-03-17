@@ -907,3 +907,19 @@ function __PFS_set_poke_data(pokemon) {
 	}
 	return n;
 }
+
+function animated_sprite(spr) constructor {
+	sprite = spr;
+	subimg = 0;
+	lastsubimage = sprite_get_number(spr);
+	spd = sprite_get_speed(spr);
+	rpt = false;
+	
+	static animate = function() {
+		if (subimg < lastsubimage) {
+		    subimg += spd / 60;
+		} else if (rpt) {
+			subimg = 0;
+		}
+	}
+}
