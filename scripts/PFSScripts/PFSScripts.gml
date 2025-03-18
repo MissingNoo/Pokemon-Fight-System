@@ -297,9 +297,6 @@ function __PFS_pokemon_affected_by_status(pokemon, status_id) {
 }
 
 function __PFS_use_move(pokemon, enemy, move, side) {
-	var battle = PFSFightSystem;
-	var pokemonOut = battle.pokemonOut;
-	var enemyOut = battle.enemyOut;
 	if (pokemon.hp <= 0) { return; }
 	var result = {
 		damage : undefined,
@@ -339,29 +336,29 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	
 	switch (side) {
 		case PFSBattleSides.Player:
-			EnemyTeam[enemyOut].hp -= result.damage;
-			if (EnemyTeam[enemyOut].hp <= 0) {
-				EnemyTeam[enemyOut].hp = 0;
-				show_debug_message($"{EnemyTeam[enemyOut].internalName} died");
+			EnemyTeam[enemy_pokemon_out].hp -= result.damage;
+			if (EnemyTeam[enemy_pokemon_out].hp <= 0) {
+				EnemyTeam[enemy_pokemon_out].hp = 0;
+				show_debug_message($"{EnemyTeam[enemy_pokemon_out].internalName} died");
 				array_push(global.nextdialog, {npc : "Battle", text : $"EnemyPokemonFainted", onBattle : true});
-				if (battle.lastEnemyUsedMove == __PFS_get_move_id("Destiny Bond")) {
-					battle.lastEnemyUsedMove = 0;
-					PlayerTeam[pokemonOut].hp = 0;
-					show_debug_message($"{PlayerTeam[pokemonOut].internalName} died together due to {EnemyTeam[enemyOut].internalName}'s Destiny Bond!");
+				if (last_enemy_used_move == __PFS_get_move_id("Destiny Bond")) {
+					last_enemy_used_move = 0;
+					PlayerTeam[pokemon_out].hp = 0;
+					show_debug_message($"{PlayerTeam[pokemon_out].internalName} died together due to {EnemyTeam[enemy_pokemon_out].internalName}'s Destiny Bond!");
 				}
 			}
 			break;
 		case PFSBattleSides.Enemy:
-			PlayerTeam[pokemonOut].hp -= result.damage;
-			if (PlayerTeam[pokemonOut].hp <= 0) { 
-				show_debug_message($"{PlayerTeam[pokemonOut].internalName} died");
-				battle.enemyDead = true;
-				if (battle.lastUsedMove == __PFS_get_move_id("Destiny Bond")) {
-					battle.lastUsedMove = 0;
-					EnemyTeam[enemyOut].hp = 0;
-					show_debug_message($"{EnemyTeam[enemyOut].internalName} died together due to {PlayerTeam[pokemonOut].internalName}'s Destiny Bond!");
+			PlayerTeam[pokemon_out].hp -= result.damage;
+			if (PlayerTeam[pokemon_out].hp <= 0) { 
+				show_debug_message($"{PlayerTeam[pokemon_out].internalName} died");
+				enemy_dead = true;
+				if (last_used_move == __PFS_get_move_id("Destiny Bond")) {
+					last_used_move = 0;
+					EnemyTeam[enemy_pokemon_out].hp = 0;
+					show_debug_message($"{EnemyTeam[enemy_pokemon_out].internalName} died together due to {PlayerTeam[pokemon_out].internalName}'s Destiny Bond!");
 				}
-				PlayerTeam[pokemonOut].hp = 0; 
+				PlayerTeam[pokemon_out].hp = 0; 
 			}
 			break;
 	}
@@ -782,7 +779,7 @@ function __PFS_count_status_effect(pokemon) {
 			continue;
 		}
 	}
-	return pokemon;
+	//return pokemon;
 }
 
 function __PFS_tick_status_effect(pokemon) {

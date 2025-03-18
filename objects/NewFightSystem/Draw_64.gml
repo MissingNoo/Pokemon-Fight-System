@@ -22,8 +22,11 @@ battleui.foreach(function(name, pos, data) {
 			_x -= enemy_sprite_offset;
 			si = sine_wave(current_time / 2000, 1, 2, 0);
 			_y += si;
-			spr = global.pokemon_sprites.get_sprite(enemyPokemon[0], "Front");
-			draw_sprite_ext(PFSBattleBgsPaths, 0, _x + 97, _y - si + 184, 3, 3, 0, c_white, 1);
+			if (enemy_sprite_offset_y != 0) {
+			    _y += - si + enemy_sprite_offset_y;
+			}
+			spr = global.pokemon_sprites.get_sprite(EnemyTeam[enemy_pokemon_out], "Front");
+			draw_sprite_ext(PFSBattleBgsPaths, 0, _x + 97, _y - si + 184 - enemy_sprite_offset_y, 3, 3, 0, c_white, 1);
 	        break;
 	    case "enemy_poke_life_panel":
 			_x -= hp_offset;
@@ -40,6 +43,7 @@ battleui.foreach(function(name, pos, data) {
 	        scribble($"[fa_bottom][sBattleFont1]{enemyPokemon[0].level}").scale_to_box(pos.width, pos.height, true).draw(_x, _y + pos.height);
 	        break;
 		#endregion
+		
 		#region Own Pokemon
 		case "own_poke_life_panel":
 			draw = show_player_hp;
@@ -71,11 +75,11 @@ battleui.foreach(function(name, pos, data) {
 			
 			draw_sprite_ext(PFSBattleBgsPaths, 0, _x + 105, _y - si + 180, 3.15, 3.15, 0, c_white, 1);
 			if (pokemon_released and draw_replace_timer == 0) {
-			    spr = global.pokemon_sprites.get_sprite(PlayerTeam[0], "Back");
+			    spr = global.pokemon_sprites.get_sprite(PlayerTeam[pokemon_out], "Back");
 			} else {
 				custom_draw = true;
 				if (pokemon_released) {
-					spr = global.pokemon_sprites.get_sprite(PlayerTeam[0], "Back");
+					spr = global.pokemon_sprites.get_sprite(PlayerTeam[pokemon_out], "Back");
 				    draw_sprite_stretched(spr, 0, _x, _y, _xx, _yy);
 				}
 			}

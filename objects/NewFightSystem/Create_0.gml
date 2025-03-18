@@ -1,6 +1,17 @@
+EnemyTeam = enemyPokemon;
+can_interact = true;
+enemy_dead = false;
+poke_player_dead = false;
+player_last_one_was_dead = false;
+current_turn = 0;
+last_enemy_used_move = -1;
+last_used_move = -1;
 pokemon_out = 0;
-
+next_pokemon = 0;
+enemy_pokemon_out = 0;
 selected_option = 0;
+
+turn_steps = [];
 
 #region systems
 //ParticleSystem1
@@ -26,7 +37,8 @@ can_restart_particle = true;
 
 enum battle_animations {
 	none,
-	battle_start
+	battle_start,
+	enemy_fainted
 }
 
 current_animation = battle_animations.battle_start;
@@ -42,6 +54,7 @@ bally_end = 0;
 #region hp offset
 hp_offset = 500;
 enemy_sprite_offset = 700;
+enemy_sprite_offset_y = 0;
 enemy_alpha = 0.20;
 
 pokemon_offset = 700;
@@ -73,7 +86,7 @@ fsm.add("Animation", {
 					    player_offset = approach(player_offset, -300, 4);
 						bally ??= 185;
 						bally = approach(bally, bally_end, 3);
-						if (bally == bally_end) {
+						if (bally == bally_end and player_offset == -300) {
 						    current_animation = battle_animations.none;
 							fsm.change("Idle");
 						}
@@ -81,6 +94,20 @@ fsm.add("Animation", {
 					playerthrow.animate();
 				}
 		        break;
+				
+				case battle_animations.enemy_fainted:
+					enemy_sprite_offset_y = approach(enemy_sprite_offset_y, 80, 2);
+					enemy_alpha = lerp(enemy_alpha, 0, 0.25);
+					if (enemy_sprite_offset_y == 80 and enemy_alpha == 0) {
+					    enemy_sprite_offset_y = 0;
+					    enemy_alpha = 1;
+						current_animation = battle_animations.none;
+					}
+					break;
+				
+				case battle_animations.none:
+					fsm.change("Idle");
+					break;
 		}
 	}
 });
@@ -122,6 +149,14 @@ fsm.add("Attack", {
 			fsm.change("Idle");
 		}
 		if (input_check_pressed("accept")) {
+			array_push(turn_steps, [
+				PFSTurnType.Move,
+				PlayerTeam[pokemon_out],
+				EnemyTeam[enemy_pokemon_out],
+				PlayerTeam[pokemon_out].moves[selected_option],
+				PFSBattleSides.Player
+			]);
+			fsm.change("Pre_turn");
 		    //switch (selected_option) {
 			//    case 0:
 			//        fsm.change("Attack");
@@ -142,6 +177,46 @@ fsm.add("Battle_Start", {
 	}
 });
 
+fsm.add("Pre_turn", {
+	enter: function(){		
+		__PFS_turn_begin();
+	},
+});
+
+fsm.add("Turn", {
+	enter: function() {
+		if (array_length(turn_steps) == 0) {
+		    fsm.change("Idle");
+		}
+	},
+	step: function() {
+		__PFS_turn_step();
+	},
+	endturn: function(){
+		if (array_length(turn_steps) == 0) {
+			__PFS_tick_status_effect(PlayerTeam[pokemon_out]);
+			__PFS_tick_status_effect(EnemyTeam[enemy_pokemon_out]);
+			show_debug_message("[PFS] Turn End!");
+			show_debug_message("");
+			current_turn++;
+			player_last_one_was_dead = false;
+			if (PlayerTeam[pokemon_out].hp <= 0) {
+				poke_player_dead = true;
+			}
+			if (!__PFS_enemy_alive()) {
+			    for (var i = 0; i < array_length(EnemyTeam); ++i) {
+				    if (EnemyTeam[i].hp > 0) {
+						array_push(turn_steps, [PFSTurnType.EnemyChangePokemon, i]);
+						fsm.change("Turn");
+						exit;
+					}
+				}
+			}
+			fsm.change("Idle");
+		}
+	},
+	leave: function() {caninteract = false;}
+})
 
 
 
@@ -505,7 +580,7 @@ draw_move = function(mnum, pos) {
 	var _x = pos.left;
 	var _y = pos.top;
 	if (array_length(PlayerTeam[pokemon_out].moves) == 0) { exit; }
-	if (!array_length(PlayerTeam[pokemon_out].moves) >= mnum + 1) { exit; }
+	if (!array_length(PlayerTeam[pokemon_out].moves) > mnum) { exit; }
 	var move = PlayerTeam[pokemon_out].moves[mnum];
 	scribble($"[fa_middle][sPokeFont1]{move.internalName}").scale(2).scale_to_box(pos.width, pos.height, false).draw(_x + 20, _y + (pos.height / 2));
 	if (selected_option == mnum) {

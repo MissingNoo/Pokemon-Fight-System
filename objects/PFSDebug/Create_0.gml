@@ -26,7 +26,7 @@ dbg_button("Start Battle", function() {
 	}
 });
 dbg_button("New Battle", function() { 
-	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[poke]), __PFS_generate_pokemon(PFS.Pokes[poke + 2])];
+	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 255)]), __PFS_generate_pokemon(PFS.Pokes[poke + 2])];
 	_enemyPokemon[0].level = pokelvl;
 	_enemyPokemon[0] = __PFS_recalculate_stats(_enemyPokemon[0], true);
 	instance_destroy(NewFightSystem);
