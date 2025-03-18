@@ -1,4 +1,5 @@
 EnemyTeam = enemyPokemon;
+
 can_interact = true;
 enemy_dead = false;
 poke_player_dead = false;
@@ -9,8 +10,8 @@ last_used_move = -1;
 pokemon_out = 0;
 next_pokemon = 0;
 enemy_pokemon_out = 0;
+last_enemy_pokemon = 0;
 selected_option = 0;
-
 turn_steps = [];
 
 #region systems
@@ -49,6 +50,8 @@ draw_ball = false;
 draw_replace_timer = 60;
 bally = undefined;
 bally_end = 0;
+enemy_hp = EnemyTeam[enemy_pokemon_out].hp;
+poke_hp = 0;
 #endregion
 
 #region hp offset
@@ -88,6 +91,7 @@ fsm.add("Animation", {
 						bally = approach(bally, bally_end, 3);
 						if (bally == bally_end and player_offset == -300) {
 						    current_animation = battle_animations.none;
+							poke_hp = PlayerTeam[pokemon_out].hp;
 							fsm.change("Idle");
 						}
 					}
@@ -96,7 +100,7 @@ fsm.add("Animation", {
 		        break;
 				
 				case battle_animations.enemy_fainted:
-					enemy_sprite_offset_y = approach(enemy_sprite_offset_y, 80, 2);
+					enemy_sprite_offset_y = approach(enemy_sprite_offset_y, 80, 0.5);
 					enemy_alpha = lerp(enemy_alpha, 0, 0.25);
 					if (enemy_sprite_offset_y == 80 and enemy_alpha == 0) {
 					    enemy_sprite_offset_y = 0;
@@ -509,7 +513,7 @@ str = {
                       "width":60.0,
                       "data":{
                       },
-                      "name":"mname1",
+                      "name":"mname0",
                       "flex":1.0
                     },
                     {
@@ -517,7 +521,7 @@ str = {
                       "width":60.0,
                       "data":{
                       },
-                      "name":"mname2",
+                      "name":"mname1",
                       "flex":1.0
                     }
                   ],
@@ -536,7 +540,7 @@ str = {
                       "width":60.0,
                       "data":{
                       },
-                      "name":"mname3",
+                      "name":"mname2",
                       "flex":1.0
                     },
                     {
@@ -544,7 +548,7 @@ str = {
                       "width":60.0,
                       "data":{
                       },
-                      "name":"mname4",
+                      "name":"mname3",
                       "flex":1.0
                     }
                   ],
@@ -576,11 +580,11 @@ surf = surface_create(720, 480);
 battleui = new window(str, false);
 
 draw_move = function(mnum, pos) {
-	si = sine_wave(current_time / 2000, 1, 2, 0);
+	var si = sine_wave(current_time / 2000, 1, 2, 0);
 	var _x = pos.left;
 	var _y = pos.top;
 	if (array_length(PlayerTeam[pokemon_out].moves) == 0) { exit; }
-	if (!array_length(PlayerTeam[pokemon_out].moves) > mnum) { exit; }
+	if (array_length(PlayerTeam[pokemon_out].moves) <= mnum) { exit; }
 	var move = PlayerTeam[pokemon_out].moves[mnum];
 	scribble($"[fa_middle][sPokeFont1]{move.internalName}").scale(2).scale_to_box(pos.width, pos.height, false).draw(_x + 20, _y + (pos.height / 2));
 	if (selected_option == mnum) {

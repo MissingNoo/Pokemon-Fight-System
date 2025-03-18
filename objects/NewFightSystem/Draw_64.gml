@@ -11,10 +11,13 @@ battleui.foreach(function(name, pos, data) {
 	var _y = pos.top;
 	var _xx = pos.width;
 	var _yy = pos.height;
-	var si;
-	
+	var si, poke;
 	var custom_draw = false;
 	var draw = true;
+	var enemy_poke = EnemyTeam[enemy_pokemon_out];
+	if (enemy_pokemon_out != last_enemy_pokemon and current_animation == battle_animations.enemy_fainted) {
+	    enemy_poke = EnemyTeam[last_enemy_pokemon];
+	}
 	switch (name) {
 		#region Enemy
 	    case "enemy_poke_spr":
@@ -25,7 +28,7 @@ battleui.foreach(function(name, pos, data) {
 			if (enemy_sprite_offset_y != 0) {
 			    _y += - si + enemy_sprite_offset_y;
 			}
-			spr = global.pokemon_sprites.get_sprite(EnemyTeam[enemy_pokemon_out], "Front");
+			spr = global.pokemon_sprites.get_sprite(enemy_poke, "Front");
 			draw_sprite_ext(PFSBattleBgsPaths, 0, _x + 97, _y - si + 184 - enemy_sprite_offset_y, 3, 3, 0, c_white, 1);
 	        break;
 	    case "enemy_poke_life_panel":
@@ -33,14 +36,16 @@ battleui.foreach(function(name, pos, data) {
 	        break;
 	    case "enemy_hp_bar":
 			_x -= hp_offset;
+			custom_draw = true;
+			draw_healthbar(_x, _y, _x + _xx, _y + _yy, ((enemy_hp / enemy_poke.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
 	        break;
 	    case "enemy_poke_name":
 			_x -= hp_offset;
-	        scribble($"[sBattleFont1]{enemyPokemon[0].internalName}").scale_to_box(pos.width, pos.height, true).draw(_x, _y);
+	        scribble($"[sBattleFont1]{enemy_poke.internalName}").scale_to_box(pos.width, pos.height, true).draw(_x, _y);
 	        break;
 		case "enemy_poke_level":
 			_x -= hp_offset;
-	        scribble($"[fa_bottom][sBattleFont1]{enemyPokemon[0].level}").scale_to_box(pos.width, pos.height, true).draw(_x, _y + pos.height);
+	        scribble($"[fa_bottom][sBattleFont1]{enemy_poke.level}").scale_to_box(pos.width, pos.height, true).draw(_x, _y + pos.height);
 	        break;
 		#endregion
 		
@@ -50,8 +55,12 @@ battleui.foreach(function(name, pos, data) {
 			_x += hp_offset;
 	        break;
 		case "hp_bar":
-			draw = show_player_hp;
 			_x += hp_offset;
+			custom_draw = true;
+			poke = PlayerTeam[pokemon_out];
+			if (show_player_hp) {
+			    draw_healthbar(_x, _y, _x + _xx, _y + _yy, ((poke_hp / poke.base.hp) * 100), #536C5B, c_lime, c_lime, 0, 1, 0);
+			}
 	        break;
 	    case "poke_name":
 			draw = show_player_hp;
@@ -125,12 +134,12 @@ battleui.foreach(function(name, pos, data) {
 				draw_sprite_ext(PFSOptionSelected, 0, arr[selected_option][0] + si, arr[selected_option][1], 2, 2, 0, c_white, 1);
 			}
 			break;
+		case "mname0":
 		case "mname1":
 		case "mname2":
 		case "mname3":
-		case "mname4":
 			if (fsm.get_current_state() == "Attack") {
-			    draw_move(real(string_digits(name)) - 1, pos);
+			    draw_move(real(string_digits(name)), pos);
 			}
 			
 			break;

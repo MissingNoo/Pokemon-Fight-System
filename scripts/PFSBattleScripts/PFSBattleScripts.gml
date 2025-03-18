@@ -126,6 +126,7 @@ function __PFS_turn_step() {
 						j = 0;
 					}
 				}
+				last_enemy_pokemon = enemy_pokemon_out;
 				enemy_pokemon_out = turn_steps[0][1];
 				enemyhplerp = EnemyTeam[enemy_pokemon_out].hp; //TODO: enemy pokemon
 				show_debug_message($"Foe sent {EnemyTeam[enemy_pokemon_out].internalName} out!");
