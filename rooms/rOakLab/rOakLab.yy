@@ -1,7 +1,7 @@
 {
   "$GMRoom":"v1",
   "%Name":"rOakLab",
-  "creationCodeFile":"",
+  "creationCodeFile":"rooms/rOakLab/RoomCreationCode.gml",
   "inheritCode":false,
   "inheritCreationOrder":false,
   "inheritLayers":false,
@@ -32,7 +32,7 @@
           1,267,-85,-2147483648,1,267,-83,-2147483648,-2,8,3,9,8,9,-3,-2147483648,5,8,9,8,9,9,-3823,-2147483648,
         ],"TileDataFormat":1,},"tilesetId":{"name":"tOverworld","path":"tilesets/tOverworld/tOverworld.yy",},"userdefinedDepth":false,"visible":true,"x":0,"y":0,},
     {"$GMRInstanceLayer":"","%Name":"Instances","depth":100,"effectEnabled":true,"effectType":null,"gridX":8,"gridY":8,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
-        {"$GMRInstance":"v2","%Name":"inst_74C11BBE","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":1,"imageSpeed":0.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_74C11BBE","objectId":{"name":"oNpc","path":"objects/oNpc/oNpc.yy",},"properties":[
+        {"$GMRInstance":"v2","%Name":"inst_74C11BBE","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":1,"imageSpeed":0.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_74C11BBE","objectId":{"name":"oNpc","path":"objects/oNpc/oNpc.yy",},"properties":[
             {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oNpc","path":"objects/oNpc/oNpc.yy",},"propertyId":{"name":"npc","path":"objects/oNpc/oNpc.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"Npcs[NpcNames.Oak]",},
           ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":648.0,"y":608.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},

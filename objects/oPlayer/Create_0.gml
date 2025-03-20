@@ -1,4 +1,7 @@
 //Feather disable GM2017
+if (file_exists("pdata.gme")) {
+    PlayerData = json_load("pdata.gme");
+}
 sprites = [sRedWR, sRedWU, sRedWL, sRedWD];
 cutmoving = false;
 alarms = [

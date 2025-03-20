@@ -10,7 +10,9 @@ enum Gender { Male, Female }
 global.playerdata = {
 	gender : Gender.Male,
 	name : "",
-	rivalname : ""
+	rivalname : "",
+	got_starter : false,
+	tried_to_exit_pallet : false
 }
 #macro PlayerData global.playerdata
 
