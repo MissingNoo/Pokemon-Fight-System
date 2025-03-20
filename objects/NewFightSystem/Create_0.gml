@@ -39,6 +39,7 @@ can_restart_particle = true;
 enum battle_animations {
 	none,
 	battle_start,
+	poke_enter,
 	enemy_fainted
 }
 
@@ -70,6 +71,7 @@ fsm = new SnowState("Battle_Start");
 
 fsm.add("Animation", {
 	enter : function() {
+		playerthrow.subimg = 0;
 		can_restart_particle = true;
 		draw_ball = true;
 	},
@@ -85,6 +87,11 @@ fsm.add("Animation", {
 				    hp_offset = approach(hp_offset, 0, 5);
 				}
 				if (pokemon_offset == 0 and hp_offset == 0) {
+					current_animation = battle_animations.poke_enter;
+				}
+		        break;
+				
+				case battle_animations.poke_enter:
 					if (playerthrow.subimg > 3) {
 					    player_offset = approach(player_offset, -300, 4);
 						bally ??= 185;
@@ -92,12 +99,12 @@ fsm.add("Animation", {
 						if (bally == bally_end and player_offset == -300) {
 						    current_animation = battle_animations.none;
 							poke_hp = PlayerTeam[pokemon_out].hp;
+							bally = undefined;
 							fsm.change("Idle");
 						}
 					}
 					playerthrow.animate();
-				}
-		        break;
+					break;
 				
 				case battle_animations.enemy_fainted:
 					enemy_sprite_offset_y = approach(enemy_sprite_offset_y, 80, 0.5);

@@ -1,5 +1,7 @@
-if (keyboard_check_pressed(vk_f5)) {
-	instance_create_depth(x, y, oPlayer.depth, oBag);
+if (keyboard_check(vk_f5)) {
+	room_speed = 200;
+} else {
+	room_speed = 60;
 }
 if (keyboard_check_pressed(vk_f4)) {
 	PlayerInventory.add_item("PokeBall");

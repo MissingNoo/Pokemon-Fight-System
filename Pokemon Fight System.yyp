@@ -10423,6 +10423,7 @@
     {"id":{"name":"oLecture","path":"objects/oLecture/oLecture.yy",},},
     {"id":{"name":"oLogin","path":"objects/oLogin/oLogin.yy",},},
     {"id":{"name":"oMailBox","path":"objects/oMailBox/oMailBox.yy",},},
+    {"id":{"name":"oNickname","path":"objects/oNickname/oNickname.yy",},},
     {"id":{"name":"oNpc","path":"objects/oNpc/oNpc.yy",},},
     {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
     {"id":{"name":"oScreenControls","path":"objects/oScreenControls/oScreenControls.yy",},},

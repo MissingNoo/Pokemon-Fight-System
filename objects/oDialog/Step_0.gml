@@ -1,5 +1,5 @@
 //show_debug_message($"{text} / {acceptedOption}");
-if (!visible) { exit; }
+if (!visible or instance_exists(oNickname)) { exit; }
 battlecoords();
 //feather disable once GM1041
 var _currentText = array_get_index(optionsFalas, text);

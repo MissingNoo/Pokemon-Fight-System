@@ -23,7 +23,7 @@ battleui.foreach(function(name, pos, data) {
 	    case "enemy_poke_spr":
 			draw_set_alpha(enemy_alpha);
 			_x -= enemy_sprite_offset;
-			si = sine_wave(current_time / 2000, 1, 2, 0);
+			si = 0;//sine_wave(current_time / 2000, 1, 2, 0);
 			_y += si;
 			if (enemy_sprite_offset_y != 0) {
 			    _y += - si + enemy_sprite_offset_y;
@@ -78,7 +78,7 @@ battleui.foreach(function(name, pos, data) {
 			bally_end = pos.top + pos.height;
 			
 			_x += pokemon_offset;
-			si = sine_wave(current_time / 2000, 1, 2, 0);
+			si = 0;//sine_wave(current_time / 2000, 1, 2, 0);
 			_y += si;
 			_yy = 192 + si;
 			

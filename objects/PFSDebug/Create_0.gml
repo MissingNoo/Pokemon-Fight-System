@@ -57,6 +57,9 @@ dbg_text_input(ref_create(self, "movename"), "Move Name:");
 dbg_button("Set Player Move", function() { 
 	PlayerTeam[0].moves[0] = __PFS_add_move(PFSDebug.movename);
 });
+dbg_button("Set poke nickname", function() { 
+	instance_create_depth(0, 0, -1000, oNickname, {pokemon : PlayerTeam[0]});
+});
 
 
 if (string_contains(os_get_config(), "Tests")) {

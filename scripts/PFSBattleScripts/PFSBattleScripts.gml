@@ -57,8 +57,6 @@ function __PFS_turn_step() {
 	switch (CurrentTurn[__PFS_tsnames.Type]) {
 		case PFSTurnType.Move: {
 			var current_pokemon = CurrentTurn[__PFS_tsnames.Pokemon]; //CurrentTurn[__PFS_tsnames.Side] == PFSBattleSides.Player ? PlayerTeam[pokemonOut] : EnemyTeam[enemyOut];
-			trace($"{current_pokemon.internalName}:{current_pokemon.hp}");
-			DialogData[$"pokename"] = current_pokemon.internalName;
 			#region Status
 			if (__PFS_pokemon_affected_by_status(current_pokemon, PFSStatusAilments.Sleep)) {
 				trace($"{current_pokemon.internalName} is fast asleep!");
@@ -87,11 +85,15 @@ function __PFS_turn_step() {
 			
 			if (array_contains(PlayerTeam, CurrentTurn[__PFS_tsnames.Pokemon])) {
 			    if (current_pokemon.hp > 0) {
+					DialogData[$"pokeplayer"] = CurrentTurn[__PFS_tsnames.Pokemon].internalName;
+					DialogData[$"playermove"] = CurrentTurn[__PFS_tsnames.Move].internalName;
 					spawn_dialog($"PlayerUsedMove");
 				}
 				last_used_move = CurrentTurn[__PFS_tsnames.Move].id;
 			} else {
 				if (current_pokemon.hp > 0) {
+					DialogData[$"enemypoke"] = CurrentTurn[__PFS_tsnames.Pokemon].internalName;
+					DialogData[$"enemymove"] = CurrentTurn[__PFS_tsnames.Move].internalName;
 					spawn_dialog($"EnemyUsedMove");
 				}
 				last_enemy_used_move = CurrentTurn[__PFS_tsnames.Move].id;
@@ -128,13 +130,14 @@ function __PFS_turn_step() {
 				}
 				last_enemy_pokemon = enemy_pokemon_out;
 				enemy_pokemon_out = turn_steps[0][1];
-				enemyhplerp = EnemyTeam[enemy_pokemon_out].hp; //TODO: enemy pokemon
-				show_debug_message($"Foe sent {EnemyTeam[enemy_pokemon_out].internalName} out!");
+				var enemy_name = EnemyTeam[enemy_pokemon_out].internalName;
+				show_debug_message($"Foe sent {enemy_name} out!");
+				DialogData[$"enemypoke"] = enemy_name;
 				spawn_dialog("EnemySentOut");
 				if (__PFS_pokemon_have_ability(EnemyTeam[enemy_pokemon_out], "mold-breaker")) {
-					DialogData[$"pokename"] = EnemyTeam[enemy_pokemon_out].internalName;
+					DialogData[$"pokename"] = enemy_name;
 					array_push(global.nextdialog, {npc : "Battle", text : $"BreaksTheMold", onBattle : true});
-					show_debug_message($"{EnemyTeam[enemy_pokemon_out].internalName} breaks the mold!");
+					show_debug_message($"{enemy_name} breaks the mold!");
 				}
 				
 				break;

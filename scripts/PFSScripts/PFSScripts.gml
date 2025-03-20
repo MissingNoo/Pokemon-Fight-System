@@ -750,6 +750,16 @@ function __PFS_get_move_id(name) {
 	return 0;
 }
 
+function __PFS_get_move_name(id) {
+	for (var i = 0; i < array_length(PFS.moves); ++i) {
+	    if (PFS.moves[i][$ "internalName"] == name or PFS.moves[i][$ "identifier"] == name) {
+		    return PFS.moves[i].internalName;
+		}
+	}
+	show_debug_message("Move name not found");
+	return 0;
+}
+
 #region Status Effects
 function __PFS_count_status_effect(pokemon) {
 	var _status = PFSStatusAilments.None;
@@ -862,9 +872,15 @@ function sprite_container() constructor {
     static load_sprite = function(pokemon) {
         var sprites_path = working_directory + "PFS/Sprites/Pokemon/";
         variable_struct_set(sprites, pokemon.internalName, {});
-        var arr = ["Front", "Back", "Front shiny", "Back shiny"];
+        var arr = ["Front", "Back", "Front shiny", "Back shiny", "Icons", "Icons shiny"];
         for (var i = 0; i < array_length(arr); i++) {
-            sprites[$pokemon.internalName][$ arr[i]] = sprite_add(sprites_path + arr[i] + "/" + string_upper(pokemon.internalName) + ".png", 1, false, false, 192/1.5, 192);
+			var _w = 192/1.5;
+			var _h = 192;
+			if (arr[i] == "Icons") {
+			    _w = 0;
+				_h = 0;
+			}
+            sprites[$pokemon.internalName][$ arr[i]] = sprite_add(sprites_path + arr[i] + "/" + string_upper(pokemon.internalName) + ".png", 1, false, false, _w, _h);
         }
     }
     static get_sprite = function(pokemon, side) {
