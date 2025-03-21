@@ -1,5 +1,5 @@
 fsm.endturn();
-if (instance_exists(oDialog)) {
+if (instance_exists(oNewDialog)) {
 	exit;
 }
 //pfs.endstep();

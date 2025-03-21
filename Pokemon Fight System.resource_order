@@ -127,6 +127,7 @@
     {"name":"oHouseTV","order":3,"path":"objects/oHouseTV/oHouseTV.yy",},
     {"name":"oLogin","order":2,"path":"objects/oLogin/oLogin.yy",},
     {"name":"oMailBox","order":6,"path":"objects/oMailBox/oMailBox.yy",},
+    {"name":"oNewDialog","order":8,"path":"objects/oNewDialog/oNewDialog.yy",},
     {"name":"oNickname","order":2,"path":"objects/oNickname/oNickname.yy",},
     {"name":"oNpc","order":2,"path":"objects/oNpc/oNpc.yy",},
     {"name":"oScreenControls","order":7,"path":"objects/oScreenControls/oScreenControls.yy",},

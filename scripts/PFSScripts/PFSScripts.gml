@@ -822,11 +822,11 @@ function __PFS_tick_status_effect(pokemon) {
 #region Functions
 #endregion
 function spawn_dialog(text) {
-	if (instance_exists(oDialog)) {
-		array_push(global.nextdialog, {npc : "Battle", text : text, onBattle : true});
-	    exit;
-	}
-	dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text, onBattle : true});
+	if (instance_exists(oNewDialog)) {
+		array_push(oNewDialog.next_dialog, text);
+	} else {
+    	dialog = instance_create_depth(x, y, depth - 1, oNewDialog, {npc : "Battle", text, on_battle : true});
+    }
 }
 
 #region Trainers

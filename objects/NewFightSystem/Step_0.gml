@@ -14,7 +14,4 @@ enemy_hp = approach(enemy_hp, enemy_poke.hp, app);
 app = clamp((abs(poke_hp - PlayerTeam[pokemon_out].hp) + 1) / 30, 1, infinity);
 poke_hp = approach(poke_hp, PlayerTeam[pokemon_out].hp, 1);
 #endregion
-if (instance_exists(oDialog)) {
-	exit;
-}
 fsm.step();

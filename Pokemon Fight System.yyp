@@ -10389,7 +10389,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.1300.0.775",
+    "IDEVersion":"2024.1300.0.781",
   },
   "name":"Pokemon Fight System",
   "resources":[
@@ -10423,6 +10423,7 @@
     {"id":{"name":"oLecture","path":"objects/oLecture/oLecture.yy",},},
     {"id":{"name":"oLogin","path":"objects/oLogin/oLogin.yy",},},
     {"id":{"name":"oMailBox","path":"objects/oMailBox/oMailBox.yy",},},
+    {"id":{"name":"oNewDialog","path":"objects/oNewDialog/oNewDialog.yy",},},
     {"id":{"name":"oNickname","path":"objects/oNickname/oNickname.yy",},},
     {"id":{"name":"oNpc","path":"objects/oNpc/oNpc.yy",},},
     {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},

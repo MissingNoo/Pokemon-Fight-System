@@ -2,6 +2,7 @@ global.edit_mode = false;
 global.edit_node = undefined;
 global.edit_node_owner = undefined;
 function window(struct, _generate = true) constructor {
+    ostruct = struct;
 	generate = _generate;
 	lastdepth = 0;
 	ownername = struct[$ "name"];
@@ -29,7 +30,18 @@ function window(struct, _generate = true) constructor {
 	
 	static set_node_function = function(node, _function) {
 		set_data(node, {f : _function});
+        return self;
 	}
+    
+    static fit_to_gui = function() {
+        ostruct.top = 0;
+        ostruct.left = 0;
+        ostruct.width = display_get_gui_width();
+        ostruct.height = display_get_gui_height();
+        root = flexpanel_create_node(ostruct);
+        recalculate();
+        return self;
+    }
 	
 	static set_data = function(node, newdata) { 
 		var olddata = 	flexpanel_node_get_data(flexpanel_node_get_child(root, node));

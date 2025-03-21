@@ -1,6 +1,16 @@
 //Feather disable GM2017
 if (file_exists("pdata.gme")) {
     PlayerData = json_load("pdata.gme");
+	PlayerData.inventory = new Inventory();
+	if (PlayerData[$ "inventory_data"] != undefined) {
+	    var items = string_split(PlayerData.inventory_data, ";");
+		array_foreach(items, function(e, i) { 
+			var item = string_split(e, ":");
+			if (e != "") { 
+				PlayerData.inventory.add_item(item[0], real(item[1]));
+			}
+		});
+	}
 }
 sprites = [sRedWR, sRedWU, sRedWL, sRedWD];
 cutmoving = false;

@@ -70,9 +70,6 @@ if (pokemon[$ "nickname"] != undefined) {
 }
 keyboard_string = nickname;
 surf = surface_create(64, 64);
-uistr.left = 0;
-uistr.top = 0;
-uistr.width = display_get_gui_width();
-uistr.height = display_get_gui_height();
 
 ui = new window(uistr, false);
+ui.fit_to_gui();

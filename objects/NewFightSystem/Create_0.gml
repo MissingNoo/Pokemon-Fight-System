@@ -130,6 +130,9 @@ fsm.add("Idle", {
 		selected_option = 0;
 	},
 	step : function() {
+        if (instance_exists(oNewDialog)) {
+        	exit;
+        }
 		var updown = - input_check_pressed("up") + input_check_pressed("down");
 		var leftright = (- input_check_pressed("left") + input_check_pressed("right")) * 2;
 		selected_option = clamp(selected_option + updown + leftright, 0, 3);

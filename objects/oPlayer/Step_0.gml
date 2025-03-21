@@ -3,12 +3,12 @@ if (keyboard_check(vk_f5)) {
 } else {
 	room_speed = 60;
 }
-if (keyboard_check_pressed(vk_f4)) {
-	PlayerInventory.add_item("PokeBall");
-	PlayerInventory.add_item("GreatBall");
-	PlayerInventory.add_item("Potion");
-	PlayerInventory.add_item("SuperPotion");
-}
+//if (keyboard_check_pressed(vk_f4)) {
+	//PlayerInventory.add_item("PokeBall");
+	//PlayerInventory.add_item("GreatBall");
+	//PlayerInventory.add_item("Potion");
+	//PlayerInventory.add_item("SuperPotion");
+//}
 fsm.step();
 if (!instance_exists(oCam)) {
     instance_create_depth(0, 0, 0, oCam);
