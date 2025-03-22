@@ -79,6 +79,7 @@ font_size = 1.5;
 spacing = 160;
 
 can_interact = true;
+selected_option = 0;
 
 #region Functions
 function nextPage(){

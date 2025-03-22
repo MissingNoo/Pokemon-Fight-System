@@ -147,8 +147,8 @@ function player_interact(){
 			var optionsFalas = _sign.optionsFalas;
 			var options = _sign.options;
 			if (!instance_exists(oDialog)) {
-			    instance_create_depth(x, y, depth - 1, oDialog, {npc : npc, text : text, options : options, optionsFalas : optionsFalas});
-				oDialog.onMap();
+			    instance_create_depth(x, y, depth - 1, oNewDialog, {npc : npc, text : text, options : options, optionsFalas : optionsFalas});
+				//oDialog.onMap();
 				oPlayer.fsm.change("dialog");
 			}
 		}
