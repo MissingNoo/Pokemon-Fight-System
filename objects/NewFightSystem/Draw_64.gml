@@ -4,9 +4,8 @@ draw_clear_alpha(c_black, 1);
 
 battleui.foreach(function(name, pos, data) {
 	var D = DebugManager;
-	var spr = undefined;
-	if (data[$ "image"] != undefined) { spr = asset_get_index(data.image); }
-	if (spr == undefined or spr == -1) { spr = sBlank; }
+	var spr = data[$ "image"] != undefined ? asset_get_index(data.image) : undefined;
+    spr = (spr != undefined and spr != -1) ? spr : sBlank;
 	var _x = pos.left;
 	var _y = pos.top;
 	var _xx = pos.width;

@@ -144,11 +144,9 @@ function player_interact(){
 		if (_sign != noone) {
 		    var npc = _sign.npc;
 			var text = _sign.text;
-			var optionsFalas = _sign.optionsFalas;
 			var options = _sign.options;
-			if (!instance_exists(oDialog)) {
-			    instance_create_depth(x, y, depth - 1, oNewDialog, {npc : npc, text : text, options : options, optionsFalas : optionsFalas});
-				//oDialog.onMap();
+			if (!instance_exists(oNewDialog)) {
+			    instance_create_depth(x, y, depth - 1, oNewDialog, {npc : npc, text : text, options : options});
 				oPlayer.fsm.change("dialog");
 			}
 		}
@@ -161,11 +159,9 @@ function player_interact(){
 		if (_npc != noone) {
 		    var npc = _npc.npc.npcname;
 			var text = _npc.npc.text;
-			var optionsFalas = [];
-			var options = [];
-			if (!instance_exists(oDialog)) {
-			    instance_create_depth(x, y, depth - 1, oDialog, {npc : npc, text : text, options : options, optionsFalas : optionsFalas});
-				oDialog.onMap();
+			var options = _npc.npc.options;
+			if (!instance_exists(oNewDialog)) {
+			    instance_create_depth(x, y, depth - 1, oNewDialog, {npc : npc, text : text, options : options});
 				_npc.fsm.change("talk");
 				oPlayer.fsm.change("dialog");
 			}

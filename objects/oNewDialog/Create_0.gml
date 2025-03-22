@@ -3,22 +3,37 @@ str = {
     {
       "nodes":[
         {
+          "width":190.0,
+          "minHeight":1.0,
+          "data":{
+            "image":"sDialogAnswer"
+          },
+          "height":60.0,
+          "nodes":[
+            {
+              "nodes":[
+                
+              ],
+              "flex":1.0,
+              "margin":15.0,
+              "name":"options",
+              "padding":0.0,
+              "data":{
+              }
+            }
+          ],
+          "flex":1.6000000238418579,
+          "margin":20.0,
+          "aspectRatio":1.0,
+          "name":"options_panel",
+          "marginBottom":0.0,
+          "padding":0.0
+        },
+        {
           "flex":1.0,
           "name":"panel_41315",
           "padding":10.0,
           "width":60.0,
-          "data":{
-          },
-          "height":60.0
-        },
-        {
-          "flex":1.6000000238418579,
-          "margin":20.0,
-          "name":"panel_21219",
-          "marginBottom":0.0,
-          "padding":10.0,
-          "width":167.0,
-          "minHeight":1.0,
           "data":{
           },
           "height":60.0
@@ -42,8 +57,9 @@ str = {
           "data":{
             "image":"sDialogWindow2"
           },
-          "minHeight":40.0,
-          "height":60.0
+          "minHeight":29.0,
+          "height":60.0,
+          "maxHeight":999.0
         }
       ],
       "flex":1.0,
@@ -80,6 +96,7 @@ spacing = 160;
 
 can_interact = true;
 selected_option = 0;
+drew_opt = -1;
 
 #region Functions
 function nextPage(){
@@ -102,5 +119,23 @@ function nextPage(){
     else {
         typist.skip();
     }
+}
+
+update_options = function(){
+    flexpanel_node_remove_all_children(ui.get_child("options"));
+    var arr = options[$ text];
+    for (var i = 0; i < array_length(arr); i++) {
+    	var o = {
+            "flex":1.0,
+            "margin":2.0,
+            "data":{
+                text : arr[i].name
+            },
+            "maxHeight":25.0,
+            "name" : "opt_label"
+        }
+        flexpanel_node_insert_child(ui.get_child("options"), flexpanel_create_node(o), flexpanel_node_get_num_children(ui.get_child("options")));
+    }
+    ui.recalculate();
 }
 #endregion

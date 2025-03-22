@@ -21,10 +21,15 @@ function Npc(name) constructor
 	battle = NpcBattle.NoBattle;
 	dialog = false;
 	text = "";
+    options = undefined;
 	sprites = [sRedWR, sRedWU, sRedWL, sRedWD];
     static setDialog = function(dialogtext) {
 		dialog = true;
 		text = dialogtext;
+		return self;
+    }
+    static set_options = function(opt) {
+		options = opt;
 		return self;
     }
     static setSprites = function(arr) {

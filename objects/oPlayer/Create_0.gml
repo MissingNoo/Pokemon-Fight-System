@@ -11,6 +11,8 @@ if (file_exists("pdata.gme")) {
 			}
 		});
 	}
+    DialogData[$"playername"] = PlayerData.name;
+    DialogData[$"rivalname"] = PlayerData.rivalname;
 }
 sprites = [sRedWR, sRedWU, sRedWL, sRedWD];
 cutmoving = false;
