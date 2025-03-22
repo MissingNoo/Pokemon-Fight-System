@@ -17,6 +17,9 @@ ui.foreach(function(name, pos, data) {
             if (data[$ "text"] == undefined) {  
                 break;
             }
+            if (options_height < options_height_start + _y) {
+            	options_height = options_height_start + _y + _h;
+            }
             drew_opt++;
             var color = drew_opt == selected_option ? "c_yellow" : "c_white";
             scribble($"[{color}]{data.text}").scale_to_box(_w, _h, true).draw(_x, _y);
@@ -25,7 +28,8 @@ ui.foreach(function(name, pos, data) {
             if (!show_options) {
             	break;
             }
-            draw_sprite_stretched(spr, 0, _x, _y, _w, _h);
+            options_height_start = _y;
+            draw_sprite_stretched(spr, 0, _x, _y, _w, options_height);
             break;
 	    default:
 			draw_sprite_stretched(spr, 0, _x, _y, _w, _h);

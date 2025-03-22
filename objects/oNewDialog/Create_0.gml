@@ -120,7 +120,8 @@ function nextPage(){
         typist.skip();
     }
 }
-
+options_height_start = 0;
+options_height = 0;
 update_options = function(){
     flexpanel_node_remove_all_children(ui.get_child("options"));
     var arr = options[$ text];
@@ -131,7 +132,7 @@ update_options = function(){
             "data":{
                 text : arr[i].name
             },
-            "maxHeight":25.0,
+            "maxHeight":35.0,
             "name" : "opt_label"
         }
         flexpanel_node_insert_child(ui.get_child("options"), flexpanel_create_node(o), flexpanel_node_get_num_children(ui.get_child("options")));

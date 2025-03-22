@@ -14,8 +14,7 @@ if (file_exists("pdata.gme")) {
     DialogData[$"playername"] = PlayerData.name;
     DialogData[$"rivalname"] = PlayerData.rivalname;
 }
-//sprites = [sRedWR, sRedWU, sRedWL, sRedWD];
-sprites = [sMPlayerWR, sMPlayerWU, sMPlayerWL, sMPlayerWD];
+sprites = [sRedWR, sRedWU, sRedWL, sRedWD];
 cutmoving = false;
 alarms = [
 	[0, function(){  }]
@@ -164,8 +163,6 @@ DebugManager.debug_add_config(self, {
 	func: function(){ show_debug_message($"[{oPlayer.x}, {oPlayer.y}]"); },
 	page : "Player"
 });
-image_xscale = 2;
-image_yscale = 2;
 //PlayerInventory.add_item("PokeBall");
 //PlayerInventory.add_item("GreatBall");
 //PlayerInventory.add_item("Potion");

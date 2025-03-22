@@ -64,8 +64,13 @@ battleui.foreach(function(name, pos, data) {
 	    case "poke_name":
 			draw = show_player_hp;
 			_x += hp_offset;
-			if (draw) 
-				scribble($"[sBattleFont1]{PlayerTeam[pokemon_out].internalName}").scale_to_box(pos.width, pos.height, true).draw(_x, _y);
+			if (draw) {
+                var n = PlayerTeam[pokemon_out].internalName;
+                if (PlayerTeam[pokemon_out][$ "nickname"] != undefined) {
+                	n = PlayerTeam[pokemon_out].nickname;
+                }
+				scribble($"[sBattleFont1]{n}").scale_to_box(pos.width, pos.height, true).draw(_x, _y);
+            }
 	        break;
 	    case "poke_level":
 			draw = show_player_hp;
