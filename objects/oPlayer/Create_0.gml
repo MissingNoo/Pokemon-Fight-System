@@ -14,7 +14,8 @@ if (file_exists("pdata.gme")) {
     DialogData[$"playername"] = PlayerData.name;
     DialogData[$"rivalname"] = PlayerData.rivalname;
 }
-sprites = [sRedWR, sRedWU, sRedWL, sRedWD];
+//sprites = [sRedWR, sRedWU, sRedWL, sRedWD];
+sprites = [sMPlayerWR, sMPlayerWU, sMPlayerWL, sMPlayerWD];
 cutmoving = false;
 alarms = [
 	[0, function(){  }]
@@ -23,9 +24,9 @@ alarms = [
 fsm = new SnowState("idle");
 fsm.add("idle", {
 	beginstep: function() {
-		if (instance_exists(oDialog) and !instance_exists(PFSFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
-		if (!instance_exists(oDialog) and instance_exists(PFSFightSystem)) { fsm.change("battle"); }
-		if (!instance_exists(oDialog) and instance_exists(oCutscene)) { fsm.change("cutscene"); }
+		if (instance_exists(oNewDialog) and !instance_exists(PFSFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
+		if (!instance_exists(oNewDialog) and instance_exists(PFSFightSystem)) { fsm.change("battle"); }
+		if (!instance_exists(oNewDialog) and instance_exists(oCutscene)) { fsm.change("cutscene"); }
 	},
     step: function() {
 		player_interact();
@@ -36,9 +37,9 @@ fsm.add("idle", {
   })
   .add("walk", {
     step: function() {
-		if (instance_exists(oDialog) and !instance_exists(PFSFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
-		if (!instance_exists(oDialog) and instance_exists(PFSFightSystem)) { fsm.change("battle"); }
-		if (!instance_exists(oDialog) and instance_exists(oCutscene)) { fsm.change("cutscene"); }
+		if (instance_exists(oNewDialog) and !instance_exists(PFSFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
+		if (!instance_exists(oNewDialog) and instance_exists(PFSFightSystem)) { fsm.change("battle"); }
+		if (!instance_exists(oNewDialog) and instance_exists(oCutscene)) { fsm.change("cutscene"); }
 		player_movement();
     },
 	endstep: function() {
@@ -85,7 +86,7 @@ fsm.add("idle", {
 		  image_index = 1;
 	  },
 	  endstep: function() {
-		  if (!instance_exists(oDialog)) {
+		  if (!instance_exists(oNewDialog)) {
 		      fsm.change("idle");
 		  }
 	  }
@@ -163,7 +164,9 @@ DebugManager.debug_add_config(self, {
 	func: function(){ show_debug_message($"[{oPlayer.x}, {oPlayer.y}]"); },
 	page : "Player"
 });
-PlayerInventory.add_item("PokeBall");
-PlayerInventory.add_item("GreatBall");
-PlayerInventory.add_item("Potion");
-PlayerInventory.add_item("SuperPotion");
+image_xscale = 2;
+image_yscale = 2;
+//PlayerInventory.add_item("PokeBall");
+//PlayerInventory.add_item("GreatBall");
+//PlayerInventory.add_item("Potion");
+//PlayerInventory.add_item("SuperPotion");
