@@ -1,11 +1,11 @@
 {
-  "$GMOperaGXOptions":"",
+  "$GMOperaGXOptions":"v1",
   "%Name":"Opera GX",
   "ConfigValues":{
     "Debug":{
       "option_operagx_game_name":"Created with GameMaker",
-      "option_operagx_mod_game_name":"Created with GameMaker",
       "option_operagx_interpolate_pixels":"false",
+      "option_operagx_mod_game_name":"Created with GameMaker",
     },
   },
   "name":"Opera GX",
@@ -30,6 +30,7 @@
   "option_operagx_team_id":"794ecb5f-5d23-4c91-8e09-34a6ef9a4bb7",
   "option_operagx_team_name":"Airgeadlamh studio",
   "option_operagx_texture_page":"2048x2048",
+  "option_operagx_transparent_background":false,
   "option_operagx_version":"1.0.0.0",
   "resourceType":"GMOperaGXOptions",
   "resourceVersion":"2.0",

@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sTilesetPallet_2",
   "bboxMode":0,
   "bbox_bottom":351,
@@ -17,7 +17,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"62a79fdc-e200-4ad8-86cb-371309648b50","name":"62a79fdc-e200-4ad8-86cb-371309648b50","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"62a79fdc-e200-4ad8-86cb-371309648b50","name":"62a79fdc-e200-4ad8-86cb-371309648b50","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

@@ -38,8 +38,8 @@
   "physicsShapePoints":[],
   "physicsStartAwake":true,
   "properties":[
-    {"$GMObjectProperty":"v1","%Name":"pokemon","filters":[],"listItems":[],"multiselect":false,"name":"pokemon","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
-    {"$GMObjectProperty":"v1","%Name":"f","filters":[],"listItems":[],"multiselect":false,"name":"f","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"function(){}","varType":4,},
+    {"$GMObjectProperty":"v2","%Name":"pokemon","filters":[],"listItems":[],"multiselect":false,"name":"pokemon","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
+    {"$GMObjectProperty":"v2","%Name":"f","filters":[],"listItems":[],"multiselect":false,"name":"f","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"function(){}","varType":4,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

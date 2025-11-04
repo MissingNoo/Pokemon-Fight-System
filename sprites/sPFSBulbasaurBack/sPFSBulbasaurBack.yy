@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sPFSBulbasaurBack",
   "bboxMode":0,
   "bbox_bottom":29,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"53996fd7-51b4-4897-acfb-f14fa8746fba","name":"53996fd7-51b4-4897-acfb-f14fa8746fba","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"53996fd7-51b4-4897-acfb-f14fa8746fba","name":"53996fd7-51b4-4897-acfb-f14fa8746fba","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sSign2",
   "bboxMode":0,
   "bbox_bottom":15,
@@ -17,7 +17,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"afd4d5db-c560-4ff4-9a94-fba7e29d59ab","name":"afd4d5db-c560-4ff4-9a94-fba7e29d59ab","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"afd4d5db-c560-4ff4-9a94-fba7e29d59ab","name":"afd4d5db-c560-4ff4-9a94-fba7e29d59ab","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

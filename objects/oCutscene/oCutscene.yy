@@ -27,7 +27,7 @@
   "physicsShapePoints":[],
   "physicsStartAwake":true,
   "properties":[
-    {"$GMObjectProperty":"v1","%Name":"cutscene","filters":[],"listItems":[],"multiselect":false,"name":"cutscene","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":4,},
+    {"$GMObjectProperty":"v2","%Name":"cutscene","filters":[],"listItems":[],"multiselect":false,"name":"cutscene","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":4,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

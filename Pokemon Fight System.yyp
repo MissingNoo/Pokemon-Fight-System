@@ -2,7 +2,7 @@
   "$GMProject":"v1",
   "%Name":"Pokemon Fight System",
   "AudioGroups":[
-    {"$GMAudioGroup":"","%Name":"audiogroup_default","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMAudioGroup":"v1","%Name":"audiogroup_default","exportDir":"","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
   ],
   "configs":{
     "children":[
@@ -10389,7 +10389,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.1300.0.781",
+    "IDEVersion":"2024.1400.0.911",
   },
   "name":"Pokemon Fight System",
   "resources":[
@@ -10447,11 +10447,13 @@
     {"id":{"name":"rConfig","path":"rooms/rConfig/rConfig.yy",},},
     {"id":{"name":"rInit","path":"rooms/rInit/rInit.yy",},},
     {"id":{"name":"rOakLab","path":"rooms/rOakLab/rOakLab.yy",},},
+    {"id":{"name":"Room11","path":"rooms/Room11/Room11.yy",},},
     {"id":{"name":"rPallet","path":"rooms/rPallet/rPallet.yy",},},
     {"id":{"name":"rPFSInit","path":"rooms/rPFSInit/rPFSInit.yy",},},
     {"id":{"name":"rPlayerHouse","path":"rooms/rPlayerHouse/rPlayerHouse.yy",},},
     {"id":{"name":"rPlayerHouse2f","path":"rooms/rPlayerHouse2f/rPlayerHouse2f.yy",},},
     {"id":{"name":"ruitest","path":"rooms/ruitest/ruitest.yy",},},
+    {"id":{"name":"RoomUI","path":"roomui/RoomUI/RoomUI.yy",},},
     {"id":{"name":"__input_axis_is_directional","path":"scripts/__input_axis_is_directional/__input_axis_is_directional.yy",},},
     {"id":{"name":"__input_binding_get_label","path":"scripts/__input_binding_get_label/__input_binding_get_label.yy",},},
     {"id":{"name":"__input_class_binding","path":"scripts/__input_class_binding/__input_class_binding.yy",},},
@@ -11121,6 +11123,7 @@
     {"roomId":{"name":"r_gmtl_demo","path":"rooms/r_gmtl_demo/r_gmtl_demo.yy",},},
     {"roomId":{"name":"latr","path":"rooms/latr/latr.yy",},},
     {"roomId":{"name":"ruitest","path":"rooms/ruitest/ruitest.yy",},},
+    {"roomId":{"name":"Room11","path":"rooms/Room11/Room11.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sBagBG",
   "bboxMode":0,
   "bbox_bottom":159,
@@ -17,7 +17,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"5d89b044-58bc-493b-b896-01cd39e4b007","name":"5d89b044-58bc-493b-b896-01cd39e4b007","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"5d89b044-58bc-493b-b896-01cd39e4b007","name":"5d89b044-58bc-493b-b896-01cd39e4b007","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

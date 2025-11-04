@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"PFSPokemonScreenBG",
   "bboxMode":0,
   "bbox_bottom":159,
@@ -17,7 +17,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"ba3894b2-5a7e-4c7f-a9cd-ba323640a9c1","name":"ba3894b2-5a7e-4c7f-a9cd-ba323640a9c1","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"ba3894b2-5a7e-4c7f-a9cd-ba323640a9c1","name":"ba3894b2-5a7e-4c7f-a9cd-ba323640a9c1","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sBed",
   "bboxMode":0,
   "bbox_bottom":33,
@@ -17,7 +17,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"903fe085-a1fb-43e3-870f-702a84a1bab8","name":"903fe085-a1fb-43e3-870f-702a84a1bab8","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"903fe085-a1fb-43e3-870f-702a84a1bab8","name":"903fe085-a1fb-43e3-870f-702a84a1bab8","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
