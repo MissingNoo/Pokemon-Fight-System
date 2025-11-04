@@ -920,3 +920,21 @@ function __PFS_set_poke_data(pokemon) {
 	}
 	return n;
 }
+
+function dialog_option(_text) constructor {
+	text = _text;
+	use_function = false;
+	goto = false;
+	next_text = "";
+	func = function () {}
+	static set_function = function(f) {
+		use_function = true;
+		func = f;
+		return self;
+	}
+	static set_goto = function(next) {
+		goto = true;
+		next_text = next;
+		return self;
+	}
+}
