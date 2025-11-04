@@ -1245,340 +1245,353 @@ global.game_uis.context_menu = {
 	"height": 300.0,
 };
 
-global.game_uis.stage = {
-	"nodes": [
-		{
-			"padding": 0.0,
-			"flex": 1.0,
-			"nodes": [
-				{
-					"padding": 0.0,
-					"positionType": "absolute",
-					"nodes": [
-						{
-							"padding": 0.0,
-							"flex": 1.0,
-							"nodes": [
-								{
-									"minHeight": 31.0,
-									"maxHeight": 0.0,
-									"padding": 10.0,
-									"maxWidth": 33.0,
-									"flex": 1.0,
-									"width": 60.0,
-									"name": "coin",
-									"data": {},
-								},
-								{
-									"minHeight": 31.0,
-									"maxHeight": 31.0,
-									"padding": 10.0,
-									"flex": 1.0,
-									"width": 60.0,
-									"name": "money",
-									"data": {},
-									"margin": 0.0,
-								}
-							],
-							"name": "panel_12663",
-							"height": 60.0,
-							"data": {},
-							"flexDirection": "row",
-						},
-						{
-							"padding": 0.0,
-							"flex": 1.0,
-							"nodes": [
-								{
-									"marginTop": 1.0,
-									"padding": 10.0,
-									"maxWidth": 33.0,
-									"flex": 1.0,
-									"width": 60.0,
-									"name": "killspr",
-									"data": {},
-								},
-								{
-									"marginTop": 1.0,
-									"padding": 10.0,
-									"flex": 1.0,
-									"width": 60.0,
-									"name": "kills",
-									"data": {},
-									"margin": 0.0,
-								}
-							],
-							"name": "panel_54087",
-							"height": 58.0,
-							"data": {},
-							"flexDirection": "row",
-							"margin": 0.0,
-						}
-					],
-					"width": 70.0,
-					"name": "runinfo",
-					"height": 65.0,
-					"top": 32.0,
-					"data": {},
-					"left": 1052.0,
-				},
-				{
-					"maxHeight": 41.0,
-					"padding": 0.0,
-					"flex": 1.0,
-					"name": "xp",
-					"height": 71.0,
-					"data": {"image": "sExpBarBG"},
-				},
-				{
-					"minHeight": 160.0,
-					"maxHeight": 0.0,
-					"padding": 0.0,
-					"maxWidth": 0.0,
-					"flex": 1.0,
-					"nodes": [
-						{
-							"padding": 10.0,
-							"width": 90.0,
-							"name": "portrait",
-							"height": 83.0,
-							"top": 0.0,
-							"data": {"image": "sUiPortraitFrame"},
-						},
-						{
-							"marginTop": 89.0,
-							"padding": 0.0,
-							"positionType": "absolute",
-							"marginLeft": 31.0,
-							"width": 58.0,
-							"name": "special_timer",
-							"height": 18.0,
-							"marginRight": 0.0,
-							"data": {},
-						},
-						{
-							"minHeight": 158.0,
-							"maxHeight": 158.0,
-							"padding": 0.0,
-							"maxWidth": 319.0,
-							"flex": 1.0,
-							"nodes": [
-								{
-									"name": "hpbar",
-									"height": 17.0,
-									"padding": 0.0,
-									"data": {},
-								},
-								{
-									"padding": 4.0,
-									"flex": 1.0,
-									"nodes": [
-										{
-											"padding": 0.0,
-											"flex": 1.0,
-											"nodes": [
-												{
-													"name": "w0",
-													"padding": 10.0,
-													"flex": 1.0,
-													"data": {},
-													"width": 60.0,
-												},
-												{
-													"name": "w1",
-													"padding": 10.0,
-													"flex": 1.0,
-													"data": {},
-													"width": 60.0,
-												},
-												{
-													"padding": 10.0,
-													"flex": 1.0,
-													"width": 60.0,
-													"name": "w2",
-													"data": {},
-													"flexDirection": "row",
-												},
-												{
-													"name": "w3",
-													"padding": 10.0,
-													"flex": 1.0,
-													"data": {},
-													"width": 60.0,
-												},
-												{
-													"name": "w4",
-													"padding": 10.0,
-													"flex": 1.0,
-													"data": {},
-													"width": 60.0,
-												},
-												{
-													"name": "w5",
-													"padding": 10.0,
-													"flex": 1.0,
-													"data": {},
-													"width": 60.0,
-												}
-											],
-											"name": "weapons_panel",
-											"height": 60.0,
-											"data": {},
-											"flexDirection": "row",
-										},
-										{
-											"padding": 0.0,
-											"flex": 1.0,
-											"nodes": [
-												{
-													"name": "i0",
-													"padding": 10.0,
-													"flex": 1.0,
-													"data": {},
-													"width": 60.0,
-												},
-												{
-													"name": "i1",
-													"padding": 10.0,
-													"flex": 1.0,
-													"data": {},
-													"width": 60.0,
-												},
-												{
-													"name": "i2",
-													"padding": 10.0,
-													"flex": 1.0,
-													"data": {},
-													"width": 60.0,
-												},
-												{
-													"name": "i3",
-													"padding": 10.0,
-													"flex": 1.0,
-													"data": {},
-													"width": 60.0,
-												},
-												{
-													"name": "i4",
-													"padding": 10.0,
-													"flex": 1.0,
-													"data": {},
-													"width": 60.0,
-												},
-												{
-													"name": "i5",
-													"padding": 10.0,
-													"flex": 1.0,
-													"data": {},
-													"width": 60.0,
-												}
-											],
-											"name": "items_panel",
-											"height": 60.0,
-											"data": {},
-											"flexDirection": "row",
-										}
-									],
-									"height": 60.0,
-									"margin": 4.0,
-									"marginTop": 13.0,
-									"marginBottom": 8.0,
-									"name": "panel_72420",
-									"border": 0.0,
-									"marginRight": 0.0,
-									"data": {"image": "sItemsArea"},
-								}
-							],
-							"width": 66.0,
-							"height": 160.0,
-							"marginLeft": 7.0,
-							"name": "other_panel",
-							"data": {},
-							"minWidth": 319.0,
-						},
-						{
-							"padding": 10.0,
-							"flex": 1.0,
-							"width": 60.0,
-							"name": "panel_34362",
-							"height": 60.0,
-							"data": {},
-						},
-						{
-							"padding": 9.0,
-							"nodes": [
-								{
-									"marginTop": 4.0,
-									"padding": 0.0,
-									"marginBottom": 4.0,
-									"marginLeft": 14.0,
-									"width": 64.0,
-									"name": "stage",
-									"height": 12.0,
-									"data": {},
-								},
-								{
-									"marginTop": 2.0,
-									"padding": 10.0,
-									"width": 93.0,
-									"name": "time",
-									"height": 24.0,
-									"data": {},
-								}
-							],
-							"width": 109.0,
-							"name": "stage_panel",
-							"height": 60.0,
-							"data": {},
-						}
-					],
-					"height": 160.0,
-					"flexDirection": "row",
-					"marginTop": -13.0,
-					"marginLeft": 8.0,
-					"name": "info_panel",
-					"top": 0.0,
-					"data": {},
-					"minWidth": 727.0,
-					"left": 0.0,
-				},
-				{
-					"padding": 10.0,
-					"flex": 1.0,
-					"width": 60.0,
-					"name": "panel_8777",
-					"height": 60.0,
-					"data": {},
-				},
-				{
-					"name": "buffs",
-					"height": 60.0,
-					"padding": 10.0,
-					"data": {},
-					"margin": 10.0,
-				},
-				{
-					"padding": 10.0,
-					"flex": 0.33000001311302185,
-					"width": 60.0,
-					"name": "panel_87397",
-					"height": 60.0,
-					"data": {},
-				}
-			],
-			"width": "100%",
-			"name": "panel_base",
-			"height": "100%",
-			"top": 0.0,
-			"data": {"image": "gamae"},
-			"margin": 0.0,
-			"left": 0.0,
-		}
-	],
-	"width": 1280.0,
-	"name": "base",
-	"height": 720.0,
-	"top": 50.0,
-	"data": {},
-	"left": 275.0,
-};
+global.game_uis.battle = {
+      "flex":0.0,
+      "border":0.0,
+      "name":"window_panel_transparent",
+      "left":0.0,
+      "padding":0.0,
+      "top":0.0,
+      "width":720.0,
+      "data":{
+      },
+      "height":480.0,
+      "nodes":[
+        {
+          "name":"Battle_area_panel_transparent",
+          "minHeight":336.0,
+          "maxHeight":336.0,
+          "minWidth":720.0,
+          "padding":0.0,
+          "data":{
+            "image":"PFSBattleBgs"
+          },
+          "maxWidth":720.0,
+          "height":60.0,
+          "nodes":[
+            {
+              "padding":0.0,
+              "data":{
+              },
+              "height":60.0,
+              "name":"blank5",
+              "flex":1.0
+            },
+            {
+              "name":"tpanel_transparent",
+              "flexDirection":"row",
+              "padding":0.0,
+              "data":{
+              },
+              "nodes":[
+                {
+                  "name":"blank3",
+                  "padding":10.0,
+                  "width":60.0,
+                  "data":{
+                  },
+                  "flex":1.0,
+                  "margin":0.0
+                },
+                {
+                  "name":"enemy_poke_life_panel",
+                  "minHeight":87.0,
+                  "maxHeight":87.0,
+                  "minWidth":300.0,
+                  "padding":6.0,
+                  "width":300.0,
+                  "maxWidth":300.0,
+                  "data":{
+                    "image":"PFSEnemyHpBar"
+                  },
+                  "height":87.0,
+                  "nodes":[
+                    {
+                      "name":"panel_86009",
+                      "flexDirection":"row",
+                      "padding":10.0,
+                      "width":265.0,
+                      "data":{
+                        "image":"sButto"
+                      },
+                      "height":37.0,
+                      "nodes":[
+                        {
+                          "name":"enemy_poke_name",
+                          "padding":0.0,
+                          "width":60.0,
+                          "data":{
+                          },
+                          "height":20.0,
+                          "flex":1.2999999523162842
+                        },
+                        {
+                          "name":"enemy_poke_level",
+                          "padding":0.0,
+                          "width":60.0,
+                          "data":{
+                          },
+                          "height":20.0,
+                          "flex":0.10000000149011612
+                        }
+                      ],
+                      "flex":0.0
+                    },
+                    {
+                      "marginBottom":34.0,
+                      "marginLeft":110.0,
+                      "marginTop":8.0,
+                      "name":"enemy_hp_bar",
+                      "padding":0.0,
+                      "width":144.0,
+                      "data":{
+                        "image":"PFSPokemonScreenHPValue"
+                      },
+                      "height":10.0,
+                      "flex":0.0
+                    }
+                  ]
+                },
+                {
+                  "padding":10.0,
+                  "width":60.0,
+                  "data":{
+                  },
+                  "name":"blank6",
+                  "flex":7.0
+                },
+                {
+                  "name":"enemy_poke_spr",
+                  "minHeight":192.0,
+                  "maxHeight":192.0,
+                  "minWidth":192.0,
+                  "padding":10.0,
+                  "width":60.0,
+                  "maxWidth":192.0,
+                  "data":{
+                  },
+                  "flex":1.0
+                },
+                {
+                  "padding":10.0,
+                  "width":60.0,
+                  "data":{
+                  },
+                  "name":"blank4",
+                  "flex":5.0
+                }
+              ],
+              "flex":2.0
+            },
+            {
+              "padding":0.0,
+              "data":{
+              },
+              "height":60.0,
+              "name":"blank4",
+              "flex":1.0
+            },
+            {
+              "name":"bpanel_transparent",
+              "flexDirection":"row",
+              "padding":0.0,
+              "data":{
+              },
+              "height":60.0,
+              "nodes":[
+                {
+                  "padding":10.0,
+                  "width":60.0,
+                  "data":{
+                  },
+                  "name":"blank1",
+                  "flex":15.0
+                },
+                {
+                  "name":"own_poke_spr",
+                  "minHeight":0.0,
+                  "maxHeight":192.0,
+                  "minWidth":192.0,
+                  "padding":10.0,
+                  "width":60.0,
+                  "maxWidth":192.0,
+                  "data":{
+                  },
+                  "flex":1.0
+                },
+                {
+                  "border":0.0,
+                  "name":"blank7",
+                  "padding":10.0,
+                  "width":60.0,
+                  "data":{
+                  },
+                  "flex":15.0
+                },
+                {
+                  "name":"own_poke_life_panel",
+                  "minHeight":111.0,
+                  "maxHeight":111.0,
+                  "minWidth":312.0,
+                  "padding":10.0,
+                  "width":312.0,
+                  "maxWidth":312.0,
+                  "data":{
+                    "image":"PFSPlayerHpBar"
+                  },
+                  "height":111.0,
+                  "nodes":[
+                    {
+                      "marginLeft":23.0,
+                      "marginTop":-4.0,
+                      "name":"panel_82508",
+                      "maxHeight":39.0,
+                      "flexDirection":"row",
+                      "padding":10.0,
+                      "data":{
+                      },
+                      "marginRight":5.0,
+                      "height":60.0,
+                      "nodes":[
+                        {
+                          "name":"poke_name",
+                          "padding":0.0,
+                          "width":58.0,
+                          "data":{
+                          },
+                          "height":23.0,
+                          "flex":1.2999999523162842
+                        },
+                        {
+                          "name":"poke_level",
+                          "padding":0.0,
+                          "width":60.0,
+                          "data":{
+                          },
+                          "height":20.0,
+                          "flex":0.10000000149011612
+                        }
+                      ]
+                    },
+                    {
+                      "marginLeft":133.0,
+                      "marginTop":6.0,
+                      "name":"hp_bar",
+                      "padding":0.0,
+                      "width":144.0,
+                      "data":{
+                        "image":"PFSPokemonScreenHPValue"
+                      },
+                      "height":9.0,
+                      "flex":0.0
+                    }
+                  ]
+                },
+                {
+                  "padding":10.0,
+                  "width":60.0,
+                  "data":{
+                  },
+                  "name":"blank2",
+                  "flex":0.10000000149011612
+                }
+              ],
+              "flex":2.0
+            }
+          ],
+          "flex":3.0
+        },
+        {
+          "flex":0.0,
+          "margin":0.0,
+          "name":"info_area_panel_transparent",
+          "flexDirection":"row",
+          "minWidth":720.0,
+          "padding":0.0,
+          "data":{
+            "image":"PFSBehindBar"
+          },
+          "maxWidth":720.0,
+          "height":144.0,
+          "nodes":[
+            {
+              "name":"panel_37675_transparent",
+              "padding":10.0,
+              "width":60.0,
+              "data":{
+              },
+              "nodes":[
+                {
+                  "name":"panel_31795",
+                  "flexDirection":"row",
+                  "padding":10.0,
+                  "data":{
+                  },
+                  "height":60.0,
+                  "nodes":[
+                    {
+                      "padding":10.0,
+                      "width":60.0,
+                      "data":{
+                      },
+                      "name":"mname0",
+                      "flex":1.0
+                    },
+                    {
+                      "padding":10.0,
+                      "width":60.0,
+                      "data":{
+                      },
+                      "name":"mname1",
+                      "flex":1.0
+                    }
+                  ],
+                  "flex":1.0
+                },
+                {
+                  "name":"panel_93020",
+                  "flexDirection":"row",
+                  "padding":10.0,
+                  "data":{
+                  },
+                  "height":60.0,
+                  "nodes":[
+                    {
+                      "padding":10.0,
+                      "width":60.0,
+                      "data":{
+                      },
+                      "name":"mname2",
+                      "flex":1.0
+                    },
+                    {
+                      "padding":10.0,
+                      "width":60.0,
+                      "data":{
+                      },
+                      "name":"mname3",
+                      "flex":1.0
+                    }
+                  ],
+                  "flex":1.0
+                }
+              ],
+              "flex":1.0
+            },
+            {
+              "name":"info_area2_panel_transparent",
+              "minHeight":144.0,
+              "maxHeight":144.0,
+              "minWidth":360.0,
+              "padding":10.0,
+              "width":360.0,
+              "maxWidth":360.0,
+              "data":{
+              },
+              "height":144.0,
+              "flex":1.0
+            }
+          ]
+        }
+      ]
+    }

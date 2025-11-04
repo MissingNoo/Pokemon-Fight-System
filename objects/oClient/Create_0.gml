@@ -1,4 +1,5 @@
 //scribble_font_set_default("Font3");
+debug_rooms();
 offset = -1000; //new lerper(-1000);
 tween(self, "offset", -10);
 //offset.lerp_to(10);

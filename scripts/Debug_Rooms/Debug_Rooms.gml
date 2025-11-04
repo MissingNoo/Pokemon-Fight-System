@@ -38,7 +38,7 @@ function debug_rooms() {
 			__history.__add(_room);
 		};
 
-		dbg_view("Rooms", true, 16, 35);
+		dbg_view("Rooms", false, 16, 35);
 		dbg_section("Control");
 		dbg_drop_down(ref_create(self, "__rm"), __rooms, __names, "Room");
 		dbg_watch(ref_create(self, "__size"), "Size");
