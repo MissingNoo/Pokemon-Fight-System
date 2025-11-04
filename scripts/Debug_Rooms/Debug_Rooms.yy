@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Debug_Rooms",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Debug_Rooms",
+  "parent":{
+    "name":"Libs",
+    "path":"folders/Libs.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

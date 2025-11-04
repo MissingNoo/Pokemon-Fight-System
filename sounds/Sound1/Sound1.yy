@@ -14,8 +14,8 @@
   "exportDir":"",
   "name":"Sound1",
   "parent":{
-    "name":"Pokemon Fight System",
-    "path":"Pokemon Fight System.yyp",
+    "name":"Other",
+    "path":"folders/Other.yy",
   },
   "preload":false,
   "resourceType":"GMSound",

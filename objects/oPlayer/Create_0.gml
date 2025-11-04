@@ -23,9 +23,9 @@ alarms = [
 fsm = new SnowState("idle");
 fsm.add("idle", {
 	beginstep: function() {
-		if (instance_exists(oNewDialog) and !instance_exists(PFSFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
-		if (!instance_exists(oNewDialog) and instance_exists(PFSFightSystem)) { fsm.change("battle"); }
-		if (!instance_exists(oNewDialog) and instance_exists(oCutscene)) { fsm.change("cutscene"); }
+		if (instance_exists(oDialog) and !instance_exists(PFSFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
+		if (!instance_exists(oDialog) and instance_exists(PFSFightSystem)) { fsm.change("battle"); }
+		if (!instance_exists(oDialog) and instance_exists(oCutscene)) { fsm.change("cutscene"); }
 	},
     step: function() {
 		player_interact();
@@ -36,9 +36,9 @@ fsm.add("idle", {
   })
   .add("walk", {
     step: function() {
-		if (instance_exists(oNewDialog) and !instance_exists(PFSFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
-		if (!instance_exists(oNewDialog) and instance_exists(PFSFightSystem)) { fsm.change("battle"); }
-		if (!instance_exists(oNewDialog) and instance_exists(oCutscene)) { fsm.change("cutscene"); }
+		if (instance_exists(oDialog) and !instance_exists(PFSFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
+		if (!instance_exists(oDialog) and instance_exists(PFSFightSystem)) { fsm.change("battle"); }
+		if (!instance_exists(oDialog) and instance_exists(oCutscene)) { fsm.change("cutscene"); }
 		player_movement();
     },
 	endstep: function() {
@@ -85,7 +85,7 @@ fsm.add("idle", {
 		  image_index = 1;
 	  },
 	  endstep: function() {
-		  if (!instance_exists(oNewDialog)) {
+		  if (!instance_exists(oDialog)) {
 		      fsm.change("idle");
 		  }
 	  }

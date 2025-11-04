@@ -822,10 +822,10 @@ function __PFS_tick_status_effect(pokemon) {
 #region Functions
 #endregion
 function spawn_dialog(text) {
-	if (instance_exists(oNewDialog)) {
-		array_push(oNewDialog.next_dialog, text);
+	if (instance_exists(oDialog)) {
+		array_push(oDialog.next_dialog, text);
 	} else {
-    	dialog = instance_create_depth(x, y, depth - 1, oNewDialog, {npc : "Battle", text, on_battle : true});
+    	dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : "Battle", text, on_battle : true});
     }
 }
 
@@ -919,20 +919,4 @@ function __PFS_set_poke_data(pokemon) {
 		n.moves[i].pp = on.moves[i].pp;
 	}
 	return n;
-}
-
-function animated_sprite(spr) constructor {
-	sprite = spr;
-	subimg = 0;
-	lastsubimage = sprite_get_number(spr);
-	spd = sprite_get_speed(spr);
-	rpt = false;
-	
-	static animate = function() {
-		if (subimg < lastsubimage) {
-		    subimg += spd / 60;
-		} else if (rpt) {
-			subimg = 0;
-		}
-	}
 }

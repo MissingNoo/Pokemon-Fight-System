@@ -10,8 +10,8 @@
   "name":"oEditableUI",
   "overriddenProperties":[],
   "parent":{
-    "name":"AirUI",
-    "path":"folders/AirUI.yy",
+    "name":"UIEditor",
+    "path":"folders/AirLib/UIEditor.yy",
   },
   "parentObjectId":null,
   "persistent":false,

@@ -61,7 +61,7 @@ dbg_button("Set poke nickname", function() {
 	instance_create_depth(0, 0, -1000, oNickname, {pokemon : PlayerTeam[0]});
 });
 dbg_button("New Dialog", function() { 
-	instance_create_depth(0, 0, -1000, oNewDialog, {});
+	instance_create_depth(0, 0, -1000, oDialog, {});
 });
 
 

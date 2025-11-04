@@ -1,23 +1,22 @@
-#region Lexicon
-lexicon_index_declare_from_json("ptbr.json");
-lexicon_index_declare_from_json("en.json");
-lexicon_language_set("en");
-#endregion
-
-ping = 0;
-ping_step = 0;
-ping_timeout = 60 * 3;
-
+//scribble_font_set_default("Font3");
+offset = -1000; //new lerper(-1000);
+tween(self, "offset", -10);
+//offset.lerp_to(10);
+infosurf = undefined;
+count = 0;
+lastroom = "test";
+AirNet[$ "connection"] ??= new connection(AirNet.ip, AirNet.port, network_socket_udp);
+AirNet.connection.connect();
+AirNet.host = false;
+AirNet.players_in_room = [];
 if (!ONLINE) {
 	room_goto(rConfig);
     instance_destroy();
+} else {
+	instance_create_depth(x, y, depth + 1, oLogin);
 }
-characters = [];
-socket = network_create_socket(network_socket_tcp);
-connected = network_connect_raw(socket, "127.0.0.1", 10103);
-buffer = buffer_create(16, buffer_grow, 2);
-new packet(Contype.Ping)
-.send();
-alarm[0] = -1;
-alarm[1] = 60 * 1;
-//new packet(Contype.Login).write(buffer_text, "test").send();
+mx = mouse_x;
+my = mouse_y;
+room_code = undefined;
+dbglog = false;
+depth = 1000;

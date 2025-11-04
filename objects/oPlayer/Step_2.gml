@@ -9,7 +9,7 @@ if (instance_exists(PFSFightSystem)) {
 	fsm.change("battle");
 	exit;
 }
-if (instance_exists(oNewDialog)) {
+if (instance_exists(oDialog)) {
 	fsm.change("dialog");
 	exit;
 }

@@ -20,10 +20,7 @@
     "name":"Game",
     "path":"folders/Objects/Game.yy",
   },
-  "parentObjectId":{
-    "name":"oDialog",
-    "path":"objects/oDialog/oDialog.yy",
-  },
+  "parentObjectId":null,
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,

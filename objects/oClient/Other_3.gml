@@ -1,1 +1,1 @@
-//send_data({type : Contype.Disconnect});
+new packet("disconnect").send()

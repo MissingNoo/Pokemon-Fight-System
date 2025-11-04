@@ -130,7 +130,7 @@ fsm.add("Idle", {
 		selected_option = 0;
 	},
 	step : function() {
-        if (instance_exists(oNewDialog)) {
+        if (instance_exists(oDialog)) {
         	exit;
         }
 		var updown = - input_check_pressed("up") + input_check_pressed("down");

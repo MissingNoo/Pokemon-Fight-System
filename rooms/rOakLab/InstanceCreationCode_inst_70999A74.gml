@@ -10,7 +10,7 @@ options = {
         {
             name : "No",
             f : function() {
-                instance_destroy(oNewDialog);
+                instance_destroy(oDialog);
             }
         }
     ],
@@ -21,7 +21,7 @@ options = {
 			    PlayerData.got_starter = true;
 			    instance_create_depth(0, 0, -1000, oNickname, {pokemon : PlayerTeam[0], 
                     f : function() {
-				        instance_destroy(oNewDialog);
+				        instance_destroy(oDialog);
 			        }}
                 );
             }
@@ -29,7 +29,7 @@ options = {
         {
             name : "No",
             f : function() {
-                instance_destroy(oNewDialog);
+                instance_destroy(oDialog);
             }
         }
     ]

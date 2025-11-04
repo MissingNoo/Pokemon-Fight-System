@@ -3,8 +3,8 @@
   "%Name":"Note2",
   "name":"Note2",
   "parent":{
-    "name":"Pokemon Fight System",
-    "path":"Pokemon Fight System.yyp",
+    "name":"Other",
+    "path":"folders/Other.yy",
   },
   "resourceType":"GMNotes",
   "resourceVersion":"2.0",

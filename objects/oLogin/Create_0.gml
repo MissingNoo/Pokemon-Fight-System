@@ -1,81 +1,62 @@
-global.username = "";
-global.password = "";
-//show_debug_overlay(true);
+ui = new window(global.game_uis.login);
+username = new textbox();
+username.set_align(fa_center, fa_middle);
+username.backtext = "username";
+password = new textbox();
+password.set_align(fa_center, fa_middle);
+password.backtext = "password";
+login = new button("Login");
+login.set_function(method(self, function() {
+	new packet("login")
+	.write("username", username.text)
+	.write("passwordhash", sha1_string_unicode(password.text))
+	.send();
+}));
+register = new button("Register");
+register.set_function(method(self, function() {
+	new packet("register")
+	.write("username", username.text)
+	.write("passwordhash", sha1_string_unicode(password.text))
+	.send();
+}));
 
-ui = {
-    "name" : "root",
-    "left" : room_width / 2 - (250 / 2),
-    "top": room_height / 2 - (200 / 2),
-    "position" : "absolute",
-    "width" : 250,
-    "height" : 200,
-    "padding" : 10,
-    "nodes" : [
-        {  
-            "flex": 1,
-            "rowGap" : 10,
-            "nodes" : [
-                { "name" : "center_label", "height":20, "data" : { "text" : "Login" }},
-                {
-                    "name" : "textbox_username", 
-                    "marginInline" : 30, 
-                    "flex" : 1,
-                    "data" : {
-                        "f" : function() {
-                            global.username = global.currenttextbox[$ "text"];
-                        }
-                    }
-                },
-                {
-                    "name" : "textbox_password", 
-                    "marginInline" : 30, 
-                    "flex" : 1,
-                    "data" : {
-                        "f" : function() {
-                            global.password = global.currenttextbox[$ "text"];
-                        }
-                    }
-                },
-                {
-                    "flex" : 1,
-                    "flexDirection" : "row",
-                    "nodes" : [
-                        {
-                            "name" : "button_accept", 
-                            "height" : 30, 
-                            "marginInline" : 10, 
-                            "flex" : 1,
-                            "data" : {
-                                "f" : function() {
-                                    new packet(Contype.Login)
-                                    .write(buffer_text, global.username)
-                                    .write(buffer_text, global.password)
-                                    .send();
-                                },
-                                "text" : "Accept"
-                            },
-                        },
-                        {
-                        "name" : "button_register", 
-                            "height" : 30, 
-                            "marginInline" : 10, 
-                            "flex" : 1,
-                            "data" : {
-                                "f" : function() {
-                                    new packet(Contype.Register)
-                                    .write(buffer_text, global.username)
-                                    .write(buffer_text, global.password)
-                                    .send();
-                                },
-                                "text" : "Register"
-                            }
-                        }
-                    ],
-                },
-                {}
-            ]
-        }
-    ]
-}
-
-n_root = create_ui(ui);
+ui.add_draw("title", 
+	AirUIFunctionStart
+		scribble("[c_black][fa_center][fa_middle]LOGIN").fit_to_box(_w, _h).draw(_x + _w / 2, _y + _h / 2);
+	AirUIFunctionEnd
+);
+ui.add_draw("user_label", 
+	AirUIFunctionStart
+	scribble("[c_black][fa_center][fa_middle]Username").draw(_x + _w / 2, _y + _h / 2);
+	AirUIFunctionEnd
+);
+ui.add_draw("pass_label", 
+	AirUIFunctionStart
+	scribble("[c_black][fa_center][fa_middle]Password").draw(_x + _w / 2, _y + _h / 2);
+	AirUIFunctionEnd
+);
+ui.add_draw("username", 
+	AirUIFunctionStart
+	username.position_area(area);
+	username.draw();
+	AirUIFunctionEnd
+);
+ui.add_draw("password", 
+	AirUIFunctionStart
+	password.position_area(area);
+	password.draw();
+	AirUIFunctionEnd
+);
+ui.add_draw("login", 
+	AirUIFunctionStart
+	login.position_area(area);
+	login.draw();
+	AirUIFunctionEnd
+);
+ui.add_draw("register", 
+	AirUIFunctionStart
+	register.position_area(area);
+	register.draw();
+	AirUIFunctionEnd
+);
+ui.finish();

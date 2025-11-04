@@ -1,7 +1,7 @@
 function lecture_startup(){
 	scribble_typists_add_event("showoptions", function(){
-        oNewDialog.show_options = true;
-        oNewDialog.update_options();
+		oDialog.update_options();
+        oDialog.show_options = true;
     });
 	scribble_typists_add_event("lectureNextScreen", function(){oLecture.screen++});
 	scribble_typists_add_event("oakalpha", function(_element, _parameter_array, _character_index){ oLecture.oakalpha[1] = real(_parameter_array[0]) });
