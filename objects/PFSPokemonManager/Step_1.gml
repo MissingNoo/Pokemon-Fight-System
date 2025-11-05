@@ -19,27 +19,31 @@ else {
 }
 
 if (input_check_pressed("accept")) {
-    if (selectedPokemon == 7 and !PFSFightSystem.pokePlayerDead) {
-		PFSFightSystem.selectingMenu = true;
+    if (selectedPokemon == 7 and !NewFightSystem.poke_player_dead) {
+		//NewFightSystem.selectingMenu = true;
+		NewFightSystem.fsm.change("Idle");
 	    instance_destroy();
 	}
 	else {
 		if (selectedPokemon != 7 and PFS.playerPokemons[selectedPokemon].hp == 0) {
 		    exit;
 		}
-		if (selectedPokemon != 7 and selectedPokemon != PFSFightSystem.pokemonOut) {
+		if (selectedPokemon != 7 and selectedPokemon != NewFightSystem.pokemon_out) {
 			//Feather disable GM1041
-		    array_push(PFSFightSystem.turnSteps, [PFSTurnType.ChangePokemon, selectedPokemon]);
-			PFSFightSystem.pokemonOutNext = selectedPokemon;
-			PFSFightSystem.lastpokemon = selectedPokemon;
-			if (PFSFightSystem.pokePlayerDead) {
-				PFSFightSystem.playerLastOneWasDead = true;
+		    array_push(NewFightSystem.turn_steps, {
+				type : PFSTurnType.ChangePokemon,
+				next : selectedPokemon
+			});
+			NewFightSystem.next_out = selectedPokemon;
+			//NewFightSystem.lastpokemon = selectedPokemon;
+			if (NewFightSystem.poke_player_dead) {
+				NewFightSystem.player_last_one_was_dead = true;
 			}
-			PFSFightSystem.pokePlayerDead = false;
-			//PFSFightSystem.doTurn = true;
+			NewFightSystem.poke_player_dead = false;
+			NewFightSystem.fsm.change("Pre_turn");
 		}
-		//PFSFightSystem.selectedMenu = 0;
-		//PFSFightSystem.selectingMenu = true;
+		//NewFightSystem.selectedMenu = 0;
+		//NewFightSystem.selectingMenu = true;
 		instance_destroy();
 	}
 }

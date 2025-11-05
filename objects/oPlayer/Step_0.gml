@@ -1,18 +1,14 @@
-if (keyboard_check_pressed(vk_f5)) {
-	instance_create_depth(x, y, oPlayer.depth, oBag);
+if (keyboard_check(vk_f5)) {
+	room_speed = 200;
+} else {
+	room_speed = 60;
 }
-if (keyboard_check_pressed(vk_f4)) {
-	PlayerInventory.add_item("PokeBall");
-	PlayerInventory.add_item("GreatBall");
-	PlayerInventory.add_item("Potion");
-	PlayerInventory.add_item("SuperPotion");
-}
-if (keyboard_check_pressed(vk_f3)) {
-	room = rPallet;
-	x = 1384;
-	y = 912;
-    instance_create_depth(0, 0, 0, oCutscene, {cutscene : Cutscenes[CutsceneNames.OakLab]});
-}
+//if (keyboard_check_pressed(vk_f4)) {
+	//PlayerInventory.add_item("PokeBall");
+	//PlayerInventory.add_item("GreatBall");
+	//PlayerInventory.add_item("Potion");
+	//PlayerInventory.add_item("SuperPotion");
+//}
 fsm.step();
 if (!instance_exists(oCam)) {
     instance_create_depth(0, 0, 0, oCam);

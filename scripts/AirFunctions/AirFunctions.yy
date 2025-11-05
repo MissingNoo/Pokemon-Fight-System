@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"AirFunctions",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Scripts.yy",
+    "name":"AirLib",
+    "path":"folders/AirLib.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

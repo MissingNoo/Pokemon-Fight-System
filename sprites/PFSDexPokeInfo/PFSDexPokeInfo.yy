@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"PFSDexPokeInfo",
   "bboxMode":0,
   "bbox_bottom":143,
@@ -17,8 +17,8 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"6849476f-862c-4c70-9949-960464aef2a2","name":"6849476f-862c-4c70-9949-960464aef2a2","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"e865ebbb-c867-4466-aaf1-db83de5a802c","name":"e865ebbb-c867-4466-aaf1-db83de5a802c","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"6849476f-862c-4c70-9949-960464aef2a2","name":"6849476f-862c-4c70-9949-960464aef2a2","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"e865ebbb-c867-4466-aaf1-db83de5a802c","name":"e865ebbb-c867-4466-aaf1-db83de5a802c","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

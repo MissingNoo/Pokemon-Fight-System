@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sInput",
   "bboxMode":0,
   "bbox_bottom":63,
@@ -17,7 +17,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"cd63c9a5-be32-4d0a-8469-cff7005a8899","name":"cd63c9a5-be32-4d0a-8469-cff7005a8899","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"cd63c9a5-be32-4d0a-8469-cff7005a8899","name":"cd63c9a5-be32-4d0a-8469-cff7005a8899","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -49,8 +49,8 @@
   },
   "origin":0,
   "parent":{
-    "name":"UI",
-    "path":"folders/Sprites/UI.yy",
+    "name":"AirLib",
+    "path":"folders/AirLib.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

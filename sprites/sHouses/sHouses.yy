@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sHouses",
   "bboxMode":0,
   "bbox_bottom":1076,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"f2a11006-783d-4071-83fe-9a533fd5ec54","name":"f2a11006-783d-4071-83fe-9a533fd5ec54","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"f2a11006-783d-4071-83fe-9a533fd5ec54","name":"f2a11006-783d-4071-83fe-9a533fd5ec54","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

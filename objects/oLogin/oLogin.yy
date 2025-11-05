@@ -9,8 +9,8 @@
   "name":"oLogin",
   "overriddenProperties":[],
   "parent":{
-    "name":"Multiplayer",
-    "path":"folders/Objects/Multiplayer.yy",
+    "name":"AirNetworking",
+    "path":"folders/AirNetworking.yy",
   },
   "parentObjectId":null,
   "persistent":false,

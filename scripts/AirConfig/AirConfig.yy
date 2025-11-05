@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"AirConfig",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"AirConfig",
+  "parent":{
+    "name":"AirLib",
+    "path":"folders/AirLib.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

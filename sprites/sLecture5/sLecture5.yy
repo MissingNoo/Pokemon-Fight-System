@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sLecture5",
   "bboxMode":0,
   "bbox_bottom":159,
@@ -17,7 +17,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"b3bf66f1-da28-4339-a9bc-1646f4db40ab","name":"b3bf66f1-da28-4339-a9bc-1646f4db40ab","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"b3bf66f1-da28-4339-a9bc-1646f4db40ab","name":"b3bf66f1-da28-4339-a9bc-1646f4db40ab","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

@@ -32,7 +32,8 @@ for (var i = 1; i < 6; ++i) {
     draw_sprite_ext(PFSPokemonScreenOther, selectedPokemon == i ? 1 : 0, _x + 292, _y + 28 + _yoff, 3, 3, 0, c_white, 1);
     draw_sprite_ext(PFSPokemonScreenHPTop, 0, _x + 508, _y + 49 + _yoff, 3, 3, 0, c_white, 1);
     draw_sprite_part_ext(PFSPokemonScreenHPValue, _hpColor, 0, 0, ((_hp / _pokemon.base.hp) * 48), 10, _x + 553, _y + 55 + _yoff, 3, 3, c_white, 1);
-	scribble($"[{_hp > 0 ? "c_white" : "c_gray"}][sPokeSelectFont3]{string_upper(_pokemon.internalName)}").draw(_x + 330, _y + 42 + _yoff);
+	var _pname = _pokemon[$ "nickname"] != undefined ? _pokemon.nickname : _pokemon.internalName;
+	scribble($"[{_hp > 0 ? "c_white" : "c_gray"}][sPokeSelectFont3]{string_upper(_pname)}").draw(_x + 330, _y + 42 + _yoff);
 	draw_set_color(c_white);
 	scribble($"[sPokeSelectFont3]{_pokemon.level}").draw(_x + 410, _y + 74 + _yoff);
 	_yoff += 72;

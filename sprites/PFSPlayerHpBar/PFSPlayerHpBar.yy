@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"PFSPlayerHpBar",
   "bboxMode":0,
   "bbox_bottom":36,
@@ -17,8 +17,8 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"e067e336-ecef-449c-84ef-56a58c529b0e","name":"e067e336-ecef-449c-84ef-56a58c529b0e","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"cd1ade47-0c4f-4424-b1a8-fc9c0fc0823e","name":"cd1ade47-0c4f-4424-b1a8-fc9c0fc0823e","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"e067e336-ecef-449c-84ef-56a58c529b0e","name":"e067e336-ecef-449c-84ef-56a58c529b0e","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"cd1ade47-0c4f-4424-b1a8-fc9c0fc0823e","name":"cd1ade47-0c4f-4424-b1a8-fc9c0fc0823e","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -69,6 +69,8 @@
     "playbackSpeedType":0,
     "resourceType":"GMSequence",
     "resourceVersion":"2.0",
+    "seqHeight":37.0,
+    "seqWidth":104.0,
     "showBackdrop":true,
     "showBackdropImage":false,
     "timeUnits":1,

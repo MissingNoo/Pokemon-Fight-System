@@ -24,8 +24,8 @@ switch (_stepdata.func) {
 		break;
 	case CutsceneFunction.Dialog:
 		var _d = instance_create_depth(0, 0, oPlayer.depth - 1, oDialog, {npc : _stepdata.npc, text : _stepdata.text});
-		_d.onMap();
-		_d.dialogSprite = sDialogWindow;
+		//_d.onMap();
+		_d.dialog_sprite = sDialogWindow;
 		currentstep++;
 		break;
 	case CutsceneFunction.DialogEnd:

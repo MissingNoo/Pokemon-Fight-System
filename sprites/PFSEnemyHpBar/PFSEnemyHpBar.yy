@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"PFSEnemyHpBar",
   "bboxMode":0,
   "bbox_bottom":28,
@@ -17,8 +17,8 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"8cfa5d31-6af8-414e-ac20-6f3e424ea5b6","name":"8cfa5d31-6af8-414e-ac20-6f3e424ea5b6","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"a7d5f9d2-12cd-4b04-94e4-8950c65d5d14","name":"a7d5f9d2-12cd-4b04-94e4-8950c65d5d14","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"8cfa5d31-6af8-414e-ac20-6f3e424ea5b6","name":"8cfa5d31-6af8-414e-ac20-6f3e424ea5b6","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"a7d5f9d2-12cd-4b04-94e4-8950c65d5d14","name":"a7d5f9d2-12cd-4b04-94e4-8950c65d5d14","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -69,6 +69,8 @@
     "playbackSpeedType":0,
     "resourceType":"GMSequence",
     "resourceVersion":"2.0",
+    "seqHeight":29.0,
+    "seqWidth":100.0,
     "showBackdrop":true,
     "showBackdropImage":false,
     "timeUnits":1,

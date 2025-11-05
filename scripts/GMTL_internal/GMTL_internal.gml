@@ -314,7 +314,8 @@ function __gmtl_internal_fn_finish_suites(_t_start) {
 	_time = _time > 1000 ? $"{_time / 1000}s" : $"{_time}ms"
 	__gmtl_internal_fn_log($"All tests finished in {_time}.\n");
 	gmtl_internal.finished = true;
-	show_debug_message(gmtl_log);
+	if (gmtl_coverage_suites.total > 0)
+		show_debug_message(gmtl_log);
 }
 
 /// @func	__gmtl_internal_fn_find_coverage_files()

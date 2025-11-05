@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"UITemplates",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"UITemplates",
+  "parent":{
+    "name":"AirLib",
+    "path":"folders/AirLib.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

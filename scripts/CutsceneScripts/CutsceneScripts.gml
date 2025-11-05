@@ -81,6 +81,7 @@ global.cutscenes = [];
 Cutscenes[CutsceneNames.OakLab] = new Cutscene("OakLab");
 Cutscenes[CutsceneNames.OakLab].dialog("Oak", "ExitingPallet1")
 .spawnNpc(1336, 1040, NpcNames.Oak)
+.addAlarm(1, function(){ PlayerData.tried_to_exit_pallet = true; oCutscene.alarmdone = true; })
 .moveNpc(NpcNames.Oak, [1336, 1024])
 .moveNpc(NpcNames.Oak, [1352, 1024])
 .moveNpc(NpcNames.Oak, [1352, 992])

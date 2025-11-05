@@ -1,7 +1,7 @@
 lecture_startup();
 naming = "player";
 dialog = noone;
-screen = 0;
+screen = 5;
 alpha = 1;
 lerpto = 1;
 lerping = false;
@@ -81,23 +81,23 @@ fsm.add("idle", {
 					var text = "Intro";
 					var optionsFalas = ["Intro", "AfterName", "RivalIntro"];
 					var options = 
-					[
-						[
-							["BOY", "Selected", true, function(){PlayerData.gender = Gender.Male}],
-							["GIRL", "Selected", true, function(){PlayerData.gender = Gender.Female}],
+					{
+						"Intro" :  [
+							new dialog_option("BOY").set_goto("Selected").set_function(function(){PlayerData.gender = Gender.Male}),
+							new dialog_option("GIRL").set_goto("Selected").set_function(function(){PlayerData.gender = Gender.Female})
 						],
-						[
-							["Yes", "RivalIntro", false],
-							["No", "Selected", true, function() { oLecture.screen = 6; oLecture.fsm.change("typing"); naming = "player"; }],
-						],	
-						[
-							["NEWNAME", "AfterRivalName", true, function() { oLecture.fsm.change("typing"); naming = "rival"; }],
-							["GREEN", "AfterRivalName", true, function() { PlayerData.rivalname = "GREEN"; DialogData[$ "rivalname"] = PlayerData.rivalname; }],
-							["GARY", "AfterRivalName", true, function() { PlayerData.rivalname = "GARY"; DialogData[$ "rivalname"] = PlayerData.rivalname; }],
+						"AfterName" : [
+							new dialog_option("Yes").set_goto("RivalIntro").set_function(function(){PlayerData.gender = Gender.Male}),
+							new dialog_option("No").set_goto("Selected").set_function(function() { oLecture.screen = 6; oLecture.fsm.change("typing"); oLecture.naming = "player"; }),
 						],
-					]
+						"RivalIntro" : [
+							new dialog_option("NEW NAME").set_goto("AfterRivalName").set_function(function() { oLecture.fsm.change("typing"); oLecture.naming = "rival"; }),
+							new dialog_option("Green").set_goto("AfterRivalName").set_function(function() { PlayerData.rivalname = "Green"; DialogData[$ "rivalname"] = PlayerData.rivalname; }),
+							new dialog_option("Gary").set_goto("AfterRivalName").set_function(function() { PlayerData.rivalname = "Gary"; DialogData[$ "rivalname"] = PlayerData.rivalname; }),
+						]
+					}
 					if (dialog == noone) {
-					    dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : npc, text : text, options : options, optionsFalas : optionsFalas});
+					    dialog = instance_create_depth(x, y, depth - 1, oDialog, {npc : npc, text : text, options : options, dialog_sprite: sDialogWindow2});
 					}
 				}
 				screen++;
@@ -185,3 +185,5 @@ fsm.add("idle", {
 	  }
   });
 #endregion
+dbg = dbg_view("Lecture", false);
+create_view_from_instance(self);

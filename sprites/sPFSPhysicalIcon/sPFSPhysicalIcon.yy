@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sPFSPhysicalIcon",
   "bboxMode":0,
   "bbox_bottom":170,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"f71f2fff-72ee-4f85-90fd-48456b60338e","name":"f71f2fff-72ee-4f85-90fd-48456b60338e","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"f71f2fff-72ee-4f85-90fd-48456b60338e","name":"f71f2fff-72ee-4f85-90fd-48456b60338e","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

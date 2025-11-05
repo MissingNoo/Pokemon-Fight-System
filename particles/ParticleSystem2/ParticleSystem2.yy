@@ -13,8 +13,8 @@
   ],
   "name":"ParticleSystem2",
   "parent":{
-    "name":"Pokemon Fight System",
-    "path":"Pokemon Fight System.yyp",
+    "name":"Other",
+    "path":"folders/Other.yy",
   },
   "resourceType":"GMParticleSystem",
   "resourceVersion":"2.0",

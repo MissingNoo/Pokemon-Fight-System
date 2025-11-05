@@ -126,7 +126,7 @@ fsn.add("Idle", {
 		if (input_check_pressed("accept")) {
 			if (interactoption == array_length(PlayerInventory.items)) {
 				if (onBattle) {
-				    PFSFightSystem.selectingMenu = true;
+				    NewFightSystem.selectingMenu = true;
 				}
 			    instance_destroy();
 				exit;
@@ -135,14 +135,14 @@ fsn.add("Idle", {
 				case "Use":
 					if (onBattle) {
 						if (selecteditem != array_length(PlayerInventory.items)) {
-							PFSFightSystem.selectedMenu = 0;
-							//PFSFightSystem.selectingMenu = true;
-						    array_push(PFSFightSystem.turnSteps, [PFSTurnType.UseItem, PlayerInventory.items[selecteditem]]);
-							//PFSFightSystem.doTurn = true;
-							PFSFightSystem.sys.change("preturn");
+							NewFightSystem.selectedMenu = 0;
+							//NewFightSystem.selectingMenu = true;
+						    array_push(NewFightSystem.turnSteps, [PFSTurnType.UseItem, PlayerInventory.items[selecteditem]]);
+							//NewFightSystem.doTurn = true;
+							NewFightSystem.sys.change("preturn");
 						}
 						else {
-							PFSFightSystem.sys.change("menu");
+							NewFightSystem.sys.change("menu");
 						}
 						instance_destroy();
 					}

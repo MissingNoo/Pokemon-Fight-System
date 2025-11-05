@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"PFSPokemonScreenCancel",
   "bboxMode":0,
   "bbox_bottom":22,
@@ -17,8 +17,8 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"c6716537-5763-42ef-a356-b0869b61fa1c","name":"c6716537-5763-42ef-a356-b0869b61fa1c","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"abc635d5-895e-4c70-a0ac-5ce9c0f608f3","name":"abc635d5-895e-4c70-a0ac-5ce9c0f608f3","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"c6716537-5763-42ef-a356-b0869b61fa1c","name":"c6716537-5763-42ef-a356-b0869b61fa1c","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"abc635d5-895e-4c70-a0ac-5ce9c0f608f3","name":"abc635d5-895e-4c70-a0ac-5ce9c0f608f3","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

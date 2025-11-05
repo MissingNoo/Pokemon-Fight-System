@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sBagArrows",
   "bboxMode":0,
   "bbox_bottom":13,
@@ -17,7 +17,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"99755f2f-3c55-411c-ba06-c8b659bdea75","name":"99755f2f-3c55-411c-ba06-c8b659bdea75","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"99755f2f-3c55-411c-ba06-c8b659bdea75","name":"99755f2f-3c55-411c-ba06-c8b659bdea75","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sIPokeball_5",
   "bboxMode":0,
   "bbox_bottom":22,
@@ -17,7 +17,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"4895cdf4-6f20-4666-827d-a807077b58be","name":"4895cdf4-6f20-4666-827d-a807077b58be","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"4895cdf4-6f20-4666-827d-a807077b58be","name":"4895cdf4-6f20-4666-827d-a807077b58be","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

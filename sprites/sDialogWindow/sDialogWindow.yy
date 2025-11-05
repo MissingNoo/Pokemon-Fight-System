@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"sDialogWindow",
   "bboxMode":0,
   "bbox_bottom":125,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"a1666b90-0b7f-402f-baba-4596e67d0e46","name":"a1666b90-0b7f-402f-baba-4596e67d0e46","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"a1666b90-0b7f-402f-baba-4596e67d0e46","name":"a1666b90-0b7f-402f-baba-4596e67d0e46","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -76,6 +76,8 @@
     "playbackSpeedType":0,
     "resourceType":"GMSequence",
     "resourceVersion":"2.0",
+    "seqHeight":126.0,
+    "seqWidth":135.0,
     "showBackdrop":true,
     "showBackdropImage":false,
     "timeUnits":1,

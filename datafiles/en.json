@@ -11,7 +11,8 @@
 		"GUI" : {
 			"Bag" : {
 				"Close" : "CLOSE BAG"
-			}
+			},
+			"SetNickname" : "What is %name%'s nickname?"
 		},
 		"NPC" : {
 			"Battle" : {
@@ -25,7 +26,7 @@
 					"SentOut" : "Sent out %pokeplayer%!",
 					"ComeBack" : "%comebackpoke% come back!",
 					"Release" : "Go! %releasepoke%!",
-					"EnemySentOut" : "Foe sent out %enemypoke%!",
+					"EnemySentOut" : "Foe is sending out %enemypoke%!",
 					"Asleep" : "%pokename% is fast asleep.",
 					"BreaksTheMold" : "%pokename% breaks the mold!",
 					"Sturdy" : "%pokename% held out thanks to Sturdy!",
@@ -73,8 +74,17 @@
 			"LabSelect" : {
 				"nome" : "LabSelect",
 				"Falas" : {
-					"Bulbasaur" : "I see! BULBASAUR is your choice. \nIt's very easy to raise. [/page]So, %playername%, you want to go with the GRASS POKéMON BULBASAUR?[showoptions]",
-					"BulbasaurChosen" : "This POKéMON is really quite \nenergetic! [/page]%playername% received the BULBASAUR from PROF. OAK! [/page]Do you want to give a nickname to this BULBASAUR?[showoptions]"
+					"Bulbasaur" : "[canreceivestarter][didyouget]I see! BULBASAUR is your choice. \nIt's very easy to raise. [/page]So, %playername%, you want to go with the GRASS POKéMON BULBASAUR?[showoptions]",
+					"BulbasaurChosen" : "This POKéMON is really quite \nenergetic! [/page]%playername% received the BULBASAUR from PROF. OAK! [/page]Do you want to give a nickname to this BULBASAUR?[showoptions]",
+					"BulbasaurDespedida" : "Take good care of %nickname%",
+					"Squirtle" : "[canreceivestarter][didyouget]I see! SQUIRTLE is your choice. \nIt's very easy to raise. [/page]So, %playername%, you want to go with the WATER POKéMON SQUIRTLE?[showoptions]",
+					"SquirtleChosen" : "This POKéMON is really quite \nenergetic! [/page]%playername% received the SQUIRTLE from PROF. OAK! [/page]Do you want to give a nickname to this SQUIRTLE?[showoptions]",
+					"SquirtleDespedida" : "Take good care of %nickname%",
+					"Charmander" : "[canreceivestarter][didyouget]I see! CHARMANDER is your choice. \nIt's very easy to raise. [/page]So, %playername%, you want to go with the FIRE POKéMON CHARMANDER?[showoptions]",
+					"CharmanderChosen" : "This POKéMON is really quite \nenergetic! [/page]%playername% received the CHARMANDER from PROF. OAK! [/page]Do you want to give a nickname to this CHARMANDER?[showoptions]",
+					"CharmanderDespedida" : "Take good care of %nickname%",
+					"AlreadyGot" : "You already got your starter POKéMON!",
+					"OakIsNotHere" : "There are no adults nearby!"
 				}
 			}
 		}

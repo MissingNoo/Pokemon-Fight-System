@@ -5,7 +5,7 @@ if (movecam) {
 	oCam.y = oPlayer.y;
 }
 fsm.endstep();
-if (instance_exists(PFSFightSystem)) {
+if (instance_exists(NewFightSystem)) {
 	fsm.change("battle");
 	exit;
 }

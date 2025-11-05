@@ -10,12 +10,14 @@ enum Gender { Male, Female }
 global.playerdata = {
 	gender : Gender.Male,
 	name : "",
-	rivalname : ""
+	rivalname : "",
+	got_starter : false,
+	tried_to_exit_pallet : false
 }
 #macro PlayerData global.playerdata
 
 function player_movement(){
-	if (!moving and !instance_exists(PFSFightSystem) and canmove and global.blackfade[0] < 0.2) {
+	if (!moving and !instance_exists(NewFightSystem) and canmove and global.blackfade[0] < 0.2) {
 		if (input_check("left")) {
 			if (dir != 180) {
 			    dir = 180;
@@ -142,11 +144,9 @@ function player_interact(){
 		if (_sign != noone) {
 		    var npc = _sign.npc;
 			var text = _sign.text;
-			var optionsFalas = _sign.optionsFalas;
 			var options = _sign.options;
 			if (!instance_exists(oDialog)) {
-			    instance_create_depth(x, y, depth - 1, oDialog, {npc : npc, text : text, options : options, optionsFalas : optionsFalas});
-				oDialog.onMap();
+			    instance_create_depth(x, y, depth - 1, oDialog, {npc : npc, text : text, options : options});
 				oPlayer.fsm.change("dialog");
 			}
 		}
@@ -159,11 +159,9 @@ function player_interact(){
 		if (_npc != noone) {
 		    var npc = _npc.npc.npcname;
 			var text = _npc.npc.text;
-			var optionsFalas = [];
-			var options = [];
+			var options = _npc.npc.options;
 			if (!instance_exists(oDialog)) {
-			    instance_create_depth(x, y, depth - 1, oDialog, {npc : npc, text : text, options : options, optionsFalas : optionsFalas});
-				oDialog.onMap();
+			    instance_create_depth(x, y, depth - 1, oDialog, {npc : npc, text : text, options : options});
 				_npc.fsm.change("talk");
 				oPlayer.fsm.change("dialog");
 			}

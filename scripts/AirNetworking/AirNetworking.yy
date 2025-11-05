@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"AirNetworking",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"AirNetworking",
+  "parent":{
+    "name":"AirNetworking",
+    "path":"folders/AirNetworking.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

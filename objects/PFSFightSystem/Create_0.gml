@@ -1,7 +1,7 @@
 //Feather disable GM2017
 show_debug_message(json_stringify(PlayerTeam[0]))
 EnemyTeam = enemyPokemon;
-if (instance_number(PFSFightSystem) > 1) { instance_destroy(); }
+if (instance_number(NewFightSystem) > 1) { instance_destroy(); }
 if (!wildPokemon) {
     enemyPokemon = trainer.team;
 	for (var i = 0; i < array_length(enemyPokemon); ++i) {
@@ -274,7 +274,7 @@ sys.add("idle", {
 			if (!__PFS_enemy_alive()) {
 			    for (var i = 0; i < array_length(enemyPokemon); ++i) {
 				    if (enemyPokemon[i].hp > 0) {
-						array_push(PFSFightSystem.turnSteps, [PFSTurnType.EnemyChangePokemon, i]);
+						array_push(NewFightSystem.turnSteps, [PFSTurnType.EnemyChangePokemon, i]);
 						sys.change("turn");
 						exit;
 					}

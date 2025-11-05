@@ -1,53 +1,28 @@
-//show_debug_message($"{text} / {acceptedOption}");
-if (!visible) { exit; }
-battlecoords();
-//feather disable once GM1041
-var _currentText = array_get_index(optionsFalas, text);
-var _state = typist.get_state();
-if (scr.get_page() == scr.get_page_count() - 1 and _state == 1) {
-	interaction = Interactions.AcceptOption;
-}
-if (canInteract and input_check("accept")) {	
-	switch (interaction) {
-	    case Interactions.Skip:
-			if (!canskip) {
-			    break;
-			}
-				if (typist.get_state() == 1) {
-				    nextPage();
-					break;
-				}
-				show_debug_message("Skipping text");
-			    typist.skip();
-				interaction = Interactions.NextPage;
-	        break;
-		case Interactions.NextPage:
-			nextPage();
-			break;
-		case Interactions.AcceptOption:
-		//feather disable once GM1041
-			if (array_length(options) == 0) {
-			    instance_destroy();
-			}
-			if (!showOptions) {
-			    break;
-			}
-			show_debug_message($"Accept {options[_currentText][selectedOption][1]}");
-			if (options[_currentText][selectedOption][2]) {
-			    options[_currentText][selectedOption][3]();
-			}
-			if (options[_currentText][selectedOption][1] == "Exit") {
-			    instance_destroy();
-			}
-			else {
-				interaction = Interactions.Skip;
-				text = options[_currentText][selectedOption][1];
-			}
-			selectedOption = 0;
-			showOptions = false;
-			break;
+if (can_interact) {
+	var option_data;
+	if (!is_undefined(options) and !is_undefined(options[$ text])) {
+		var up_down = -input_check_pressed("up") + input_check_pressed("down");
+		selected_option = clamp(
+			selected_option + up_down,
+			0,
+			array_length(options[$ text]) - 1
+		);
+		option_data = options[$ text][selected_option];
+	} else {
+		show_options = false;
 	}
-	canInteract = false;
-	alarm[1] = 10;
-}
 
+	if (input_check_pressed("accept")) {
+		if (!show_options) {
+			nextPage();
+		} else {
+			if (option_data.use_function) {
+				option_data.func();
+			}
+			if (option_data.goto) {
+				text = option_data.next_text;
+			}
+			show_options = false;
+		}
+	}
+}
