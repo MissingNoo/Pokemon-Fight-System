@@ -17,7 +17,7 @@ global.playerdata = {
 #macro PlayerData global.playerdata
 
 function player_movement(){
-	if (!moving and !instance_exists(PFSFightSystem) and canmove and global.blackfade[0] < 0.2) {
+	if (!moving and !instance_exists(NewFightSystem) and canmove and global.blackfade[0] < 0.2) {
 		if (input_check("left")) {
 			if (dir != 180) {
 			    dir = 180;

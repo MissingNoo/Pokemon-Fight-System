@@ -6,7 +6,7 @@
 //if (keyboard_check_pressed(vk_numpad4)) {
 //	instance_create_depth(x, y, depth - 1, oDialog, {npc : "Sign", text : "Test", onBattle : true});
 //}
-//if (keyboard_check_pressed(vk_numpad1) and !instance_exists(PFSFightSystem)) {
+//if (keyboard_check_pressed(vk_numpad1) and !instance_exists(NewFightSystem)) {
 //	//Random test team
 //	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[135]);
 //	//PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 600)]);
@@ -50,11 +50,11 @@
 //	//_enemyPokemon[enemyOut].moves[0] = __PFS_add_move("Destiny Bond");
 //	//_enemyPokemon[enemyOut].moves[0].pp = 9999;
 //	//Start Battle
-//	instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
-//	//instance_create_depth(0, 0, 0, PFSFightSystem, {trainer : Trainers[0], wildPokemon : false});
+//	instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : _enemyPokemon});
+//	//instance_create_depth(0, 0, 0, NewFightSystem, {trainer : Trainers[0], wildPokemon : false});
 //}
 
-//if (keyboard_check_pressed(vk_numpad9) and !instance_exists(PFSFightSystem)) {
+//if (keyboard_check_pressed(vk_numpad9) and !instance_exists(NewFightSystem)) {
 //	//Random test team
 //	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[25]);
 //	//PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 600)]);
@@ -96,11 +96,11 @@
 //	//_enemyPokemon[enemyOut].moves[0] = __PFS_add_move("Destiny Bond");
 //	//_enemyPokemon[enemyOut].moves[0].pp = 9999;
 //	//Start Battle
-//	instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
-//	//instance_create_depth(0, 0, 0, PFSFightSystem, {trainer : Trainers[0], wildPokemon : false});
+//	instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : _enemyPokemon});
+//	//instance_create_depth(0, 0, 0, NewFightSystem, {trainer : Trainers[0], wildPokemon : false});
 //}
 
-//if (keyboard_check_pressed(vk_f5) and !instance_exists(PFSFightSystem)) {
+//if (keyboard_check_pressed(vk_f5) and !instance_exists(NewFightSystem)) {
 //	//Random test team
 //	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[700]);
 //	PFS.playerPokemons[0].level = 100;
@@ -111,5 +111,5 @@
 //	PFS.playerPokemons[0] = __PFS_recalculate_stats(PFS.playerPokemons[0], true);
 	
 //	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 152)])];
-//	instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
+//	instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : _enemyPokemon});
 //}

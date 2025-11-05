@@ -798,7 +798,7 @@ function animated_sprite(spr) constructor {
 	last_f = sprite_get_number(sprite);
 	width = sprite_get_width(sprite);
 	height = sprite_get_height(sprite);
-
+	repeat_animation = true;
 	animation_end = function () {};
 
 	static on_animation_end = function (f) {
@@ -815,9 +815,13 @@ function animated_sprite(spr) constructor {
 	};
 
 	static animate = function() {
-		f += speed / game_get_speed(gamespeed_fps);
+		if (f <= last_f) {
+			f += speed / game_get_speed(gamespeed_fps);
+		}
 		if (f > last_f) {
-			f = 0;
+			if (repeat_animation){
+				f = 0;
+			}
 			on_animation_end();
 		}
 	};

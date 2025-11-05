@@ -23,8 +23,8 @@ alarms = [
 fsm = new SnowState("idle");
 fsm.add("idle", {
 	beginstep: function() {
-		if (instance_exists(oDialog) and !instance_exists(PFSFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
-		if (!instance_exists(oDialog) and instance_exists(PFSFightSystem)) { fsm.change("battle"); }
+		if (instance_exists(oDialog) and !instance_exists(NewFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
+		if (!instance_exists(oDialog) and instance_exists(NewFightSystem)) { fsm.change("battle"); }
 		if (!instance_exists(oDialog) and instance_exists(oCutscene)) { fsm.change("cutscene"); }
 	},
     step: function() {
@@ -36,8 +36,8 @@ fsm.add("idle", {
   })
   .add("walk", {
     step: function() {
-		if (instance_exists(oDialog) and !instance_exists(PFSFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
-		if (!instance_exists(oDialog) and instance_exists(PFSFightSystem)) { fsm.change("battle"); }
+		if (instance_exists(oDialog) and !instance_exists(NewFightSystem) and !instance_exists(oCutscene)) { fsm.change("dialog"); }
+		if (!instance_exists(oDialog) and instance_exists(NewFightSystem)) { fsm.change("battle"); }
 		if (!instance_exists(oDialog) and instance_exists(oCutscene)) { fsm.change("cutscene"); }
 		player_movement();
     },
@@ -57,7 +57,7 @@ fsm.add("idle", {
 		  image_index = 1;
 	  },
 	  endstep: function() {
-		  if (!instance_exists(PFSFightSystem)) {
+		  if (!instance_exists(NewFightSystem)) {
 		      fsm.change("idle");
 		  }
 	  },
@@ -167,3 +167,10 @@ DebugManager.debug_add_config(self, {
 //PlayerInventory.add_item("GreatBall");
 //PlayerInventory.add_item("Potion");
 //PlayerInventory.add_item("SuperPotion");
+var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 255)]), __PFS_generate_pokemon(PFS.Pokes[27])];
+_enemyPokemon[0].level = 16;
+_enemyPokemon[0] = __PFS_recalculate_stats(_enemyPokemon[0], true);
+instance_destroy(NewFightSystem);
+if (!instance_exists(NewFightSystem)) {
+	instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : _enemyPokemon});
+}

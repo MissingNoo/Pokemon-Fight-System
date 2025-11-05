@@ -296,7 +296,7 @@ function __PFS_pokemon_affected_by_status(pokemon, status_id) {
 	return false;
 }
 
-function __PFS_use_move(pokemon, enemy, move, side) {
+function __PFS_use_move(pokemon, enemy, move) {
 	if (pokemon.hp <= 0) { return; }
 	var result = {
 		damage : undefined,
@@ -308,7 +308,7 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 		enemy : undefined
 	};
 	var _appliedStatus = "";
-	result = __PFS_damage_calculation(pokemon, enemy, move, side);
+	result = __PFS_damage_calculation(pokemon, enemy, move);
 	//switch (side) {
 		//case PFSBattleSides.Player: {
 			//PlayerTeam[pokemonOut] = result.pokemon;
@@ -329,34 +329,34 @@ function __PFS_use_move(pokemon, enemy, move, side) {
 	    _appliedStatus = $"{_appliedStatus} and applied {PFS.StatusAilments[result.status[0]]} status!";
 		__PFS_apply_status(enemy, result.status[0], result.status[1]);
 	}
-	show_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}!", result.damage > 0 ? $" dealing {result.damage} damage!" : "", $" {_appliedStatus}"));
+	pfs_debug_message(string_concat($"{pokemon.internalName} used move {move.internalName}!", result.damage > 0 ? $" dealing {result.damage} damage!" : "", $" {_appliedStatus}"));
 	//if (result.affect_user != false) { // Move that affects the user (Perish Song)
 		//pokemon = result.affect_user;
 	//}
-	
+	var side = PFS_get_pokemon_side(pokemon);
 	switch (side) {
 		case PFSBattleSides.Player:
-			EnemyTeam[enemy_pokemon_out].hp -= result.damage;
-			if (EnemyTeam[enemy_pokemon_out].hp <= 0) {
-				EnemyTeam[enemy_pokemon_out].hp = 0;
-				show_debug_message($"{EnemyTeam[enemy_pokemon_out].internalName} died");
+			EnemyTeam[foe_out].hp -= result.damage;
+			if (EnemyTeam[foe_out].hp <= 0) {
+				EnemyTeam[foe_out].hp = 0;
+				pfs_debug_message($"{EnemyTeam[foe_out].internalName} died");
 				array_push(global.nextdialog, {npc : "Battle", text : $"EnemyPokemonFainted", onBattle : true});
 				if (last_enemy_used_move == __PFS_get_move_id("Destiny Bond")) {
 					last_enemy_used_move = 0;
 					PlayerTeam[pokemon_out].hp = 0;
-					show_debug_message($"{PlayerTeam[pokemon_out].internalName} died together due to {EnemyTeam[enemy_pokemon_out].internalName}'s Destiny Bond!");
+					pfs_debug_message($"{PlayerTeam[pokemon_out].internalName} died together due to {EnemyTeam[foe_out].internalName}'s Destiny Bond!");
 				}
 			}
 			break;
 		case PFSBattleSides.Enemy:
 			PlayerTeam[pokemon_out].hp -= result.damage;
 			if (PlayerTeam[pokemon_out].hp <= 0) { 
-				show_debug_message($"{PlayerTeam[pokemon_out].internalName} died");
+				pfs_debug_message($"{PlayerTeam[pokemon_out].internalName} died");
 				enemy_dead = true;
 				if (last_used_move == __PFS_get_move_id("Destiny Bond")) {
 					last_used_move = 0;
-					EnemyTeam[enemy_pokemon_out].hp = 0;
-					show_debug_message($"{EnemyTeam[enemy_pokemon_out].internalName} died together due to {PlayerTeam[pokemon_out].internalName}'s Destiny Bond!");
+					EnemyTeam[foe_out].hp = 0;
+					pfs_debug_message($"{EnemyTeam[foe_out].internalName} died together due to {PlayerTeam[pokemon_out].internalName}'s Destiny Bond!");
 				}
 				PlayerTeam[pokemon_out].hp = 0; 
 			}
@@ -368,7 +368,7 @@ function __PFS_pokemon_have_type(pokemon, type) {
 	return array_contains(pokemon.type, type);
 }
 
-function __PFS_damage_calculation(pokemon, enemy, move, _side){
+function __PFS_damage_calculation(pokemon, enemy, move){
     //Critical
     var critChance = __PFS_rng(0, 255);
 	var critTreshold = pokemon.speed / 2; //TODO: High crit chance atk and items
@@ -528,6 +528,7 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
     damage = (step2) * targets * PB * weather * glaive_rush * critical * rnd * STAB * type * burn * oth * zmove * tera_shield;
     //
     #region Right after damage calculation
+		var _side = PFS_get_pokemon_side(pokemon);
 		#region Abilities
 		for (var i = 0; i < array_length(enemy.ability); ++i) {
 			if (enemy.ability[i][1] == 1) { continue; }
@@ -555,7 +556,7 @@ function __PFS_damage_calculation(pokemon, enemy, move, _side){
 			#endregion
 		#endregion
 	#endregion
-    trace($"[PFS] Move did {damage} damage");
+    //pfs_debug_message($"Move did {damage} damage");
     return {
 		damage : round(damage),
 		status : _status,
@@ -936,5 +937,17 @@ function dialog_option(_text) constructor {
 		goto = true;
 		next_text = next;
 		return self;
+	}
+}
+
+function pfs_debug_message(str) {
+	show_debug_message($"[PFS] {str}");
+}
+
+function PFS_get_pokemon_side(pokemon) {
+	if (array_contains(PlayerTeam, pokemon)) {
+		return PFSBattleSides.Player;
+	} else {
+		return PFSBattleSides.Enemy;
 	}
 }

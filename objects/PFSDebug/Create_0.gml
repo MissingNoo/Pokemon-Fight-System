@@ -17,12 +17,12 @@ dbg_button("Start Battle", function() {
 	var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[poke]), __PFS_generate_pokemon(PFS.Pokes[poke + 2])];
 	_enemyPokemon[0].level = pokelvl;
 	_enemyPokemon[0] = __PFS_recalculate_stats(_enemyPokemon[0], true);
-	if (!instance_exists(PFSFightSystem)) {
-		instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
+	if (!instance_exists(NewFightSystem)) {
+		instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : _enemyPokemon});
 	}
 	else {
-		PFSFightSystem.enemyPokemon = _enemyPokemon;
-		//PFSFightSystem.load_sprite(_enemyPokemon[0], PFSBattleSides.Player);
+		NewFightSystem.enemyPokemon = _enemyPokemon;
+		//NewFightSystem.load_sprite(_enemyPokemon[0], PFSBattleSides.Player);
 	}
 });
 dbg_button("New Battle", function() { 
@@ -35,7 +35,7 @@ dbg_button("New Battle", function() {
 	}
 });
 dbg_same_line();
-dbg_button("End Battle", function() { instance_destroy(PFSFightSystem); });
+dbg_button("End Battle", function() { instance_destroy(NewFightSystem); });
 dbg_button("Pokemon Manager", function() { instance_create_depth(0, 0, 0, PFSPokemonManager); });
 dbg_same_line();
 dbg_button("Close", function() { instance_destroy(PFSPokemonManager); });
@@ -48,8 +48,8 @@ dbg_button("Set Player pokemon", function() {
 	PFS.playerPokemons[0] = __PFS_generate_pokemon(PFS.Pokes[ppoke]);
 	PFS.playerPokemons[0].level = ppokelvl;
 	PFS.playerPokemons[0] = __PFS_recalculate_stats(PFS.playerPokemons[0], true);
-	if (instance_exists(PFSFightSystem)) {
-		//PFSFightSystem.load_sprite(PFS.playerPokemons[0], PFSBattleSides.Enemy);
+	if (instance_exists(NewFightSystem)) {
+		//NewFightSystem.load_sprite(PFS.playerPokemons[0], PFSBattleSides.Enemy);
 	}
 });
 movename = "";

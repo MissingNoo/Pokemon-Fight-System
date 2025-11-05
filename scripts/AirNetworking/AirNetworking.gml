@@ -31,7 +31,7 @@ function connection(_ip, _port, _type) constructor {
 			pingtime = get_timer();
 			new packet("ping").send()
 			if (pongtime > 30) {
-				show_message_async("Disconnected!");
+				//show_message_async("Disconnected!");
 				disconnect();
 			}
 		},

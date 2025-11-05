@@ -22,7 +22,7 @@ if (x == other.x and y == other.y) {
                 var selected_pokemon = irandom_range(0, array_length(pokelist) - 1);
                 trace($"Pokemon found on Grass was {pokelist[selected_pokemon]}");
                 var _enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[pokelist[selected_pokemon]])];
-                instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : _enemyPokemon});
+                instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : _enemyPokemon});
                 //Feather enable GM2017
             }
         }

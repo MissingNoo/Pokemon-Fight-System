@@ -26,8 +26,8 @@ function tests(){
 			afterEach(function() {
 				global.testingrandomdamage = true;
 				global.testingforcefail = false;
-				if (instance_exists(PFSFightSystem)) {
-				    instance_destroy(PFSFightSystem);
+				if (instance_exists(NewFightSystem)) {
+				    instance_destroy(NewFightSystem);
 				}
 			});
 			
@@ -35,9 +35,9 @@ function tests(){
 				var status = PFSStatusAilments.Confusion;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Slowpoke|Level: 100|Hardy Nature|Ability: Own Tempo|- Confusion");
 				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+					__PFS_use_move(NewFightSystem.enemyPokemon[0], PlayerTeam[0], NewFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
 				}
 				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], status)).toBe(false);
 			});
@@ -102,9 +102,9 @@ function tests(){
 			test("Shield Dust", function() {
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Caterpie|Ability: Shield Dust|- Flamethrower");
 				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+					__PFS_use_move(NewFightSystem.enemyPokemon[0], PlayerTeam[0], NewFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
 				}
 				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Burn)).toBe(false);
 			});
@@ -113,10 +113,10 @@ function tests(){
 				global.testingforcefail = false;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Metapod|Level: 100|Ability: Shed Skin|- Pound");
 				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
-					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+					__PFS_use_move(NewFightSystem.enemyPokemon[0], PlayerTeam[0], NewFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+					__PFS_use_move(PlayerTeam[0], NewFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
 				}
 				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Burn)).toBe(false);
 			});
@@ -125,11 +125,11 @@ function tests(){
 				global.testingforcefail = false;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Metapod|Level: 100|Ability: Shed Skin|- Pound");
 				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|- Ember");
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+					__PFS_use_move(NewFightSystem.enemyPokemon[0], PlayerTeam[0], NewFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
 					global.testingforcefail = true;
-					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+					__PFS_use_move(PlayerTeam[0], NewFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
 				}
 				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Burn)).toBe(true);
 			});
@@ -160,18 +160,18 @@ function tests(){
 				//Status
 				PlayerTeam[0] = variable_clone(p1);
 				var enemy = variable_clone(p2);
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+					__PFS_use_move(PlayerTeam[0], NewFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
 				}
-				var enemyaffected = __PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], PFSStatusAilments.Perish_song);
+				var enemyaffected = __PFS_pokemon_affected_by_status(NewFightSystem.enemyPokemon[0], PFSStatusAilments.Perish_song);
 				instance_destroy(_obj);
 				
 				PlayerTeam[0] = variable_clone(p2);
 				var enemy = variable_clone(p1);
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+					__PFS_use_move(NewFightSystem.enemyPokemon[0], PlayerTeam[0], NewFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
 				}
 				var playeraffected = __PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Perish_song);
 				instance_destroy(_obj);
@@ -182,18 +182,18 @@ function tests(){
 				
 				PlayerTeam[0] = variable_clone(p1);
 				var enemy = variable_clone(p2);
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+					__PFS_use_move(PlayerTeam[0], NewFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
 				}
-				var enemydmgaffected = PFSFightSystem.enemyPokemon[0].hp < PFSFightSystem.enemyPokemon[0].base.hp;
+				var enemydmgaffected = NewFightSystem.enemyPokemon[0].hp < NewFightSystem.enemyPokemon[0].base.hp;
 				instance_destroy(_obj);
 				
 				PlayerTeam[0] = variable_clone(p2);
 				var enemy = variable_clone(p1);
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+					__PFS_use_move(NewFightSystem.enemyPokemon[0], PlayerTeam[0], NewFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
 				}
 				var playerdmgaffected = PlayerTeam[0].hp < PlayerTeam[0].base.hp;
 				instance_destroy(_obj);
@@ -219,9 +219,9 @@ function tests(){
 				
 				PlayerTeam[0] = variable_clone(p1);
 				var enemy = variable_clone(p2);
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+					__PFS_use_move(PlayerTeam[0], NewFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
 				}
 				var wasparalyzed = __PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Paralysis);
 				instance_destroy(_obj);
@@ -235,9 +235,9 @@ function tests(){
 				
 				PlayerTeam[0] = variable_clone(p1);
 				var enemy = variable_clone(p2);
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+					__PFS_use_move(PlayerTeam[0], NewFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
 				}
 				var wasparalyzed = __PFS_pokemon_affected_by_status(PlayerTeam[0], PFSStatusAilments.Poison);
 				instance_destroy(_obj);
@@ -272,8 +272,8 @@ function tests(){
 		
 		section("Status", function() {
 			afterEach(function() {
-				if (instance_exists(PFSFightSystem)) {
-				    instance_destroy(PFSFightSystem);
+				if (instance_exists(NewFightSystem)) {
+				    instance_destroy(NewFightSystem);
 				}
 			});
 			#region Paralysis
@@ -281,20 +281,20 @@ function tests(){
 				var status = PFSStatusAilments.Paralysis;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Pikachu|Level: 50|Hardy Nature|Ability: Static|- Thunder Shock");
 				var enemy = __PFS_generate_pokemon_from_showdown("Weedle|Level: 100|Hardy Nature|Ability: Blaze|- Absorb");
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+					__PFS_use_move(PlayerTeam[0], NewFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
 				}
-				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(true);
+				expect(__PFS_pokemon_affected_by_status(NewFightSystem.enemyPokemon[0], status)).toBe(true);
 			});
 
 			test("Paralyze Immunity", function() {
 				var status = PFSStatusAilments.Paralysis;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Pikachu|Level: 50|Hardy Nature|Ability: Static|- Thunder Shock");
 				var enemy = __PFS_generate_pokemon_from_showdown("Pikachu|Level: 50|Hardy Nature|Ability: Static|- Thunder Shock");
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+					__PFS_use_move(NewFightSystem.enemyPokemon[0], PlayerTeam[0], NewFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
 				}
 				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], status)).toBe(false);
 			});
@@ -305,20 +305,20 @@ function tests(){
 				var status = PFSStatusAilments.Burn;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Ember");
 				var enemy = __PFS_generate_pokemon_from_showdown("Weedle|Level: 100|Hardy Nature|Ability: Blaze|- Absorb");
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+					__PFS_use_move(PlayerTeam[0], NewFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
 				}
-				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(true);
+				expect(__PFS_pokemon_affected_by_status(NewFightSystem.enemyPokemon[0], status)).toBe(true);
 			});
 	
 			test("Burn Immunity", function() {
 				var status = PFSStatusAilments.Burn;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Ember");
 				var enemy = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Ember");
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PFSFightSystem.enemyPokemon[0], PlayerTeam[0], PFSFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
+					__PFS_use_move(NewFightSystem.enemyPokemon[0], PlayerTeam[0], NewFightSystem.enemyPokemon[0].moves[0], PFSBattleSides.Enemy);
 				}
 				expect(__PFS_pokemon_affected_by_status(PlayerTeam[0], status)).toBe(false);
 			});
@@ -329,11 +329,11 @@ function tests(){
 				var status = PFSStatusAilments.Confusion;
 				PlayerTeam[0] = __PFS_generate_pokemon_from_showdown("Charmander|Level: 100|Hardy Nature|Ability: Blaze|- Confusion");
 				var enemy = __PFS_generate_pokemon_from_showdown("Weedle|Level: 100|Hardy Nature|Ability: Blaze|- Absorb");
-				var _obj = instance_create_depth(0, 0, 0, PFSFightSystem, {enemyPokemon : [enemy]});
+				var _obj = instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : [enemy]});
 				with (_obj) {
-					__PFS_use_move(PlayerTeam[0], PFSFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
+					__PFS_use_move(PlayerTeam[0], NewFightSystem.enemyPokemon[0], PlayerTeam[0].moves[0], PFSBattleSides.Player);
 				}
-				expect(__PFS_pokemon_affected_by_status(PFSFightSystem.enemyPokemon[0], status)).toBe(true);
+				expect(__PFS_pokemon_affected_by_status(NewFightSystem.enemyPokemon[0], status)).toBe(true);
 			});
 			#endregion
 		});

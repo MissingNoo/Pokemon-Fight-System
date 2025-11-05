@@ -6,16 +6,16 @@ Kabutops used move Scratch! dealing 38 damage!
 
 
 Turn step: 0
-Scribble Deluxe: Warning! Overwriting event [showoptions] tied to "function gml_Script_anon@119@gml_Object_oDialog_Create_0"
+[Scribble]: Warning! Overwriting event [showoptions] tied to "function gml_Script_anon@119@gml_Object_oDialog_Create_0"
 Gengar used move Lick! dealing 30 damage! 
 
 Turn step: 0
-Scribble Deluxe: Warning! Overwriting event [showoptions] tied to "function gml_Script_anon@119@gml_Object_oDialog_Create_0"
+[Scribble]: Warning! Overwriting event [showoptions] tied to "function gml_Script_anon@119@gml_Object_oDialog_Create_0"
 Scizor used move Quick Attack! 
 
 
 
-for object PFSFightSystem:
+for object NewFightSystem:
 
 
 trying to index a variable which is not an array
@@ -23,4 +23,4 @@ trying to index a variable which is not an array
 ############################################################################################
 gml_Script___PFS_damage_calculation (line 393)
 gml_Script___PFS_use_move (line 245) - 	_calc = __PFS_damage_calculation(pokemon, enemy, move);
-gml_Object_PFSFightSystem_Step_0 (line 111) - 				__PFS_use_move(turnSteps[0][1], turnSteps[0][2], turnSteps[0][3], turnSteps[0][4]);
+gml_Object_NewFightSystem_Step_0 (line 111) - 				__PFS_use_move(turnSteps[0][1], turnSteps[0][2], turnSteps[0][3], turnSteps[0][4]);
