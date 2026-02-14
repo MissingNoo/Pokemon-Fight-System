@@ -6,17 +6,8 @@
   ],
   "configs":{
     "children":[
-      {"children":[
-          {"children":[],"name":"Debug-No-Lecture",},
-          {"children":[],"name":"Debug-Force-Lecture",},
-        ],"name":"Debug",},
-      {"children":[
-          {"children":[
-              {"children":[],"name":"Online-Debug-No-Lecture",},
-              {"children":[],"name":"Online-Debug-Force-Lecture",},
-            ],"name":"Online-Debug",},
-        ],"name":"Online",},
       {"children":[],"name":"Tests",},
+      {"children":[],"name":"UIEditor",},
     ],
     "name":"Default",
   },
@@ -25,7 +16,6 @@
     {"$GMFolder":"","%Name":"AirLib","folderPath":"folders/AirLib.yy","name":"AirLib","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"UIEditor","folderPath":"folders/AirLib/UIEditor.yy","name":"UIEditor","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"AirNetworking","folderPath":"folders/AirNetworking.yy","name":"AirNetworking","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"AirUI","folderPath":"folders/AirUI.yy","name":"AirUI","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Fonts","folderPath":"folders/Fonts.yy","name":"Fonts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Libs","folderPath":"folders/Libs.yy","name":"Libs","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"DebugLib","folderPath":"folders/Libs/DebugLib.yy","name":"DebugLib","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -111,6 +101,7 @@
     {"$GMFolder":"","%Name":"Props","folderPath":"folders/Objects/Props.yy","name":"Props","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Other","folderPath":"folders/Other.yy","name":"Other","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"PokeFightSystem","folderPath":"folders/PokeFightSystem.yy","name":"PokeFightSystem","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"NEW","folderPath":"folders/PokeFightSystem/NEW.yy","name":"NEW","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"PFSFont","folderPath":"folders/PokeFightSystem/PFSFont.yy","name":"PFSFont","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"PFSIcons","folderPath":"folders/PokeFightSystem/PFSIcons.yy","name":"PFSIcons","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"PFSScripts","folderPath":"folders/PokeFightSystem/PFSScripts.yy","name":"PFSScripts","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -136,7 +127,9 @@
     {"$GMFolder":"","%Name":"Overworld","folderPath":"folders/Sprites/Overworld.yy","name":"Overworld","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"UI","folderPath":"folders/Sprites/UI.yy","name":"UI","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
-  "ForcedPrefabProjectReferences":[],
+  "ForcedPrefabProjectReferences":[
+    {"link":"io.gamemaker.sdfshaders-1.0.0","name":"io.gamemaker.sdfshaders-1.0.0","path":"io.gamemaker.sdfshaders-1.0.0.yyp",},
+  ],
   "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"controllerblacklist.csv","CopyToMask":-1,"filePath":"datafiles","name":"controllerblacklist.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"controllertypes.csv","CopyToMask":-1,"filePath":"datafiles","name":"controllertypes.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -1264,11 +1257,7 @@
     {"$GMIncludedFile":"","%Name":"move_flag_map.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_flag_map.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"move_flags.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_flags.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"move_meta_ailments.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_meta_ailments.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"move_meta_categories.csv","ConfigValues":{
-        "Debug":{
-          "CopyToMask":"-1",
-        },
-      },"CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_meta_categories.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"move_meta_categories.csv","ConfigValues":{},"CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_meta_categories.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"move_meta_stat_changes.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_meta_stat_changes.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"move_meta.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"move_meta.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"moves.csv","CopyToMask":-1,"filePath":"datafiles/PFS/Data","name":"moves.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -10401,7 +10390,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.1400.0.911",
+    "IDEVersion":"2024.1400.4.991",
   },
   "name":"Pokemon Fight System",
   "resources":[
@@ -10417,6 +10406,7 @@
     {"id":{"name":"__PFSInit","path":"objects/__PFSInit/__PFSInit.yy",},},
     {"id":{"name":"AirUIController","path":"objects/AirUIController/AirUIController.yy",},},
     {"id":{"name":"DebugManager","path":"objects/DebugManager/DebugManager.yy",},},
+    {"id":{"name":"FightSystem","path":"objects/FightSystem/FightSystem.yy",},},
     {"id":{"name":"input_controller_object","path":"objects/input_controller_object/input_controller_object.yy",},},
     {"id":{"name":"NewFightSystem","path":"objects/NewFightSystem/NewFightSystem.yy",},},
     {"id":{"name":"o_gmtl_demo_draw","path":"objects/o_gmtl_demo_draw/o_gmtl_demo_draw.yy",},},
@@ -10665,6 +10655,7 @@
     {"id":{"name":"AirConfig","path":"scripts/AirConfig/AirConfig.yy",},},
     {"id":{"name":"AirFunctions","path":"scripts/AirFunctions/AirFunctions.yy",},},
     {"id":{"name":"AirNetworking","path":"scripts/AirNetworking/AirNetworking.yy",},},
+    {"id":{"name":"BattleSystem","path":"scripts/BattleSystem/BattleSystem.yy",},},
     {"id":{"name":"ContextMenu","path":"scripts/ContextMenu/ContextMenu.yy",},},
     {"id":{"name":"CutsceneScripts","path":"scripts/CutsceneScripts/CutsceneScripts.yy",},},
     {"id":{"name":"Debug_Rooms","path":"scripts/Debug_Rooms/Debug_Rooms.yy",},},
@@ -11183,7 +11174,6 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"rPFSInit","path":"rooms/rPFSInit/rPFSInit.yy",},},
-    {"roomId":{"name":"rUIEditor","path":"rooms/rUIEditor/rUIEditor.yy",},},
     {"roomId":{"name":"rInit","path":"rooms/rInit/rInit.yy",},},
     {"roomId":{"name":"rPallet","path":"rooms/rPallet/rPallet.yy",},},
     {"roomId":{"name":"rPlayerHouse","path":"rooms/rPlayerHouse/rPlayerHouse.yy",},},
@@ -11198,16 +11188,10 @@
     {"roomId":{"name":"R3","path":"rooms/R3/R3.yy",},},
     {"roomId":{"name":"rColTest","path":"rooms/rColTest/rColTest.yy",},},
     {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"roomId":{"name":"rUIEditor","path":"rooms/rUIEditor/rUIEditor.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[
-    {"$GMTextureGroup":"","%Name":"Default","autocrop":true,"border":2,"compressFormat":"bz2","ConfigValues":{
-        "Debug":{
-          "compressFormat":"bz2",
-          "groupParent":"null",
-          "isScaled":"true",
-          "loadType":"default",
-        },
-      },"customOptions":"","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"name":"Default","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMTextureGroup":"","%Name":"Default","autocrop":true,"border":2,"compressFormat":"bz2","ConfigValues":{},"customOptions":"","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"name":"Default","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
   ],
 }

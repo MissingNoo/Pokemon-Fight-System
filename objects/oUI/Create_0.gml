@@ -2,7 +2,7 @@
 vis = true;
 AirLib.ui_editor_order = [];
 display_set_gui_size(1920, 1080);
-global.filename = "/home/airgeadlamh/.config/DenoTest1/test.ui";
+global.filename = "/home/airgeadlamh/export.ui";
 depth = -2000;
 up = false;
 down = false;
@@ -326,9 +326,9 @@ saveas = {
 							"data": {
 								text: "Save",
 								f: function() {
-									oEditableUI.save(
+									oEditableUI.save(game_save_id + 
 										oUI.saveasui.get_element_data(
-											game_save_id + "textbox_filename_char",
+											"textbox_filename_char",
 											"text"
 										) + ".ui"
 									);

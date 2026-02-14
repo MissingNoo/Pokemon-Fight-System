@@ -5,10 +5,6 @@
     "Debug-No-Lecture":{
       "option_linux_scale":"0",
     },
-    "Debug":{
-      "option_linux_scale":"0",
-      "option_linux_display_name":"Pokemon GMEssentials",
-    },
   },
   "name":"Linux",
   "option_linux_allow_fullscreen":false,

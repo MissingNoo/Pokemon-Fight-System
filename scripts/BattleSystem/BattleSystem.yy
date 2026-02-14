@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"BattleSystem",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"BattleSystem",
+  "parent":{
+    "name":"NEW",
+    "path":"folders/PokeFightSystem/NEW.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -3,6 +3,14 @@ lexicon_index_declare_from_json("ptbr.json");
 lexicon_index_declare_from_json("en.json");
 lexicon_language_set("en");
 cf = -1;
+#macro EditorMode false
+#macro UIEditor:EditorMode true
+if EditorMode { 
+	room_goto(rUIEditor);
+	instance_destroy();
+	exit;
+}
+
 if (PFS.Initialized) { instance_destroy(); }
 timer = 0;
 start = 0;

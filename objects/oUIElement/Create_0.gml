@@ -98,3 +98,4 @@ if (element != undefined) {
 	//}
 	array_push(AirLib.ui_editor_order, element);
 }
+event_user(0);

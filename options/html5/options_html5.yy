@@ -1,13 +1,7 @@
 {
   "$GMHtml5Options":"",
   "%Name":"HTML5",
-  "ConfigValues":{
-    "Debug":{
-      "option_html5_loadingbar":"use_default",
-      "option_html5_index":"use_default",
-      "option_html5_interpolate_pixels":"false",
-    },
-  },
+  "ConfigValues":{},
   "name":"HTML5",
   "option_html5_allow_fullscreen":true,
   "option_html5_browser_title":"Created with GameMaker",

@@ -530,8 +530,8 @@
   "maintainGms1Font":false,
   "name":"Font3",
   "parent":{
-    "name":"Other",
-    "path":"folders/Other.yy",
+    "name":"AirLib",
+    "path":"folders/AirLib.yy",
   },
   "pointRounding":0,
   "ranges":[

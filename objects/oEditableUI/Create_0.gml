@@ -1,5 +1,7 @@
 randomize();
 __AirLibLoadTemplates();
+copy = {};
+copymode = "node";
 down = false;
 up = false;
 edit_node = undefined;
@@ -34,7 +36,7 @@ clearstr = function(struct) {
 	}
 };
 
-save = function(name = "testar") {
+save = function(name = "test") {
 	var f = file_text_open_write(name);
 	var str = variable_clone(flexpanel_node_get_struct(ui.root));
 	clearstr(str);
@@ -47,7 +49,7 @@ load = function() {
 	ui = new window(
 		json_parse(
 			buffer_read(
-				buffer_load("/home/airgeadlamh/.config/DenoTest1/test.ui"),
+				buffer_load(global.filename),
 				buffer_text
 			)
 		),

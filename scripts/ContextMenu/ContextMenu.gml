@@ -15,5 +15,6 @@ function context_menu(title, width = 100, height = 200) constructor {
 		if (instance_exists(inst)) {
 			array_push(inst.buttons, btn);
 		}
+		return self;
 	};
 }

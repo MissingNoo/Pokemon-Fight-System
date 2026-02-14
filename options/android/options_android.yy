@@ -2,30 +2,8 @@
   "$GMAndroidOptions":"v1",
   "%Name":"Android",
   "ConfigValues":{
-    "Debug":{
-      "option_android_arch_arm64":"false",
-      "option_android_arch_x86_64":"true",
-      "option_android_build_tools":"",
-      "option_android_compile_sdk":"33",
-      "option_android_display_name":"Pokemon Fight System",
-      "option_android_icon_adaptive_generate":"true",
-      "option_android_minimum_sdk":"16",
-      "option_android_orient_portrait":"false",
-      "option_android_orient_portrait_flipped":"false",
-      "option_android_package_product":"PFS",
-      "option_android_permission_read_phone_state":"true",
-      "option_android_permission_write_external_storage":"true",
-      "option_android_scale":"1",
-      "option_android_screen_depth":"1",
-      "option_android_support_lib":"33.0.0",
-      "option_android_target_sdk":"33",
-    },
     "Debug-No-Lecture":{
       "option_android_scale":"0",
-    },
-    "Online":{
-      "option_android_orient_portrait":"false",
-      "option_android_orient_portrait_flipped":"false",
     },
     "Tests":{
       "option_android_build_tools":"",

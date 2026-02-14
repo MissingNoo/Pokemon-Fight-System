@@ -1,3 +1,4 @@
+
 if (keyboard_check(vk_f5)) {
 	room_speed = 200;
 } else {

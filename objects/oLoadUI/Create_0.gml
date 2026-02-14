@@ -113,7 +113,6 @@ addbtn
 	.set_function(method(self, function() {
 		oEditableUI.ui.dispose();
 		oEditableUI.ui = new window(global.game_uis[$ uisdrop.text], true);
-		show_debug_message($"[UI] Loaded UI {uisdrop.text}");
 		instance_destroy();
 	}));
 delbtn = new button("Close");

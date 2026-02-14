@@ -1,6 +1,4 @@
-if (is_undefined(enemyPokemon)) {
-	instance_destroy();
-}
+if is_undefined(enemyPokemon) instance_destroy();
 EnemyTeam = enemyPokemon;
 pfs_debug_message("Starting Battle");
 

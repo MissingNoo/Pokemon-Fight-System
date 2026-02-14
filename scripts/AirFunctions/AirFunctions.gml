@@ -5,6 +5,29 @@ try {
 	GameData = {};
 }
 
+#region disable if input installed
+//function input_check_pressed(k) {
+	//var _k = k;
+	//var f = false;
+	//if (!is_numeric(k)) {
+		//switch (k) {
+			//case "accept":
+				//k = "Z";
+				//break;
+			//case "cancel":
+				//k = "X";
+				//break;
+		//}
+		//_k = ord(string_upper(k));
+	//}
+	//if (f || keyboard_check_pressed(_k)) {
+		//return true;
+	//}
+	//return false;
+//}
+#endregion
+
+
 #region GUI Functions
 
 function gui_x_percent(percent) {
@@ -124,6 +147,9 @@ function mouse_in_area(area) {
 }
 
 function mouse_in_area_gui(area) {
+	if (is_struct(area)) {
+		area = [area.left, area.top, area.left + area.width, area.top + area.height];
+	}
 	area = area_add_width_height(area);
 	return point_in_rectangle(
 		device_mouse_x_to_gui(0),
@@ -160,7 +186,7 @@ function draw_surface_part_area(surf, area) {
 global.listboxopen = false;
 global.elementselected = noone;
 global.listboxtimer = 60;
-
+global.currentelement = noone;
 function textbox() constructor {
 	type = "textbox";
 	only_numbers = false;
@@ -349,7 +375,7 @@ function textbox() constructor {
 		var _text = text == "" ? backtext : text;
 		var _x = area[0];
 
-		scribble($"{align}[Fnt][{textcolor}] {_text}")
+		scribble($"{align}[Fnt][{textcolor}] {_text}{selected ? "_" : ""}")
 			.scale_to_box(
 				area[2] - area[0] - string_width("X") - 2,
 				area[3] - area[1] - 3,
@@ -372,12 +398,12 @@ function button(_text) constructor {
 	use_text = true;
 	owner = noone;
 	text = _text;
+	unselect_on_leave = true;
 	original_area = [0, 0, 0, 0];
 	area = [0, 0, 0, 0];
 	selected_area = [0, 0, 0, 0];
 	pos = {left: 0, top: 0, width: 0, height: 0};
 	on_area = false;
-	keyboard_selected = false;
 	enabled = true;
 	gui = true;
 	sprite_back = AirLibDefaultButtonSprite;
@@ -452,8 +478,8 @@ function button(_text) constructor {
 	static on_click = function() {
 		if (
 			enabled
-			&& (gui ? mouse_in_area_gui(area) : mouse_in_area(area))
-			&& device_mouse_check_button_released(0, mb_left)
+			&& ((gui ? mouse_in_area_gui(area) : mouse_in_area(area)) or on_area)
+			&& (device_mouse_check_button_released(0, mb_left) or input_check_pressed("accept"))
 			&& gui_can_interact()
 		) {
 			func(self);
@@ -461,12 +487,14 @@ function button(_text) constructor {
 		}
 		return self;
 	};
-
 	static draw = function() {
 		if (area[0] == area[2]) {
 			exit;
 		}
-		on_click();
+		if (global.currentelement == self) {
+			on_click();
+		}
+		
 		//draw_set_color(c_black);
 		//draw_rectangle_area(area, false);
 		//draw_set_color(c_white);
@@ -478,20 +506,27 @@ function button(_text) constructor {
 		) {
 			global.reset_button = true;
 			on_area = true;
+			global.currentelement = self;
 			on_area_func();
 		} else {
 			if (on_area) {
+				if (unselect_on_leave and global.currentelement == self) {
+					global.currentelement = noone;
+				}
 				exit_area_func();
 			}
 			on_area = false;
 		}
-		if (keyboard_selected) {
-			if (!global.reset_button) {
-				on_area = true;
-			} else {
-				global.reset_button = false;
-				keyboard_selected = false;
-			}
+		//if (keyboard_selected) {
+			//if (!global.reset_button) {
+				//on_area = true;
+			//} else {
+				//global.reset_button = false;
+				//keyboard_selected = false;
+			//}
+		//}
+		if (global.currentelement == self) {
+			on_area = true;
 		}
 		if (on_area) {
 			area = selected_area;
@@ -540,6 +575,7 @@ function listbox() constructor {
 	list = [];
 	open = false;
 	area = undefined;
+	areaset = false;
 	pos = {left: 0, top: 0, width: 0, height: 0};
 	openarea = undefined;
 	text = "";
@@ -798,7 +834,8 @@ function animated_sprite(spr) constructor {
 	last_f = sprite_get_number(sprite);
 	width = sprite_get_width(sprite);
 	height = sprite_get_height(sprite);
-	repeat_animation = true;
+	repeat_animation = true;	
+
 	animation_end = function () {};
 
 	static on_animation_end = function (f) {
@@ -819,9 +856,8 @@ function animated_sprite(spr) constructor {
 			f += speed / game_get_speed(gamespeed_fps);
 		}
 		if (f > last_f) {
-			if (repeat_animation){
+			if (repeat_animation)
 				f = 0;
-			}
 			on_animation_end();
 		}
 	};
@@ -946,12 +982,30 @@ function ui_element_list() constructor {
 	};
 
 	static next = function() {
-		selected = wrap(selected + 1, 0, array_length(list) - 1);
+		selected = wrap(selected + 1, 0, array_length(list));
+		global.currentelement = list[selected];
 	};
 
 	static previous = function() {
-		selected = wrap(selected - 1, 0, array_length(list) - 1);
+		selected = wrap(selected - 1, 0, array_length(list));
+		global.currentelement = list[selected];
 	};
+	
+	static select = function(num) {
+		if (num == "reset") {
+			selected = 0;
+			global.currentelement = list[0];
+			exit;
+		}
+		if (num == 0) {
+			exit;
+		}
+		if (num > 0) {
+			next();
+		} else {
+			previous();
+		}
+	}
 
 	static get_selected = function() {
 		return list[selected];
@@ -960,6 +1014,10 @@ function ui_element_list() constructor {
 	static foreach = function(f) {
 		array_foreach(list, f);
 	};
+	
+	static sort = function (f) {
+		array_sort(list, f);
+	}
 }
 
 function checkbox(boolean = false) constructor {
@@ -1060,6 +1118,11 @@ function touch_control() constructor {
 	#endregion
 }
 
+/// @desc Move linearly value A to value B in the specified amount.
+/// @param {Real} a First value.
+/// @param {Real} b Second value.
+/// @param {Real} amount Amount to move.
+/// @returns {Real}
 function approach(val1, val2, amount) {
     if (val1 < val2) {
         return min(val1 + amount, val2);

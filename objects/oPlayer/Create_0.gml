@@ -174,3 +174,16 @@ instance_destroy(NewFightSystem);
 if (!instance_exists(NewFightSystem)) {
 	instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : _enemyPokemon});
 }
+
+force_fight = true;
+if (force_fight) {
+	var battle = new Battle();
+	battle.start();
+	//_enemyPokemon = [__PFS_generate_pokemon(PFS.Pokes[irandom_range(1, 255)])];
+	//_enemyPokemon[0].level = irandom(100);
+	//_enemyPokemon[0] = __PFS_recalculate_stats(_enemyPokemon[0], true);
+	//instance_destroy(NewFightSystem);
+	//if (!instance_exists(NewFightSystem)) {
+		//instance_create_depth(0, 0, 0, NewFightSystem, {enemyPokemon : _enemyPokemon});
+	//}
+}
